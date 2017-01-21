@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
+import org.usfirst.frc.team294.utilities.FileLog;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,9 +20,14 @@ import org.usfirst.frc.team294.robot.subsystems.*;
  */
 public class Robot extends IterativeRobot {
 
-	public static OI oi;
 	public static DriveTrain driveTrain;
 	public static Intake intake;
+	
+	// The OI
+	public static OI oi;
+	
+	// File logger
+	public static FileLog log;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -29,9 +35,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		oi = new OI();
 		driveTrain = new DriveTrain();
 		intake = new Intake();
+		log = new FileLog();
+		oi = new OI();
 	}
 
 	/**
@@ -79,6 +86,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		
+		driveTrain.logTalonStatus();
 	}
 
 	@Override
@@ -95,6 +104,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		driveTrain.logTalonStatus();
 	}
 
 	/**

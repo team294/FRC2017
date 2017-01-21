@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 //import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
@@ -95,5 +96,80 @@ public class DriveTrain extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     	setDefaultCommand(new DriveWithJoysticks());
     }
+    
+    /**
+     * Logs the talon output to a file
+     */
+	public void logTalonStatus() {
+		Robot.log.writeLog(
+				"Motors:  Left Motor 2 (Main)-- TempC " + leftMotor2.getTemperature() +
+				" Set " + leftMotor2.getSetpoint() + 
+				" BusVolt " + leftMotor2.getBusVoltage() + 
+				" OutVolt " + leftMotor2.getOutputVoltage() + 
+				" OutCur " + leftMotor2.getOutputCurrent() + 
+				" PulsePos " + leftMotor2.getPulseWidthPosition() + 
+				" PulseVel " + leftMotor2.getPulseWidthVelocity() + 
+				" PulseRF " + leftMotor2.getPulseWidthRiseToFallUs() + 
+				" PulseRR " + leftMotor2.getPulseWidthRiseToRiseUs() + 
+				" Get " + leftMotor2.get() +
+				
+				" Left Motor 1 (Follower)-- TempC " + leftMotor1.getTemperature() + 
+				" Set " + leftMotor1.getSetpoint() + 
+				" BusVolt " + leftMotor1.getBusVoltage() + 
+				" OutVolt " + leftMotor1.getOutputVoltage() + 
+				" OutCur " + leftMotor1.getOutputCurrent() + 
+				" PulsePos " + leftMotor1.getPulseWidthPosition() + 
+				" PulseVel " + leftMotor1.getPulseWidthVelocity() + 
+				" PulseRF " + leftMotor1.getPulseWidthRiseToFallUs() + 
+				" PulseRR " + leftMotor1.getPulseWidthRiseToRiseUs() + 
+				" Get " + leftMotor1.get() +
+				
+				/* " Left Motor 3 (Follower)-- TempC " + leftMotor1.getTemperature() + 
+				" Set " + leftMotor3.getSetpoint() + 
+				" BusVolt " + leftMotor3.getBusVoltage() + 
+				" OutVolt " + leftMotor3.getOutputVoltage() + 
+				" OutCur " + leftMotor3.getOutputCurrent() + 
+				" PulsePos " + leftMotor3.getPulseWidthPosition() + 
+				" PulseVel " + leftMotor3.getPulseWidthVelocity() + 
+				" PulseRF " + leftMotor3.getPulseWidthRiseToFallUs() + 
+				" PulseRR " + leftMotor3.getPulseWidthRiseToRiseUs() + 
+				" Get " + leftMotor3.get() +
+				*/
+				
+				" Right Motor 2 (Main)-- TempC " + rightMotor2.getTemperature() + 
+				" Set " + rightMotor2.getSetpoint() + 
+				" BusVolt " + rightMotor2.getBusVoltage() + 
+				" OutVolt " + rightMotor2.getOutputVoltage() + 
+				" OutCur " + rightMotor2.getOutputCurrent() + 
+				" PulsePos " + rightMotor2.getPulseWidthPosition() + 
+				" PulseVel " + rightMotor2.getPulseWidthVelocity() + 
+				" PulseRF " + rightMotor2.getPulseWidthRiseToFallUs() + 
+				" PulseRR " + rightMotor2.getPulseWidthRiseToRiseUs() + 
+				" Get " + rightMotor2.get() +
+				
+				" Right Motor 1 (Follower)-- TempC " + rightMotor1.getTemperature() + 
+				" Set " + rightMotor1.getSetpoint() + 
+				" BusVolt " + rightMotor1.getBusVoltage() + 
+				" OutVolt " + rightMotor1.getOutputVoltage() + 
+				" OutCur " + rightMotor1.getOutputCurrent() + 
+				" PulsePos " + rightMotor1.getPulseWidthPosition() + 
+				" PulseVel " + rightMotor1.getPulseWidthVelocity() + 
+				" PulseRF " + rightMotor1.getPulseWidthRiseToFallUs() + 
+				" PulseRR " + rightMotor1.getPulseWidthRiseToRiseUs() + 
+				" Get " + rightMotor1.get()
+				
+				/*+ " Right Motor 3 (Follower)-- TempC " + rightMotor3.getTemperature() + 
+				" Set " + rightMotor3.getSetpoint() + 
+				" BusVolt " + rightMotor3.getBusVoltage() + 
+				" OutVolt " + rightMotor3.getOutputVoltage() + 
+				" OutCur " + rightMotor3.getOutputCurrent() + 
+				" PulsePos " + rightMotor3.getPulseWidthPosition() + 
+				" PulseVel " + rightMotor3.getPulseWidthVelocity() + 
+				" PulseRF " + rightMotor3.getPulseWidthRiseToFallUs() + 
+				" PulseRR " + rightMotor3.getPulseWidthRiseToRiseUs() + 
+				" Get " + rightMotor3.get()
+				*/
+				);
+	}
 }
 
