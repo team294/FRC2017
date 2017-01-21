@@ -90,7 +90,17 @@ public class DriveTrain extends Subsystem {
 		setDriveControlByPower();
 		robotDrive.drive(speed, 0);
 	}
-
+	
+	/**
+	 * Drive the robot at an angle
+	 * @param speed +1 to -1, + = backward, - = forward
+	 * @param curve +1 to -1, >0 = left, <0 = right
+	 */
+	public void driveAtAngle(double speed, double curve) {
+		setDriveControlByPower();
+		robotDrive.drive(-speed, curve);
+	}
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
