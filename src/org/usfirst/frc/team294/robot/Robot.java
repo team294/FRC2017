@@ -21,7 +21,7 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	public static DriveTrain driveTrain;
-	public static Intake intake;
+	//public static Intake intake;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -31,7 +31,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		driveTrain = new DriveTrain();
-		intake = new Intake();
+		//intake = new Intake();
 	}
 
 	/**
@@ -87,6 +87,7 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		//new DriveWithJoysticks();
 	}
 
 	/**
