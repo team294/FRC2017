@@ -22,6 +22,7 @@ public class Robot extends IterativeRobot {
 
 	// Hardware subsystems
 	public static DriveTrain driveTrain;
+	public static Shooter shooter;
 	public static Intake intake;
 	public static Shifter shifter;
 	
@@ -38,6 +39,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		driveTrain = new DriveTrain();
+		shooter = new Shooter();
 		intake = new Intake();
 		shifter = new Shifter();
 		log = new FileLog();
