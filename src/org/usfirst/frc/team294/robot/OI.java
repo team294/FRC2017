@@ -3,6 +3,7 @@ package org.usfirst.frc.team294.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.commands.*;
 
@@ -52,5 +53,10 @@ public class OI {
 	    	 i = new JoystickButton(rightJoystick, k++);
 	    	 i.whenPressed(new ShiftUp());
 	     }
+	     
+	     //double speed = SmartDashboard.getDouble("Drive Speed");
+	     //double curve = SmartDashboard.getDouble("Drive Curve");
+	     SmartDashboard.putData("Start Drive", new DriveAtAngle());
+	     //SmartDashboard.putData("Stop Drive", new DriveAtAngle(0,0));
 	}
 }

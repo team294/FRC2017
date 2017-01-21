@@ -5,11 +5,14 @@ import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Main Robot Drive Train
@@ -39,6 +42,16 @@ public class DriveTrain extends Subsystem {
         //leftMotor3.set(leftMotor2.getDeviceID());
         rightMotor1.set(rightMotor2.getDeviceID());
         //rightMotor3.set(rightMotor2.getDeviceID());
+        leftMotor2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+        rightMotor2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+        leftMotor2.configEncoderCodesPerRev(100);
+        rightMotor2.configEncoderCodesPerRev(100);
+        leftMotor2.configNominalOutputVoltage(+0.0f, -0.0f);
+        rightMotor2.configNominalOutputVoltage(+0.0f, -0.0f);
+        leftMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
+        rightMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
+        leftMotor2.setVoltageRampRate(40);
+        rightMotor2.setVoltageRampRate(40);
     }
 
     /**
@@ -105,6 +118,15 @@ public class DriveTrain extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     	setDefaultCommand(new DriveWithJoysticks());
+    }
+    /**
+     * get the left and right positions and the left and right speeds from the encoders
+     */
+    public void getEncoder() {
+    	SmartDashboard.putNumber("Left Position", leftMotor2.getPosition());
+    	SmartDashboard.putNumber("Right Position", rightMotor2.getPosition());
+    	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
+    	SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
     }
     
     /**
