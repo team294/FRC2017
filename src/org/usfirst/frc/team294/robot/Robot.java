@@ -22,9 +22,10 @@ public class Robot extends IterativeRobot {
 
 	// Hardware subsystems
 	public static DriveTrain driveTrain;
+	public static Shifter shifter;
 	public static Shooter shooter;
 	public static Intake intake;
-	public static Shifter shifter;
+	public static GearPort gearPort;
 	
 	// The OI
 	public static OI oi;
@@ -39,9 +40,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		driveTrain = new DriveTrain();
+		shifter = new Shifter();
 		shooter = new Shooter();
 		intake = new Intake();
-		shifter = new Shifter();
+		gearPort = new GearPort();
 		log = new FileLog();
 		oi = new OI();
 	}
