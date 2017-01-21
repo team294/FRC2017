@@ -2,7 +2,6 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-//import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
 
 import com.ctre.CANTalon;
@@ -13,7 +12,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * Teh Drivetrain
+ * Main Robot Drive Train
  */
 public class DriveTrain extends Subsystem {
 
@@ -24,13 +23,14 @@ public class DriveTrain extends Subsystem {
     private final CANTalon rightMotor1 = new CANTalon(RobotMap.driveTrainRightMotor1);
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
     //private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
-    private final RobotDrive robotDrive = new RobotDrive(leftMotor2, rightMotor2);
+    private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
 
     public DriveTrain() {
     	super();
     	
     	leftMotor2.reverseSensor(true);
     	
+    	// Set the other motors to follow motor 2 on each side
     	leftMotor1.changeControlMode(TalonControlMode.Follower);
     	//leftMotor3.changeControlMode(TalonControlMode.Follower);
         rightMotor1.changeControlMode(TalonControlMode.Follower);

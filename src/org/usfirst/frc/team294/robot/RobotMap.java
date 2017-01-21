@@ -18,8 +18,8 @@ public class RobotMap {
 	//public static int driveTrainRightMotor3 = 12;
 	public static int intakeMotor = 9;
 	
-	// If you are using multiple modules, make sure to define both the port
-	// number and the module. For example you with a rangefinder:
-	// public static int rangefinderPort = 1;
-	// public static int rangefinderModule = 1;
+    // Pneumatic controller PCM IDs
+    public static int shifterSolenoidFwd = 0;
+    public static int shifterSolenoidRev = 1;
+
 }
