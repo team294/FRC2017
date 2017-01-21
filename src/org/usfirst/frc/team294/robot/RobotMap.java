@@ -10,10 +10,10 @@ public class RobotMap {
 	//hardware addresses
 	
 	//CANbus Addresses
-	//public static int driveTrainLeftMotor1 = 5;
+	public static int driveTrainLeftMotor1 = 5;
 	public static int driveTrainLeftMotor2 = 6;
 	//public static int driveTrainLeftMotor3 = 7;
-	//public static int driveTrainRightMotor1 = 10;
+	public static int driveTrainRightMotor1 = 9;
 	public static int driveTrainRightMotor2 = 4;
 	//public static int driveTrainRightMotor3 = 12;
 	public static int intakeMotor = 9;
