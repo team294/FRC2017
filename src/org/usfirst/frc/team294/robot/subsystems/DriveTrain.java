@@ -8,10 +8,10 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -22,11 +22,15 @@ public class DriveTrain extends Subsystem {
     // Drive Train hardware
 	private final CANTalon leftMotor1 = new CANTalon(RobotMap.driveTrainLeftMotor1);
     private final CANTalon leftMotor2 = new CANTalon(RobotMap.driveTrainLeftMotor2);
-    //private final CANTalon leftMotor3 = new CANTalon(RobotMap.driveTrainLeftMotor3);
+    private final CANTalon leftMotor3 = new CANTalon(RobotMap.driveTrainLeftMotor3);
     private final CANTalon rightMotor1 = new CANTalon(RobotMap.driveTrainRightMotor1);
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
-    //private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
+    private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
     private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
+    private AnalogGyro gyro = new AnalogGyro(RobotMap.driveTrainGyro);
+	
+    // Track gyro resets in software
+    private double yawZero = 0;
 
     public DriveTrain() {
     	super();
@@ -35,13 +39,13 @@ public class DriveTrain extends Subsystem {
     	
     	// Set the other motors to follow motor 2 on each side
     	leftMotor1.changeControlMode(TalonControlMode.Follower);
-    	//leftMotor3.changeControlMode(TalonControlMode.Follower);
+    	leftMotor3.changeControlMode(TalonControlMode.Follower);
         rightMotor1.changeControlMode(TalonControlMode.Follower);
-        //rightMotor3.changeControlMode(TalonControlMode.Follower);
+        rightMotor3.changeControlMode(TalonControlMode.Follower);
         leftMotor1.set(leftMotor2.getDeviceID());
-        //leftMotor3.set(leftMotor2.getDeviceID());
+        leftMotor3.set(leftMotor2.getDeviceID());
         rightMotor1.set(rightMotor2.getDeviceID());
-        //rightMotor3.set(rightMotor2.getDeviceID());
+        rightMotor3.set(rightMotor2.getDeviceID());
         leftMotor2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
         rightMotor2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
         leftMotor2.configEncoderCodesPerRev(100);
@@ -52,6 +56,9 @@ public class DriveTrain extends Subsystem {
         rightMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
         leftMotor2.setVoltageRampRate(40);
         rightMotor2.setVoltageRampRate(40);
+        
+        // Reset the gyro
+        gyro.reset();
     }
 
     /**
@@ -130,6 +137,36 @@ public class DriveTrain extends Subsystem {
     }
     
     /**
+     * Reset the gyro completely
+     */
+    public void resetGyro() {
+    	gyro.reset();
+    }
+    
+    /**
+     * Return the current angle of the gyro
+     * @return current angle from 0 to 360
+     */
+    public double getGyroAngle() {
+		double angle;
+		
+		angle = gyro.getAngle() - yawZero; 
+		
+		// Normalize to 0 to 360 degrees
+		angle = angle - Math.floor(angle/360)*360;
+		
+		return angle;
+    }
+    
+    /**
+     * Get the gyro rate
+     * @return
+     */
+    public double getGyroRate() {
+    	return gyro.getRate();
+    }
+    
+    /**
      * Logs the talon output to a file
      */
 	public void logTalonStatus() {
@@ -202,6 +239,13 @@ public class DriveTrain extends Subsystem {
 				" Get " + rightMotor3.get()
 				*/
 				);
+	}
+	
+	/** 
+	 * Reset the angle of the gyro
+	 */
+	public void resetDegrees() {
+		yawZero  = gyro.getAngle();
 	}
 }
 

@@ -45,13 +45,18 @@ public class OI {
 	    // Declare left joystick buttons and set them to shift down
 	     for (Button i : left) {
 	    	 i =  new JoystickButton(leftJoystick, j++);
-	    	 i.whenPressed(new ShiftDown());
+	    	 if (j == 3) i.whenPressed(new GyroTurnToAngle(0.3, 180));
+	    	 else if (j == 4) i.whenPressed(new GyroTurnToAngle(0.3, 0));
+	    	 else if (j == 5) i.whenPressed(new GyroTurnToAngle(0.3, -90));
+	    	 else if (j == 6) i.whenPressed(new GyroTurnToAngle(0.3, 90.0));
+	    	 else i.whenPressed(new ShiftDown());
 	     }
 	     
 	     // Declare right joystick buttons and set them to shift up
 	     for (Button i : right) {
 	    	 i = new JoystickButton(rightJoystick, k++);
-	    	 i.whenPressed(new ShiftUp());
+	    	 if (k > 2 && k < 7) i.whenPressed(new DriveWithJoysticks()); 
+	    	 else i.whenPressed(new ShiftUp());
 	     }
 	     
 	     //double speed = SmartDashboard.getDouble("Drive Speed");
