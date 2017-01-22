@@ -124,7 +124,9 @@ public class DriveTrain extends Subsystem {
     	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
     	SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
     }
-    
+    	public double getGyro(){
+    		return 0.0;
+    	}
     /**
      * Logs the talon output to a file
      */

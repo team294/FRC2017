@@ -12,23 +12,24 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TurnToAngle extends Command {
 
 	private double angle;
-	private double speed;
 	final private double MIN_POWER = 0.2;
 	final private double MAX_POWER = 0.7;
+	private double targetAngle;
+	private double currentAngle;
 	
-    public TurnToAngle(double angle) {
+    public TurnToAngle(double target) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveTrain);
-    	this.angle = angle;
-    	this.speed = 0;
+    	targetAngle=target;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (speed >= 1.0) speed = 1.0;
-    	if (speed <= -1.0) speed = -1.0;
-    	
+    	currentAngle= Robot.driveTrain.getGyro();
+    	angle=targetAngle-currentAngle;
+    	double speed=calculateSpeed(angle);
+    	Robot.driveTrain.driveAtAngle(speed, 1);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -50,7 +51,8 @@ public class TurnToAngle extends Command {
     	return power;
     	
     }
-
+   
+    	
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return true;
@@ -64,4 +66,5 @@ public class TurnToAngle extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
+    
 }
