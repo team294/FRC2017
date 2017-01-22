@@ -56,7 +56,13 @@ public class OI {
 	     
 	     //double speed = SmartDashboard.getDouble("Drive Speed");
 	     //double curve = SmartDashboard.getDouble("Drive Curve");
-	     SmartDashboard.putData("Start Drive", new DriveAtAngle());
+	     SmartDashboard.putNumber("Drive Speed", 0.0);
+	     SmartDashboard.putNumber("Drive Curve", 0.0);
+	     SmartDashboard.putData("Start Drive", new DriveAtAngleFromSmartDashboard());
 	     //SmartDashboard.putData("Stop Drive", new DriveAtAngle(0,0));
+	}
+	
+	public void updateSmartDashboard() {
+		
 	}
 }
