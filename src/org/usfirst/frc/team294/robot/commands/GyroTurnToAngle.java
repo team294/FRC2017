@@ -76,7 +76,7 @@ public class GyroTurnToAngle extends Command {
         	Robot.log.writeLog("Auto turn (finish):  current angle = " + Robot.driveTrain.getGyroAngle() + 
         			", target angle = " + turnAngle);
     	} else {
-    		speed = (angleErr > 0.0) ? speed : -speed;
+    		if (angleErr < 0.0) speed = -speed;
         	Robot.driveTrain.driveAtAngle(speed, 1);
     	}
     }
