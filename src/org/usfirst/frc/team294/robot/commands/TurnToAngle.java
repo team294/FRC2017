@@ -34,6 +34,10 @@ public class TurnToAngle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	currentAngle= Robot.driveTrain.getGyro();
+    	angle=targetAngle-currentAngle;
+    	double speed=calculateSpeed(angle);
+    	Robot.driveTrain.driveAtAngle(speed, 1);
     }
     
     private double calculateSpeed(double angle) {
@@ -55,11 +59,16 @@ public class TurnToAngle extends Command {
     	
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        if (angle <= 3 && angle >= -3) {
+        	return true;
+        } else {
+        	return false;
+        }
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.driveTrain.stop();
     }
 
     // Called when another command which requires one or more of the same
