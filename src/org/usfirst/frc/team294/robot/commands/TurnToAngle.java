@@ -3,6 +3,7 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -21,12 +22,13 @@ public class TurnToAngle extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveTrain);
+    	requires(Robot.vision);
     	targetAngle=target;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	currentAngle= Robot.driveTrain.getGyro();
+    	currentAngle= Robot.vision.getGearAngleOffset();
     	angle=targetAngle-currentAngle;
     	double speed=calculateSpeed(angle);
     	Robot.driveTrain.driveAtAngle(speed, 1);
@@ -34,23 +36,22 @@ public class TurnToAngle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	currentAngle= Robot.driveTrain.getGyro();
+    	currentAngle= Robot.vision.getGearAngleOffset();
     	angle=targetAngle-currentAngle;
     	double speed=calculateSpeed(angle);
     	Robot.driveTrain.driveAtAngle(speed, 1);
+    	SmartDashboard.putNumber("angle", currentAngle);
     }
     
     private double calculateSpeed(double angle) {
     	double power = 0;
-    	if (angle >= 90) {
+    	if (Math.abs(angle) >= 90) {
     		power = MAX_POWER;
     	} else {
-    		power = MIN_POWER + angle*(MAX_POWER-MIN_POWER)/90;
+    		power = MIN_POWER + Math.abs(angle)*(MAX_POWER-MIN_POWER)/90;
     	}
     	if (angle <= 0) {
-    		power = MIN_POWER*-1;
-    	} else {
-    		power = MAX_POWER*-1;
+    		power = power*-1;
     	}
     	return power;
     	

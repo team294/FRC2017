@@ -60,6 +60,7 @@ public class OI {
 	     SmartDashboard.putNumber("Drive Curve", 0.0);
 	     SmartDashboard.putData("Start Drive", new DriveAtAngleFromSmartDashboard());
 	     //SmartDashboard.putData("Stop Drive", new DriveAtAngle(0,0));
+	     SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0.0));
 	}
 	
 	public void updateSmartDashboard() {
