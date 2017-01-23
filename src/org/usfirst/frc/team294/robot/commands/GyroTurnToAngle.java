@@ -3,6 +3,7 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.utilities.ToleranceChecker;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class GyroTurnToAngle extends Command {
@@ -24,7 +25,6 @@ public class GyroTurnToAngle extends Command {
         requires(Robot.driveTrain);
         this.turnAngle = turnAngle;
         this.speed = Math.abs(speed);
-        //this.tolerance = tolerance;
         angleTol.setTolerance(tolerance);
     }
     
@@ -57,7 +57,7 @@ public class GyroTurnToAngle extends Command {
     	double angleErr;
     	
     	// Find angle error.  - = left, + = right
-    	angleErr = turnAngle - Robot.driveTrain.getGyroAngle();
+    	angleErr = turnAngle - Robot.driveTrain.gyro.getAngle();
     	if (angleErr > 180.0) angleErr -= 360;
     	if (angleErr < -180.0) angleErr += 360;  
     	
@@ -68,6 +68,8 @@ public class GyroTurnToAngle extends Command {
     protected void execute() {
     	// Find angle error.  - = left, + = right
     	angleErr = getAngleError();
+    	SmartDashboard.putNumber("Current Angle:", Robot.driveTrain.gyro.getAngle());
+    	SmartDashboard.putNumber("Angle Error:", angleErr);
     	
     	angleTol.check(Math.abs(angleErr));
     	
@@ -75,8 +77,11 @@ public class GyroTurnToAngle extends Command {
         	Robot.driveTrain.stop();
         	Robot.log.writeLog("Auto turn (finish):  current angle = " + Robot.driveTrain.getGyroAngle() + 
         			", target angle = " + turnAngle);
+        	System.out.println("Auto turn (finish):  current angle = " + Robot.driveTrain.getGyroAngle() + 
+        			", target angle = " + turnAngle);
     	} else {
     		if (angleErr < 0.0) speed = -speed;
+    		SmartDashboard.putNumber("Speed:", speed);
         	Robot.driveTrain.driveAtAngle(speed, 1);
     	}
     }

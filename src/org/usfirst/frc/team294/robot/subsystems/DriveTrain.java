@@ -27,7 +27,7 @@ public class DriveTrain extends Subsystem {
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
     private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
     private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
-    private AnalogGyro gyro = new AnalogGyro(RobotMap.driveTrainGyro);
+    public AnalogGyro gyro = new AnalogGyro(RobotMap.driveTrainGyro);
 	
     // Track gyro resets in software
     private double yawZero = 0;
@@ -245,7 +245,7 @@ public class DriveTrain extends Subsystem {
 	 * Reset the angle of the gyro
 	 */
 	public void resetDegrees() {
-		yawZero  = gyro.getAngle();
+		yawZero = gyro.getAngle();
 	}
 }
 

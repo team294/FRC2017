@@ -63,5 +63,9 @@ public class OI {
 	     //double curve = SmartDashboard.getDouble("Drive Curve");
 	     SmartDashboard.putData("Start Drive", new DriveAtAngle());
 	     //SmartDashboard.putData("Stop Drive", new DriveAtAngle(0,0));
+	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
+	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
+	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180));
+	     SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
 	}
 }
