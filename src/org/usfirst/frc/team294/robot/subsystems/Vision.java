@@ -26,12 +26,13 @@ public class Vision extends Subsystem {
 	}
    public double getGearAngleOffset() {
 	   centerX = table.getNumberArray("centerX", networkTableDefault );
-	   gearAngleOffset = .085625*(320-(centerX[0] + centerX[1])/2);
+	   gearAngleOffset = .085625*(320-(centerX[0] + centerX[1])/2); //Degrees
 	   return gearAngleOffset;
    }
    public double getDistance() {
 	   height = table.getNumberArray("height", networkTableDefault );
-	   distance = 2.5/Math.tan(.0428125*((height[2]+height[3])/2)); //in inches
+	   //distance = 2.5/Math.tan(.0428125*((height[2]+height[3])/2)); //in inches
+	   distance = 2.5/Math.tan(.00037360954*(height[2]+height[3])); //in inches (faster)
 	   return distance;
    }
 }
