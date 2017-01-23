@@ -39,7 +39,7 @@ public class TurnToAngle extends Command {
     	currentAngle= Robot.vision.getGearAngleOffset();
     	angle=targetAngle-currentAngle;
     	double speed=calculateSpeed(angle);
-    	Robot.driveTrain.driveAtAngle(speed, 1);
+    	Robot.driveTrain.driveAtAngle(speed, -angle/Math.abs(angle));
     	SmartDashboard.putNumber("angle", currentAngle);
     }
     
@@ -49,9 +49,6 @@ public class TurnToAngle extends Command {
     		power = MAX_POWER;
     	} else {
     		power = MIN_POWER + Math.abs(angle)*(MAX_POWER-MIN_POWER)/90;
-    	}
-    	if (angle <= 0) {
-    		power = power*-1;
     	}
     	return power;
     	
