@@ -22,11 +22,9 @@ public class IntakeSetToSpeed extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		if (speed < -1.0) {
-			speed = -1.0;
-		} else if (speed > 1.0) {
-			speed = 1.0;
-		}
+		// Validate inputs first
+		if (speed < -1.0) speed = -1.0;
+		if (speed > 1.0) speed = 1.0;
 		Robot.intake.setSpeed(speed);
 	}
 
