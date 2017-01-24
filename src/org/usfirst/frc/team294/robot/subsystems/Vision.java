@@ -29,9 +29,9 @@ public class Vision extends Subsystem {
 		grip_table = NetworkTable.getTable("GRIP");
 	}
    public double getGearAngleOffset() {
-	   double[] areas = table.getNumberArray("area", networkTableDefault );
 	   double[] cX = table.getNumberArray("centerX", networkTableDefault );
-	   if (cX.length < 2) { return gearAngleOffset = 0; } //Break out if not enough objects detected
+	   double[] areas = table.getNumberArray("area", networkTableDefault );
+	   if (cX.length < 2) { return 0; } //Break out if not enough objects detected
 	   double[] maxTwoAreas = {0, 0}; // {size1, size2}
 	   int index1 = 0, index2 = 0;
 	   for (int i = 0; i < areas.length; i++) {
@@ -43,8 +43,14 @@ public class Vision extends Subsystem {
    }
    public double getDistance() {
 	   height = table.getNumberArray("height", networkTableDefault );
-	   
-	   
+	   double[] areas = table.getNumberArray("area", networkTableDefault );
+	   if (height.length < 2) { return 0; } //Break out if not enough objects detected
+	   double[] maxTwoAreas = {0, 0}; // {size1, size2}
+	   int index1 = 0, index2 = 0;
+	   for (int i = 0; i < areas.length; i++) {
+		   if (areas[i] > maxTwoAreas[0]) {maxTwoAreas[0] = areas[i]; index1 = i;}
+		   else if (areas[i] > maxTwoAreas[1]) {maxTwoAreas[1] = areas[i]; index2 = i;}
+	   }
 	   
 	   //distance = 2.5/Math.tan(.0428125*((height[2]+height[3])/2)); //in inches
 	   distance = 2.5/Math.tan(.00037360954*(height[2]+height[3])); //in inches (faster)
