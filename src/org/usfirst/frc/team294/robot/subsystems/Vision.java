@@ -51,9 +51,7 @@ public class Vision extends Subsystem {
 		   if (areas[i] > maxTwoAreas[0]) {maxTwoAreas[0] = areas[i]; index1 = i;}
 		   else if (areas[i] > maxTwoAreas[1]) {maxTwoAreas[1] = areas[i]; index2 = i;}
 	   }
-	   
-	   //distance = 2.5/Math.tan(.0428125*((height[2]+height[3])/2)); //in inches
-	   distance = 2.5/Math.tan(.00037360954*(height[2]+height[3])); //in inches (faster)
+	   distance = 2.5/Math.tan(camVertAngle/2*(height[index1]+height[index2])/2/camPXWidth); //in inches (faster)
 	   return distance;
    }
 }
