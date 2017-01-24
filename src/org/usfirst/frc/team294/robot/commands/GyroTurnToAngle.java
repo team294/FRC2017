@@ -57,7 +57,7 @@ public class GyroTurnToAngle extends Command {
     	double angleErr;
     	
     	// Find angle error.  - = left, + = right
-    	angleErr = turnAngle - Robot.driveTrain.gyro.getAngle();
+    	angleErr = turnAngle - Robot.driveTrain.getGyroAngle();
     	if (angleErr > 180.0) angleErr -= 360;
     	if (angleErr < -180.0) angleErr += 360;  
     	
@@ -68,7 +68,7 @@ public class GyroTurnToAngle extends Command {
     protected void execute() {
     	// Find angle error.  - = left, + = right
     	angleErr = getAngleError();
-    	SmartDashboard.putNumber("Current Angle:", Robot.driveTrain.gyro.getAngle());
+    	SmartDashboard.putNumber("Current Angle:", Robot.driveTrain.getGyroAngle());
     	SmartDashboard.putNumber("Angle Error:", angleErr);
     	
     	angleTol.check(Math.abs(angleErr));

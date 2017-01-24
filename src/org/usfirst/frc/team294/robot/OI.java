@@ -67,5 +67,12 @@ public class OI {
 	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
 	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180));
 	     SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
+	     
+	     SmartDashboard.putData("Gear Piston Out", new SetGearSolenoid(true));
+	     SmartDashboard.putData("Gear Piston In", new SetGearSolenoid(false));
+	     SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
+	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
+	     SmartDashboard.putData("Stop Shooter Motor", new ShooterSetToSpeed(0.0));
+	     SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3));
 	}
 }

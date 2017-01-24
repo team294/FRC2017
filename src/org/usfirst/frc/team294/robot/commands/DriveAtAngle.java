@@ -2,11 +2,13 @@ package org.usfirst.frc.team294.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team294.robot.*;
-/**
- *
- */
+
 public class DriveAtAngle extends Command {
 
+	/**
+	 * FOR TESTING ONLY
+	 * Drive the robot at a preset angle. No exit setting.
+	 */
     public DriveAtAngle() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);

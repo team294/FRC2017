@@ -7,10 +7,11 @@ import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
+import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -26,10 +27,11 @@ public class DriveTrain extends Subsystem {
     private final CANTalon rightMotor1 = new CANTalon(RobotMap.driveTrainRightMotor1);
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
     private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
-    private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
-    public AnalogGyro gyro = new AnalogGyro(RobotMap.driveTrainGyro);
+    private final RobotDrive robotDrive = new RobotDrive(leftMotor2, rightMotor2);
+    
+    private final AHRS ahrs = new AHRS(SPI.Port.kMXP);
 	
-    // Track gyro resets in software
+    // Gyro resets are tracked in software, due to latency in resets. This holds the value of the NavX's "zero" degrees
     private double yawZero = 0;
 
     public DriveTrain() {
@@ -57,8 +59,13 @@ public class DriveTrain extends Subsystem {
         leftMotor2.setVoltageRampRate(40);
         rightMotor2.setVoltageRampRate(40);
         
-        // Reset the gyro
-        gyro.reset();
+        ahrs.zeroYaw();
+        
+        SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
+        SmartDashboard.putBoolean(  "IMU_IsCalibrating",    ahrs.isCalibrating());
+        SmartDashboard.putNumber(   "IMU_Yaw",              ahrs.getYaw());
+        SmartDashboard.putNumber(   "IMU_Pitch",            ahrs.getPitch());
+        SmartDashboard.putNumber(   "IMU_Roll",             ahrs.getRoll());
     }
 
     /**
@@ -121,11 +128,6 @@ public class DriveTrain extends Subsystem {
 		robotDrive.drive(-speed, curve);
 	}
 	
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new DriveWithJoysticks());
-    }
     /**
      * get the left and right positions and the left and right speeds from the encoders
      */
@@ -135,37 +137,7 @@ public class DriveTrain extends Subsystem {
     	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
     	SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
     }
-    
-    /**
-     * Reset the gyro completely
-     */
-    public void resetGyro() {
-    	gyro.reset();
-    }
-    
-    /**
-     * Return the current angle of the gyro
-     * @return current angle from 0 to 360
-     */
-    public double getGyroAngle() {
-		double angle;
-		
-		angle = gyro.getAngle() - yawZero; 
-		
-		// Normalize to 0 to 360 degrees
-		angle = angle - Math.floor(angle/360)*360;
-		
-		return angle;
-    }
-    
-    /**
-     * Get the gyro rate
-     * @return
-     */
-    public double getGyroRate() {
-    	return gyro.getRate();
-    }
-    
+
     /**
      * Logs the talon output to a file
      */
@@ -242,10 +214,50 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	/** 
-	 * Reset the angle of the gyro
+	 * Reset the angle of the NavX in the software
 	 */
 	public void resetDegrees() {
-		yawZero = gyro.getAngle();
+		yawZero = ahrs.getAngle();
 	}
+    
+    /**
+     * DO NOT USE! USE resetDegrees() INSTEAD!
+     * Reset the gyro completely
+     */
+    public void resetGyro() {
+    	ahrs.reset();
+    }
+    
+    /**
+     * Return the current angle of the gyro
+     * @return current angle from 0 to 360
+     */
+    public double getGyroAngle() {
+		double angle;
+		
+		angle = ahrs.getAngle() - yawZero; 
+		
+		// Normalize to 0 to 360 degrees
+		angle = angle - Math.floor(angle/360)*360;
+		
+		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
+		Robot.log.writeLog(" Gyro: Current Angle: " + angle);
+		
+		return angle;
+    }
+    
+    /**
+     * Get the gyro rate
+     * @return
+     */
+    public double getGyroRate() {
+    	return ahrs.getRate();
+    }
+
+    public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+        //setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new DriveWithJoysticks());
+    }
 }
 
