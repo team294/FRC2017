@@ -43,7 +43,7 @@ public class Vision extends Subsystem {
 			   double[] aC = {rawContours[0][a], rawContours[1][a], rawContours[2][a], rawContours[3][a]};
 			   double[] bC = {rawContours[0][b], rawContours[1][b], rawContours[2][b], rawContours[3][b]};
 			   if (aC[3] + bC[3] > Math.abs(aC[0] - bC[0]) && aC[3] + bC[3] > Math.abs(aC[1] - bC[1])) { //Do the rectangles intersect?
-				   if (aC[2] > bC[2]) {for (int i = 0; i < 4; i++ ) {contours[i][contours[0].length] = aC[i]; break;}} //If a has more area than b, add it to filtered list
+				   if (aC[2] > bC[2]) {for (int i = 0; i < 4; i++) {contours[i][contours[3].length] = aC[i]; break;}} //If a has more area than b, add it to filtered list
 			   } else {for (int i = 0; i < 4; i++ ) {contours[i][contours[3].length] = aC[i];}} //if a does not overlap, add it to filtered list
 		   }
 	   }
