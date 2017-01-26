@@ -18,6 +18,7 @@ public class Vision extends Subsystem {
 	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight);
 	double camVertAngle = (camPXHeight / camPXDiagonal) * camDiagonalAngle;
 	double camHorizAngle = (camPXWidth / camPXDiagonal) * camDiagonalAngle;
+	double[][] contours;
 	
 	
    public void initDefaultCommand() {
@@ -35,7 +36,7 @@ public class Vision extends Subsystem {
 			   				 table.getNumberArray("area", networkTableDefault )};
 	   //1. Find overlapping contours and keep larger of the two
 	   for (int i=0; i < rawContours[0].length; i++) {rawContours[3][i]  = Math.sqrt(rawContours[2][i])/2;} //Gets square x/y radius from point.
-	   double[][] contours = null;
+	   contours = null;
 	   for (int a = 0; a < rawContours[0].length; a++) {
 		   for (int b = 0; b < rawContours[0].length; b++) {
 			   if (b == a) {continue; }
