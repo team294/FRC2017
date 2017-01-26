@@ -40,12 +40,14 @@ public class Vision extends Subsystem {
 	   return index;
    }
    public double getGearAngleOffset() {
+	   //Gives the robot's angle of offset from the gear target in degrees
 	   double[] cX = table.getNumberArray("centerX", networkTableDefault );
 	   int[] index = filterContours();
 	   gearAngleOffset = (camPXWidth/2 - (cX[index[0]] + cX[index[1]])/2)/camPXWidth * camHorizAngle;
 	   return gearAngleOffset;
    }
-   public double getDistance() {
+   public double getGearDistance() {
+	   //Gives the distance of the robot from the gear target.
 	   height = table.getNumberArray("height", networkTableDefault );
 	   int[] index = filterContours();
 	   distance = 2.5/Math.tan((camVertAngle/2*(height[index[0]]+height[index[1]])/2/camPXWidth)*3.141592/180); //in inches (faster)
