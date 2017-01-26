@@ -18,17 +18,23 @@ public class DriveToDistance extends Command {
     public double calculateSpeed() {
     	double speed = 0;
     	double t = 0;
-    	final double maxSpeed = 5;
+    	final double maxSpeed = 1;
     	
     	if (t <= 1) {
-    		speed = 5*t;
-    	} else if (t >= 3) {
-    		speed = -5*t;
+    		speed = t;
     	}
-    	if (1 <= t && t <= 3) {
+    	if (1 <= t && t < 3) {
     		speed = maxSpeed;
+    		}
+    	if (t >= 3 && t < 4) {
+    		speed = -t + 4;
+    	}
+    	if (t >= 4) {
+    		speed = 0;
     	}
     	return speed;
+    	
+    	
     }
 
     // Called just before this Command runs the first time
