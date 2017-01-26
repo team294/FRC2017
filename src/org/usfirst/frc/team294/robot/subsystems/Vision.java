@@ -44,13 +44,13 @@ public class Vision extends Subsystem {
 			   double[] bC = {rawContours[0][b], rawContours[1][b], rawContours[2][b], rawContours[3][b]};
 			   if (aC[3] + bC[3] > Math.abs(aC[0] - bC[0]) && aC[3] + bC[3] > Math.abs(aC[1] - bC[1])) { //Do the rectangles intersect?
 				   if (aC[2] > bC[2]) {for (int i = 0; i < 4; i++ ) {contours[i][contours[0].length] = aC[i]; break;}} //If a has more area than b, add it to filtered list
-			   } else {for (int i = 0; i < 4; i++ ) {contours[i][contours[0].length] = aC[i];}} //if a does not overlap, add it to filtered list
+			   } else {for (int i = 0; i < 4; i++ ) {contours[i][contours[3].length] = aC[i];}} //if a does not overlap, add it to filtered list
 		   }
 	   }
 	   //2. Choose two biggest remaining contours
 	   double[] maxTwoAreas = {0, 0}; // {size1, size2}
 	   int[] index = {0, 0}; //Array for two best index values 
-	   for (int i = 0; i < contours[2].length; i++) { //Loop through each area value to determine best contours
+	   for (int i = 0; i < contours[2].length; i++) { //Loop through each area value to determine biggest contours
 		   if (contours[2][i] > maxTwoAreas[0]) {maxTwoAreas[0] = contours[2][i]; index[0] = i;}
 		   else if (contours[2][i] > maxTwoAreas[1]) {maxTwoAreas[1] = contours[2][i]; index[1] = i;}
 	   }
