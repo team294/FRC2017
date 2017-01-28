@@ -82,6 +82,8 @@ public class Vision extends Subsystem {
 					table.getNumberArray("area",   networkTableDefault)[i],
 					table.getNumberArray("height", networkTableDefault)[i]);
 		}
+		//Check if there are only two contours. If so, just use those
+		if (contours.length == 2) { return contours; }
 		//Eliminate the smaller of any two overlapping contours
 		for (int a = 0; a < contours.length; a++) {
 			if (contours[a].isEliminated()) {continue; } // If the contour at a is already eliminated, skip it
