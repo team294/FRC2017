@@ -72,6 +72,11 @@ public class Vision extends Subsystem {
 		grip_table = NetworkTable.getTable("GRIP");
 	}
 	public Contour[] filterContours() {
+		if (table.getNumberArray("area", networkTableDefault).length < 2) { //Make sure # of contours is valid
+			System.out.println("Not Enough Contours!!!!");
+			Contour[] temp = {new Contour(), new Contour()};
+			return temp;
+		}
 		//Instantiate array of contours to be filtered
 		Contour[] contours = new Contour[table.getNumberArray("area", networkTableDefault).length];
 		//Initialize array of contours to be filtered
@@ -86,10 +91,10 @@ public class Vision extends Subsystem {
 		if (contours.length == 2) { return contours; }
 		//Eliminate the smaller of any two overlapping contours
 		for (int a = 0; a < contours.length; a++) {
-			if (contours[a].isEliminated()) {continue; } // If the contour at a is already eliminated, skip it
+			//if (contours[a].isEliminated()) {continue; } // If the contour at a is already eliminated, skip it
 			for (int b = a + 1; b < contours.length; b++) {
-				if (contours[b].isEliminated()) {continue; } // If the contour at b is already eliminated, skip it
-				else if (contours[a].intersects(contours[b])) { //If contours intersect, delete one of them
+				//if (contours[b].isEliminated()) {continue; } // If the contour at b is already eliminated, skip it
+				if (contours[a].intersects(contours[b])) { //If contours intersect, delete one of them
 					if (contours[a].getArea() < contours[b].getArea()) {contours[a].eliminate();} //If the area of a < area of b, delete a
 					else {contours[b].eliminate();} //If the area of b <= the area of a, delete b
 				}
