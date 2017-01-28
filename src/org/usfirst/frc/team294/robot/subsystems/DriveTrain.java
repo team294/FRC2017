@@ -124,6 +124,9 @@ public class DriveTrain extends Subsystem {
     	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
     	SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
     }
+    public double readLeftEncoder(){
+    	return leftMotor2.getPosition();
+    }
     	public double getGyro(){
     		return 0.0;
     	}
