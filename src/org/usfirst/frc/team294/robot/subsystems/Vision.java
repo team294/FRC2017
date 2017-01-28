@@ -2,10 +2,54 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
+class Contour {
+	private double xPos, yPos, area, height;
+	private double radius;
+	private boolean eliminated = false;
+	
+	//constructor
+	public Contour(double xPos, double yPos, double area, double height) {
+		this.xPos = xPos;
+		this.yPos = yPos;
+		this.area = area;
+		this.height = height;
+		this.radius = Math.sqrt(this.area/Math.PI)/2; //Adjusted radius of contour
+	}
+	public Contour() {
+		this.xPos = 0;
+		this.yPos = 0;
+		this.area = 0;
+		this.height = 0;
+		this.radius = 0;
+	}
+	
+	//Getters
+	public double getXPos() {return this.xPos; }
+	public double getYPos() {return this.yPos; }
+	public double getArea() {return this.area; }
+	public double getHeight() {return this.height; }
+	public double getRadius() {return this.radius; }
+	public boolean isEliminated() {return this.eliminated; }
+	
+	//Setters
+	public void eliminate() {this.eliminated = true; }
+	
+	//Special Methods
+	public double getDistance(Contour c) {
+		double xDist = (c.getXPos() - this.getXPos());
+		double yDist = (c.getYPos() - this.getYPos());
+		return Math.sqrt(xDist * xDist + yDist * yDist);
+	}
+	public boolean intersects(Contour c) {
+		return (c.getDistance(this) < c.getRadius() + this.getRadius());
+	}
+}
+
 public class Vision extends Subsystem {
 	NetworkTable table;
 	NetworkTable grip_table;
@@ -14,12 +58,10 @@ public class Vision extends Subsystem {
 	double[] centerX, centerY, centerGoal, height;
 	double gearAngleOffset, distance;
 
-	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5;
-	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight);
-	double camVertAngle = (camPXHeight / camPXDiagonal) * camDiagonalAngle;
-	double camHorizAngle = (camPXWidth / camPXDiagonal) * camDiagonalAngle;
-	double[][] contours;
-
+	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
+	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera pixel length
+	double camVertAngle = (camPXHeight / camPXDiagonal) * camDiagonalAngle; //Vertical camera aperture angle
+	double camHorizAngle = (camPXWidth / camPXDiagonal) * camDiagonalAngle; //Horizontal camera aperture angle
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
@@ -29,59 +71,53 @@ public class Vision extends Subsystem {
 		table = NetworkTable.getTable("GRIP/myContoursReport");
 		grip_table = NetworkTable.getTable("GRIP");
 	}
-	public int[] filterContours() {
-		//Determines the indices which two contours are most likely to be the targets
-		double[][] rawContours= {table.getNumberArray("centerX", networkTableDefault ), 
-				table.getNumberArray("centerY", networkTableDefault ),
-				table.getNumberArray("area", networkTableDefault )};
-		//1. Find overlapping contours and keep larger of the two
-		for (int i=0; i < rawContours[0].length; i++) {rawContours[3][i]  = Math.sqrt(rawContours[2][i])/2;} //Gets square x/y radius from point.
-		contours = null;
-		for (int a = 0; a < rawContours[0].length; a++) {
-			for (int b = 0; b < rawContours[0].length; b++) {
-				if (b == a) {continue; }
-				double[] aC = {rawContours[0][a], rawContours[1][a], rawContours[2][a], rawContours[3][a]};
-				double[] bC = {rawContours[0][b], rawContours[1][b], rawContours[2][b], rawContours[3][b]};
-				if (aC[3] + bC[3] > Math.abs(aC[0] - bC[0]) && aC[3] + bC[3] > Math.abs(aC[1] - bC[1])) { //Do the rectangles intersect?
-					if (aC[2] > bC[2]) {
-						for (int i = 0; i < 4; i++) {
-							contours[i][contours[3].length] = aC[i]; 
-							break;
-						}
-					} //If a has more area than b, add it to filtered list
-				} 
-				else {
-					for (int i = 0; i < 4; i++ ) {
-						contours[i][contours[3].length] = aC[i];
-					}
-				} //if a does not overlap, add it to filtered list
+	public Contour[] filterContours() {
+		//Instantiate array of contours to be filtered
+		Contour[] contours = new Contour[table.getNumberArray("area", networkTableDefault).length];
+		//Initialize array of contours to be filtered
+		for (int i = 0; i < contours.length; i++) {
+			contours[i] = new Contour(
+					table.getNumberArray("xPos",   networkTableDefault)[i],
+					table.getNumberArray("yPos",   networkTableDefault)[i],
+					table.getNumberArray("area",   networkTableDefault)[i],
+					table.getNumberArray("height", networkTableDefault)[i]);
+		}
+		//Check if there are only two contours. If so, just use those
+		if (contours.length == 2) { return contours; }
+		//Eliminate the smaller of any two overlapping contours
+		for (int a = 0; a < contours.length; a++) {
+			if (contours[a].isEliminated()) {continue; } // If the contour at a is already eliminated, skip it
+			for (int b = a + 1; b < contours.length; b++) {
+				if (contours[b].isEliminated()) {continue; } // If the contour at b is already eliminated, skip it
+				else if (contours[a].intersects(contours[b])) { //If contours intersect, delete one of them
+					if (contours[a].getArea() < contours[b].getArea()) {contours[a].eliminate();} //If the area of a < area of b, delete a
+					else {contours[b].eliminate();} //If the area of b <= the area of a, delete b
+				}
 			}
 		}
-		//2. Choose two biggest remaining contours
-		double[] maxTwoAreas = {0, 0}; // {size1, size2}
-		int[] index = {0, 0}; //Array for two best index values 
-		for (int i = 0; i < contours[2].length; i++) { //Loop through each area value to determine biggest contours
-			if (contours[2][i] > maxTwoAreas[0]) {
-				maxTwoAreas[0] = contours[2][i]; index[0] = i;
-			} 
-			else if (contours[2][i] > maxTwoAreas[1]) {
-				maxTwoAreas[1] = contours[2][i]; index[1] = i;
-			}
+		//Find two largest remaining contours and return them
+		Contour[] bestContours = {new Contour(), new Contour()};
+		for (int i = 0; i < contours.length; i++) {
+			if (contours[i].isEliminated()) {continue; } //If the contour is already eliminated, skip it
+			if (contours[i].getArea() > bestContours[0].getArea()) {bestContours[0] = contours[i]; }
+			else if (contours[i].getArea() > bestContours[1].getArea()) {bestContours[1] = contours[i]; }
 		}
-		return index;
+		return bestContours;
 	}
+	
 	public double getGearAngleOffset() {
 		//Gives the robot's angle of offset from the gear target in degrees
-		double[] cX = table.getNumberArray("centerX", networkTableDefault ); //Get x-position values from network tables
-		int[] index = filterContours(); //Gets indices of two best contours
-		gearAngleOffset = (camPXWidth/2 - (cX[index[0]] + cX[index[1]])/2)/camPXWidth * camHorizAngle; //in degrees
+		Contour[] targets = filterContours(); //Gets best two best contours
+		gearAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
+		SmartDashboard.putNumber("Angle Offset", gearAngleOffset);
 		return gearAngleOffset;
 	}
+	
 	public double getGearDistance() {
 		//Gives the distance of the robot from the gear target.
-		height = table.getNumberArray("height", networkTableDefault ); //Get contour height values from network table
-		int[] index = filterContours(); //Gets indices of two best contours
-		distance = 2.5/Math.tan((camVertAngle/2*(height[index[0]]+height[index[1]])/2/camPXWidth)*3.141592/180); //in inches (faster)
+		Contour[] targets = filterContours(); //Gets best two best contours
+		distance = 2.5/Math.tan((camVertAngle/2*(targets[0].getHeight() + targets[1].getHeight())/2/camPXWidth)*Math.PI/180); //in inches (faster)
+		SmartDashboard.putNumber("Gear Distance", distance);
 		return distance;
 	}
 }
