@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -51,21 +52,17 @@ public class Vision extends Subsystem {
 				double[] aC = {rawContours[0][a], rawContours[1][a], rawContours[2][a], rawContours[3][a], rawContours[4][a]};
 				double[] bC = {rawContours[0][b], rawContours[1][b], rawContours[2][b], rawContours[3][b], rawContours[4][b]};
 				if (aC[3] + bC[3] > Math.abs(aC[0] - bC[0]) && aC[3] + bC[3] > Math.abs(aC[1] - bC[1])) { //Do the rectangles intersect?
-					if (aC[2] > bC[2]) { //If a has more area than b, add it to filtered list
-						for (int i = 0; i < 5; i++) {
-							contours[i][contourLength] = aC[i];
-							contourLength++;
-						} break;
+					if (aC[2] < bC[2]) { //If b has more area than a, do not add a to list
+						break;
 					}
 				} 
-				else { //if a does not overlap, add it to filtered list
-					for (int i = 0; i < 5; i++ ) {
-						contours[i][contourLength] = aC[i];
-						contourLength++;
-					}
+				for (int i = 0; i < 5; i++) {
+					contours[i][contourLength] = aC[i];
+					contourLength++;
 				}
 			}
 		}
+		
 		//2. Choose two biggest remaining contours
 		double[] maxTwoAreas = {0, 0}; // {size1, size2}
 		int[] index = {0, 0}; //Array for two best index values 
@@ -79,16 +76,20 @@ public class Vision extends Subsystem {
 		}
 		return index;
 	}
+	
 	public double getGearAngleOffset() {
 		//Gives the robot's angle of offset from the gear target in degrees
 		int[] index = filterContours(); //Gets indices of two best contours
 		gearAngleOffset = (camPXWidth/2 - (contours[0][index[0]] + contours[0][index[1]])/2)/camPXWidth * camHorizAngle; //in degrees
+		SmartDashboard.putNumber("Angle Offset", gearAngleOffset);
 		return gearAngleOffset;
 	}
+	
 	public double getGearDistance() {
 		//Gives the distance of the robot from the gear target.
 		int[] index = filterContours(); //Gets indices of two best contours
 		distance = 2.5/Math.tan((camVertAngle/2*(contours[4][index[0]]+contours[4][index[1]])/2/camPXWidth)*3.141592/180); //in inches (faster)
+		SmartDashboard.putNumber("Gear Distance", distance);
 		return distance;
 	}
 }
