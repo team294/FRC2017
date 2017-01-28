@@ -15,7 +15,7 @@ public class Vision extends Subsystem {
 	double gearAngleOffset, distance;
 
 	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
-	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera aperture angle
+	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera pixel length
 	double camVertAngle = (camPXHeight / camPXDiagonal) * camDiagonalAngle; //Vertical camera aperture angle
 	double camHorizAngle = (camPXWidth / camPXDiagonal) * camDiagonalAngle; //Horizontal camera aperture angle
 	double[][] contours = new double[5][20];
@@ -32,19 +32,22 @@ public class Vision extends Subsystem {
 	public int[] filterContours() {
 		//Determines the indices which two contours are most likely to be the targets
 		contourLength = 0; //Set contour length back to zero
-		double[][] rawContours = {table.getNumberArray("centerX", networkTableDefault), 
-				table.getNumberArray("centerY", networkTableDefault ),
-				table.getNumberArray("area", networkTableDefault ),
-				new double[table.getNumberArray("area", networkTableDefault ).length],
-				table.getNumberArray("height", networkTableDefault )};
 		int rawContoursLength = table.getNumberArray("area", networkTableDefault ).length;
+		
+		double[][] rawContours = {
+				table.getNumberArray("centerX", networkTableDefault), 
+				table.getNumberArray("centerY", networkTableDefault),
+				table.getNumberArray("area", networkTableDefault),
+				new double[rawContoursLength],
+				table.getNumberArray("height", networkTableDefault)};
+
 		//1. Find overlapping contours and keep larger of the two
 		for (int i = 0; i < rawContoursLength; i++) {
 			rawContours[3][i]  = Math.sqrt(rawContours[2][i])/2;
 		} //Gets square x/y radius from point.
-		for (int a = 0; a < rawContoursLength; a++) {
-			for (int b = 0; b < rawContoursLength; b++) {
-				if (b == a) {continue; }
+		
+		for (int a = 0; a < rawContoursLength; a++) {//Nested for loop to determine intersection of contours and discard smaller contour if intersection occurs
+			for (int b = a + 1; b < rawContoursLength; b++) { 
 				double[] aC = {rawContours[0][a], rawContours[1][a], rawContours[2][a], rawContours[3][a], rawContours[4][a]};
 				double[] bC = {rawContours[0][b], rawContours[1][b], rawContours[2][b], rawContours[3][b], rawContours[4][b]};
 				if (aC[3] + bC[3] > Math.abs(aC[0] - bC[0]) && aC[3] + bC[3] > Math.abs(aC[1] - bC[1])) { //Do the rectangles intersect?
