@@ -102,6 +102,19 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
 		return angle;
 	}
+    
+    public void smartDashboardNavXAngles() {
+    	SmartDashboard.putNumber("IMU_Yaw", ahrs.getYaw());
+    	SmartDashboard.putNumber("IMU_Pitch", ahrs.getPitch());
+    	SmartDashboard.putNumber("IMU_Roll", ahrs.getRoll());
+    }
+    
+    public double getRobotRoll() {
+    	return ahrs.getPitch();    //Note that NavX orientation is 90 degrees, so swap pitch/roll
+    }
+    
+    
+    
     /**
      * Stop the drive train motors
      */
