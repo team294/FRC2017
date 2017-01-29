@@ -29,7 +29,7 @@ public class DriveTrain extends Subsystem {
     private final CANTalon rightMotor1 = new CANTalon(RobotMap.driveTrainRightMotor1);
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
     //private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
-    private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
+//    private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
     private AHRS ahrs;
     private double yawZero = 0;
     public DriveTrain() {
@@ -67,7 +67,7 @@ public class DriveTrain extends Subsystem {
         rightMotor2.changeControlMode(TalonControlMode.PercentVbus);
         leftMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
         rightMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
-        robotDrive.setSafetyEnabled(true);
+//        robotDrive.setSafetyEnabled(false);
     }
     
     /**
@@ -79,7 +79,7 @@ public class DriveTrain extends Subsystem {
     public void driveWithJoystick(Joystick leftStick, Joystick rightStick) {
         leftMotor2.clearStickyFaults();
         rightMotor2.clearStickyFaults();
-    	robotDrive.tankDrive(leftStick, rightStick);
+//    	robotDrive.tankDrive(leftStick, rightStick);
     }{
     try {
         /* Communicate w/navX MXP via the MXP SPI Bus.                                     */
@@ -107,7 +107,8 @@ public class DriveTrain extends Subsystem {
      */
 	public void stop() {
 		setDriveControlByPower();
-		robotDrive.drive(0, 0);
+		leftMotor2.set(0.0);
+//		robotDrive.drive(0, 0);
 	}
     
 	/**
@@ -116,7 +117,8 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void driveForward(double speed) {
 		setDriveControlByPower();
-		robotDrive.drive(-speed, 0);
+		leftMotor2.set(-speed);
+//		robotDrive.drive(-speed, 0);
 	}
 
 	/**
@@ -125,7 +127,8 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void driveBackward(double speed) {
 		setDriveControlByPower();
-		robotDrive.drive(speed, 0);
+		leftMotor2.set(speed);
+//		robotDrive.drive(speed, 0);
 	}
 	
 	/**
@@ -135,7 +138,7 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void driveAtAngle(double speed, double curve) {
 		setDriveControlByPower();
-		robotDrive.drive(-speed, curve);
+//		robotDrive.drive(-speed, curve);
 	}
 	
     
