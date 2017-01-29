@@ -82,6 +82,7 @@ public class Intake extends Subsystem {
      * @return true = intake is up, false = intake is down or solenoid is off 
      */
     public boolean intakeIsUp() {
+    	//ONLY WORKS IF USING SOLENOID!!!! (needs work)
     	switch (intakeSolenoid.get()) {
     	case kForward:
     		SmartDashboard.putString("Intake position", "Down");
@@ -96,6 +97,25 @@ public class Intake extends Subsystem {
     	SmartDashboard.putBoolean("Intake down sensor", intakeDownSensor.get());
 //    	SmartDashboard.putBoolean("IntakeIsUp", intakeSolenoid.get()==DoubleSolenoid.Value.kReverse);
     	return intakeSolenoid.get()==DoubleSolenoid.Value.kReverse;
+	//ONLY WORKS IF USING SOLENOID!!!!
+    	//see 2016 code for more solenoid stuff/sensor stuff
+    }
+    
+    /**
+	 * Set up the intake controls on the SmartDashboard.  Call this once when the robot is 
+	 * initialized (after the Intake subsystem is initialized).
+	 */
+    public void setupSmartDashboard(boolean bPIDF){
+		updateSmartDashboard();
+    }
+ 
+	/**
+	 * Send intake status to SmartDashboard
+	 */
+    public void updateSmartDashboard() {
+ 		SmartDashboard.putNumber("Intake motor setpoint", -intakeMotor.get());
+ 		SmartDashboard.putNumber("Intake motor current", intakeMotor.getOutputCurrent());
+// 		SmartDashboard.putString("Intake position", intakeIsUp() ? "Up" : "Down");
     }
     
     public void initDefaultCommand() {
