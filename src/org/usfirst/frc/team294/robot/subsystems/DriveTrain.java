@@ -56,6 +56,8 @@ public class DriveTrain extends Subsystem {
 		rightMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
 		leftMotor2.setVoltageRampRate(40);
 		rightMotor2.setVoltageRampRate(40);
+		
+		ahrs = new AHRS(SPI.Port.kMXP);
 	}
 
 	/**
@@ -80,12 +82,13 @@ public class DriveTrain extends Subsystem {
 		leftMotor2.clearStickyFaults();
 		rightMotor2.clearStickyFaults();
 		robotDrive.tankDrive(leftStick, rightStick);
-	}{
+//	}{
 		try {
 			/* Communicate w/navX MXP via the MXP SPI Bus.                                     */
 			/* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
 			/* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
-			ahrs = new AHRS(SPI.Port.kMXP); 
+			//ahrs = new AHRS(SPI.Port.kMXP); 
+			smartDashboardNavXAngles();
 		} catch (RuntimeException ex ) {
 			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
 		}
