@@ -115,10 +115,16 @@ public class DriveTrain extends Subsystem {
 	 * Drive the robot straight forward
 	 * @param speed +1 to -1, + = forward, - = backward
 	 */
+	public void setMotorSpeed(double leftSpeed, double rightSpeed) {
+		leftMotor1.set(leftSpeed);
+		leftMotor2.set(leftSpeed);
+		rightMotor1.set(rightSpeed);
+		rightMotor2.set(rightSpeed);
+	}
+	
 	public void driveForward(double speed) {
 		setDriveControlByPower();
-		leftMotor2.set(-speed);
-//		robotDrive.drive(-speed, 0);
+		setMotorSpeed(-speed, -speed);
 	}
 
 	/**
@@ -127,8 +133,7 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void driveBackward(double speed) {
 		setDriveControlByPower();
-		leftMotor2.set(speed);
-//		robotDrive.drive(speed, 0);
+		setMotorSpeed(speed, speed);
 	}
 	
 	/**
@@ -138,6 +143,7 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void driveAtAngle(double speed, double curve) {
 		setDriveControlByPower();
+		setMotorSpeed(-speed, speed);
 //		robotDrive.drive(-speed, curve);
 	}
 	
