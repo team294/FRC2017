@@ -16,7 +16,7 @@ public class RobotMap {
 	public static int driveTrainRightMotor1 = 9;
 	public static int driveTrainRightMotor2 = 8;
 	//public static int driveTrainRightMotor3 = 12;
-	public static int intakeMotor = 9;
+	public static int intakeMotor = 11;
 	public static int shooterMotor = 20;
 	
     // Pneumatic controller PCM IDs
