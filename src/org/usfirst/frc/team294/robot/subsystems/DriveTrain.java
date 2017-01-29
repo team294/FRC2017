@@ -115,7 +115,7 @@ public class DriveTrain extends Subsystem {
 	 * Drive the robot straight forward
 	 * @param speed +1 to -1, + = forward, - = backward
 	 */
-	public void setMotorSpeed(double leftM, double rightM) {
+	public void setMotorSpeed(double leftSpeed, double rightSpeed) {
 		leftMotor1.set(leftSpeed);
 		leftMotor2.set(leftSpeed);
 		rightMotor1.set(rightSpeed);
