@@ -125,6 +125,7 @@ public class DriveTrain extends Subsystem {
 	public void setMotorSpeed(double leftSpeed, double rightSpeed) {
 		SmartDashboard.putNumber("Left Speed", leftSpeed);
 		SmartDashboard.putNumber("Right Speed", rightSpeed);
+		setDriveControlByPower();
 		leftMotor1.set(leftSpeed);
 		leftMotor2.set(leftSpeed);
 		rightMotor1.set(rightSpeed);

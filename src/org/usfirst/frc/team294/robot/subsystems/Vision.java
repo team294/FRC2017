@@ -18,8 +18,9 @@ class Contour {
 		this.yPos = yPos;
 		this.area = area;
 		this.height = height;
-		this.radius = Math.sqrt(this.area/Math.PI)/2; //Adjusted radius of contour
+		this.radius = Math.sqrt(this.area/Math.PI)/2; //Adjusted radius of contour (Divided by two to reduce overlap detection likelihood)
 	}
+	//Other Constructor
 	public Contour() {
 		this.xPos = 0;
 		this.yPos = 0;
@@ -55,7 +56,6 @@ public class Vision extends Subsystem {
 	NetworkTable grip_table;
 	double[] networkTableDefault = new double[] { -1.0 };
 
-	double[] centerX, centerY, centerGoal, height;
 	double gearAngleOffset, distance;
 
 	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
@@ -131,7 +131,7 @@ public class Vision extends Subsystem {
 	public double getGearDistance() {
 		//Gives the distance of the robot from the gear target.
 		Contour[] targets = filterContours(); //Gets best two best contours
-		distance = 2.5/Math.tan((camVertAngle/2*(targets[0].getHeight() + targets[1].getHeight())/2/camPXWidth)*Math.PI/180); //in inches (faster)
+		distance = 2.5/Math.tan((camVertAngle/2*(targets[0].getHeight() + targets[1].getHeight())/2/camPXHeight)*Math.PI/180); //in inches (faster)
 		SmartDashboard.putNumber("Gear Distance", distance);
 		return distance;
 	}
