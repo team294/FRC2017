@@ -77,12 +77,13 @@ public class Vision extends Subsystem {
 			Contour[] temp = {new Contour(), new Contour()};
 			return temp;
 		}
+		System.out.println("Filtering Contours");
 		Contour[] contours;
 		//Instantiate array of contours to be filtered
 		int tempXLength, tempYLength, tempAreaLength, tempHeightLength;
 		while (true) { 
-			double[] tempXPos = table.getNumberArray("xPos",   networkTableDefault);
-			double[] tempYPos =  table.getNumberArray("yPos",   networkTableDefault);
+			double[] tempXPos = table.getNumberArray("centerX",   networkTableDefault);
+			double[] tempYPos =  table.getNumberArray("centerY",   networkTableDefault);
 			double[] tempArea = table.getNumberArray("area",   networkTableDefault);
 			double[] tempHeight = table.getNumberArray("height", networkTableDefault);
 			tempXLength = tempXPos.length;
@@ -90,6 +91,10 @@ public class Vision extends Subsystem {
 			tempAreaLength = tempXPos.length;
 			tempHeightLength = tempArea.length;
 			contours = new Contour[tempXLength];
+			System.out.println(tempXLength);
+			System.out.println(tempYLength);
+			System.out.println(tempAreaLength);
+			System.out.println(tempHeightLength);
 			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength){
 				for (int i = 0; i < tempXLength; i++) {
 					contours[i] = new Contour(tempXPos[i], tempYPos[i], tempArea[i], tempHeight[i]);
@@ -97,6 +102,7 @@ public class Vision extends Subsystem {
 				break;
 			}
 		}
+		System.out.println("Passed while true");
 		//Initialize array of contours to be filtered
 		//Check if there are only two contours. If so, just use those
 		//Eliminate the smaller of any two overlapping contours
@@ -110,6 +116,7 @@ public class Vision extends Subsystem {
 				}
 			}
 		}
+		System.out.println("Picked array of contours to be eliminated");
 		//Find two largest remaining contours and return them
 		Contour[] bestContours = {new Contour(), new Contour()};
 		for (int i = 0; i < contours.length; i++) {
@@ -117,6 +124,7 @@ public class Vision extends Subsystem {
 			if (contours[i].getArea() > bestContours[0].getArea()) {bestContours[0] = contours[i]; }
 			else if (contours[i].getArea() > bestContours[1].getArea()) {bestContours[1] = contours[i]; }
 		}
+		System.out.println("Eliminated them");
 		return bestContours;
 	}
 	

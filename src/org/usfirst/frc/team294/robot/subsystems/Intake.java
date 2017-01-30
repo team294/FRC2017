@@ -1,7 +1,7 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
+//import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
 import com.ctre.CANTalon;
 
@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Ball intake from ground
  */
 public class Intake extends Subsystem {
-
     private final CANTalon intakeMotor = new CANTalon(RobotMap.intakeMotor);
     //intake movment stuff here
     
@@ -32,7 +31,7 @@ public class Intake extends Subsystem {
 
     	// Add the subsystem to the LiveWindow
         LiveWindow.addActuator("Intake", "Intake Motor", intakeMotor);
-        LiveWindow.addActuator("Intake", "Intake Solenoid", intakeSolenoid);
+//        LiveWindow.addActuator("Intake", "Intake Solenoid", intakeSolenoid);
     }
     
     /**
@@ -71,7 +70,7 @@ public class Intake extends Subsystem {
      * Turn off piston solenoid
      */
     public void stopPiston() {
-    	intakeSolenoid.set(DoubleSolenoid.Value.kOff);
+    //	intakeSolenoid.set(DoubleSolenoid.Value.kOff);
     }
     
     /**
@@ -81,7 +80,7 @@ public class Intake extends Subsystem {
      * <b>NOTE</b>: The intake solenoid in the OFF state returns FALSE.
      * @return true = intake is up, false = intake is down or solenoid is off 
      */
-    public boolean intakeIsUp() {
+   /* public boolean intakeIsUp() {
     	//ONLY WORKS IF USING SOLENOID!!!! (needs work)
     	switch (intakeSolenoid.get()) {
     	case kForward:
@@ -100,7 +99,7 @@ public class Intake extends Subsystem {
 	//ONLY WORKS IF USING SOLENOID!!!!
     	//see 2016 code for more solenoid stuff/sensor stuff
     }
-    
+    */
     /**
 	 * Set up the intake controls on the SmartDashboard.  Call this once when the robot is 
 	 * initialized (after the Intake subsystem is initialized).
