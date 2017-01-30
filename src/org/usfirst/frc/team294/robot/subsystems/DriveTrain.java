@@ -5,11 +5,17 @@ import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
+import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Main Robot Drive Train
@@ -24,21 +30,55 @@ public class DriveTrain extends Subsystem {
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
     //private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
     private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
-
+    
+    // navX-mxp 9-axis IMU
+    private AHRS ahrs;
+    // Track navX resets in software, since gyro reset on navX has latency to the next encoder read
+    private double yawZero = 0;
+    
     public DriveTrain() {
+    	// Call the Subsystem constructor
     	super();
-    	
-    	leftMotor2.reverseSensor(true);
-    	
+    	    	
     	// Set the other motors to follow motor 2 on each side
     	leftMotor1.changeControlMode(TalonControlMode.Follower);
-    	//leftMotor3.changeControlMode(TalonControlMode.Follower);
+//    	leftMotor3.changeControlMode(TalonControlMode.Follower);
         rightMotor1.changeControlMode(TalonControlMode.Follower);
-        //rightMotor3.changeControlMode(TalonControlMode.Follower);
+//		rightMotor3.changeControlMode(TalonControlMode.Follower);
         leftMotor1.set(leftMotor2.getDeviceID());
-        //leftMotor3.set(leftMotor2.getDeviceID());
+//		leftMotor3.set(leftMotor2.getDeviceID());
         rightMotor1.set(rightMotor2.getDeviceID());
-        //rightMotor3.set(rightMotor2.getDeviceID());
+//		rightMotor3.set(rightMotor2.getDeviceID());
+        
+        // Configure encoders on motor 2 on each side
+        leftMotor2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+        rightMotor2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+        leftMotor2.configEncoderCodesPerRev(100);
+        rightMotor2.configEncoderCodesPerRev(100);
+    	leftMotor2.reverseSensor(true);
+
+        // Configure basic drive settings
+        leftMotor2.configNominalOutputVoltage(+0.0f, -0.0f);
+        rightMotor2.configNominalOutputVoltage(+0.0f, -0.0f);
+        leftMotor2.setVoltageRampRate(40);
+        rightMotor2.setVoltageRampRate(40);
+        setDriveControlByPower();
+        
+        // Configure the RobotDrive
+        robotDrive.setExpiration(0.1);
+        robotDrive.setSensitivity(0.5);
+        robotDrive.setMaxOutput(1.0);
+    	
+        // Setup the navX
+        try {
+            /* Communicate w/navX MXP via the MXP SPI Bus.                                     */
+            /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
+            /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
+            ahrs = new AHRS(SPI.Port.kMXP); 
+        } catch (RuntimeException ex ) {
+            DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+        }
+        ahrs.zeroYaw();
     }
 
     /**
@@ -64,6 +104,30 @@ public class DriveTrain extends Subsystem {
         rightMotor2.clearStickyFaults();
     	robotDrive.tankDrive(leftStick, rightStick);
     }
+        
+	/**
+	 * Resets the angle of the NavX gyro.
+	 */
+	public void resetDegrees() {
+	    // Track navX resets in software, since gyro reset on navX has latency to the next encoder read
+		yawZero = ahrs.getAngle();
+	}
+	
+    /**
+     * Returns the current angle of the NavX gyro.
+     * @return Angle relative to last call to resetDegrees.
+     */
+    public double getDegrees() {
+		double angle;
+		
+		angle = ahrs.getAngle() - yawZero; 
+		
+		// Normalize to 0 to 360 degrees
+		angle = angle - Math.floor(angle/360)*360;
+		
+		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
+		return angle;
+	}
     
     /**
      * Stop the drive train motors
@@ -71,6 +135,7 @@ public class DriveTrain extends Subsystem {
 	public void stop() {
 		setDriveControlByPower();
 		robotDrive.drive(0, 0);
+    	SmartDashboard.putNumber("driveTrain set speed", 0);
 	}
     
 	/**
@@ -80,6 +145,7 @@ public class DriveTrain extends Subsystem {
 	public void driveForward(double speed) {
 		setDriveControlByPower();
 		robotDrive.drive(-speed, 0);
+    	SmartDashboard.putNumber("driveTrain set speed", speed);
 	}
 
 	/**
@@ -89,16 +155,36 @@ public class DriveTrain extends Subsystem {
 	public void driveBackward(double speed) {
 		setDriveControlByPower();
 		robotDrive.drive(speed, 0);
+    	SmartDashboard.putNumber("driveTrain set speed", -speed);
 	}
-
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new DriveWithJoysticks());
+	
+	/**
+	 * Drive the robot at an angle
+	 * @param speed +1 to -1, + = backward, - = forward
+	 * @param curve +1 to -1, <0 = left, >0 = right
+	 */
+	public void driveAtAngle(double speed, double curve) {
+		setDriveControlByPower();
+		robotDrive.drive(-speed, curve);
+    	SmartDashboard.putNumber("driveTrain set speed", speed);
+	}
+	
+    /**
+     * get the left and right positions and the left and right speeds from the encoders
+     */
+    public void getEncoder() {
+    	SmartDashboard.putNumber("Left Position", leftMotor2.getPosition());
+    	SmartDashboard.putNumber("Right Position", rightMotor2.getPosition());
+    	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
+    	SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
     }
     
+    public double readLeftEncoder(){
+    	return leftMotor2.getPosition();
+    }
+
     /**
-     * Logs the talon output to a file
+     * Logs the drive Talon status to a file
      */
 	public void logTalonStatus() {
 		Robot.log.writeLog(
@@ -107,10 +193,6 @@ public class DriveTrain extends Subsystem {
 				" BusVolt " + leftMotor2.getBusVoltage() + 
 				" OutVolt " + leftMotor2.getOutputVoltage() + 
 				" OutCur " + leftMotor2.getOutputCurrent() + 
-				" PulsePos " + leftMotor2.getPulseWidthPosition() + 
-				" PulseVel " + leftMotor2.getPulseWidthVelocity() + 
-				" PulseRF " + leftMotor2.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + leftMotor2.getPulseWidthRiseToRiseUs() + 
 				" Get " + leftMotor2.get() +
 				
 				" Left Motor 1 (Follower)-- TempC " + leftMotor1.getTemperature() + 
@@ -118,10 +200,6 @@ public class DriveTrain extends Subsystem {
 				" BusVolt " + leftMotor1.getBusVoltage() + 
 				" OutVolt " + leftMotor1.getOutputVoltage() + 
 				" OutCur " + leftMotor1.getOutputCurrent() + 
-				" PulsePos " + leftMotor1.getPulseWidthPosition() + 
-				" PulseVel " + leftMotor1.getPulseWidthVelocity() + 
-				" PulseRF " + leftMotor1.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + leftMotor1.getPulseWidthRiseToRiseUs() + 
 				" Get " + leftMotor1.get() +
 				
 				/* " Left Motor 3 (Follower)-- TempC " + leftMotor1.getTemperature() + 
@@ -129,10 +207,6 @@ public class DriveTrain extends Subsystem {
 				" BusVolt " + leftMotor3.getBusVoltage() + 
 				" OutVolt " + leftMotor3.getOutputVoltage() + 
 				" OutCur " + leftMotor3.getOutputCurrent() + 
-				" PulsePos " + leftMotor3.getPulseWidthPosition() + 
-				" PulseVel " + leftMotor3.getPulseWidthVelocity() + 
-				" PulseRF " + leftMotor3.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + leftMotor3.getPulseWidthRiseToRiseUs() + 
 				" Get " + leftMotor3.get() +
 				*/
 				
@@ -141,10 +215,6 @@ public class DriveTrain extends Subsystem {
 				" BusVolt " + rightMotor2.getBusVoltage() + 
 				" OutVolt " + rightMotor2.getOutputVoltage() + 
 				" OutCur " + rightMotor2.getOutputCurrent() + 
-				" PulsePos " + rightMotor2.getPulseWidthPosition() + 
-				" PulseVel " + rightMotor2.getPulseWidthVelocity() + 
-				" PulseRF " + rightMotor2.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + rightMotor2.getPulseWidthRiseToRiseUs() + 
 				" Get " + rightMotor2.get() +
 				
 				" Right Motor 1 (Follower)-- TempC " + rightMotor1.getTemperature() + 
@@ -152,10 +222,6 @@ public class DriveTrain extends Subsystem {
 				" BusVolt " + rightMotor1.getBusVoltage() + 
 				" OutVolt " + rightMotor1.getOutputVoltage() + 
 				" OutCur " + rightMotor1.getOutputCurrent() + 
-				" PulsePos " + rightMotor1.getPulseWidthPosition() + 
-				" PulseVel " + rightMotor1.getPulseWidthVelocity() + 
-				" PulseRF " + rightMotor1.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + rightMotor1.getPulseWidthRiseToRiseUs() + 
 				" Get " + rightMotor1.get()
 				
 				/*+ " Right Motor 3 (Follower)-- TempC " + rightMotor3.getTemperature() + 
@@ -163,13 +229,15 @@ public class DriveTrain extends Subsystem {
 				" BusVolt " + rightMotor3.getBusVoltage() + 
 				" OutVolt " + rightMotor3.getOutputVoltage() + 
 				" OutCur " + rightMotor3.getOutputCurrent() + 
-				" PulsePos " + rightMotor3.getPulseWidthPosition() + 
-				" PulseVel " + rightMotor3.getPulseWidthVelocity() + 
-				" PulseRF " + rightMotor3.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + rightMotor3.getPulseWidthRiseToRiseUs() + 
 				" Get " + rightMotor3.get()
 				*/
 				);
 	}
+	
+	public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+        //setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new DriveWithJoysticks());
+    }
 }
 
