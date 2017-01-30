@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.commands.*;
@@ -26,7 +25,6 @@ public class Robot extends IterativeRobot {
 	public static Shooter shooter;
 	public static Intake intake;
 	public static GearPort gearPort;
-	public static Vision vision;
 	// The OI
 	public static OI oi;
 	
@@ -45,8 +43,15 @@ public class Robot extends IterativeRobot {
 		intake = new Intake();
 		gearPort = new GearPort();
 		log = new FileLog();
-		vision = new Vision();
 		oi = new OI();
+		
+		// Put scheduler and subsystems on SmartDashboard
+		SmartDashboard.putData(Scheduler.getInstance());
+		SmartDashboard.putData(driveTrain);
+		SmartDashboard.putData(shifter);
+		SmartDashboard.putData(shooter);
+		SmartDashboard.putData(intake);
+		SmartDashboard.putData(gearPort);
 	}
 
 	/**
@@ -96,7 +101,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		
-		driveTrain.logTalonStatus();
+		//driveTrain.logTalonStatus();
 	}
 
 	@Override

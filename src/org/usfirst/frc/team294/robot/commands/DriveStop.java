@@ -17,8 +17,7 @@ public class DriveStop extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.driveTrain.stop();
-    	SmartDashboard.putNumber("Drive Forward Speed", 0);
-    	Robot.log.writeLog("Stopping Drivetrain");
+//    	Robot.log.writeLog("DriveStop command initialized");
     }
 
     // Called repeatedly when this Command is scheduled to run
