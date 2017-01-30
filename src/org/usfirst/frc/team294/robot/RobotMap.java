@@ -22,5 +22,6 @@ public class RobotMap {
     // Pneumatic controller PCM IDs
     public static int shifterSolenoidFwd = 0;
     public static int shifterSolenoidRev = 1;
-
+    public static int intakeSolenoidDeploy = 2;
+    public static int intakeSolenoidStow = 3;
 }
