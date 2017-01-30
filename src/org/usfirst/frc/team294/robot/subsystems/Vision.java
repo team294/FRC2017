@@ -77,18 +77,28 @@ public class Vision extends Subsystem {
 			Contour[] temp = {new Contour(), new Contour()};
 			return temp;
 		}
+		Contour[] contours;
 		//Instantiate array of contours to be filtered
-		Contour[] contours = new Contour[table.getNumberArray("area", networkTableDefault).length];
-		//Initialize array of contours to be filtered
-		for (int i = 0; i < contours.length; i++) {
-			contours[i] = new Contour(
-					table.getNumberArray("xPos",   networkTableDefault)[i],
-					table.getNumberArray("yPos",   networkTableDefault)[i],
-					table.getNumberArray("area",   networkTableDefault)[i],
-					table.getNumberArray("height", networkTableDefault)[i]);
+		int tempXLength, tempYLength, tempAreaLength, tempHeightLength;
+		while (true) { 
+			double[] tempXPos = table.getNumberArray("xPos",   networkTableDefault);
+			double[] tempYPos =  table.getNumberArray("yPos",   networkTableDefault);
+			double[] tempArea = table.getNumberArray("area",   networkTableDefault);
+			double[] tempHeight = table.getNumberArray("height", networkTableDefault);
+			tempXLength = tempXPos.length;
+			tempYLength = tempYPos.length;
+			tempAreaLength = tempXPos.length;
+			tempHeightLength = tempArea.length;
+			contours = new Contour[tempXLength];
+			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength){
+				for (int i = 0; i < tempXLength; i++) {
+					contours[i] = new Contour(tempXPos[i], tempYPos[i], tempArea[i], tempHeight[i]);
+				}
+				break;
+			}
 		}
+		//Initialize array of contours to be filtered
 		//Check if there are only two contours. If so, just use those
-		if (contours.length == 2) { return contours; }
 		//Eliminate the smaller of any two overlapping contours
 		for (int a = 0; a < contours.length; a++) {
 			//if (contours[a].isEliminated()) {continue; } // If the contour at a is already eliminated, skip it

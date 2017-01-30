@@ -30,7 +30,7 @@ public class DriveTrain extends Subsystem {
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
     //private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
 //    private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
-    private AHRS ahrs;
+//    private AHRS ahrs;
     private double yawZero = 0;
     public DriveTrain() {
     	super();
@@ -80,34 +80,41 @@ public class DriveTrain extends Subsystem {
         leftMotor2.clearStickyFaults();
         rightMotor2.clearStickyFaults();
 //    	robotDrive.tankDrive(leftStick, rightStick);
-    }{
-    try {
-        /* Communicate w/navX MXP via the MXP SPI Bus.                                     */
-        /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
-        /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
-        ahrs = new AHRS(SPI.Port.kMXP); 
-    } catch (RuntimeException ex ) {
-        DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
     }
-    ahrs.zeroYaw(); 
-    }
-    public double getDegrees() {
-		double angle;
-		
-		angle = ahrs.getAngle() - yawZero; 
-		
-		// Normalize to 0 to 360 degrees
-		angle = angle - Math.floor(angle/360)*360;
-		
-		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
-		return angle;
-	}
+    
+//    {
+//    try {
+//        /* Communicate w/navX MXP via the MXP SPI Bus.                                     */
+//        /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
+//        /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
+//        ahrs = new AHRS(SPI.Port.kMXP); 
+//    } catch (RuntimeException ex ) {
+//        DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+//    }
+//    ahrs.zeroYaw(); 
+//    }
+//    public double getDegrees() {
+//		double angle;
+//		
+//		angle = ahrs.getAngle() - yawZero; 
+//		
+//		// Normalize to 0 to 360 degrees
+//		angle = angle - Math.floor(angle/360)*360;
+//		
+//		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
+//		return angle;
+//	}
+//    
+    
     /**
      * Stop the drive train motors
      */
 	public void stop() {
 		setDriveControlByPower();
+		leftMotor1.set(0.0);
 		leftMotor2.set(0.0);
+		rightMotor1.set(0.0);
+		rightMotor2.set(0.0);
 //		robotDrive.drive(0, 0);
 	}
     
@@ -116,12 +123,18 @@ public class DriveTrain extends Subsystem {
 	 * @param speed +1 to -1, + = forward, - = backward
 	 */
 	public void setMotorSpeed(double leftSpeed, double rightSpeed) {
+		SmartDashboard.putNumber("Left Speed", leftSpeed);
+		SmartDashboard.putNumber("Right Speed", rightSpeed);
 		leftMotor1.set(leftSpeed);
 		leftMotor2.set(leftSpeed);
 		rightMotor1.set(rightSpeed);
 		rightMotor2.set(rightSpeed);
 	}
 	
+	/**
+	 * Drive at a fixed power level as fraction of Vbus
+	 * @param speed From -1 to +1, fraction of Vbus
+	 */
 	public void driveForward(double speed) {
 		setDriveControlByPower();
 		setMotorSpeed(-speed, -speed);
@@ -241,7 +254,7 @@ public class DriveTrain extends Subsystem {
 	public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new DriveWithJoysticks());
+//    	setDefaultCommand(new DriveWithJoysticks());
     }
 }
 

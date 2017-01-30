@@ -14,8 +14,8 @@ import org.usfirst.frc.team294.robot.commands.*;
 public class OI {
 	
 	// Joysticks
-	public Joystick leftJoystick = new Joystick(0);
-	public Joystick rightJoystick = new Joystick(1);
+//	public Joystick leftJoystick = new Joystick(0);
+//	public Joystick rightJoystick = new Joystick(1);
 
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
@@ -37,22 +37,22 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	public OI() {
-		Button[] left = new Button[12];
-	    Button[] right = new Button[12];
-	    int j = 1;
-	    int k = 1;
-	    
-	    // Declare left joystick buttons and set them to shift down
-	     for (Button i : left) {
-	    	 i =  new JoystickButton(leftJoystick, j++);
-	    	 i.whenPressed(new ShiftDown());
-	     }
-	     
-	     // Declare right joystick buttons and set them to shift up
-	     for (Button i : right) {
-	    	 i = new JoystickButton(rightJoystick, k++);
-	    	 i.whenPressed(new ShiftUp());
-	     }
+//		Button[] left = new Button[12];
+//	    Button[] right = new Button[12];
+//	    int j = 1;
+//	    int k = 1;
+//	    
+//	    // Declare left joystick buttons and set them to shift down
+//	     for (Button i : left) {
+//	    	 i =  new JoystickButton(leftJoystick, j++);
+//	    	 i.whenPressed(new ShiftDown());
+//	     }
+//	     
+//	     // Declare right joystick buttons and set them to shift up
+//	     for (Button i : right) {
+//	    	 i = new JoystickButton(rightJoystick, k++);
+//	    	 i.whenPressed(new ShiftUp());
+//	     }
 	     
 	     //double speed = SmartDashboard.getDouble("Drive Speed");
 	     //double curve = SmartDashboard.getDouble("Drive Curve");
@@ -60,7 +60,7 @@ public class OI {
 	     SmartDashboard.putNumber("Drive Curve", 0.0);
 	     SmartDashboard.putData("Start Drive", new DriveAtAngleFromSmartDashboard());
 	     //SmartDashboard.putData("Stop Drive", new DriveAtAngle(0,0));
-	     SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
+//	     SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
 	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
 	     
 	     SmartDashboard.putNumber("Drive Forward Speed", 0.0);

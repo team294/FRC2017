@@ -39,6 +39,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		System.out.println("Robot init");
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
 		shooter = new Shooter();
@@ -47,6 +48,17 @@ public class Robot extends IterativeRobot {
 		log = new FileLog();
 		vision = new Vision();
 		oi = new OI();
+		
+		// Display active commands and subsystem status on SmartDashboard
+		SmartDashboard.putData(Scheduler.getInstance());
+		SmartDashboard.putData(driveTrain);
+		SmartDashboard.putData(vision);
+		SmartDashboard.putData(shifter);
+		SmartDashboard.putData(shooter);
+		SmartDashboard.putData(intake);
+		SmartDashboard.putData(gearPort);
+
+		System.out.println("Robot init done");		
 	}
 
 	/**
@@ -105,7 +117,9 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		System.out.println("Teleop init start");		
 		log.writeLog("Teleop Mode Started");
+		System.out.println("Teleop init done");		
 	}
 
 	/**
@@ -113,8 +127,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-		
+		Scheduler.getInstance().run();		
 		//driveTrain.logTalonStatus();
 	}
 
