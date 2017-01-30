@@ -12,7 +12,21 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Intake extends Subsystem {
 
     private final CANTalon intakeMotor = new CANTalon(RobotMap.intakeMotor);
-
+    public Intake(){
+    	
+    }
+    public void logIntakeStatus(){
+    	
+    }
+    public void deployIntake(){
+    	
+    }
+    public void stowIntake(){
+    	
+    }
+    public boolean isDeployed(){
+    	return false;
+    }
     /**
      * Set the speed of the intake motor
      * @param speed of the motor, between -1 (outtake) and +1 (intake), 0 = stopped
