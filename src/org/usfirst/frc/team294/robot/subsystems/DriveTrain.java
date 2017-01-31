@@ -29,9 +29,11 @@ public class DriveTrain extends Subsystem {
     private final CANTalon rightMotor1 = new CANTalon(RobotMap.driveTrainRightMotor1);
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
     //private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
-//    private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
+    private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
+    
     private AHRS ahrs;
     private double yawZero = 0;
+    
     public DriveTrain() {
     	super();
     	
@@ -67,7 +69,7 @@ public class DriveTrain extends Subsystem {
         rightMotor2.changeControlMode(TalonControlMode.PercentVbus);
         leftMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
         rightMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
-//        robotDrive.setSafetyEnabled(false);
+        robotDrive.setSafetyEnabled(false);
     }
     
     /**
@@ -79,7 +81,7 @@ public class DriveTrain extends Subsystem {
     public void driveWithJoystick(Joystick leftStick, Joystick rightStick) {
         leftMotor2.clearStickyFaults();
         rightMotor2.clearStickyFaults();
-//    	robotDrive.tankDrive(leftStick, rightStick);
+    	robotDrive.tankDrive(leftStick, rightStick);
     }{
     try {
         /* Communicate w/navX MXP via the MXP SPI Bus.                                     */
@@ -108,7 +110,7 @@ public class DriveTrain extends Subsystem {
 	public void stop() {
 		setDriveControlByPower();
 		leftMotor2.set(0.0);
-//		robotDrive.drive(0, 0);
+		robotDrive.drive(0, 0);
 	}
     
 	/**
@@ -118,7 +120,7 @@ public class DriveTrain extends Subsystem {
 	public void driveForward(double speed) {
 		setDriveControlByPower();
 		leftMotor2.set(-speed);
-//		robotDrive.drive(-speed, 0);
+		robotDrive.drive(-speed, 0);
 	}
 
 	/**
@@ -128,7 +130,7 @@ public class DriveTrain extends Subsystem {
 	public void driveBackward(double speed) {
 		setDriveControlByPower();
 		leftMotor2.set(speed);
-//		robotDrive.drive(speed, 0);
+		robotDrive.drive(speed, 0);
 	}
 	
 	/**
@@ -138,12 +140,12 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void driveAtAngle(double speed, double curve) {
 		setDriveControlByPower();
-//		robotDrive.drive(-speed, curve);
+		robotDrive.drive(-speed, curve);
 	}
 	
     
     /**
-     * get the left and right positions and the left and right speeds from the encoders
+     * Get the left and right positions and the left and right speeds from the encoders
      */
     public void getEncoder() {
     	SmartDashboard.putNumber("Left Position", leftMotor2.getPosition());
@@ -151,12 +153,23 @@ public class DriveTrain extends Subsystem {
     	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
     	SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
     }
-    public double readLeftEncoder(){
+    
+    /**
+     * Read the value of the encoder on left motor 2
+     * @return
+     */
+    public double readLeftEncoder() {
     	return leftMotor2.getPosition();
     }
-    	public double getGyro(){
-    		return 0.0;
-    	}
+    
+    /**
+     * Read the value of the encoder on right motor 2
+     * @return
+     */
+    public double readRightEncoder() {
+    	return rightMotor2.getPosition();
+    }
+    	
     /**
      * Logs the talon output to a file
      */
