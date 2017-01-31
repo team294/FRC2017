@@ -1,41 +1,39 @@
 package org.usfirst.frc.team294.robot.commands;
 
+import org.usfirst.frc.team294.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team294.robot.*;
 /**
  *
  */
+public class DriveForward extends Command {
 
-public class DriveAtAngleFromSmartDashboard extends Command { 
-
-	private double speed;
-	private double curve;
-	private double duration;
+	private double speed = 0.0;
+	private double curve = 0.0;
+	private double duration = 0.0;
 	
 	/**
-	 * Sets robot to drive at an angle based on smart dashboard inputs
+	 * Drives forward for at a set speed, curve, and time.
+	 * @param speed : +1.0 = full forward, -1.0 = full reverse
+	 * @param curve : -1.0 = turn-in-place left, 0.0 = go straight, +1.0 = turn-in-place right 
+	 * @param duration :  Time to drive forward, in seconds
 	 */
-    public DriveAtAngleFromSmartDashboard() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	 requires(Robot.driveTrain);
+    public DriveForward(double speed, double curve, double duration) {
+        requires(Robot.driveTrain);
+        this.speed = speed;
+        this.curve = curve;
+        this.duration = duration;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-	   	speed = SmartDashboard.getNumber("Drive: speed input", 0);
-	   	curve = SmartDashboard.getNumber("Drive: curve input", 0);
-	   	duration = SmartDashboard.getNumber("Drive: duration input", 0);
-    	Robot.driveTrain.driveAtAngle(speed, curve);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//System.out.println("Running command\n");
     	Robot.driveTrain.driveAtAngle(speed, curve);
-//    	Robot.driveTrain.getEncoder();
     }
 
     // Make this return true when this Command no longer needs to run execute()
