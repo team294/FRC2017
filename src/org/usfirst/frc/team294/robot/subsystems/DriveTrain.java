@@ -30,7 +30,7 @@ public class DriveTrain extends Subsystem {
 	private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
 	//private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
 	private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
-	private AHRS ahrs;
+	public AHRS ahrs;
 	private double yawZero = 0;
 	public DriveTrain() {
 		super();
@@ -56,7 +56,7 @@ public class DriveTrain extends Subsystem {
 		rightMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
 		leftMotor2.setVoltageRampRate(40);
 		rightMotor2.setVoltageRampRate(40);
-		
+
 		ahrs = new AHRS(SPI.Port.kMXP);
 	}
 
@@ -82,7 +82,7 @@ public class DriveTrain extends Subsystem {
 		leftMotor2.clearStickyFaults();
 		rightMotor2.clearStickyFaults();
 		robotDrive.tankDrive(leftStick, rightStick);
-//	}{
+		//	}{
 		try {
 			/* Communicate w/navX MXP via the MXP SPI Bus.                                     */
 			/* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
@@ -121,6 +121,7 @@ public class DriveTrain extends Subsystem {
 	 * @return angle in degrees, 0 = vertical, + = nose down, - = nose up
 	 */
 	public double getRobotPitch() {
+		SmartDashboard.putNumber("Robot Pitch", ahrs.getRoll());
 		return ahrs.getRoll();		// Note that NavX orientation is 90 degrees, so swap pitch/roll
 	}
 
@@ -129,6 +130,7 @@ public class DriveTrain extends Subsystem {
 	 * @return angle in degrees, 0 = vertical, + = tilted (left?), - = tilted (right?) -- need to check
 	 */
 	public double getRobotRoll() {
+		SmartDashboard.putNumber("Robot Roll", ahrs.getPitch());
 		return ahrs.getPitch();    //Note that NavX orientation is 90 degrees, so swap pitch/roll
 	}
 
@@ -183,6 +185,15 @@ public class DriveTrain extends Subsystem {
 		return leftMotor2.getPosition();
 	}
 
+	/**
+	 * Robot will do a tank turn until the command is terminated
+	 * @param speed: Speed at which motors will turn
+	 */
+	public void tankTurn(double speed, double turn){
+		setDriveControlByPower();
+		robotDrive.drive(speed, turn);
+	}
+	
 	public double getGyro(){
 		return 0.0;
 	}
@@ -266,7 +277,7 @@ public class DriveTrain extends Subsystem {
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		//setDefaultCommand(new MySpecialCommand());
-		setDefaultCommand(new DriveWithJoysticks());
+		//setDefaultCommand(new DriveWithJoysticks());
 	}
 }
 
