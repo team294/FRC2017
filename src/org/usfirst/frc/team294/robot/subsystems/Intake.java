@@ -13,23 +13,25 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Intake extends Subsystem {
 
     private final CANTalon intakeMotor = new CANTalon(RobotMap.intakeMotor);
-    public Intake(){
-    	
-    }
     private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.intakeSolenoidDeploy, RobotMap.intakeSolenoidStow);
-    public void logIntakeStatus(){
-    	
-    }
+
+   /*
+    * No one commented to say what these functions are, so they aren't being used. Comment your code next time.
+    *
     public void deployIntake(){
     	intakeSolenoid.set(DoubleSolenoid.Value.kForward);
     }
+    
     public void stowIntake(){
     	intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
     }
+    
     public boolean isDeployed(){
-    	/*if the intakeSolenoid is set to kForward then this will return true if not it will return false*/
+    	//if the intakeSolenoid is set to kForward then this will return true if not it will return false
     	return (intakeSolenoid.get() == DoubleSolenoid.Value.kForward);
     }
+    */
+    
     /**
      * Set the speed of the intake motor
      * @param speed of the motor, between -1 (outtake) and +1 (intake), 0 = stopped

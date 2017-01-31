@@ -16,10 +16,6 @@ public class RobotMap {
 	public static int driveTrainRightMotor1 = 9;
 	public static int driveTrainRightMotor2 = 8;
 	public static int driveTrainRightMotor3 = 12;
-	public static int driveTrainLeftMotor3 = 7;
-	public static int driveTrainRightMotor1 = 11;
-	public static int driveTrainRightMotor2 = 12;
-	public static int driveTrainRightMotor3 = 10;
 	public static int intakeMotor = 9;
 	public static int shooterMotor = 20;
 	public static int shooterHoodMotor = 15;
