@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -36,8 +37,11 @@ public class ShooterHood extends Subsystem {
     	
     }
     
+    /**
+     * Log the current status of the shooter hood
+     */
     public void logShooterHoodStatus() {
-    	
+    	Robot.log.writeLog("Shooter Hood: Current Angle: " + getShooterHoodAngle());
     }
     
 	public void initDefaultCommand() {

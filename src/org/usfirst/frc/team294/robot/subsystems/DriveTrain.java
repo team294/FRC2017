@@ -27,23 +27,18 @@ public class DriveTrain extends Subsystem {
     private final CANTalon leftMotor3 = new CANTalon(RobotMap.driveTrainLeftMotor3);
     private final CANTalon rightMotor1 = new CANTalon(RobotMap.driveTrainRightMotor1);
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
-<<<<<<< HEAD
-    //private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
+    private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
     private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
-    
+
+    // Gyro
     private AHRS ahrs;
     private double yawZero = 0;
-    
-=======
-    private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
-    private final RobotDrive robotDrive = new RobotDrive(leftMotor2, rightMotor2);
     
     private final AHRS ahrs = new AHRS(SPI.Port.kMXP);
 	
     // Gyro resets are tracked in software, due to latency in resets. This holds the value of the NavX's "zero" degrees
     private double yawZero = 0;
 
->>>>>>> refs/remotes/origin/GyroTesting
     public DriveTrain() {
     	super();
     	
@@ -100,28 +95,18 @@ public class DriveTrain extends Subsystem {
         leftMotor2.clearStickyFaults();
         rightMotor2.clearStickyFaults();
     	robotDrive.tankDrive(leftStick, rightStick);
-    }{
-    try {
+    	
+    	try {
         /* Communicate w/navX MXP via the MXP SPI Bus.                                     */
         /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
         /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
-        ahrs = new AHRS(SPI.Port.kMXP); 
-    } catch (RuntimeException ex ) {
-        DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+    		ahrs = new AHRS(SPI.Port.kMXP); 
+    	} catch (RuntimeException ex ) {
+    		DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+    	}
+    	ahrs.zeroYaw(); 
     }
-    ahrs.zeroYaw(); 
-    }
-    public double getDegrees() {
-		double angle;
-		
-		angle = ahrs.getAngle() - yawZero; 
-		
-		// Normalize to 0 to 360 degrees
-		angle = angle - Math.floor(angle/360)*360;
-		
-		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
-		return angle;
-	}
+    
     /**
      * Stop the drive train motors
      */
@@ -160,11 +145,7 @@ public class DriveTrain extends Subsystem {
 		setDriveControlByPower();
 		robotDrive.drive(-speed, curve);
 	}
-	
-<<<<<<< HEAD
-    
-=======
->>>>>>> refs/remotes/origin/GyroTesting
+
     /**
      * Get the left and right positions and the left and right speeds from the encoders
      */
@@ -218,7 +199,7 @@ public class DriveTrain extends Subsystem {
 				" PulseRR " + leftMotor1.getPulseWidthRiseToRiseUs() + 
 				" Get " + leftMotor1.get() +
 				
-				/* " Left Motor 3 (Follower)-- TempC " + leftMotor1.getTemperature() + 
+				" Left Motor 3 (Follower)-- TempC " + leftMotor1.getTemperature() + 
 				" Set " + leftMotor3.getSetpoint() + 
 				" BusVolt " + leftMotor3.getBusVoltage() + 
 				" OutVolt " + leftMotor3.getOutputVoltage() + 
@@ -228,7 +209,6 @@ public class DriveTrain extends Subsystem {
 				" PulseRF " + leftMotor3.getPulseWidthRiseToFallUs() + 
 				" PulseRR " + leftMotor3.getPulseWidthRiseToRiseUs() + 
 				" Get " + leftMotor3.get() +
-				*/
 				
 				" Right Motor 2 (Main)-- TempC " + rightMotor2.getTemperature() + 
 				" Set " + rightMotor2.getSetpoint() + 
@@ -252,7 +232,7 @@ public class DriveTrain extends Subsystem {
 				" PulseRR " + rightMotor1.getPulseWidthRiseToRiseUs() + 
 				" Get " + rightMotor1.get()
 				
-				/*+ " Right Motor 3 (Follower)-- TempC " + rightMotor3.getTemperature() + 
+				+ " Right Motor 3 (Follower)-- TempC " + rightMotor3.getTemperature() + 
 				" Set " + rightMotor3.getSetpoint() + 
 				" BusVolt " + rightMotor3.getBusVoltage() + 
 				" OutVolt " + rightMotor3.getOutputVoltage() + 
@@ -262,13 +242,13 @@ public class DriveTrain extends Subsystem {
 				" PulseRF " + rightMotor3.getPulseWidthRiseToFallUs() + 
 				" PulseRR " + rightMotor3.getPulseWidthRiseToRiseUs() + 
 				" Get " + rightMotor3.get()
-				*/
 				);
 	}
 	
-<<<<<<< HEAD
 	public void initDefaultCommand() {
-=======
+		
+	}
+	
 	/** 
 	 * Reset the angle of the NavX in the software
 	 */
@@ -311,7 +291,6 @@ public class DriveTrain extends Subsystem {
     }
 
     public void initDefaultCommand() {
->>>>>>> refs/remotes/origin/GyroTesting
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     	setDefaultCommand(new DriveWithJoysticks());
