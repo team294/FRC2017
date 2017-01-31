@@ -24,6 +24,7 @@ public class ShooterHood extends Subsystem {
     }
     public void setShooterHoodSpeed(double speed) {
     	
+    
     }
     public void logShooterHoodStatus() {
     	
