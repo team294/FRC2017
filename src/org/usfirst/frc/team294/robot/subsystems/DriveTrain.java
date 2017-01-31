@@ -29,12 +29,9 @@ public class DriveTrain extends Subsystem {
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
     private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
     private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
-
+    
     // Gyro
     private AHRS ahrs;
-    private double yawZero = 0;
-    
-    private final AHRS ahrs = new AHRS(SPI.Port.kMXP);
 	
     // Gyro resets are tracked in software, due to latency in resets. This holds the value of the NavX's "zero" degrees
     private double yawZero = 0;
@@ -244,11 +241,7 @@ public class DriveTrain extends Subsystem {
 				" Get " + rightMotor3.get()
 				);
 	}
-	
-	public void initDefaultCommand() {
-		
-	}
-	
+
 	/** 
 	 * Reset the angle of the NavX in the software
 	 */

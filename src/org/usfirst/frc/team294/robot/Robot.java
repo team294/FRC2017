@@ -25,9 +25,9 @@ public class Robot extends IterativeRobot {
 	public static Shifter shifter;
 	public static Shooter shooter;
 	public static Intake intake;
-	public static GearPort gearPort;
-	public static Vision vision;
 	public static GearGate gearGate;
+	public static Vision vision;
+	public static ShooterHood shooterHood;
 	
 	// The OI
 	public static OI oi;

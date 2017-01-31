@@ -65,7 +65,8 @@ public class OI {
 	     SmartDashboard.putNumber("Drive Curve", 0.0);
 	     SmartDashboard.putData("Drive at Angle", new DriveAtAngleFromSmartDashboard());
 	     SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
-	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
+	     
+	     //SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
 	     
 	     SmartDashboard.putNumber("Drive Forward Speed", 0.0);
 	     SmartDashboard.putData("Drive 50%", new DriveForward(.5));

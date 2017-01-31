@@ -15,22 +15,27 @@ public class Intake extends Subsystem {
     private final CANTalon intakeMotor = new CANTalon(RobotMap.intakeMotor);
     private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.intakeSolenoidDeploy, RobotMap.intakeSolenoidStow);
 
-   /*
-    * No one commented to say what these functions are, so they aren't being used. Comment your code next time.
-    *
+    /**
+     * Deploy the intake
+     */
     public void deployIntake(){
     	intakeSolenoid.set(DoubleSolenoid.Value.kForward);
     }
     
+    /**
+     * Stow the intake
+     */
     public void stowIntake(){
     	intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
     }
     
-    public boolean isDeployed(){
-    	//if the intakeSolenoid is set to kForward then this will return true if not it will return false
+    /**
+     * Get the current position of the intake
+     * @return true if the intake is deployed, false if not
+     */
+    public boolean getPosition(){
     	return (intakeSolenoid.get() == DoubleSolenoid.Value.kForward);
     }
-    */
     
     /**
      * Set the speed of the intake motor
