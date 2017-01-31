@@ -1,35 +1,16 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
-<<<<<<< HEAD:src/org/usfirst/frc/team294/robot/commands/DriveWithEncoders.java
 
 /**
  *
  */
-public class DriveWithEncoders extends Command {
+public class GyroTurnToAngleRelative extends Command {
 
-		private double commandSpeed;
-		private double distance; 
-		
-    public DriveWithEncoders(double distance) {
-=======
-import org.usfirst.frc.team294.robot.*;
-
-public class DriveAtAngle extends Command {
-
-	/**
-	 * FOR TESTING ONLY
-	 * Drive the robot at a preset angle. No exit setting.
-	 */
-    public DriveAtAngle() {
->>>>>>> refs/remotes/origin/GyroTesting:src/org/usfirst/frc/team294/robot/commands/DriveAtAngle.java
+    public GyroTurnToAngleRelative() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.driveTrain);
-    	this.distance = distance;
-      }
+    }
 
     // Called just before this Command runs the first time
     protected void initialize() {
@@ -41,7 +22,7 @@ public class DriveAtAngle extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-       return false;
+        return false;
     }
 
     // Called once after isFinished returns true

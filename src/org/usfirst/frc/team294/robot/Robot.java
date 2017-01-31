@@ -25,8 +25,13 @@ public class Robot extends IterativeRobot {
 	public static Shifter shifter;
 	public static Shooter shooter;
 	public static Intake intake;
+<<<<<<< HEAD
 	public static GearPort gearPort;
 	public static Vision vision;
+=======
+	public static GearGate gearGate;
+	
+>>>>>>> refs/remotes/origin/GyroTesting
 	// The OI
 	public static OI oi;
 	
@@ -43,7 +48,7 @@ public class Robot extends IterativeRobot {
 		shifter = new Shifter();
 		shooter = new Shooter();
 		intake = new Intake();
-		gearPort = new GearPort();
+		gearGate = new GearGate();
 		log = new FileLog();
 		vision = new Vision();
 		oi = new OI();

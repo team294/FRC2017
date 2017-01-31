@@ -3,26 +3,30 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class DriveStop extends Command {
+public class SetGearSolenoid extends Command {
 
-    public DriveStop() {
-        requires(Robot.driveTrain);
+	private boolean state;
+	
+	/**
+	 * Set the gear piston
+	 * @param state true for out, false for in
+	 */
+    public SetGearSolenoid(boolean state) {
+        requires(Robot.gearGate);
+        this.state = state;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.stop();
-<<<<<<< HEAD
-    	SmartDashboard.putNumber("Drive Forward Speed", 0);
-    	Robot.log.writeLog("Stopping Drivetrain");
-=======
-    	Robot.log.writeLog("DriveTrain: Drivetrain stopped by software");
->>>>>>> refs/remotes/origin/GyroTesting
+    	if (state) {
+    		Robot.gearGate.out();
+    	} else {
+    		Robot.gearGate.in();
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -41,6 +45,5 @@ public class DriveStop extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.driveTrain.stop();
     }
 }
