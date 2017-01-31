@@ -1,26 +1,19 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class DriveForward extends Command {
+public class GyroTurnToAngleRelative extends Command {
 
-	double speed = 0.0;
-	
-    public DriveForward(double setSpeed) {
-        requires(Robot.driveTrain);
-        speed = setSpeed;
+    public GyroTurnToAngleRelative() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.driveForward(speed);
-    	SmartDashboard.putNumber("Drive Forward Speed", speed);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -29,7 +22,7 @@ public class DriveForward extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

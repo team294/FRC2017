@@ -8,19 +8,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class DriveForward extends Command {
+public class DriveStop extends Command {
 
-	double speed = 0.0;
-	
-    public DriveForward(double setSpeed) {
+    public DriveStop() {
         requires(Robot.driveTrain);
-        speed = setSpeed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.driveForward(speed);
-    	SmartDashboard.putNumber("Drive Forward Speed", speed);
+    	Robot.driveTrain.stop();
+    	SmartDashboard.putNumber("Drive Forward Speed", 0);
+    	Robot.log.writeLog("Stopping Drivetrain");
+    	Robot.log.writeLog("DriveTrain: Drivetrain stopped by software");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -39,5 +38,6 @@ public class DriveForward extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.driveTrain.stop();
     }
 }
