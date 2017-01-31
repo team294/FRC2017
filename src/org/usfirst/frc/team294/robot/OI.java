@@ -63,6 +63,18 @@ public class OI {
 	     SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0.0));
 	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
 	     
+	     // DriveBySmartDashboard
+	     SmartDashboard.putNumber("Drive: speed input", 0.0);
+	     SmartDashboard.putNumber("Drive: curve input", 0.0);
+	     SmartDashboard.putNumber("Drive: duration input", 0.0);
+	     SmartDashboard.putData("Drive from inputs", new DriveAtAngleFromSmartDashboard());
+	     
+	     // Debug output
+	     SmartDashboard.putNumber("driveTrain set speed", 0.0);
+
+	     // Simple drive commands
+	     SmartDashboard.putData("Drive 50% 1 sec", new DriveForward(0.5, 0.0, 1.0));
+	     SmartDashboard.putData("Drive Stop", new DriveStop());
 	}
 	
 	public void updateSmartDashboard() {
