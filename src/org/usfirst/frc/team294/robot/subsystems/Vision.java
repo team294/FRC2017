@@ -8,8 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 class Contour {
-	private double xPos, yPos, area, height;
-	private double radius;
+	private double xPos, yPos, area, height, radius;
 	private boolean eliminated = false;
 	
 	//constructor
@@ -20,14 +19,8 @@ class Contour {
 		this.height = height;
 		this.radius = Math.sqrt(this.area/Math.PI)/2; //Adjusted radius of contour (Divided by two to reduce overlap detection likelihood)
 	}
-	//Other Constructor
-	public Contour() {
-		this.xPos = 0;
-		this.yPos = 0;
-		this.area = 0;
-		this.height = 0;
-		this.radius = 0;
-	}
+	//Argumentless Constructor
+	public Contour() {this.xPos = this.yPos = this.area = this.height = this.radius = 0; }
 	
 	//Getters
 	public double getXPos() {return this.xPos; }
@@ -38,15 +31,15 @@ class Contour {
 	public boolean isEliminated() {return this.eliminated; }
 	
 	//Setters
-	public void eliminate() {this.eliminated = true; }
+	public void eliminate() {this.eliminated = true; } //"Eliminates" this variable, by setting eliminated to true
 	
 	//Special Methods
 	public double getDistance(Contour c) { //Gets pixel distance between two contours
-		double xDist = (c.getXPos() - this.getXPos());
-		double yDist = (c.getYPos() - this.getYPos());
+		double xDist = c.getXPos() - this.getXPos();
+		double yDist = c.getYPos() - this.getYPos();
 		return Math.sqrt(xDist * xDist + yDist * yDist);
 	}
-	public boolean intersects(Contour c) { //Determines if two contours intersect
+	public boolean intersects(Contour c) { //Determines if two contours intersect (treated as circles)
 		return (c.getDistance(this) < c.getRadius() + this.getRadius());
 	}
 }
@@ -96,9 +89,6 @@ public class Vision extends Subsystem {
 				break;
 			}
 		}
-		//Initialize array of contours to be filtered
-		//Check if there are only two contours. If so, just use those
-		//Eliminate the smaller of any two overlapping contours
 		for (int a = 0; a < contours.length; a++) {
 			//if (contours[a].isEliminated()) {continue; } // If the contour at a is already eliminated, skip it
 			for (int b = a + 1; b < contours.length; b++) {
