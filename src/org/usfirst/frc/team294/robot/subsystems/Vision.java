@@ -37,7 +37,7 @@ class Contour {
 	public double getDistance(Contour c) { //Gets pixel distance between two contours
 		double xDist = c.getXPos() - this.getXPos();
 		double yDist = c.getYPos() - this.getYPos();
-		return Math.sqrt(xDist * xDist + yDist * yDist);
+		return Math.hypot(xDist, yDist); //  = Math.sqrt(xDist * xDist + yDist * yDist);
 	}
 	public boolean intersects(Contour c) { //Determines if two contours intersect (treated as circles)
 		return (c.getDistance(this) < c.getRadius() + this.getRadius());
