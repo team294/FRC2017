@@ -157,6 +157,8 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void driveAtAngle(double speed, double curve) {
 		setDriveControlByPower();
+		speed *= curve;
+		System.out.println("Speed: " + Double.toString(speed) + " Curve: " + Double.toString(curve));
 		setMotorSpeed(speed, speed);
 //		robotDrive.drive(-speed, curve);
 	}

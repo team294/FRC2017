@@ -14,7 +14,7 @@ public class TurnToAngle extends Command {
 
 	private double angle;
 	final private double MIN_POWER = 0.4;
-	final private double MAX_POWER = 1.0;
+	final private double MAX_POWER = 0.6;
 	private double targetAngle;
 	private double currentAngle;
 	
@@ -45,19 +45,19 @@ public class TurnToAngle extends Command {
     	currentAngle= Robot.vision.getGearAngleOffset();
     	angle=targetAngle-currentAngle;
     	double speed=calculateSpeed(angle);
-    	Robot.driveTrain.driveAtAngle(speed, -angle/Math.abs(angle));
+    	Robot.driveTrain.driveAtAngle(speed, angle/Math.abs(angle));
     	SmartDashboard.putNumber("angle", currentAngle);
     	SmartDashboard.putString("Init TurnToAngle finished", "yes");
     }
     
     private double calculateSpeed(double angle) {
     	double power = 0;
-    	if (Math.abs(angle) >= 90) {
+    	if (Math.abs(angle) >= 27.4) {
     		power = MAX_POWER;
     	} else {
-    		power = MIN_POWER + Math.abs(angle)*(MAX_POWER-MIN_POWER)/90;
+    		power = MIN_POWER + Math.abs(angle)*(MAX_POWER-MIN_POWER)/27.4;
     	}
-    	return power;
+    	return 0;//power;
     	
     }
    
@@ -65,7 +65,8 @@ public class TurnToAngle extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	SmartDashboard.putNumber("Angle", angle);
-        if (angle <= 3 && angle >= -3) {
+    	System.out.println("Checking angle: " + Double.toString(angle));
+        if (Math.abs(angle) < 5) {
         	return true;
         } else {
         	return false;
