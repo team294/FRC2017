@@ -52,12 +52,12 @@ public class TurnToAngle extends Command {
     
     private double calculateSpeed(double angle) {
     	double power = 0;
-    	if (Math.abs(angle) >= 27.4) {
+    	if (Math.abs(angle) >= 34.25) {
     		power = MAX_POWER;
     	} else {
-    		power = MIN_POWER + Math.abs(angle)*(MAX_POWER-MIN_POWER)/27.4;
+    		power = MIN_POWER + angle*angle*(MAX_POWER-MIN_POWER)/34.25/34.25;
     	}
-    	return 0;//power;
+    	return power;
     	
     }
    
@@ -66,7 +66,7 @@ public class TurnToAngle extends Command {
     protected boolean isFinished() {
     	SmartDashboard.putNumber("Angle", angle);
     	System.out.println("Checking angle: " + Double.toString(angle));
-        if (Math.abs(angle) < 5) {
+        if (Math.abs(angle) < .75) {
         	return true;
         } else {
         	return false;
