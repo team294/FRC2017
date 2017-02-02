@@ -51,7 +51,7 @@ public class Vision extends Subsystem {
 
 	double gearAngleOffset, distance;
 
-	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
+	double camPXWidth = 1280, camPXHeight = 720, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
 	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera pixel length
 	double camVertAngle = (camPXHeight / camPXDiagonal) * camDiagonalAngle; //Vertical camera aperture angle
 	double camHorizAngle = (camPXWidth / camPXDiagonal) * camDiagonalAngle; //Horizontal camera aperture angle
