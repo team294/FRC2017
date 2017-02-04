@@ -35,6 +35,9 @@ public class DriveTrain extends Subsystem {
     // Gyro resets are tracked in software, due to latency in resets. This holds the value of the NavX's "zero" degrees
     private double yawZero = 0;
     
+    // Track encoder resets in software due to latency (like NavX)
+    private double leftEncoderZero = 0, rightEncoderZero = 0;
+    
 
     public DriveTrain() {
     	// Call the Subsystem constructor
@@ -156,7 +159,6 @@ public class DriveTrain extends Subsystem {
 	public void driveAtAngle(double speed, double curve) {
 		setDriveControlByPower();
 		robotDrive.drive(-speed, curve);
-    	SmartDashboard.putNumber("driveTrain set speed", speed);
 	}
 	
     /**
@@ -174,7 +176,7 @@ public class DriveTrain extends Subsystem {
      * @return
      */
     public double getLeftEncoder() {
-    	return leftMotor2.getPosition();
+    	return leftMotor2.getPosition() - leftEncoderZero;
     }
     
     /**
@@ -182,7 +184,15 @@ public class DriveTrain extends Subsystem {
      * @return
      */
     public double getRightEncoder() {
-    	return rightMotor2.getPosition();
+    	return rightMotor2.getPosition() - rightEncoderZero;
+    }
+    
+    /**
+     * Reset the encoders in software
+     */
+    public void resetEncoders() {
+    	leftEncoderZero = leftMotor2.getPosition();
+    	rightEncoderZero = rightMotor2.getPosition();
     }
 
     /**
@@ -204,13 +214,12 @@ public class DriveTrain extends Subsystem {
 				" OutCur " + leftMotor1.getOutputCurrent() + 
 				" Get " + leftMotor1.get() +
 				
-				/* " Left Motor 3 (Follower)-- TempC " + leftMotor1.getTemperature() + 
+				" Left Motor 3 (Follower)-- TempC " + leftMotor1.getTemperature() + 
 				" Set " + leftMotor3.getSetpoint() + 
 				" BusVolt " + leftMotor3.getBusVoltage() + 
 				" OutVolt " + leftMotor3.getOutputVoltage() + 
 				" OutCur " + leftMotor3.getOutputCurrent() + 
 				" Get " + leftMotor3.get() +
-				*/
 				
 				" Right Motor 2 (Main)-- TempC " + rightMotor2.getTemperature() + 
 				" Set " + rightMotor2.getSetpoint() + 
@@ -224,15 +233,14 @@ public class DriveTrain extends Subsystem {
 				" BusVolt " + rightMotor1.getBusVoltage() + 
 				" OutVolt " + rightMotor1.getOutputVoltage() + 
 				" OutCur " + rightMotor1.getOutputCurrent() + 
-				" Get " + rightMotor1.get()
+				" Get " + rightMotor1.get() +
 				
-				/*+ " Right Motor 3 (Follower)-- TempC " + rightMotor3.getTemperature() + 
+				" Right Motor 3 (Follower)-- TempC " + rightMotor3.getTemperature() + 
 				" Set " + rightMotor3.getSetpoint() + 
 				" BusVolt " + rightMotor3.getBusVoltage() + 
 				" OutVolt " + rightMotor3.getOutputVoltage() + 
 				" OutCur " + rightMotor3.getOutputCurrent() + 
 				" Get " + rightMotor3.get()
-				*/
 				);
 	}
 	
@@ -241,6 +249,7 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void resetDegrees() {
 		yawZero = ahrs.getAngle();
+		Robot.log.writeLog("Gyro angle reset");
 	}
     
     /**
@@ -256,7 +265,7 @@ public class DriveTrain extends Subsystem {
 		angle = angle - Math.floor(angle/360)*360;
 		
 		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
-		Robot.log.writeLog(" Gyro: Current Angle: " + angle);
+		//Robot.log.writeLog("Gyro: Current Angle: " + angle);
 		
 		return angle;
     }

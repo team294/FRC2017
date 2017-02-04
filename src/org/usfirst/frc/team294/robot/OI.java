@@ -68,6 +68,9 @@ public class OI {
 	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
 	     SmartDashboard.putData("Stop Shooter Motor", new ShooterSetToSpeed(0.0));
 	     SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3));
+	     
+	     // Autonomous Command Testing
+	     SmartDashboard.putData("Drive Forward and Turn", new AutoForwardAndTurn());
 
 	     // Encoders
 //	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
