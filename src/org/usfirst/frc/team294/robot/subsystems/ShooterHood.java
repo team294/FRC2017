@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import com.ctre.CANTalon;
@@ -20,7 +21,8 @@ public class ShooterHood extends Subsystem {
 	 * Set the angle of the shooter hood
 	 */
 	public void setAngle(double angle) {
-		
+		Robot.log.writeLog("Shooter Hood: Setting angle to " + angle);
+		// Set the angle here
 	}
 	
     public void initDefaultCommand() {

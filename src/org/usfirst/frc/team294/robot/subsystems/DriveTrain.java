@@ -126,7 +126,6 @@ public class DriveTrain extends Subsystem {
 	public void stop() {
 		setDriveControlByPower();
 		robotDrive.drive(0, 0);
-    	SmartDashboard.putNumber("driveTrain set speed", 0);
 	}
     
 	/**
@@ -174,7 +173,7 @@ public class DriveTrain extends Subsystem {
      * Reads the value of the encoder on left motor 2
      * @return
      */
-    public double readLeftEncoder() {
+    public double getLeftEncoder() {
     	return leftMotor2.getPosition();
     }
     
