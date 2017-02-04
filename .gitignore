@@ -54,3 +54,4 @@ Temporary Items
 /bin/
 *.class
 *.jar
+*.classpath
