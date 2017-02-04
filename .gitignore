@@ -19,7 +19,6 @@ $RECYCLE.BIN/
 
 # GitHub
 *.class
-*.classpath
 build/*
 dist/*
 
