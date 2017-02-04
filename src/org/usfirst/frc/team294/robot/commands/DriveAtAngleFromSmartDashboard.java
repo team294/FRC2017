@@ -4,20 +4,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.*;
-<<<<<<< HEAD:src/org/usfirst/frc/team294/robot/commands/DriveAtAngle.java
 
-public class DriveAtAngle extends Command {
-
-	/**
-	 * FOR TESTING ONLY
-	 * Drive the robot at a preset angle. No exit setting.
-	 */
-    public DriveAtAngle() {
-=======
 /**
+ * Testing Purposes Only
+ * @author team
  *
  */
-
 public class DriveAtAngleFromSmartDashboard extends Command { 
 
 	private double speed;
@@ -28,7 +20,6 @@ public class DriveAtAngleFromSmartDashboard extends Command {
 	 * Sets robot to drive at an angle based on smart dashboard inputs
 	 */
     public DriveAtAngleFromSmartDashboard() {
->>>>>>> refs/remotes/origin/master:src/org/usfirst/frc/team294/robot/commands/DriveAtAngleFromSmartDashboard.java
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	 requires(Robot.driveTrain);

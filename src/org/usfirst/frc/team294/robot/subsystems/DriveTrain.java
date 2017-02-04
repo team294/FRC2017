@@ -27,32 +27,21 @@ public class DriveTrain extends Subsystem {
     private final CANTalon leftMotor3 = new CANTalon(RobotMap.driveTrainLeftMotor3);
     private final CANTalon rightMotor1 = new CANTalon(RobotMap.driveTrainRightMotor1);
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
-<<<<<<< HEAD
     private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
     private final RobotDrive robotDrive = new RobotDrive(leftMotor2, rightMotor2);
     
-    private final AHRS ahrs = new AHRS(SPI.Port.kMXP);
+    private AHRS ahrs = new AHRS(SPI.Port.kMXP);
 	
     // Gyro resets are tracked in software, due to latency in resets. This holds the value of the NavX's "zero" degrees
     private double yawZero = 0;
+    
 
-=======
-    //private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
-    private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
-    
-    // navX-mxp 9-axis IMU
-    private AHRS ahrs;
-    // Track navX resets in software, since gyro reset on navX has latency to the next encoder read
-    private double yawZero = 0;
-    
->>>>>>> refs/remotes/origin/master
     public DriveTrain() {
     	// Call the Subsystem constructor
     	super();
     	    	
     	// Set the other motors to follow motor 2 on each side
     	leftMotor1.changeControlMode(TalonControlMode.Follower);
-<<<<<<< HEAD
     	leftMotor3.changeControlMode(TalonControlMode.Follower);
         rightMotor1.changeControlMode(TalonControlMode.Follower);
         rightMotor3.changeControlMode(TalonControlMode.Follower);
@@ -60,7 +49,6 @@ public class DriveTrain extends Subsystem {
         leftMotor3.set(leftMotor2.getDeviceID());
         rightMotor1.set(rightMotor2.getDeviceID());
         rightMotor3.set(rightMotor2.getDeviceID());
-=======
 //    	leftMotor3.changeControlMode(TalonControlMode.Follower);
         rightMotor1.changeControlMode(TalonControlMode.Follower);
 //		rightMotor3.changeControlMode(TalonControlMode.Follower);
@@ -70,7 +58,6 @@ public class DriveTrain extends Subsystem {
 //		rightMotor3.set(rightMotor2.getDeviceID());
         
         // Configure encoders on motor 2 on each side
->>>>>>> refs/remotes/origin/master
         leftMotor2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
         rightMotor2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
         leftMotor2.configEncoderCodesPerRev(100);
@@ -82,7 +69,6 @@ public class DriveTrain extends Subsystem {
         rightMotor2.configNominalOutputVoltage(+0.0f, -0.0f);
         leftMotor2.setVoltageRampRate(40);
         rightMotor2.setVoltageRampRate(40);
-<<<<<<< HEAD
         
         ahrs.zeroYaw();
         
@@ -91,7 +77,6 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber(   "IMU_Yaw",              ahrs.getYaw());
         SmartDashboard.putNumber(   "IMU_Pitch",            ahrs.getPitch());
         SmartDashboard.putNumber(   "IMU_Roll",             ahrs.getRoll());
-=======
         setDriveControlByPower();
         
         // Configure the RobotDrive
@@ -109,7 +94,6 @@ public class DriveTrain extends Subsystem {
             DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
         }
         ahrs.zeroYaw();
->>>>>>> refs/remotes/origin/master
     }
 
     /**
@@ -135,31 +119,7 @@ public class DriveTrain extends Subsystem {
         rightMotor2.clearStickyFaults();
     	robotDrive.tankDrive(leftStick, rightStick);
     }
-        
-	/**
-	 * Resets the angle of the NavX gyro.
-	 */
-	public void resetDegrees() {
-	    // Track navX resets in software, since gyro reset on navX has latency to the next encoder read
-		yawZero = ahrs.getAngle();
-	}
-	
-    /**
-     * Returns the current angle of the NavX gyro.
-     * @return Angle relative to last call to resetDegrees.
-     */
-    public double getDegrees() {
-		double angle;
-		
-		angle = ahrs.getAngle() - yawZero; 
-		
-		// Normalize to 0 to 360 degrees
-		angle = angle - Math.floor(angle/360)*360;
-		
-		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
-		return angle;
-	}
-    
+
     /**
      * Stop the drive train motors
      */
@@ -209,13 +169,22 @@ public class DriveTrain extends Subsystem {
     	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
     	SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
     }
-<<<<<<< HEAD
-=======
     
-    public double readLeftEncoder(){
+    /**
+     * Reads the value of the encoder on left motor 2
+     * @return
+     */
+    public double readLeftEncoder() {
     	return leftMotor2.getPosition();
     }
->>>>>>> refs/remotes/origin/master
+    
+    /**
+     * Reads the value of the encoder on right motor 2
+     * @return
+     */
+    public double getRightEncoder() {
+    	return rightMotor2.getPosition();
+    }
 
     /**
      * Logs the drive Talon status to a file
@@ -268,21 +237,12 @@ public class DriveTrain extends Subsystem {
 				);
 	}
 	
-<<<<<<< HEAD
 	/** 
 	 * Reset the angle of the NavX in the software
 	 */
 	public void resetDegrees() {
 		yawZero = ahrs.getAngle();
 	}
-    
-    /**
-     * DO NOT USE! USE resetDegrees() INSTEAD!
-     * Reset the gyro completely
-     */
-    public void resetGyro() {
-    	ahrs.reset();
-    }
     
     /**
      * Return the current angle of the gyro
@@ -309,11 +269,8 @@ public class DriveTrain extends Subsystem {
     public double getGyroRate() {
     	return ahrs.getRate();
     }
-
+    
     public void initDefaultCommand() {
-=======
-	public void initDefaultCommand() {
->>>>>>> refs/remotes/origin/master
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     	setDefaultCommand(new DriveWithJoysticks());

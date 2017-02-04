@@ -24,12 +24,8 @@ public class Robot extends IterativeRobot {
 	public static Shifter shifter;
 	public static Shooter shooter;
 	public static Intake intake;
-<<<<<<< HEAD
 	public static GearGate gearGate;
 	
-=======
-	public static GearPort gearPort;
->>>>>>> refs/remotes/origin/master
 	// The OI
 	public static OI oi;
 	
@@ -56,7 +52,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(shifter);
 		SmartDashboard.putData(shooter);
 		SmartDashboard.putData(intake);
-		SmartDashboard.putData(gearPort);
+		SmartDashboard.putData(gearGate);
 	}
 
 	/**

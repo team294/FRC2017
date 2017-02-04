@@ -12,19 +12,14 @@ public class RobotMap {
 	// CANbus Addresses
 	public static int driveTrainLeftMotor1 = 5;
 	public static int driveTrainLeftMotor2 = 6;
-<<<<<<< HEAD
 	public static int driveTrainLeftMotor3 = 7;
 	public static int driveTrainRightMotor1 = 11;
 	public static int driveTrainRightMotor2 = 12;
 	public static int driveTrainRightMotor3 = 10;
-=======
-	//public static int driveTrainLeftMotor3 = 7;
-	public static int driveTrainRightMotor1 = 9;
-	public static int driveTrainRightMotor2 = 8;
-	//public static int driveTrainRightMotor3 = 12;
->>>>>>> refs/remotes/origin/master
 	public static int intakeMotor = 9;
 	public static int shooterMotor = 20;
+	// Will the shooter hood be a piston, a motor, or a servo?
+	public static int shooterHoodMotor = 21;
 	
     // Pneumatic controller PCM IDs
     public static int shifterSolenoidFwd = 0;

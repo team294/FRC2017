@@ -45,11 +45,7 @@ public class OI {
 	    // Declare left joystick buttons and set them to shift down
 	     for (Button i : left) {
 	    	 i =  new JoystickButton(leftJoystick, j++);
-	    	 if (j == 3) i.whenPressed(new GyroTurnToAngle(0.3, 180));
-	    	 else if (j == 4) i.whenPressed(new GyroTurnToAngle(0.3, 0));
-	    	 else if (j == 5) i.whenPressed(new GyroTurnToAngle(0.3, -90));
-	    	 else if (j == 6) i.whenPressed(new GyroTurnToAngle(0.3, 90.0));
-	    	 else i.whenPressed(new ShiftDown());
+	    	 i.whenPressed(new ShiftDown());
 	     }
 	     
 	     // Declare right joystick buttons and set them to shift up
@@ -58,45 +54,25 @@ public class OI {
 	    	 if (k > 2 && k < 7) i.whenPressed(new DriveWithJoysticks()); 
 	    	 else i.whenPressed(new ShiftUp());
 	     }
-	     
-	     //double speed = SmartDashboard.getDouble("Drive Speed");
-	     //double curve = SmartDashboard.getDouble("Drive Curve");
-	     SmartDashboard.putNumber("Drive Speed", 0.0);
-	     SmartDashboard.putNumber("Drive Curve", 0.0);
-	     SmartDashboard.putData("Start Drive", new DriveAtAngleFromSmartDashboard());
-	     //SmartDashboard.putData("Stop Drive", new DriveAtAngle(0,0));
-<<<<<<< HEAD
+
+	     // Gyro Testing Commands
 	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
 	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
 	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180));
 	     SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
 	     
+	     // Subsystem Testing Commands
 	     SmartDashboard.putData("Gear Piston Out", new SetGearSolenoid(true));
 	     SmartDashboard.putData("Gear Piston In", new SetGearSolenoid(false));
 	     SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
 	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
 	     SmartDashboard.putData("Stop Shooter Motor", new ShooterSetToSpeed(0.0));
 	     SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3));
-=======
-	     SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0.0));
-	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
-	     
-	     // DriveBySmartDashboard
-	     SmartDashboard.putNumber("Drive: speed input", 0.0);
-	     SmartDashboard.putNumber("Drive: curve input", 0.0);
-	     SmartDashboard.putNumber("Drive: duration input", 0.0);
-	     SmartDashboard.putData("Drive from inputs", new DriveAtAngleFromSmartDashboard());
-	     
-	     // Debug output
-	     SmartDashboard.putNumber("driveTrain set speed", 0.0);
 
-	     // Simple drive commands
-	     SmartDashboard.putData("Drive 50% 1 sec", new DriveForward(0.5, 0.0, 1.0));
+	     // Encoders
+//	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
+
+	     // Stop Command
 	     SmartDashboard.putData("Drive Stop", new DriveStop());
-	}
-	
-	public void updateSmartDashboard() {
-		
->>>>>>> refs/remotes/origin/master
 	}
 }
