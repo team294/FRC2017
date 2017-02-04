@@ -61,8 +61,11 @@ public class OI {
 	     
 	     //double speed = SmartDashboard.getDouble("Drive Speed");
 	     //double curve = SmartDashboard.getDouble("Drive Curve");
-	     SmartDashboard.putData("Start Drive", new DriveAtAngle());
+	     SmartDashboard.putNumber("Drive Speed", 0.0);
+	     SmartDashboard.putNumber("Drive Curve", 0.0);
+	     SmartDashboard.putData("Start Drive", new DriveAtAngleFromSmartDashboard());
 	     //SmartDashboard.putData("Stop Drive", new DriveAtAngle(0,0));
+<<<<<<< HEAD
 	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
 	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
 	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180));
@@ -74,5 +77,26 @@ public class OI {
 	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
 	     SmartDashboard.putData("Stop Shooter Motor", new ShooterSetToSpeed(0.0));
 	     SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3));
+=======
+	     SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0.0));
+	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
+	     
+	     // DriveBySmartDashboard
+	     SmartDashboard.putNumber("Drive: speed input", 0.0);
+	     SmartDashboard.putNumber("Drive: curve input", 0.0);
+	     SmartDashboard.putNumber("Drive: duration input", 0.0);
+	     SmartDashboard.putData("Drive from inputs", new DriveAtAngleFromSmartDashboard());
+	     
+	     // Debug output
+	     SmartDashboard.putNumber("driveTrain set speed", 0.0);
+
+	     // Simple drive commands
+	     SmartDashboard.putData("Drive 50% 1 sec", new DriveForward(0.5, 0.0, 1.0));
+	     SmartDashboard.putData("Drive Stop", new DriveStop());
+	}
+	
+	public void updateSmartDashboard() {
+		
+>>>>>>> refs/remotes/origin/master
 	}
 }
