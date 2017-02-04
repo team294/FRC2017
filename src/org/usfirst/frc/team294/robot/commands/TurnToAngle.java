@@ -17,37 +17,33 @@ public class TurnToAngle extends Command {
 	final private double MAX_POWER = 0.6;
 	private double targetAngle;
 	private double currentAngle;
+	private double defaultDirection = -1; 
 	
     public TurnToAngle(double target) {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.driveTrain);
     	requires(Robot.vision);
     	targetAngle=target;
-    	SmartDashboard.putString("Init TurnToAngle function", "yes");
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	SmartDashboard.putString("Init TurnToAngle", "yes");
-    	System.out.println("Started TurnToAngle");
-    	System.out.println("Hangs before vision calculations");
-    	currentAngle= Robot.vision.getGearAngleOffset();
-    	angle=targetAngle-currentAngle;
+    	currentAngle = Robot.vision.getGearAngleOffset();
+    	angle = targetAngle - currentAngle;
     	double speed=calculateSpeed(angle);
-    	System.out.println("Hangs at driveAtAngle");
     	Robot.driveTrain.driveAtAngle(speed, 1);
-    	System.out.println("Got through init for TurnToAngle");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	currentAngle= Robot.vision.getGearAngleOffset();
-    	angle=targetAngle-currentAngle;
-    	double speed=calculateSpeed(angle);
-    	Robot.driveTrain.driveAtAngle(speed, angle/Math.abs(angle));
-    	SmartDashboard.putNumber("angle", currentAngle);
-    	SmartDashboard.putString("Init TurnToAngle finished", "yes");
+    	currentAngle = Robot.vision.getGearAngleOffset();
+    	if (currentAngle = null) {
+    		Robot.driveTrain.driveAtAngle(MAX_POWER, defaultDirection);
+    	}
+    	else {
+	    	angle = targetAngle - currentAngle;
+	    	double speed = calculateSpeed(angle);
+	    	Robot.driveTrain.driveAtAngle(speed, angle/Math.abs(angle));
+    	}
     }
     
     private double calculateSpeed(double angle) {
