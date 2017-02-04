@@ -36,7 +36,7 @@ public class TurnToAngle extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	currentAngle = Robot.vision.getGearAngleOffset();
-    	if (currentAngle = null) {
+    	if (currentAngle == -500) {
     		Robot.driveTrain.driveAtAngle(MAX_POWER, defaultDirection);
     	}
     	else {

@@ -124,7 +124,7 @@ public class Vision extends Subsystem {
 		else if (numValid == 1) {
 			gearAngleOffset = (camPXWidth/2 - targets[0].getXPos())/camPXWidth * camHorizAngle; //in degrees
 		}
-		else { gearAngleOffset = null; } //Return null if there are no "valid" contours (see numValid assignment)
+		else { gearAngleOffset = -500; } //Return -500 if there are no "valid" contours (see numValid assignment)
 		SmartDashboard.putNumber("Angle Offset", gearAngleOffset);
 		return gearAngleOffset;
 	}
