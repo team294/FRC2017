@@ -130,9 +130,11 @@ public class Vision extends Subsystem {
 	}
 	
 	public double getGearDistance() {
-		//Gives the distance of the robot from the gear target.
+		//Gives the distance of the robot from the gear target if our camera's center is at the same elevantion as the center of the gear tape
+		int heightOfTape = 5; //Height of the tape on the gear lift
+		int tACC = .5; //Proportion of the tape that is at or above our camera's center (if the camera is straight on)
 		Contour[] targets = filterContours(); //Gets best two best contours
-		distance = 2.5/Math.tan((camVertAngle/2*(targets[0].getHeight() + targets[1].getHeight())/2/camPXHeight)*Math.PI/180); //in inches (faster)
+		distance = heightOfTape*tACC/Math.tan((camVertAngle/2*(targets[0].getHeight() + targets[1].getHeight())/2/camPXHeight)*Math.PI/180); //in inches (faster)
 		SmartDashboard.putNumber("Gear Distance", distance);
 		return distance;
 	}
