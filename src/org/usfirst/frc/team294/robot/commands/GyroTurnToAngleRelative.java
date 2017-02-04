@@ -1,22 +1,19 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Stop the Drive Train
+ *
  */
-public class DriveStop extends Command {
+public class GyroTurnToAngleRelative extends Command {
 
-    public DriveStop() {
-        requires(Robot.driveTrain);
+    public GyroTurnToAngleRelative() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.stop();
-    	Robot.log.writeLog("DriveTrain: Drivetrain stopped by software");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -25,7 +22,7 @@ public class DriveStop extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
@@ -35,6 +32,5 @@ public class DriveStop extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.driveTrain.stop();
     }
 }

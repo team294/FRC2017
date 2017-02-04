@@ -9,13 +9,11 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class IntakeSetToSpeed extends Command {
 
-	double speed;
+	private double speed;
 
 	/**
 	 * Set the intake motor to speed
-	 * 
-	 * @param speed
-	 *            -1 (outtake) to +1 (intake). 0 = stopped
+	 * @param speed -1 (outtake) to +1 (intake). 0 = stopped
 	 */
 	public IntakeSetToSpeed(double speed) {
 		requires(Robot.intake);
