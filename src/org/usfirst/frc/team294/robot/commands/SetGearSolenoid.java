@@ -7,38 +7,26 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DriveToDistance extends Command {
+public class SetGearSolenoid extends Command {
 
-    public DriveToDistance() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.driveTrain);
-    }
-    
-    public double calculateSpeed() {
-    	double speed = 0;
-    	double t = 0;
-    	final double maxSpeed = 1;
-    	
-    	if (t <= 1) {
-    		speed = t;
-    	}
-    	if (1 <= t && t < 3) {
-    		speed = maxSpeed;
-    		}
-    	if (t >= 3 && t < 4) {
-    		speed = -t + 4;
-    	}
-    	if (t >= 4) {
-    		speed = 0;
-    	}
-    	return speed;
-    	
-    	
+	private boolean state;
+	
+	/**
+	 * Set the gear piston
+	 * @param state true for out, false for in
+	 */
+    public SetGearSolenoid(boolean state) {
+        requires(Robot.gearGate);
+        this.state = state;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	if (state) {
+    		Robot.gearGate.out();
+    	} else {
+    		Robot.gearGate.in();
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -47,7 +35,7 @@ public class DriveToDistance extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

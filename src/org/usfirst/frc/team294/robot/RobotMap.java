@@ -7,20 +7,26 @@ package org.usfirst.frc.team294.robot;
  * floating around.
  */
 public class RobotMap {
-	//hardware addresses
+	// Hardware addresses
 	
-	//CANbus Addresses
+	// CANbus Addresses
 	public static int driveTrainLeftMotor1 = 5;
 	public static int driveTrainLeftMotor2 = 6;
-	//public static int driveTrainLeftMotor3 = 7;
-	public static int driveTrainRightMotor1 = 9;
-	public static int driveTrainRightMotor2 = 8;
-	//public static int driveTrainRightMotor3 = 12;
-	public static int intakeMotor = 11;
+	public static int driveTrainLeftMotor3 = 7;
+	public static int driveTrainRightMotor1 = 11;
+	public static int driveTrainRightMotor2 = 12;
+	public static int driveTrainRightMotor3 = 10;
+	public static int intakeMotor = 9;
 	public static int shooterMotor = 20;
+	// Will the shooter hood be a piston, a motor, or a servo?
+	public static int shooterHoodMotor = 21;
 	
     // Pneumatic controller PCM IDs
     public static int shifterSolenoidFwd = 0;
     public static int shifterSolenoidRev = 1;
+    public static int gearSolenoid = 4;
+    
+    // Analog I/O addresses
+    public static int driveTrainGyro = 0;
 
 }

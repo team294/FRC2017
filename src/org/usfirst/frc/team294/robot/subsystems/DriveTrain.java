@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -25,37 +24,76 @@ public class DriveTrain extends Subsystem {
     // Drive Train hardware
 	private final CANTalon leftMotor1 = new CANTalon(RobotMap.driveTrainLeftMotor1);
     private final CANTalon leftMotor2 = new CANTalon(RobotMap.driveTrainLeftMotor2);
-    //private final CANTalon leftMotor3 = new CANTalon(RobotMap.driveTrainLeftMotor3);
+    private final CANTalon leftMotor3 = new CANTalon(RobotMap.driveTrainLeftMotor3);
     private final CANTalon rightMotor1 = new CANTalon(RobotMap.driveTrainRightMotor1);
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
-    //private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
-//    private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
-//    private AHRS ahrs;
+    private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
+    private final RobotDrive robotDrive = new RobotDrive(leftMotor2, rightMotor2);
+    
+    private AHRS ahrs = new AHRS(SPI.Port.kMXP);
+	
+    // Gyro resets are tracked in software, due to latency in resets. This holds the value of the NavX's "zero" degrees
     private double yawZero = 0;
+    
+
     public DriveTrain() {
+    	// Call the Subsystem constructor
     	super();
-    	
-    	leftMotor2.reverseSensor(true);
-    	
+    	    	
     	// Set the other motors to follow motor 2 on each side
     	leftMotor1.changeControlMode(TalonControlMode.Follower);
-    	//leftMotor3.changeControlMode(TalonControlMode.Follower);
+    	leftMotor3.changeControlMode(TalonControlMode.Follower);
         rightMotor1.changeControlMode(TalonControlMode.Follower);
-        //rightMotor3.changeControlMode(TalonControlMode.Follower);
+        rightMotor3.changeControlMode(TalonControlMode.Follower);
         leftMotor1.set(leftMotor2.getDeviceID());
-        //leftMotor3.set(leftMotor2.getDeviceID());
+        leftMotor3.set(leftMotor2.getDeviceID());
         rightMotor1.set(rightMotor2.getDeviceID());
-        //rightMotor3.set(rightMotor2.getDeviceID());
+        rightMotor3.set(rightMotor2.getDeviceID());
+//    	leftMotor3.changeControlMode(TalonControlMode.Follower);
+        rightMotor1.changeControlMode(TalonControlMode.Follower);
+//		rightMotor3.changeControlMode(TalonControlMode.Follower);
+        leftMotor1.set(leftMotor2.getDeviceID());
+//		leftMotor3.set(leftMotor2.getDeviceID());
+        rightMotor1.set(rightMotor2.getDeviceID());
+//		rightMotor3.set(rightMotor2.getDeviceID());
+        
+        // Configure encoders on motor 2 on each side
         leftMotor2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
         rightMotor2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
         leftMotor2.configEncoderCodesPerRev(100);
         rightMotor2.configEncoderCodesPerRev(100);
+    	leftMotor2.reverseSensor(true);
+
+        // Configure basic drive settings
         leftMotor2.configNominalOutputVoltage(+0.0f, -0.0f);
         rightMotor2.configNominalOutputVoltage(+0.0f, -0.0f);
-        leftMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
-        rightMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
         leftMotor2.setVoltageRampRate(40);
         rightMotor2.setVoltageRampRate(40);
+        
+        ahrs.zeroYaw();
+        
+        SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
+        SmartDashboard.putBoolean(  "IMU_IsCalibrating",    ahrs.isCalibrating());
+        SmartDashboard.putNumber(   "IMU_Yaw",              ahrs.getYaw());
+        SmartDashboard.putNumber(   "IMU_Pitch",            ahrs.getPitch());
+        SmartDashboard.putNumber(   "IMU_Roll",             ahrs.getRoll());
+        setDriveControlByPower();
+        
+        // Configure the RobotDrive
+        robotDrive.setExpiration(0.1);
+        robotDrive.setSensitivity(0.5);
+        robotDrive.setMaxOutput(1.0);
+    	
+        // Setup the navX
+        try {
+            /* Communicate w/navX MXP via the MXP SPI Bus.                                     */
+            /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
+            /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
+            ahrs = new AHRS(SPI.Port.kMXP); 
+        } catch (RuntimeException ex ) {
+            DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+        }
+        ahrs.zeroYaw();
     }
 
     /**
@@ -67,7 +105,7 @@ public class DriveTrain extends Subsystem {
         rightMotor2.changeControlMode(TalonControlMode.PercentVbus);
         leftMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
         rightMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
-//        robotDrive.setSafetyEnabled(false);
+        robotDrive.setSafetyEnabled(true);
     }
     
     /**
@@ -79,66 +117,27 @@ public class DriveTrain extends Subsystem {
     public void driveWithJoystick(Joystick leftStick, Joystick rightStick) {
         leftMotor2.clearStickyFaults();
         rightMotor2.clearStickyFaults();
-//    	robotDrive.tankDrive(leftStick, rightStick);
+
+    	robotDrive.tankDrive(leftStick, rightStick);
     }
-    
-//    {
-//    try {
-//        /* Communicate w/navX MXP via the MXP SPI Bus.                                     */
-//        /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
-//        /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
-//        ahrs = new AHRS(SPI.Port.kMXP); 
-//    } catch (RuntimeException ex ) {
-//        DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
-//    }
-//    ahrs.zeroYaw(); 
-//    }
-//    public double getDegrees() {
-//		double angle;
-//		
-//		angle = ahrs.getAngle() - yawZero; 
-//		
-//		// Normalize to 0 to 360 degrees
-//		angle = angle - Math.floor(angle/360)*360;
-//		
-//		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
-//		return angle;
-//	}
-//    
-    
+
     /**
      * Stop the drive train motors
      */
 	public void stop() {
 		setDriveControlByPower();
-		leftMotor1.set(0.0);
-		leftMotor2.set(0.0);
-		rightMotor1.set(0.0);
-		rightMotor2.set(0.0);
-//		robotDrive.drive(0, 0);
+		robotDrive.drive(0, 0);
 	}
     
 	/**
 	 * Drive the robot straight forward
 	 * @param speed +1 to -1, + = forward, - = backward
 	 */
-	public void setMotorSpeed(double leftSpeed, double rightSpeed) {
-		SmartDashboard.putNumber("Left Speed", leftSpeed);
-		SmartDashboard.putNumber("Right Speed", rightSpeed);
-		setDriveControlByPower();
-		leftMotor1.set(leftSpeed);
-		leftMotor2.set(leftSpeed);
-		rightMotor1.set(rightSpeed);
-		rightMotor2.set(rightSpeed);
-	}
-	
-	/**
-	 * Drive at a fixed power level as fraction of Vbus
-	 * @param speed From -1 to +1, fraction of Vbus
-	 */
+
 	public void driveForward(double speed) {
 		setDriveControlByPower();
-		setMotorSpeed(-speed, -speed);
+		robotDrive.drive(-speed, 0);
+    	SmartDashboard.putNumber("driveTrain set speed", speed);
 	}
 
 	/**
@@ -147,23 +146,22 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void driveBackward(double speed) {
 		setDriveControlByPower();
-		setMotorSpeed(speed, speed);
+		robotDrive.drive(speed, 0);
+    	SmartDashboard.putNumber("driveTrain set speed", -speed);
 	}
 	
 	/**
 	 * Drive the robot at an angle
 	 * @param speed +1 to -1, + = backward, - = forward
-	 * @param curve +1 to -1, >0 = left, <0 = right
+	 * @param curve +1 to -1, <0 = left, >0 = right
 	 */
 	public void driveAtAngle(double speed, double curve) {
 		setDriveControlByPower();
-		speed *= curve;
-		System.out.println("Speed: " + Double.toString(speed) + " Curve: " + Double.toString(curve));
-		setMotorSpeed(speed, speed);
-//		robotDrive.drive(-speed, curve);
+		robotDrive.drive(-speed, curve);
+    	SmartDashboard.putNumber("driveTrain set speed", speed);
+
 	}
 	
-    
     /**
      * get the left and right positions and the left and right speeds from the encoders
      */
@@ -173,14 +171,25 @@ public class DriveTrain extends Subsystem {
     	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
     	SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
     }
-    public double readLeftEncoder(){
+    
+    /**
+     * Reads the value of the encoder on left motor 2
+     * @return
+     */
+    public double getLeftEncoder() {
     	return leftMotor2.getPosition();
     }
-    	public double getGyro(){
-    		return 0.0;
-    	}
+    
     /**
-     * Logs the talon output to a file
+     * Reads the value of the encoder on right motor 2
+     * @return
+     */
+    public double getRightEncoder() {
+    	return rightMotor2.getPosition();
+    }
+
+    /**
+     * Logs the drive Talon status to a file
      */
 	public void logTalonStatus() {
 		Robot.log.writeLog(
@@ -189,10 +198,6 @@ public class DriveTrain extends Subsystem {
 				" BusVolt " + leftMotor2.getBusVoltage() + 
 				" OutVolt " + leftMotor2.getOutputVoltage() + 
 				" OutCur " + leftMotor2.getOutputCurrent() + 
-				" PulsePos " + leftMotor2.getPulseWidthPosition() + 
-				" PulseVel " + leftMotor2.getPulseWidthVelocity() + 
-				" PulseRF " + leftMotor2.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + leftMotor2.getPulseWidthRiseToRiseUs() + 
 				" Get " + leftMotor2.get() +
 				
 				" Left Motor 1 (Follower)-- TempC " + leftMotor1.getTemperature() + 
@@ -200,10 +205,6 @@ public class DriveTrain extends Subsystem {
 				" BusVolt " + leftMotor1.getBusVoltage() + 
 				" OutVolt " + leftMotor1.getOutputVoltage() + 
 				" OutCur " + leftMotor1.getOutputCurrent() + 
-				" PulsePos " + leftMotor1.getPulseWidthPosition() + 
-				" PulseVel " + leftMotor1.getPulseWidthVelocity() + 
-				" PulseRF " + leftMotor1.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + leftMotor1.getPulseWidthRiseToRiseUs() + 
 				" Get " + leftMotor1.get() +
 				
 				/* " Left Motor 3 (Follower)-- TempC " + leftMotor1.getTemperature() + 
@@ -211,10 +212,6 @@ public class DriveTrain extends Subsystem {
 				" BusVolt " + leftMotor3.getBusVoltage() + 
 				" OutVolt " + leftMotor3.getOutputVoltage() + 
 				" OutCur " + leftMotor3.getOutputCurrent() + 
-				" PulsePos " + leftMotor3.getPulseWidthPosition() + 
-				" PulseVel " + leftMotor3.getPulseWidthVelocity() + 
-				" PulseRF " + leftMotor3.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + leftMotor3.getPulseWidthRiseToRiseUs() + 
 				" Get " + leftMotor3.get() +
 				*/
 				
@@ -223,10 +220,6 @@ public class DriveTrain extends Subsystem {
 				" BusVolt " + rightMotor2.getBusVoltage() + 
 				" OutVolt " + rightMotor2.getOutputVoltage() + 
 				" OutCur " + rightMotor2.getOutputCurrent() + 
-				" PulsePos " + rightMotor2.getPulseWidthPosition() + 
-				" PulseVel " + rightMotor2.getPulseWidthVelocity() + 
-				" PulseRF " + rightMotor2.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + rightMotor2.getPulseWidthRiseToRiseUs() + 
 				" Get " + rightMotor2.get() +
 				
 				" Right Motor 1 (Follower)-- TempC " + rightMotor1.getTemperature() + 
@@ -234,10 +227,6 @@ public class DriveTrain extends Subsystem {
 				" BusVolt " + rightMotor1.getBusVoltage() + 
 				" OutVolt " + rightMotor1.getOutputVoltage() + 
 				" OutCur " + rightMotor1.getOutputCurrent() + 
-				" PulsePos " + rightMotor1.getPulseWidthPosition() + 
-				" PulseVel " + rightMotor1.getPulseWidthVelocity() + 
-				" PulseRF " + rightMotor1.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + rightMotor1.getPulseWidthRiseToRiseUs() + 
 				" Get " + rightMotor1.get()
 				
 				/*+ " Right Motor 3 (Follower)-- TempC " + rightMotor3.getTemperature() + 
@@ -245,16 +234,45 @@ public class DriveTrain extends Subsystem {
 				" BusVolt " + rightMotor3.getBusVoltage() + 
 				" OutVolt " + rightMotor3.getOutputVoltage() + 
 				" OutCur " + rightMotor3.getOutputCurrent() + 
-				" PulsePos " + rightMotor3.getPulseWidthPosition() + 
-				" PulseVel " + rightMotor3.getPulseWidthVelocity() + 
-				" PulseRF " + rightMotor3.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + rightMotor3.getPulseWidthRiseToRiseUs() + 
 				" Get " + rightMotor3.get()
 				*/
 				);
 	}
 	
-	public void initDefaultCommand() {
+	/** 
+	 * Reset the angle of the NavX in the software
+	 */
+	public void resetDegrees() {
+		yawZero = ahrs.getAngle();
+	}
+    
+    /**
+     * Return the current angle of the gyro
+     * @return current angle from 0 to 360
+     */
+    public double getGyroAngle() {
+		double angle;
+		
+		angle = ahrs.getAngle() - yawZero; 
+		
+		// Normalize to 0 to 360 degrees
+		angle = angle - Math.floor(angle/360)*360;
+		
+		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
+		Robot.log.writeLog(" Gyro: Current Angle: " + angle);
+		
+		return angle;
+    }
+    
+    /**
+     * Get the gyro rate
+     * @return
+     */
+    public double getGyroRate() {
+    	return ahrs.getRate();
+    }
+    
+    public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
 //    	setDefaultCommand(new DriveWithJoysticks());

@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.commands.*;
@@ -25,8 +24,8 @@ public class Robot extends IterativeRobot {
 	public static Shifter shifter;
 	public static Shooter shooter;
 	public static Intake intake;
-	public static GearPort gearPort;
-	public static Vision vision;
+	public static GearGate gearGate;
+	
 	// The OI
 	public static OI oi;
 	
@@ -44,21 +43,18 @@ public class Robot extends IterativeRobot {
 		shifter = new Shifter();
 		shooter = new Shooter();
 		intake = new Intake();
-		gearPort = new GearPort();
+		gearGate = new GearGate();
 		log = new FileLog();
-		vision = new Vision();
 		oi = new OI();
-		
-		// Display active commands and subsystem status on SmartDashboard
+
+		// Put scheduler and subsystems on SmartDashboard
 		SmartDashboard.putData(Scheduler.getInstance());
 		SmartDashboard.putData(driveTrain);
-		SmartDashboard.putData(vision);
 		SmartDashboard.putData(shifter);
 		SmartDashboard.putData(shooter);
 		SmartDashboard.putData(intake);
-		SmartDashboard.putData(gearPort);
+		SmartDashboard.putData(gearGate);
 
-		System.out.println("Robot init done");		
 	}
 
 	/**
@@ -108,7 +104,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		
-		driveTrain.logTalonStatus();
+		//driveTrain.logTalonStatus();
 	}
 
 	@Override
