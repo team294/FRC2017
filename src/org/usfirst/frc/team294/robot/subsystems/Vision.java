@@ -72,7 +72,7 @@ public class Vision extends Subsystem {
 		Contour[] contours;
 		//Instantiate array of contours to be filtered
 		int tempXLength, tempYLength, tempAreaLength, tempHeightLength;
-		while (true) { 
+		while (true) { // Start of continuous loop to make the contour array
 			double[] tempXPos = table.getNumberArray("centerX",   networkTableDefault);
 			double[] tempYPos =  table.getNumberArray("centerY",   networkTableDefault);
 			double[] tempArea = table.getNumberArray("area",   networkTableDefault);
@@ -81,14 +81,14 @@ public class Vision extends Subsystem {
 			tempYLength = tempYPos.length;
 			tempAreaLength = tempXPos.length;
 			tempHeightLength = tempArea.length;
-			contours = new Contour[tempXLength];
+			contours = new Contour[tempXLength];//Gives your contour array a length equal to the number of centerXs present in the Network Table
 			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength){
 				for (int i = 0; i < tempXLength; i++) {
 					contours[i] = new Contour(tempXPos[i], tempYPos[i], tempArea[i], tempHeight[i]);
 				}
 				break;
 			}
-		}
+		}//End of the continuous loop to make the contour array
 		for (int a = 0; a < contours.length; a++) {
 			//if (contours[a].isEliminated()) {continue; } // If the contour at a is already eliminated, skip it
 			for (int b = a + 1; b < contours.length; b++) {
@@ -109,7 +109,7 @@ public class Vision extends Subsystem {
 				}
 			else if (contours[i].getArea() > bestContours[1].getArea()) {bestContours[1] = contours[i]; }
 		}
-		return bestContours;
+		return bestContours; //Returns largest two contours
 	}
 	
 	public double getGearAngleOffset() {
