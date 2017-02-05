@@ -21,6 +21,7 @@ $RECYCLE.BIN/
 *.class
 build/*
 dist/*
+.classpath
 
 # =========================
 # Operating System Files
