@@ -1,48 +1,12 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
+import org.usfirst.frc.team294.utilities.Contour;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
-class Contour {
-	private double xPos, yPos, area, height, radius;
-	private boolean eliminated = false;
-	
-	//constructor
-	public Contour(double xPos, double yPos, double area, double height) {
-		this.xPos = xPos;
-		this.yPos = yPos;
-		this.area = area;
-		this.height = height;
-		this.radius = Math.sqrt(this.area/Math.PI)/2; //Adjusted radius of contour (Divided by two to reduce overlap detection likelihood)
-	}
-	//Argumentless Constructor
-	public Contour() {this.xPos = this.yPos = this.area = this.height = this.radius = 0; }
-	
-	//Getters
-	public double getXPos() {return this.xPos; }
-	public double getYPos() {return this.yPos; }
-	public double getArea() {return this.area; }
-	public double getHeight() {return this.height; }
-	public double getRadius() {return this.radius; }
-	public boolean isEliminated() {return this.eliminated; }
-	
-	//Setters
-	public void eliminate() {this.eliminated = true; } //"Eliminates" this variable, by setting eliminated to true
-	
-	//Special Methods
-	public double getDistance(Contour c) { //Gets pixel distance between two contours
-		double xDist = c.getXPos() - this.getXPos();
-		double yDist = c.getYPos() - this.getYPos();
-		return Math.hypot(xDist, yDist); //  = Math.sqrt(xDist * xDist + yDist * yDist);
-	}
-	public boolean intersects(Contour c) { //Determines if two contours intersect (treated as circles)
-		return (c.getDistance(this) < c.getRadius() + this.getRadius());
-	}
-}
+
 
 public class Vision extends Subsystem {
 	NetworkTable table;
@@ -106,12 +70,12 @@ public class Vision extends Subsystem {
 			if (contours[i].getArea() > bestContours[0].getArea()) { 
 				bestContours[1] = bestContours[0];
 				bestContours[0] = contours[i];
-				}
+			}
 			else if (contours[i].getArea() > bestContours[1].getArea()) {bestContours[1] = contours[i]; }
 		}
 		return bestContours; //Returns largest two contours
 	}
-	
+
 	public double getGearAngleOffset() {
 		//Gives the robot's angle of offset from the gear target in degrees
 		Contour[] targets = filterContours(); //Gets best two best contours
@@ -128,7 +92,7 @@ public class Vision extends Subsystem {
 		SmartDashboard.putNumber("Angle Offset", gearAngleOffset);
 		return gearAngleOffset;
 	}
-	
+
 	public double getGearDistance() {
 		//Gives the distance of the robot from the gear target if our camera's center is at the same elevantion as the center of the gear tape
 		int heightOfTape = 5; //Height of the tape on the gear lift
