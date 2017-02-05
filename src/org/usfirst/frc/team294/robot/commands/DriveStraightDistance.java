@@ -27,6 +27,12 @@ public class DriveStraightDistance extends Command {
 	
 	private ToleranceChecker tolerance = new ToleranceChecker(0.5, 5);
 	
+	/**
+	 * Drive the robot forward, using the NavX to adjust angle
+	 * @param speed speed to go, minimum 0.25 (- goes backwards)
+	 * @param distance 
+	 * @param units either inches or revolutions of the encoder
+	 */
     public DriveStraightDistance(double speed, double distance, Units units) {
         requires(Robot.driveTrain);
         
@@ -60,9 +66,9 @@ public class DriveStraightDistance extends Command {
         	// Use minSpeed to stay out of dead band
         	if (distSpeedControl>0) {
         		distSpeedControl = (distSpeedControl<minSpeed) ? minSpeed : distSpeedControl;
-        	} else {
-        		distSpeedControl = (distSpeedControl>-minSpeed) ? -minSpeed : distSpeedControl;
-        	}
+       		} else {
+       			distSpeedControl = (distSpeedControl>-minSpeed) ? -minSpeed : distSpeedControl;
+       		}
         	
         	// Find angle to drive
         	angleErr = Robot.driveTrain.getGyroAngle();
