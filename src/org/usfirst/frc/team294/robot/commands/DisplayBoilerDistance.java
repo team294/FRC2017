@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DisplayBoilerDistance extends Command {
 
     public DisplayBoilerDistance() {
-    	requires(Robot.BoilerVision);
+    	requires(Robot.boilerVision);
     }
 
     // Called just before this Command runs the first time
@@ -20,7 +20,8 @@ public class DisplayBoilerDistance extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.BoilerVision.getBoilerDistance();
+    	double distance = Robot.boilerVision.getBoilerDistance();
+    	SmartDashboard.putNumber("Boiler Distance", distance);
     }
 
     // Make this return true when this Command no longer needs to run execute()
