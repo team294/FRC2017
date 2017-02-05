@@ -14,8 +14,8 @@ import org.usfirst.frc.team294.robot.commands.*;
 public class OI {//Hopefully this works or maybe this will
 	
 	// Joysticks
-//	public Joystick leftJoystick = new Joystick(0);
-//	public Joystick rightJoystick = new Joystick(1);
+	public Joystick leftJoystick = new Joystick(0);
+	public Joystick rightJoystick = new Joystick(1);
 
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
@@ -51,8 +51,7 @@ public class OI {//Hopefully this works or maybe this will
 	     // Declare right joystick buttons and set them to shift up
 	     for (Button i : right) {
 	    	 i = new JoystickButton(rightJoystick, k++);
-	    	 if (k > 2 && k < 7) i.whenPressed(new DriveWithJoysticks()); 
-	    	 else i.whenPressed(new ShiftUp());
+	    	 i.whenPressed(new ShiftUp());
 	     }
 
 	     // Gyro Testing Commands
@@ -60,7 +59,6 @@ public class OI {//Hopefully this works or maybe this will
 	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
 	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180));
 	     SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
-
 	     
 	     // Subsystem Testing Commands
 	     SmartDashboard.putData("Gear Piston Out", new SetGearSolenoid(true));
