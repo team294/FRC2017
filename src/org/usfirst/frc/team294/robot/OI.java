@@ -11,7 +11,7 @@ import org.usfirst.frc.team294.robot.commands.*;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
-public class OI {
+public class OI {//Hopefully this works or maybe this will
 	
 	// Joysticks
 	public Joystick leftJoystick = new Joystick(0);
@@ -58,7 +58,14 @@ public class OI {
 	    	 if (k > 2 && k < 7) i.whenPressed(new DriveWithJoysticks()); 
 	    	 else i.whenPressed(new ShiftUp());
 	     }
+
+	     // Gyro Testing Commands
+	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
+	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
+	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180));
+	     SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
 	     
+
 	     //double speed = SmartDashboard.getDouble("Drive Speed");
 	     //double curve = SmartDashboard.getDouble("Drive Curve");
 	     SmartDashboard.putNumber("Drive Speed", 0.0);
@@ -72,17 +79,20 @@ public class OI {
 	     SmartDashboard.putData("Drive 50%", new DriveForward(.5));
 	     SmartDashboard.putData("Drive Stop", new DriveStop());
 	     
-	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
-	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
-	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180));
-	     SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
-	     
-	     // Testing for various susbsytems
+	     // Subsystem Testing Commands
 	     SmartDashboard.putData("Gear Piston Out", new SetGearSolenoid(true));
 	     SmartDashboard.putData("Gear Piston In", new SetGearSolenoid(false));
 	     SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
 	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
 	     SmartDashboard.putData("Stop Shooter Motor", new ShooterSetToSpeed(0.0));
 	     SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3));
+
+	     // Encoders
+//	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
+	    // SmartDashboard.putData("Get Boiler Distance", new DisplayBoilerDistance());
+
+
+	     // Stop Command
+	     SmartDashboard.putData("Drive Stop", new DriveStop());
 	}
 }

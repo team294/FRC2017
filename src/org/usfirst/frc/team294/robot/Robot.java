@@ -28,6 +28,7 @@ public class Robot extends IterativeRobot {
 	public static GearGate gearGate;
 	public static Vision vision;
 	public static ShooterHood shooterHood;
+	public static BoilerVision boilerVision;
 	
 	// The OI
 	public static OI oi;
@@ -40,14 +41,27 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+		System.out.println("Robot init");
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
 		shooter = new Shooter();
 		intake = new Intake();
 		gearGate = new GearGate();
+		vision = new Vision();
+		boilerVision = new BoilerVision();
 		log = new FileLog();
 		vision = new Vision();
 		oi = new OI();
+
+
+		// Put scheduler and subsystems on SmartDashboard
+		SmartDashboard.putData(Scheduler.getInstance());
+		SmartDashboard.putData(driveTrain);
+		SmartDashboard.putData(shifter);
+		SmartDashboard.putData(shooter);
+		SmartDashboard.putData(intake);
+		SmartDashboard.putData(gearGate);
+
 	}
 
 	/**
@@ -101,15 +115,17 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		System.out.println("Teleop init start");		
 		log.writeLog("Teleop Mode Started");
+		System.out.println("Teleop init done");		
 	}
 
 	/**
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-		
+		Scheduler.getInstance().run();	
+		//System.out.print("Go!\r");
 		//driveTrain.logTalonStatus();
 	}
 

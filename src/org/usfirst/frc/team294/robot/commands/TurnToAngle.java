@@ -13,51 +13,55 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TurnToAngle extends Command {
 
 	private double angle;
-	final private double MIN_POWER = 0.2;
-	final private double MAX_POWER = 0.7;
-	private double targetAngle;
-	private double currentAngle;
-	
-    public TurnToAngle(double target) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+	final private double MIN_POWER = 0.4;
+	final private double MAX_POWER = 0.6;
+	private double targetAngle;
+	private double currentAngle;
+	private double defaultDirection = -1; 
+	
+    public TurnToAngle(double target) {
     	requires(Robot.driveTrain);
     	requires(Robot.vision);
     	targetAngle=target;
     }
-
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    	currentAngle= Robot.vision.getGearAngleOffset();
-    	angle=targetAngle-currentAngle;
+  // Called just before this Command runs the first time
+    protected void initialize() {currentAngle = Robot.vision.getGearAngleOffset();
+    	angle = targetAngle - currentAngle;
     	double speed=calculateSpeed(angle);
     	Robot.driveTrain.driveAtAngle(speed, 1);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	currentAngle= Robot.vision.getGearAngleOffset();
-    	angle=targetAngle-currentAngle;
-    	double speed=calculateSpeed(angle);
-    	Robot.driveTrain.driveAtAngle(speed, -angle/Math.abs(angle));
-    	SmartDashboard.putNumber("angle", currentAngle);
+    	currentAngle = Robot.vision.getGearAngleOffset();
+    	if (currentAngle == -500) {
+    		Robot.driveTrain.driveAtAngle(MAX_POWER, defaultDirection);
+    	}
+    	else {
+	    	angle = targetAngle - currentAngle;
+	    	double speed = calculateSpeed(angle);
+	    	Robot.driveTrain.driveAtAngle(speed, angle/Math.abs(angle));
+    	}
     }
     
     private double calculateSpeed(double angle) {
     	double power = 0;
-    	if (Math.abs(angle) >= 90) {
+    	if (Math.abs(angle) >= 34.25) {
     		power = MAX_POWER;
     	} else {
-    		power = MIN_POWER + Math.abs(angle)*(MAX_POWER-MIN_POWER)/90;
+    		power = MIN_POWER + angle*angle*(MAX_POWER-MIN_POWER)/34.25/34.25;
     	}
     	return power;
     	
     }
    
-    	
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if (angle <= 3 && angle >= -3) {
+    	SmartDashboard.putNumber("Angle", angle);
+    	System.out.println("Checking angle: " + Double.toString(angle));
+        if (Math.abs(angle) < .75) {
         	return true;
         } else {
         	return false;

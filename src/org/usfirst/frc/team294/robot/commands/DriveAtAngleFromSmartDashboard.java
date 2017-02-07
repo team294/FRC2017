@@ -4,10 +4,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.*;
+
 /**
+ * Testing Purposes Only
+ * @author team
  *
  */
-
 public class DriveAtAngleFromSmartDashboard extends Command { 
 
 	private double speed;

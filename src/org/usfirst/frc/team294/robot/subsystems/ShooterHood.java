@@ -6,14 +6,17 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import com.ctre.CANTalon;
+
+
 /**
- *
+ * The Hood over the Shooter
  */
 public class ShooterHood extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
+
 	// add potentiometer here
 	
 	// will this be a motor or a servo?
@@ -28,15 +31,7 @@ public class ShooterHood extends Subsystem {
     	//calculate angle from potentiometer
     	return angle;
     }
-    
-    /**
-     * Set the angle of the shooter hood
-     * @param angle from -180 to +180 (this may change; not all angles will be used because of space)
-     */
-    public void setShooterHoodAngle(double angle) {
-    	
-    }
-    
+   
     /**
      * Log the current status of the shooter hood
      */
@@ -44,9 +39,21 @@ public class ShooterHood extends Subsystem {
     	Robot.log.writeLog("Shooter Hood: Current Angle: " + getShooterHoodAngle());
     }
     
-	public void initDefaultCommand() {
+
+
+
+	/**
+	 * Set the angle of the shooter hood
+	 */
+	public void setAngle(double angle) {
+		Robot.log.writeLog("Shooter Hood: Setting angle to " + angle);
+		// Set the angle here
+	}
+	
+   
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+  	public void initDefaultCommand() {
     }
 }
 

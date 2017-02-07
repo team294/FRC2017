@@ -10,7 +10,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveForward extends Command {
 
-	double speed = 0.0;
+
+	private double speed = 0.0;
+	private double curve = 0.0;
+	private double duration = 0.0;
 	
     public DriveForward(double setSpeed) {
         requires(Robot.driveTrain);
@@ -19,6 +22,7 @@ public class DriveForward extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+      System.out.println("Drive forward init");		
     	Robot.driveTrain.driveForward(speed);
     	SmartDashboard.putNumber("Drive Forward Speed", speed);
     }
@@ -29,7 +33,7 @@ public class DriveForward extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return (timeSinceInitialized() >= duration);
     }
 
     // Called once after isFinished returns true

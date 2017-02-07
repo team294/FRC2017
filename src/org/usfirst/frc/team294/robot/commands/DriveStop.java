@@ -3,10 +3,9 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Stop the Drive Train
  */
 public class DriveStop extends Command {
 
@@ -17,8 +16,9 @@ public class DriveStop extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.driveTrain.stop();
+
     	SmartDashboard.putNumber("Drive Forward Speed", 0);
-    	Robot.log.writeLog("Stopping Drivetrain");
+    
     	Robot.log.writeLog("DriveTrain: Drivetrain stopped by software");
     }
 

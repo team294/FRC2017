@@ -1,31 +1,41 @@
 package org.usfirst.frc.team294.robot.commands;
 
+import org.usfirst.frc.team294.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc.team294.robot.*;
 
 /**
  *
  */
-public class DriveWithJoysticks extends Command {
+public class DriveToBoiler extends Command {
 
-    public DriveWithJoysticks() {
+    public DriveToBoiler() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.driveTrain);
+        // eg. requires(chassis);
+    	requires(Robot.driveTrain);
+    	requires(Robot.boilerVision);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.setDriveControlByPower();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	Robot.driveTrain.driveWithJoystick(Robot.oi.leftJoystick, Robot.oi.rightJoystick);
+    	double distance = Robot.boilerVision.getBoilerDistance();
+    	if (distance > 2) {
+    		Robot.driveTrain.driveForward(.25);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+       // return false;
+        if (Robot.boilerVision.getBoilerDistance() <= 2) {
+        	return true;
+        } else {
+        	return false;
+        }
     }
 
     // Called once after isFinished returns true
@@ -35,6 +45,5 @@ public class DriveWithJoysticks extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.driveTrain.stop();
     }
 }

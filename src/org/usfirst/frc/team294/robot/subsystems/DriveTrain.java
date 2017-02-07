@@ -27,14 +27,14 @@ public class DriveTrain extends Subsystem {
     private final CANTalon leftMotor3 = new CANTalon(RobotMap.driveTrainLeftMotor3);
     private final CANTalon rightMotor1 = new CANTalon(RobotMap.driveTrainRightMotor1);
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
-    private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
-    private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
+   // private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
+    private final RobotDrive robotDrive = new RobotDrive(leftMotor2, rightMotor2);
     
-    // Gyro
-    private AHRS ahrs;
+    private AHRS ahrs = new AHRS(SPI.Port.kMXP);
 	
     // Gyro resets are tracked in software, due to latency in resets. This holds the value of the NavX's "zero" degrees
     private double yawZero = 0;
+    
 
     public DriveTrain() {
     	super();
@@ -43,7 +43,8 @@ public class DriveTrain extends Subsystem {
     	
     	// Set the other motors to follow motor 2 on each side
     	leftMotor1.changeControlMode(TalonControlMode.Follower);
-    	leftMotor3.changeControlMode(TalonControlMode.Follower);
+       // leftMotor3.set(leftMotor2.getDeviceID());
+       // rightMotor3.set(rightMotor2.getDeviceID());
         rightMotor1.changeControlMode(TalonControlMode.Follower);
         rightMotor3.changeControlMode(TalonControlMode.Follower);
         leftMotor1.set(leftMotor2.getDeviceID());
@@ -60,6 +61,9 @@ public class DriveTrain extends Subsystem {
         rightMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
         leftMotor2.setVoltageRampRate(40);
         rightMotor2.setVoltageRampRate(40);
+
+        setDriveControlByPower();
+
         
         ahrs.zeroYaw();
         
@@ -91,6 +95,7 @@ public class DriveTrain extends Subsystem {
     public void driveWithJoystick(Joystick leftStick, Joystick rightStick) {
         leftMotor2.clearStickyFaults();
         rightMotor2.clearStickyFaults();
+
     	robotDrive.tankDrive(leftStick, rightStick);
     	
     	try {
@@ -103,7 +108,7 @@ public class DriveTrain extends Subsystem {
     	}
     	ahrs.zeroYaw(); 
     }
-    
+
     /**
      * Stop the drive train motors
      */
@@ -117,6 +122,7 @@ public class DriveTrain extends Subsystem {
 	 * Drive the robot straight forward
 	 * @param speed +1 to -1, + = forward, - = backward
 	 */
+
 	public void driveForward(double speed) {
 		setDriveControlByPower();
 		leftMotor2.set(-speed);
@@ -141,6 +147,7 @@ public class DriveTrain extends Subsystem {
 	public void driveAtAngle(double speed, double curve) {
 		setDriveControlByPower();
 		robotDrive.drive(-speed, curve);
+    SmartDashboard.putNumber("driveTrain set speed", speed);
 	}
 
     /**
@@ -154,10 +161,10 @@ public class DriveTrain extends Subsystem {
     }
 
     /**
-     * Read the value of the encoder on left motor 2
+     * Reads the value of the encoder on left motor 2
      * @return
      */
-    public double readLeftEncoder() {
+    public double getLeftEncoder() {
     	return leftMotor2.getPosition();
     }
     
@@ -169,6 +176,7 @@ public class DriveTrain extends Subsystem {
     	return rightMotor2.getPosition();
     }
     	
+
     /**
      * Logs the talon output to a file
      */
@@ -241,7 +249,6 @@ public class DriveTrain extends Subsystem {
 				" Get " + rightMotor3.get()
 				);
 	}
-
 	/** 
 	 * Reset the angle of the NavX in the software
 	 */
@@ -286,7 +293,7 @@ public class DriveTrain extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new DriveWithJoysticks());
+//    	setDefaultCommand(new DriveWithJoysticks());
     }
 }
 
