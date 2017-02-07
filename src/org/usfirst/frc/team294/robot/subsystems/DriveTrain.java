@@ -24,10 +24,10 @@ public class DriveTrain extends Subsystem {
     // Drive Train hardware
 	private final CANTalon leftMotor1 = new CANTalon(RobotMap.driveTrainLeftMotor1);
     private final CANTalon leftMotor2 = new CANTalon(RobotMap.driveTrainLeftMotor2);
-    private final CANTalon leftMotor3 = new CANTalon(RobotMap.driveTrainLeftMotor3);
+    //private final CANTalon leftMotor3 = new CANTalon(RobotMap.driveTrainLeftMotor3);
     private final CANTalon rightMotor1 = new CANTalon(RobotMap.driveTrainRightMotor1);
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
-    private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
+   // private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
     private final RobotDrive robotDrive = new RobotDrive(leftMotor2, rightMotor2);
     
     private AHRS ahrs = new AHRS(SPI.Port.kMXP);
@@ -42,13 +42,13 @@ public class DriveTrain extends Subsystem {
     	    	
     	// Set the other motors to follow motor 2 on each side
     	leftMotor1.changeControlMode(TalonControlMode.Follower);
-    	leftMotor3.changeControlMode(TalonControlMode.Follower);
+    	//leftMotor3.changeControlMode(TalonControlMode.Follower);
         rightMotor1.changeControlMode(TalonControlMode.Follower);
-        rightMotor3.changeControlMode(TalonControlMode.Follower);
+       // rightMotor3.changeControlMode(TalonControlMode.Follower);
         leftMotor1.set(leftMotor2.getDeviceID());
-        leftMotor3.set(leftMotor2.getDeviceID());
+       // leftMotor3.set(leftMotor2.getDeviceID());
         rightMotor1.set(rightMotor2.getDeviceID());
-        rightMotor3.set(rightMotor2.getDeviceID());
+       // rightMotor3.set(rightMotor2.getDeviceID());
 //    	leftMotor3.changeControlMode(TalonControlMode.Follower);
         rightMotor1.changeControlMode(TalonControlMode.Follower);
 //		rightMotor3.changeControlMode(TalonControlMode.Follower);

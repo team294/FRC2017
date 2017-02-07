@@ -1,9 +1,5 @@
 package org.usfirst.frc.team294.utilities;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class Contour {
 	private double xPos, yPos, area, height, radius;
 	private boolean eliminated = false;
