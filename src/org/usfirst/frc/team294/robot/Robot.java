@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.commands.*;
@@ -26,6 +27,7 @@ public class Robot extends IterativeRobot {
 	public static Intake intake;
 	public static GearGate gearGate;
 	public static Vision vision;
+	public static ShooterHood shooterHood;
 	public static BoilerVision boilerVision;
 	
 	// The OI
@@ -38,7 +40,6 @@ public class Robot extends IterativeRobot {
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
-	@Override
 	public void robotInit() {
 		System.out.println("Robot init");
 		driveTrain = new DriveTrain();
@@ -49,7 +50,9 @@ public class Robot extends IterativeRobot {
 		vision = new Vision();
 		boilerVision = new BoilerVision();
 		log = new FileLog();
+		vision = new Vision();
 		oi = new OI();
+
 
 		// Put scheduler and subsystems on SmartDashboard
 		SmartDashboard.putData(Scheduler.getInstance());
@@ -66,12 +69,10 @@ public class Robot extends IterativeRobot {
 	 * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
 	 */
-	@Override
 	public void disabledInit() {
 
 	}
 
-	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
@@ -87,9 +88,8 @@ public class Robot extends IterativeRobot {
 	 * chooser code above (like the commented example) or additional comparisons
 	 * to the switch structure below with additional strings & commands.
 	 */
-	@Override
-	public void autonomousInit() {
 
+	public void autonomousInit() {
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -104,14 +104,12 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during autonomous
 	 */
-	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		
-		//driveTrain.logTalonStatus();
+		driveTrain.logTalonStatus();
 	}
 
-	@Override
 	public void teleopInit() {
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
@@ -125,7 +123,6 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during operator control
 	 */
-	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();	
 		//System.out.print("Go!\r");
@@ -135,7 +132,6 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during test mode
 	 */
-	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
 	}

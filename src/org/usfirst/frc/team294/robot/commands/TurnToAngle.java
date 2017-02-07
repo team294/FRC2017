@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TurnToAngle extends Command {
 
 	private double angle;
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
 	final private double MIN_POWER = 0.4;
 	final private double MAX_POWER = 0.6;
 	private double targetAngle;
@@ -24,10 +26,8 @@ public class TurnToAngle extends Command {
     	requires(Robot.vision);
     	targetAngle=target;
     }
-
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    	currentAngle = Robot.vision.getGearAngleOffset();
+  // Called just before this Command runs the first time
+    protected void initialize() {currentAngle = Robot.vision.getGearAngleOffset();
     	angle = targetAngle - currentAngle;
     	double speed=calculateSpeed(angle);
     	Robot.driveTrain.driveAtAngle(speed, 1);
@@ -57,7 +57,6 @@ public class TurnToAngle extends Command {
     	
     }
    
-    	
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	SmartDashboard.putNumber("Angle", angle);

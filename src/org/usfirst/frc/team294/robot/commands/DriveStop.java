@@ -16,6 +16,9 @@ public class DriveStop extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.driveTrain.stop();
+
+    	SmartDashboard.putNumber("Drive Forward Speed", 0);
+    
     	Robot.log.writeLog("DriveTrain: Drivetrain stopped by software");
     }
 

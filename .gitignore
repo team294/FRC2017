@@ -20,7 +20,6 @@ $RECYCLE.BIN/
 # GitHub
 *.class
 build/*
-dist/*
 
 # =========================
 # Operating System Files
@@ -51,6 +50,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /bin/
+*.classpath
 *.class
 *.jar
 *.classpath

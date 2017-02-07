@@ -1,11 +1,11 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
+
 import org.usfirst.frc.team294.utilities.Contour;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 
 public class Vision extends Subsystem {
@@ -30,6 +30,7 @@ public class Vision extends Subsystem {
 	}
 	public Contour[] filterContours() {
 		if (table.getNumberArray("area", networkTableDefault).length < 2) { //Make sure # of contours is valid
+
 			Contour[] temp = {new Contour(), new Contour()};
 			return temp;
 		}
@@ -53,6 +54,7 @@ public class Vision extends Subsystem {
 				break;
 			}
 		}//End of the continuous loop to make the contour array
+
 		for (int a = 0; a < contours.length; a++) {
 			//if (contours[a].isEliminated()) {continue; } // If the contour at a is already eliminated, skip it
 			for (int b = a + 1; b < contours.length; b++) {
@@ -67,6 +69,7 @@ public class Vision extends Subsystem {
 		Contour[] bestContours = {new Contour(), new Contour()};
 		for (int i = 0; i < contours.length; i++) {
 			if (contours[i].isEliminated()) {continue; } //If the contour is already eliminated, skip it
+
 			if (contours[i].getArea() > bestContours[0].getArea()) { 
 				bestContours[1] = bestContours[0];
 				bestContours[0] = contours[i];

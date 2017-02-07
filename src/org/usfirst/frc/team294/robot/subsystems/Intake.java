@@ -15,6 +15,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Intake extends Subsystem {
     private final CANTalon intakeMotor = new CANTalon(RobotMap.intakeMotor);
+
+    private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.intakeSolenoidDeploy, RobotMap.intakeSolenoidStow);
+
     //intake movment stuff here
     
     //public final MotorCurrentTrigger motorCurrentTrigger = new MotorCurrentTrigger(intakeMotor, 35, 2);
@@ -35,7 +38,20 @@ public class Intake extends Subsystem {
     }
     
     /**
-     * Set the speed of the intake motor (rollers)
+ 
+    
+  
+    /**
+     * Get the current position of the intake
+     * @return true if the intake is deployed, false if not
+     */
+    public boolean getPosition(){
+    	return (intakeSolenoid.get() == DoubleSolenoid.Value.kForward);
+    }
+    
+    /**
+     * Set the speed of the intake motor
+
      * @param speed of the motor, between -1 (outtake) and +1 (intake), 0 = stopped
      */
     public void setSpeed(double speed) {
