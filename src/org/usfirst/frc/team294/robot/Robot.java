@@ -26,7 +26,7 @@ public class Robot extends IterativeRobot {
 	public static Shooter shooter;
 	public static Intake intake;
 	public static GearPort gearPort;
-	
+	public static Vision vision;
 	// The OI
 	public static OI oi;
 	
@@ -45,6 +45,7 @@ public class Robot extends IterativeRobot {
 		intake = new Intake();
 		gearPort = new GearPort();
 		log = new FileLog();
+		vision = new Vision();
 		oi = new OI();
 	}
 

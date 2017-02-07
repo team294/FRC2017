@@ -7,9 +7,12 @@ import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
+import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,7 +30,8 @@ public class DriveTrain extends Subsystem {
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
     //private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
     private final RobotDrive robotDrive = new RobotDrive(rightMotor2, leftMotor2);
-
+    private AHRS ahrs;
+    private double yawZero = 0;
     public DriveTrain() {
     	super();
     	
@@ -76,8 +80,28 @@ public class DriveTrain extends Subsystem {
         leftMotor2.clearStickyFaults();
         rightMotor2.clearStickyFaults();
     	robotDrive.tankDrive(leftStick, rightStick);
+    }{
+    try {
+        /* Communicate w/navX MXP via the MXP SPI Bus.                                     */
+        /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
+        /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
+        ahrs = new AHRS(SPI.Port.kMXP); 
+    } catch (RuntimeException ex ) {
+        DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
     }
-    
+    ahrs.zeroYaw(); 
+    }
+    public double getDegrees() {
+		double angle;
+		
+		angle = ahrs.getAngle() - yawZero; 
+		
+		// Normalize to 0 to 360 degrees
+		angle = angle - Math.floor(angle/360)*360;
+		
+		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
+		return angle;
+	}
     /**
      * Stop the drive train motors
      */
@@ -123,6 +147,9 @@ public class DriveTrain extends Subsystem {
     	SmartDashboard.putNumber("Right Position", rightMotor2.getPosition());
     	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
     	SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
+    }
+    public double readLeftEncoder(){
+    	return leftMotor2.getPosition();
     }
     	public double getGyro(){
     		return 0.0;
