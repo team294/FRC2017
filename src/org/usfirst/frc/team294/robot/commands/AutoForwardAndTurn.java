@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  * Drive forward, turn, and drive forward again.
+ * Used for testing only, remove later
  */
 public class AutoForwardAndTurn extends CommandGroup {
 

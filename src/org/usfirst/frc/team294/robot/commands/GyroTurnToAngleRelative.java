@@ -105,11 +105,13 @@ public class GyroTurnToAngleRelative extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.driveTrain.stop();
+    	Robot.log.writeLog("Autonomous Turn Completed: Expected Angle " + angle + " Actual Angle " + Robot.driveTrain.getGyroAngle() + " Error " + angleErr);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.driveTrain.stop();
+    	Robot.log.writeLog("Autonomous Turn Command Interrupted");
     }
 }

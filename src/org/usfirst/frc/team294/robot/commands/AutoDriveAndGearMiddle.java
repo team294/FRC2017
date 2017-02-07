@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.commands;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.Units;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -10,8 +11,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoDriveAndGearMiddle extends CommandGroup {
 
     public AutoDriveAndGearMiddle() {
-    	// Speeds 0.7 for testing purposes
-        addParallel(new DriveStraightDistance(0.7, -93.25, Units.inches));
+    	// Speeds 0.4 for testing purposes
+        addParallel(new DriveStraightDistance(0.4, -93.25, Units.inches));
         // will probably need to shorten distance to allow vision to bring in robot
+        Robot.log.writeLog("Autonomous Gear Routine Middle Completed Successfully");
     }
 }

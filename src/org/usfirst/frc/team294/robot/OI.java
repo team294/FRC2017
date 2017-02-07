@@ -70,10 +70,15 @@ public class OI {
 	     SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3));
 	     
 	     // Autonomous Command Testing
-	     SmartDashboard.putData("Drive Forward and Turn", new AutoForwardAndTurn());
+//	     SmartDashboard.putData("Drive Forward and Turn", new AutoForwardAndTurn());
+	     SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
+	     SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGearRight());
+	     SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle());
 
 	     // Encoders
 //	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
+		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
+		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
 
 	     // Stop Command
 	     SmartDashboard.putData("Drive Stop", new DriveStop());

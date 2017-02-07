@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.commands;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.Units;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -15,5 +16,6 @@ public class AutoDriveAndGearLeft extends CommandGroup {
         addSequential(new GyroTurnToAngleRelative(-30, 0.7));
         addSequential(new DriveStraightDistance(0.7, -35.25, Units.inches));
         // will need to add vision tracking
+        Robot.log.writeLog("Autonomous Gear Routine Left Completed Successfully");
     }
 }

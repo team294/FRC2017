@@ -66,6 +66,8 @@ public class DriveTrain extends Subsystem {
         leftMotor2.configEncoderCodesPerRev(100);
         rightMotor2.configEncoderCodesPerRev(100);
     	leftMotor2.reverseSensor(true);
+    	
+    	setDriveControlByPower();
 
         // Configure basic drive settings
         leftMotor2.configNominalOutputVoltage(+0.0f, -0.0f);
@@ -185,6 +187,24 @@ public class DriveTrain extends Subsystem {
      */
     public double getRightEncoder() {
     	return rightMotor2.getPosition() - rightEncoderZero;
+    }
+    
+    /**
+     * Reads the raw value of the left encoder without adjusting for resets
+     * Testing purposes only
+     * @return
+     */
+    public double getLeftEncoderRaw() {
+    	return leftMotor2.getPosition();
+    }
+    
+    /**
+     * Reads the raw value of the right encoder without adjusting for resets
+     * Testing purpsoes only
+     * @return
+     */
+    public double getRightEncoderRaw() {
+    	return rightMotor2.getPosition();
     }
     
     /**

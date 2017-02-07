@@ -4,6 +4,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.utilities.ToleranceChecker;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -37,7 +38,7 @@ public class DriveStraightDistance extends Command {
         requires(Robot.driveTrain);
         
         this.speed = Math.abs(speed);
-        this.distance = (units == Units.inches) ? distance : distance / inchesPerRevolution;
+        this.distance = (units == Units.rotations) ? distance : distance / inchesPerRevolution;
     }
 
     // Called just before this Command runs the first time
@@ -52,8 +53,17 @@ public class DriveStraightDistance extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	distErr = Math.min( distance - Robot.driveTrain.getLeftEncoder(), distance - Robot.driveTrain.getRightEncoder() );
+    	distErr = Math.min(distance - Robot.driveTrain.getLeftEncoder(), distance - Robot.driveTrain.getRightEncoder() );
+    	
+    	// this is for autonomous command testing purposes. Remove before competition
+    	Robot.log.writeLog("Left Encoder: " + Robot.driveTrain.getLeftEncoder() + " Right Encoder: " + Robot.driveTrain.getRightEncoder());
+	    SmartDashboard.putNumber("Left Encoder", Robot.driveTrain.getLeftEncoder());
+	    SmartDashboard.putNumber("Right Encoder", Robot.driveTrain.getRightEncoder());
+	    SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
+	    SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
 
+    	
+    	
     	tolerance.check(Math.abs(distErr));
     	
     	if (!tolerance.success()) {
@@ -92,11 +102,13 @@ public class DriveStraightDistance extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.driveTrain.stop();
+    	Robot.log.writeLog("Autonomous Drive Completed: Distance: " + distance);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.driveTrain.stop();
+    	Robot.log.writeLog("Autonomous Drive Command Interrupted");
     }
 }
