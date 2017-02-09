@@ -46,11 +46,11 @@ public class DriveTrain extends Subsystem {
        // leftMotor3.set(leftMotor2.getDeviceID());
        // rightMotor3.set(rightMotor2.getDeviceID());
         rightMotor1.changeControlMode(TalonControlMode.Follower);
-        rightMotor3.changeControlMode(TalonControlMode.Follower);
+        //rightMotor3.changeControlMode(TalonControlMode.Follower);
         leftMotor1.set(leftMotor2.getDeviceID());
         leftMotor3.set(leftMotor2.getDeviceID());
         rightMotor1.set(rightMotor2.getDeviceID());
-        rightMotor3.set(rightMotor2.getDeviceID());
+        //rightMotor3.set(rightMotor2.getDeviceID());
         leftMotor2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
         rightMotor2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
         leftMotor2.configEncoderCodesPerRev(100);
@@ -237,7 +237,7 @@ public class DriveTrain extends Subsystem {
 				" PulseRR " + rightMotor1.getPulseWidthRiseToRiseUs() + 
 				" Get " + rightMotor1.get()
 				
-				+ " Right Motor 3 (Follower)-- TempC " + rightMotor3.getTemperature() + 
+				/*+ " Right Motor 3 (Follower)-- TempC " + rightMotor3.getTemperature() + 
 				" Set " + rightMotor3.getSetpoint() + 
 				" BusVolt " + rightMotor3.getBusVoltage() + 
 				" OutVolt " + rightMotor3.getOutputVoltage() + 
@@ -246,7 +246,7 @@ public class DriveTrain extends Subsystem {
 				" PulseVel " + rightMotor3.getPulseWidthVelocity() + 
 				" PulseRF " + rightMotor3.getPulseWidthRiseToFallUs() + 
 				" PulseRR " + rightMotor3.getPulseWidthRiseToRiseUs() + 
-				" Get " + rightMotor3.get()
+				" Get " + rightMotor3.get()*/
 				);
 	}
 	/** 
