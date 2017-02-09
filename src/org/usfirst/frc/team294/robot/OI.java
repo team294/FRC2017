@@ -11,7 +11,7 @@ import org.usfirst.frc.team294.robot.commands.*;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
-public class OI {
+public class OI {//Hopefully this works or maybe this will
 	
 	// Joysticks
 	public Joystick leftJoystick = new Joystick(0);
@@ -45,7 +45,11 @@ public class OI {
 	    // Declare left joystick buttons and set them to shift down
 	     for (Button i : left) {
 	    	 i =  new JoystickButton(leftJoystick, j++);
-	    	 i.whenPressed(new ShiftDown());
+	    	 if (j == 3) i.whenPressed(new GyroTurnToAngle(0.3, 180));
+	    	 else if (j == 4) i.whenPressed(new GyroTurnToAngle(0.3, 0));
+	    	 else if (j == 5) i.whenPressed(new GyroTurnToAngle(0.3, -90));
+	    	 else if (j == 6) i.whenPressed(new GyroTurnToAngle(0.3, 90.0));
+	    	 else i.whenPressed(new ShiftDown());
 	     }
 	     
 	     // Declare right joystick buttons and set them to shift up
@@ -60,6 +64,20 @@ public class OI {
 	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
 	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180));
 	     SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
+	     
+
+	     //double speed = SmartDashboard.getDouble("Drive Speed");
+	     //double curve = SmartDashboard.getDouble("Drive Curve");
+	     SmartDashboard.putNumber("Drive Speed", 0.0);
+	     SmartDashboard.putNumber("Drive Curve", 0.0);
+	     SmartDashboard.putData("Drive at Angle", new DriveAtAngleFromSmartDashboard());
+	     SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
+	     
+	     //SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
+	     
+	     SmartDashboard.putNumber("Drive Forward Speed", 0.0);
+	     SmartDashboard.putData("Drive 50%", new DriveForward(.5));
+	     SmartDashboard.putData("Drive Stop", new DriveStop());
 	     
 	     // Subsystem Testing Commands
 	     SmartDashboard.putData("Gear Piston Out", new SetGearSolenoid(true));
@@ -77,6 +95,8 @@ public class OI {
 
 	     // Encoders
 //	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
+
+	    // SmartDashboard.putData("Get Boiler Distance", new DisplayBoilerDistance());
 		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
 		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
 

@@ -6,30 +6,27 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Stop the Drive Train
+ *
  */
-public class DriveStop extends Command {
+public class DisplayBoilerDistance extends Command {
 
-    public DriveStop() {
-        requires(Robot.driveTrain);
+    public DisplayBoilerDistance() {
+    	requires(Robot.boilerVision);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.stop();
-
-    	SmartDashboard.putNumber("Drive Forward Speed", 0);
-    
-    	Robot.log.writeLog("DriveTrain: Drivetrain stopped by software");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	double distance = Robot.boilerVision.getBoilerDistance();
+    	SmartDashboard.putNumber("Boiler Distance", distance);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
@@ -39,6 +36,5 @@ public class DriveStop extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.driveTrain.stop();
     }
 }
