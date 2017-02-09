@@ -7,22 +7,24 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DisplayUltrasonicDistance extends Command {
+public class PreventCollision extends Command {
 
-    public DisplayUltrasonicDistance() {
+    public PreventCollision() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.ultrasonicSensors);
     	requires(Robot.driveTrain);
-    	requires(Robot.Sensors);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if(Robot.ultrasonicSensors.collisionPrevention() == true){
+    		Robot.driveTrain.stop();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

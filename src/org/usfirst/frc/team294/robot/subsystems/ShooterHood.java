@@ -31,6 +31,11 @@ public class ShooterHood extends Subsystem {
     	//calculate angle from potentiometer
     	return angle;
     }
+    
+    public double setShooterHoodAngle(double angle){
+    	//placeholder command to fix errors by you lazy shlops >:(
+    	return 0;
+    }
    
     /**
      * Log the current status of the shooter hood
@@ -45,7 +50,7 @@ public class ShooterHood extends Subsystem {
 	/**
 	 * Set the angle of the shooter hood
 	 */
-	public void setAngle(double angle) {
+	public void logAngle(double angle) {
 		Robot.log.writeLog("Shooter Hood: Setting angle to " + angle);
 		// Set the angle here
 	}

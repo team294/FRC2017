@@ -3,6 +3,7 @@ package org.usfirst.frc.team294.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,6 +36,7 @@ public class Robot extends IterativeRobot {
 	
 	// File logger
 	public static FileLog log;
+	public static UltrasonicSensors ultrasonicSensors;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -52,7 +54,7 @@ public class Robot extends IterativeRobot {
 		log = new FileLog();
 		vision = new Vision();
 		oi = new OI();
-
+		ultrasonicSensors = new UltrasonicSensors();
 
 		// Put scheduler and subsystems on SmartDashboard
 		SmartDashboard.putData(Scheduler.getInstance());
@@ -127,6 +129,8 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();	
 		//System.out.print("Go!\r");
 		//driveTrain.logTalonStatus();
+		ultrasonicSensors.updateSmartDashboard();
+		
 	}
 
 	/**

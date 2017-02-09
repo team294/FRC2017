@@ -27,7 +27,7 @@ public class DriveTrain extends Subsystem {
     private final CANTalon leftMotor3 = new CANTalon(RobotMap.driveTrainLeftMotor3);
     private final CANTalon rightMotor1 = new CANTalon(RobotMap.driveTrainRightMotor1);
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
-   // private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
+    private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
     private final RobotDrive robotDrive = new RobotDrive(leftMotor2, rightMotor2);
     
     private AHRS ahrs = new AHRS(SPI.Port.kMXP);
@@ -75,7 +75,7 @@ public class DriveTrain extends Subsystem {
     }
 
     /**
-     * Set the drive controller to use power settings, instead of using the
+   s  * Set the drive controller to use power settings, instead of using the
      * encoder PID controller.
      */
     public void setDriveControlByPower() {
