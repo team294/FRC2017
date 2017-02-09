@@ -23,6 +23,8 @@ public class GyroTurnToAngleRelative extends Command {
 	private double kPangle = 0.025;
 
 	private ToleranceChecker tolerance;
+	
+	private boolean vision = false;
 
 	/**
 	 * Turn to an angle relative to the robot's current position
@@ -41,6 +43,11 @@ public class GyroTurnToAngleRelative extends Command {
         this.tolerance = new ToleranceChecker(tolerance, 5);
     }
     
+    /**
+     * Turn the robot to a specified angle
+     * @param angle from -180 to +180 (- = left, + = right)
+     * @param speed from 0 to 1.0
+     */
     public GyroTurnToAngleRelative(double angle, double speed) {
     	requires(Robot.driveTrain);
 
@@ -50,12 +57,35 @@ public class GyroTurnToAngleRelative extends Command {
     	speed = (speed > 1) ? 1 : speed;
     	this.speed = speed;
     	this.tolerance = new ToleranceChecker(4.0, 5);
+    	this.vision = false;
+    }
+    
+    /**
+     * Turns the Robot using an angle from the Gear Vision
+     * @param angle null value, is overwritten by gear vision subsystem
+     * @param speed from 0 to 1.0
+     * @param useGearVision true to use gear vision, false to not use
+     */
+    public GyroTurnToAngleRelative(double angle, double speed, boolean useGearVision) {
+    	requires(Robot.driveTrain);
+    	requires(Robot.vision);
+    	
+    	this.angle = angle;
+    	speed = (speed > 1) ? 1 : speed;
+    	this.speed = speed;
+    	this.tolerance = new ToleranceChecker(4.0, 5);
+    	this.vision = useGearVision;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	tolerance.reset();
     	Robot.driveTrain.resetDegrees();
+    	
+    	angle = (vision) ? Robot.vision.getGearAngleOffset() : angle;
+    	// Normalize angle to -180 to +180
+        angle = (angle > 180) ? angle - 360 : angle;
+        angle = (angle < -180) ? angle + 360 : angle;
     }
 
     private double getAngleErr() {

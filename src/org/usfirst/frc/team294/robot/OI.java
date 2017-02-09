@@ -70,13 +70,11 @@ public class OI {//Hopefully this works or maybe this will
 	     //double curve = SmartDashboard.getDouble("Drive Curve");
 	     SmartDashboard.putNumber("Drive Speed", 0.0);
 	     SmartDashboard.putNumber("Drive Curve", 0.0);
-	     SmartDashboard.putData("Drive at Angle", new DriveAtAngleFromSmartDashboard());
 	     SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
 	     
 	     //SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
 	     
 	     SmartDashboard.putNumber("Drive Forward Speed", 0.0);
-	     SmartDashboard.putData("Drive 50%", new DriveForward(.5));
 	     SmartDashboard.putData("Drive Stop", new DriveStop());
 	     
 	     // Subsystem Testing Commands
@@ -88,13 +86,11 @@ public class OI {//Hopefully this works or maybe this will
 	     SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3));
 	     
 	     // Autonomous Command Testing
-//	     SmartDashboard.putData("Drive Forward and Turn", new AutoForwardAndTurn());
 	     SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
 	     SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGearRight());
 	     SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle());
 
 	     // Encoders
-//	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
 
 	    // SmartDashboard.putData("Get Boiler Distance", new DisplayBoilerDistance());
 		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());

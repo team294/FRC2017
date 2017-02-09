@@ -39,9 +39,6 @@ public class ShooterHood extends Subsystem {
     	Robot.log.writeLog("Shooter Hood: Current Angle: " + getShooterHoodAngle());
     }
     
-
-
-
 	/**
 	 * Set the angle of the shooter hood
 	 */
