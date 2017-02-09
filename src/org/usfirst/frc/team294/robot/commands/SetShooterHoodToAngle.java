@@ -24,7 +24,7 @@ public class SetShooterHoodToAngle extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	// sterilize inputs here
-    	Robot.shooterHood.setShooterHoodAngle(angle);
+    	Robot.shooterHood.setAngle(angle);
     }
 
     // Called repeatedly when this Command is scheduled to run
