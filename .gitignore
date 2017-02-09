@@ -20,6 +20,8 @@ $RECYCLE.BIN/
 # GitHub
 *.class
 build/*
+dist/*
+.classpath
 
 # =========================
 # Operating System Files

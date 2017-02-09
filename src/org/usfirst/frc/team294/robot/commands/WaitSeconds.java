@@ -1,29 +1,22 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class DriveForward extends Command {
+public class WaitSeconds extends Command {
 
-
-	private double speed = 0.0;
-	private double curve = 0.0;
-	private double duration = 0.0;
+	private double duration;
 	
-    public DriveForward(double setSpeed) {
-        requires(Robot.driveTrain);
-        speed = setSpeed;
+    public WaitSeconds(double duration) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	this.duration = duration;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-      System.out.println("Drive forward init");		
-    	Robot.driveTrain.driveForward(speed);
-    	SmartDashboard.putNumber("Drive Forward Speed", speed);
     }
 
     // Called repeatedly when this Command is scheduled to run

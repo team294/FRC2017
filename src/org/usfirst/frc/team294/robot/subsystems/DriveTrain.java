@@ -35,6 +35,9 @@ public class DriveTrain extends Subsystem {
     // Gyro resets are tracked in software, due to latency in resets. This holds the value of the NavX's "zero" degrees
     private double yawZero = 0;
     
+    // Track encoder resets in software due to latency (like NavX)
+    private double leftEncoderZero = 0, rightEncoderZero = 0;
+    
 
     public DriveTrain() {
     	super();
@@ -55,6 +58,11 @@ public class DriveTrain extends Subsystem {
         rightMotor2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
         leftMotor2.configEncoderCodesPerRev(100);
         rightMotor2.configEncoderCodesPerRev(100);
+    	leftMotor2.reverseSensor(true);
+    	
+    	setDriveControlByPower();
+
+        // Configure basic drive settings
         leftMotor2.configNominalOutputVoltage(+0.0f, -0.0f);
         rightMotor2.configNominalOutputVoltage(+0.0f, -0.0f);
         leftMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
@@ -165,17 +173,43 @@ public class DriveTrain extends Subsystem {
      * @return
      */
     public double getLeftEncoder() {
-    	return leftMotor2.getPosition();
+    	return leftMotor2.getPosition() - leftEncoderZero;
     }
     
     /**
      * Read the value of the encoder on right motor 2
      * @return
      */
-    public double readRightEncoder() {
+
+    public double getRightEncoder() {
+    	return rightMotor2.getPosition() - rightEncoderZero;
+    }
+    
+    /**
+     * Reads the raw value of the left encoder without adjusting for resets
+     * Testing purposes only
+     * @return
+     */
+    public double getLeftEncoderRaw() {
+    	return leftMotor2.getPosition();
+    }
+    
+    /**
+     * Reads the raw value of the right encoder without adjusting for resets
+     * Testing purpsoes only
+     * @return
+     */
+    public double getRightEncoderRaw() {
     	return rightMotor2.getPosition();
     }
-    	
+    
+    /**
+     * Reset the encoders in software
+     */
+    public void resetEncoders() {
+    	leftEncoderZero = leftMotor2.getPosition();
+    	rightEncoderZero = rightMotor2.getPosition();
+    }
 
     /**
      * Logs the talon output to a file
@@ -235,9 +269,9 @@ public class DriveTrain extends Subsystem {
 				" PulseVel " + rightMotor1.getPulseWidthVelocity() + 
 				" PulseRF " + rightMotor1.getPulseWidthRiseToFallUs() + 
 				" PulseRR " + rightMotor1.getPulseWidthRiseToRiseUs() + 
-				" Get " + rightMotor1.get()
+				" Get " + rightMotor1.get() +
 				
-				/*+ " Right Motor 3 (Follower)-- TempC " + rightMotor3.getTemperature() + 
+				" Right Motor 3 (Follower)-- TempC " + rightMotor3.getTemperature() + 
 				" Set " + rightMotor3.getSetpoint() + 
 				" BusVolt " + rightMotor3.getBusVoltage() + 
 				" OutVolt " + rightMotor3.getOutputVoltage() + 
@@ -246,7 +280,7 @@ public class DriveTrain extends Subsystem {
 				" PulseVel " + rightMotor3.getPulseWidthVelocity() + 
 				" PulseRF " + rightMotor3.getPulseWidthRiseToFallUs() + 
 				" PulseRR " + rightMotor3.getPulseWidthRiseToRiseUs() + 
-				" Get " + rightMotor3.get()*/
+				" Get " + rightMotor3.get()
 				);
 	}
 	/** 
@@ -254,6 +288,7 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void resetDegrees() {
 		yawZero = ahrs.getAngle();
+		Robot.log.writeLog("Gyro angle reset");
 	}
     
     /**
@@ -277,7 +312,7 @@ public class DriveTrain extends Subsystem {
 		angle = angle - Math.floor(angle/360)*360;
 		
 		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
-		Robot.log.writeLog(" Gyro: Current Angle: " + angle);
+		//Robot.log.writeLog("Gyro: Current Angle: " + angle);
 		
 		return angle;
     }
