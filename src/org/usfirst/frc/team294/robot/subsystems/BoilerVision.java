@@ -90,7 +90,7 @@ public class BoilerVision extends Subsystem {
 		return distance;
 	}
 	
-	public double getBoilerAngle() {
+	public double getBoilerAngleOffset() {
 		//Gives the robot's angle of offset from the boiler in degrees
 		Contour[] targets = filterContours(); //Gets best two best contours
 		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)

@@ -71,7 +71,6 @@ public class OI {//Hopefully this works or maybe this will
 	     SmartDashboard.putNumber("Drive Speed", 0.0);
 	     SmartDashboard.putNumber("Drive Curve", 0.0);
 	     SmartDashboard.putData("Drive at Angle", new DriveAtAngleFromSmartDashboard());
-	     SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
 	     
 	     //SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
 	     
@@ -96,9 +95,18 @@ public class OI {//Hopefully this works or maybe this will
 	     // Encoders
 //	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
 
-	     SmartDashboard.putData("Get Boiler Distance", new DisplayBoilerDistance());
 		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
 		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
+		 
+		 //Vision command testing
+		 SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
+		 //SmartDashboard.putData("Boiler Distance", new DisplayBoilerDistance());
+		 //SmartDashboard.putData("Boiler Angle", new DisplayBoilerAngle());
+		 SmartDashboard.putNumber("Boier Distance", Robot.boilerVision.getBoilerDistance());
+		 SmartDashboard.putNumber("Boiler Angle Offset", Robot.boilerVision.getBoilerAngleOffset());
+		 SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
+		 SmartDashboard.putNumber("Gear Angle Offset", Robot.gearVision.getGearAngleOffset());
+		 
 
 	     // Stop Command
 	     SmartDashboard.putData("Drive Stop", new DriveStop());

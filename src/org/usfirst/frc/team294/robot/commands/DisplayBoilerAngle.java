@@ -22,8 +22,8 @@ public class DisplayBoilerAngle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double angle = Robot.boilerVision.getBoilerAngle();
-    	SmartDashboard.putNumber("Boiler Angle", angle);
+    	double angle = Robot.boilerVision.getBoilerAngleOffset();
+    	SmartDashboard.putNumber("Boiler Angle Offset", angle);
     }
 
     // Make this return true when this Command no longer needs to run execute()
