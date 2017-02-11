@@ -82,7 +82,7 @@ public class BoilerVision extends Subsystem {
 	public double getBoilerDistance() {
 		//Gives the distance of the robot from the ball goal
 		Contour[] targets = filterContours(); //Gets best two best contours
-		if (targets[0].getArea() > 20 && targets[1].getArea() > 20) { //Checks that both contours are significant and not default
+		if (targets[0].getArea() > 10 && targets[1].getArea() > 10) { //Checks that both contours are significant and not default
 			double phi = targets[0].getHeight()/camPXHeight*camVertAngle + (camAngle - camVertAngle/2); //Angle from horizontal to center of the top contour
 			distance = (7.208 - camHeight)/Math.tan(phi*Math.PI/180); //7.208 is the height in feet to the center of the top contour
 		}
