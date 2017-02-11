@@ -7,26 +7,26 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class SetShooterHood extends Command {
+public class MoveHopper extends Command {
 
 	private boolean position;
 	
 	/**
-	 * Set the position of the shooter hood
-	 * @param position true for out/up, false for in/down
+	 * Set the position of the hopper
+	 * @param position true for deployed, false for stowed
 	 */
-    public SetShooterHood(boolean position) {
+    public MoveHopper(boolean position) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.shooterHood);
+    	requires(Robot.intake);
     	
     	this.position = position;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (position) Robot.shooterHood.deploy();
-    	else { Robot.shooterHood.stow(); }
+    	if (position) Robot.intake.deployHopper();
+    	else { Robot.intake.stowHopper(); }
     }
 
     // Called repeatedly when this Command is scheduled to run

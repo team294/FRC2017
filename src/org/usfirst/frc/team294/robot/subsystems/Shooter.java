@@ -18,6 +18,7 @@ public class Shooter extends Subsystem {
 	public Shooter() {
 		super();
 		
+		// Set the second motor to follow the first
 		shooterMotor2.changeControlMode(TalonControlMode.Follower);
         shooterMotor2.set(shooterMotor1.getDeviceID());
 	}

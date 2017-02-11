@@ -5,28 +5,27 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Sets the speed of both conveyers
  */
-public class SetGearSolenoid extends Command {
+public class ConveyerSetToSpeed extends Command {
 
-	private boolean state;
+	private double speed;
 	
 	/**
-	 * Set the gear piston
-	 * @param state true for out, false for in
+	 * Set the speed of the vertical and horizontal conveyers
+	 * @param speed from -1 (out) to +1 (in)
 	 */
-    public SetGearSolenoid(boolean state) {
-        requires(Robot.gearGate);
-        this.state = state;
+    public ConveyerSetToSpeed(double speed) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.ballFeed);
+    	this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (state) {
-    		Robot.gearGate.out();
-    	} else {
-    		Robot.gearGate.in();
-    	}
+    	Robot.ballFeed.setHorSpeed(speed);
+    	Robot.ballFeed.setVertSpeed(speed);
     }
 
     // Called repeatedly when this Command is scheduled to run

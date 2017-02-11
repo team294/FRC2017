@@ -7,17 +7,24 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class IntakeLower extends Command {
+public class ClimbSetToSpeed extends Command {
 
-    public IntakeLower() {
+	private double speed;
+	
+	/**
+	 * Set the speed of the climber motors
+	 * @param speed from -1 (down) to +1 (up)
+	 */
+    public ClimbSetToSpeed(double speed) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
+    	this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.deployIntake();
+    	Robot.intake.setClimbSpeed(speed);
     }
 
     // Called repeatedly when this Command is scheduled to run

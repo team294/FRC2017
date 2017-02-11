@@ -7,26 +7,25 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class SetHopper extends Command {
+public class MoveIntake extends Command {
 
 	private boolean position;
 	
 	/**
-	 * Set the position of the hopper
+	 * Set the position of the intake
 	 * @param position true for deployed, false for stowed
 	 */
-    public SetHopper(boolean position) {
+    public MoveIntake(boolean position) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
-    	
     	this.position = position;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (position) Robot.intake.deployHopper();
-    	else { Robot.intake.stowHopper(); }
+    	if (position) Robot.intake.deployIntake();
+    	else { Robot.intake.stowIntake(); }
     }
 
     // Called repeatedly when this Command is scheduled to run
