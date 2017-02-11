@@ -88,6 +88,7 @@ public class OI {//Hopefully this works or maybe this will
 	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
 	     SmartDashboard.putData("Stop Shooter Motor", new ShooterSetToSpeed(0.0));
 	     SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3));
+	     SmartDashboard.putNumber("Distance from target in inches", Robot.ultrasonicSensors.getDistance());
 
 	     // Encoders
 //	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
