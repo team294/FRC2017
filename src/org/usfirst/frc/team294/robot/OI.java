@@ -96,7 +96,7 @@ public class OI {//Hopefully this works or maybe this will
 	     // Encoders
 //	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
 
-	    // SmartDashboard.putData("Get Boiler Distance", new DisplayBoilerDistance());
+	     SmartDashboard.putData("Get Boiler Distance", new DisplayBoilerDistance());
 		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
 		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
 
