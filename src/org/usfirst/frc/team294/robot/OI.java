@@ -78,6 +78,8 @@ public class OI {//Hopefully this works or maybe this will
 	     SmartDashboard.putNumber("Drive Forward Speed", 0.0);
 	     SmartDashboard.putData("Drive 50%", new DriveForward(.5));
 	     SmartDashboard.putData("Drive Stop", new DriveStop());
+		 SmartDashboard.putData("Distance from target in inches", new GetDistance());
+
 	     
 	     // Subsystem Testing Commands
 	     SmartDashboard.putData("Gear Piston Out", new SetGearSolenoid(true));

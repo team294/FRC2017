@@ -30,6 +30,10 @@ public class UltrasonicSensors extends Subsystem {
 		return vexUltrasonicSensor.getRangeInches(); // reads the range on the ultrasonic sensor
     }
 	
+	public void printDistance() {
+		SmartDashboard.putNumber("Distance from target in inches", vexUltrasonicSensor.getRangeInches());
+	}
+	
 	public boolean collisionPrevention(){
 		if (vexUltrasonicSensor.getRangeInches() <= 15) {
 			return true;
