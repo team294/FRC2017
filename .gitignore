@@ -21,6 +21,7 @@ $RECYCLE.BIN/
 *.class
 build/*
 dist/*
+.classpath
 
 # =========================
 # Operating System Files
@@ -51,9 +52,12 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /bin/
+*.classpath
 *.class
 *.jar
 *.classpath
 .classpath
 .classpath
-*.classpath
+
+sysProps.xml
+
