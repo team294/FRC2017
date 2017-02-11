@@ -5,8 +5,8 @@ import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import com.ctre.CANTalon;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * The Hood over the Shooter
@@ -16,6 +16,8 @@ public class ShooterHood extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
+
+	public static DoubleSolenoid shooterHoodSolenoid = new DoubleSolenoid(RobotMap.shooterHoodFwd, RobotMap.shooterHoodRev);
 
 	// add potentiometer here
 	
@@ -40,11 +42,17 @@ public class ShooterHood extends Subsystem {
     }
     
 	/**
-	 * Set the angle of the shooter hood
+	 * Deploy the shooter hood into the up position
 	 */
-	public void setAngle(double angle) {
-		Robot.log.writeLog("Shooter Hood: Setting angle to " + angle);
-		// Set the angle here
+	public void deployShooterHood() {
+		shooterHoodSolenoid.set(DoubleSolenoid.Value.kForward);
+	}
+	
+	/**
+	 * Stow the shooter hood in the down position
+	 */
+	public void stowShooterHood() {
+		shooterHoodSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 	
    

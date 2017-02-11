@@ -15,11 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Intake extends Subsystem {
     private final CANTalon intakeMotor = new CANTalon(RobotMap.intakeMotor);
-
-    private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.intakeSolenoidDeploy, RobotMap.intakeSolenoidStow);
-
-    //intake movment stuff here
-    
+   
     //public final MotorCurrentTrigger motorCurrentTrigger = new MotorCurrentTrigger(intakeMotor, 35, 2);
 
     public Intake() {
@@ -48,6 +44,10 @@ public class Intake extends Subsystem {
     public boolean getPosition(){
     	return (intakeSolenoid.get() == DoubleSolenoid.Value.kForward);
     }
+
+    private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.intakeSolenoidFwd, RobotMap.intakeSolenoidRev);
+    private final DoubleSolenoid hopperSolenoid = new DoubleSolenoid(RobotMap.hopperSolenoidFwd, RobotMap.hopperSolenoidRev);
+
     
     /**
      * Set the speed of the intake motor
@@ -65,57 +65,7 @@ public class Intake extends Subsystem {
     public double getSpeed() {
     	return -intakeMotor.get();
     }
-    
-    /**
-     * Raise intake arm.
-     */
-    public void raiseIntake() {
-    		//NEEDS CHANGES BASED ON HOW THE ARM IS DESINED
-    		//intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
-    }
-    
-    /**
-     * Lower intake arm
-     */
-    public void lowerIntake() {
-    		//NEEDS CHANGES BASED ON HOW THE ARM IS DESINED
-        	//intakeSolenoid.set(DoubleSolenoid.Value.kForward);    		
-    }
-
-    /**
-     * Turn off piston solenoid
-     */
-    public void stopPiston() {
-    //	intakeSolenoid.set(DoubleSolenoid.Value.kOff);
-    }
-    
-    /**
-     * Returns current solenoid setting for the intake arm.  <p>
-     * <b>NOTE</b>: The intake could currently be <i>moving</i> to this position
-     * and has not reached this position yet.
-     * <b>NOTE</b>: The intake solenoid in the OFF state returns FALSE.
-     * @return true = intake is up, false = intake is down or solenoid is off 
-     */
-   /* public boolean intakeIsUp() {
-    	//ONLY WORKS IF USING SOLENOID!!!! (needs work)
-    	switch (intakeSolenoid.get()) {
-    	case kForward:
-    		SmartDashboard.putString("Intake position", "Down");
-    		break;
-    	case kReverse:
-    		SmartDashboard.putString("Intake position", "Up");
-    		break;
-    	case kOff:
-    		SmartDashboard.putString("Intake position", "Off");
-    		break;
-    	}
-    	SmartDashboard.putBoolean("Intake down sensor", intakeDownSensor.get());
-//    	SmartDashboard.putBoolean("IntakeIsUp", intakeSolenoid.get()==DoubleSolenoid.Value.kReverse);
-    	return intakeSolenoid.get()==DoubleSolenoid.Value.kReverse;
-	//ONLY WORKS IF USING SOLENOID!!!!
-    	//see 2016 code for more solenoid stuff/sensor stuff
-    }
-    */
+   
     /**
 	 * Set up the intake controls on the SmartDashboard.  Call this once when the robot is 
 	 * initialized (after the Intake subsystem is initialized).
@@ -131,6 +81,33 @@ public class Intake extends Subsystem {
  		SmartDashboard.putNumber("Intake motor setpoint", -intakeMotor.get());
  		SmartDashboard.putNumber("Intake motor current", intakeMotor.getOutputCurrent());
 // 		SmartDashboard.putString("Intake position", intakeIsUp() ? "Up" : "Down");
+
+     * Deploy the intake
+     */
+    public void deployIntake() {
+    	intakeSolenoid.set(DoubleSolenoid.Value.kForward);
+    }
+    
+    /**
+     * Stows the intake
+     */
+    public void stowIntake() {
+    	intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
+    }
+    
+    /**
+     * Stow the hopper (for climbing)
+     */
+    public void stowHopper() {
+    	hopperSolenoid.set(DoubleSolenoid.Value.kReverse);
+    }
+    
+    /**
+     * Deploy the hopper out
+     */
+    public void deployHopper() {
+    	hopperSolenoid.set(DoubleSolenoid.Value.kForward);
+
     }
     
     public void initDefaultCommand() {
