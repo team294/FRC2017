@@ -59,6 +59,7 @@ public class OI {//Hopefully this works or maybe this will
 	    	 else i.whenPressed(new ShiftUp());
 	     }
 
+	     /**
 	     // Gyro Testing Commands
 	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
 	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
@@ -94,8 +95,16 @@ public class OI {//Hopefully this works or maybe this will
 //	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
 	    // SmartDashboard.putData("Get Boiler Distance", new DisplayBoilerDistance());
 
-
-	     // Stop Command
+*/
+	     /// Stop Command
 	     SmartDashboard.putData("Drive Stop", new DriveStop());
+	     
+	     
+	     SmartDashboard.putData("Ultron WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", new GetDistance ());
+	    // SmartDashboard.getDouble("GetDistance");
+	    // SmartDashboard.("GetDistance");
+	    // SmartDashboard.getData("GetDistance");
+
+
 	}
 }

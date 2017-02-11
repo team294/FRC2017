@@ -14,17 +14,21 @@ public class GetDistance extends Command {
     public GetDistance() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	System.out.println("construct");
+
     	requires(Robot.ultrasonicSensors);
-    	requires(Robot.driveTrain);
+    	//requires(Robot.driveTrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.ultrasonicSensors.getDistance();
+    	System.out.println("CMDdis");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.ultrasonicSensors.printDistance();
     }
 
     // Make this return true when this Command no longer needs to run execute()

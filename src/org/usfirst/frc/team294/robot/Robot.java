@@ -53,8 +53,9 @@ public class Robot extends IterativeRobot {
 		boilerVision = new BoilerVision();
 		log = new FileLog();
 		vision = new Vision();
-		oi = new OI();
 		ultrasonicSensors = new UltrasonicSensors();
+		oi = new OI();
+		
 
 		// Put scheduler and subsystems on SmartDashboard
 		SmartDashboard.putData(Scheduler.getInstance());
