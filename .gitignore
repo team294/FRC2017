@@ -58,3 +58,6 @@ Temporary Items
 *.classpath
 .classpath
 .classpath
+
+sysProps.xml
+

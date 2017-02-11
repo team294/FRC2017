@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.command.Command;
 
 
 public class ShooterSetToSpeed extends Command {
-	double speed;
+	
+	private double speed;
 
 	/**
 	 * Set the shooter to speed

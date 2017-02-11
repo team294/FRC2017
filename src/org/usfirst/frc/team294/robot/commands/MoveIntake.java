@@ -1,31 +1,40 @@
 package org.usfirst.frc.team294.robot.commands;
 
+import org.usfirst.frc.team294.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc.team294.robot.*;
 
 /**
  *
  */
-public class DriveWithJoysticks extends Command {
+public class MoveIntake extends Command {
 
-    public DriveWithJoysticks() {
+	private boolean position;
+	
+	/**
+	 * Set the position of the intake
+	 * @param position true for deployed, false for stowed
+	 */
+    public MoveIntake(boolean position) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.driveTrain);
+        // eg. requires(chassis);
+    	requires(Robot.intake);
+    	this.position = position;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.setDriveControlByPower();
+    	if (position) Robot.intake.deployIntake();
+    	else { Robot.intake.stowIntake(); }
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.driveWithJoystick(Robot.oi.leftJoystick, Robot.oi.rightJoystick);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
@@ -35,6 +44,5 @@ public class DriveWithJoysticks extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.driveTrain.stop();
     }
 }

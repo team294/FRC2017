@@ -7,24 +7,26 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class SetShooterHoodToAngle extends Command {
+public class MoveShooterHood extends Command {
 
-	protected double angle;
+	private boolean position;
 	
 	/**
-	 * Set the shooter hood to an angle
-	 * @param angle from -180 to +180
+	 * Set the position of the shooter hood
+	 * @param position true for out/up, false for in/down
 	 */
-    public SetShooterHoodToAngle(double angle) {
+    public MoveShooterHood(boolean position) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.shooterHood);
-        this.angle = angle;
+        // eg. requires(chassis);
+    	requires(Robot.shooterHood);
+    	
+    	this.position = position;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	// sterilize inputs here
-    	Robot.shooterHood.setAngle(angle);
+    	if (position) Robot.shooterHood.deploy();
+    	else { Robot.shooterHood.stow(); }
     }
 
     // Called repeatedly when this Command is scheduled to run

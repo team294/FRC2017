@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class SetGearSolenoid extends Command {
+public class MoveGearGate extends Command {
 
 	private boolean state;
 	
@@ -15,7 +15,7 @@ public class SetGearSolenoid extends Command {
 	 * Set the gear piston
 	 * @param state true for out, false for in
 	 */
-    public SetGearSolenoid(boolean state) {
+    public MoveGearGate(boolean state) {
         requires(Robot.gearGate);
         this.state = state;
     }

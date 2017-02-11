@@ -29,6 +29,8 @@ public class Robot extends IterativeRobot {
 	public static Vision vision;
 	public static ShooterHood shooterHood;
 	public static BoilerVision boilerVision;
+	public static BallFeed ballFeed;
+
 	
 	// The OI
 	public static OI oi;
@@ -41,7 +43,10 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+		
 		System.out.println("Robot init");
+
+		log = new FileLog();
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
 		shooter = new Shooter();
@@ -49,10 +54,10 @@ public class Robot extends IterativeRobot {
 		gearGate = new GearGate();
 		vision = new Vision();
 		boilerVision = new BoilerVision();
-		log = new FileLog();
-		vision = new Vision();
+		shooterHood = new ShooterHood();
+		ballFeed = new BallFeed();
+			
 		oi = new OI();
-
 
 		// Put scheduler and subsystems on SmartDashboard
 		SmartDashboard.putData(Scheduler.getInstance());
