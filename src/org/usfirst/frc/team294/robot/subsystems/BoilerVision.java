@@ -12,9 +12,10 @@ public class BoilerVision extends Subsystem {
 	double[] networkTableDefault = new double[] { -1.0 };
 
 	double distance;
+	double boilerAngleOffset;
 
-	double camHeight = 1; //Height of center of camera off of the ground
-	double camAngle  = 40; //Upward angle offset of camera (in degrees)
+	double camHeight = 1+6.7/12; //Height of center of camera off of the ground
+	double camAngle  = 25; //Upward angle offset of camera (in degrees)
 	
 	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
 	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera pixel length
@@ -89,15 +90,16 @@ public class BoilerVision extends Subsystem {
 	}
 	public double getBoilerAngle() {
 		//Gives the robot's angle of offset from the boiler in degrees
-		double boilerAngleOffset;
 		Contour[] targets = filterContours(); //Gets best two best contours
 		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
-		if (targets[0].getArea() > 20) {numValid++; }
-		if (targets[1].getArea() > 20) {numValid++; }
-		if (numValid == 2) {
+		if (targets[0].getArea() > 20) { // target[0] should be bigger than target[1], so if target[0] fails, so will target[1].
+			numValid++; 
+			if (targets[1].getArea() > 20) {numValid++; }
+		}
+		if (numValid == 2) { //If there are two valid contours, use both.
 			boilerAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
 		}
-		else if (numValid == 1) {
+		else if (numValid == 1) { //If there is only one valid contour, use only the one.
 			boilerAngleOffset = (camPXWidth/2 - targets[0].getXPos())/camPXWidth * camHorizAngle; //in degrees
 		}
 		else { boilerAngleOffset = -500; } //Return -500 if there are no "valid" contours (see numValid assignment)
