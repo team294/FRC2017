@@ -30,7 +30,8 @@ public class DriveTrain extends Subsystem {
     private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
     private final RobotDrive robotDrive = new RobotDrive(leftMotor2, rightMotor2);
     
-    private AHRS ahrs = new AHRS(SPI.Port.kMXP);
+    // NavX.  Create the object in the DriveTrain() constructor, so that we can catch errors.
+    private AHRS ahrs;
 	
     // Gyro resets are tracked in software, due to latency in resets. This holds the value of the NavX's "zero" degrees
     private double yawZero = 0;
@@ -46,14 +47,16 @@ public class DriveTrain extends Subsystem {
     	
     	// Set the other motors to follow motor 2 on each side
     	leftMotor1.changeControlMode(TalonControlMode.Follower);
-       // leftMotor3.set(leftMotor2.getDeviceID());
-       // rightMotor3.set(rightMotor2.getDeviceID());
-        rightMotor1.changeControlMode(TalonControlMode.Follower);
-        //rightMotor3.changeControlMode(TalonControlMode.Follower);
         leftMotor1.set(leftMotor2.getDeviceID());
+    	leftMotor3.changeControlMode(TalonControlMode.Follower);
         leftMotor3.set(leftMotor2.getDeviceID());
+
+        rightMotor1.changeControlMode(TalonControlMode.Follower);
         rightMotor1.set(rightMotor2.getDeviceID());
-        //rightMotor3.set(rightMotor2.getDeviceID());
+        rightMotor3.changeControlMode(TalonControlMode.Follower);
+        rightMotor3.set(rightMotor2.getDeviceID());
+
+        // Set up encoders
         leftMotor2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
         rightMotor2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
         leftMotor2.configEncoderCodesPerRev(100);
@@ -63,23 +66,24 @@ public class DriveTrain extends Subsystem {
     	setDriveControlByPower();
 
         // Configure basic drive settings
+        leftMotor2.clearStickyFaults();
+        rightMotor2.clearStickyFaults();
         leftMotor2.configNominalOutputVoltage(+0.0f, -0.0f);
         rightMotor2.configNominalOutputVoltage(+0.0f, -0.0f);
         leftMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
         rightMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
         leftMotor2.setVoltageRampRate(40);
         rightMotor2.setVoltageRampRate(40);
-
-        setDriveControlByPower();
-
         
-        ahrs.zeroYaw();
-        
-        SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
-        SmartDashboard.putBoolean(  "IMU_IsCalibrating",    ahrs.isCalibrating());
-        SmartDashboard.putNumber(   "IMU_Yaw",              ahrs.getYaw());
-        SmartDashboard.putNumber(   "IMU_Pitch",            ahrs.getPitch());
-        SmartDashboard.putNumber(   "IMU_Roll",             ahrs.getRoll());
+    	try {
+            /* Communicate w/navX MXP via the MXP SPI Bus.                                     */
+            /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
+            /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
+        		ahrs = new AHRS(SPI.Port.kMXP); 
+        	} catch (RuntimeException ex ) {
+        		DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+        	}
+        ahrs.zeroYaw();        
     }
 
     /**
@@ -91,7 +95,8 @@ public class DriveTrain extends Subsystem {
         rightMotor2.changeControlMode(TalonControlMode.PercentVbus);
         leftMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
         rightMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
-        robotDrive.setSafetyEnabled(false);
+        //TODO -- Safety was set to false.  Check if it works with True.
+        robotDrive.setSafetyEnabled(true);
     }
     
     /**
@@ -101,20 +106,7 @@ public class DriveTrain extends Subsystem {
      * @param rightStick Right joystick
      */
     public void driveWithJoystick(Joystick leftStick, Joystick rightStick) {
-        leftMotor2.clearStickyFaults();
-        rightMotor2.clearStickyFaults();
-
     	robotDrive.tankDrive(leftStick, rightStick);
-    	
-    	try {
-        /* Communicate w/navX MXP via the MXP SPI Bus.                                     */
-        /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
-        /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
-    		ahrs = new AHRS(SPI.Port.kMXP); 
-    	} catch (RuntimeException ex ) {
-    		DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
-    	}
-    	ahrs.zeroYaw(); 
     }
 
     /**
@@ -122,7 +114,6 @@ public class DriveTrain extends Subsystem {
      */
 	public void stop() {
 		setDriveControlByPower();
-		leftMotor2.set(0.0);
 		robotDrive.drive(0, 0);
 	}
     
@@ -133,7 +124,6 @@ public class DriveTrain extends Subsystem {
 
 	public void driveForward(double speed) {
 		setDriveControlByPower();
-		leftMotor2.set(-speed);
 		robotDrive.drive(-speed, 0);
 	}
 
@@ -143,7 +133,6 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void driveBackward(double speed) {
 		setDriveControlByPower();
-		leftMotor2.set(speed);
 		robotDrive.drive(speed, 0);
 	}
 	
@@ -155,15 +144,25 @@ public class DriveTrain extends Subsystem {
 	public void driveAtAngle(double speed, double curve) {
 		setDriveControlByPower();
 		robotDrive.drive(-speed, curve);
-    SmartDashboard.putNumber("driveTrain set speed", speed);
+		//SmartDashboard.putNumber("driveTrain set speed", speed);
 	}
 
     /**
-     * Get the left and right positions and the left and right speeds from the encoders
+     * Reset the encoders in software
      */
-    public void getEncoder() {
-    	SmartDashboard.putNumber("Left Position", leftMotor2.getPosition());
-    	SmartDashboard.putNumber("Right Position", rightMotor2.getPosition());
+    public void resetEncoders() {
+    	leftEncoderZero = leftMotor2.getPosition();
+    	rightEncoderZero = rightMotor2.getPosition();
+		Robot.log.writeLog("Drive encoders reset");
+    }
+
+    /**
+     * Get the left and right positions and the left and right speeds from the encoder
+     * and update these values on the SmartDashboard.
+     */
+    public void updateSmartDashboardEncoders() {
+    	SmartDashboard.putNumber("Left Position", leftMotor2.getPosition() - leftEncoderZero);
+    	SmartDashboard.putNumber("Right Position", rightMotor2.getPosition() - rightEncoderZero);
     	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
     	SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
     }
@@ -204,15 +203,7 @@ public class DriveTrain extends Subsystem {
     }
     
     /**
-     * Reset the encoders in software
-     */
-    public void resetEncoders() {
-    	leftEncoderZero = leftMotor2.getPosition();
-    	rightEncoderZero = rightMotor2.getPosition();
-    }
-
-    /**
-     * Logs the talon output to a file
+     * Logs the talon output to the log file
      */
 	public void logTalonStatus() {
 		Robot.log.writeLog(
@@ -283,6 +274,7 @@ public class DriveTrain extends Subsystem {
 				" Get " + rightMotor3.get()
 				);
 	}
+	
 	/** 
 	 * Reset the angle of the NavX in the software
 	 */
@@ -323,6 +315,17 @@ public class DriveTrain extends Subsystem {
      */
     public double getGyroRate() {
     	return ahrs.getRate();
+    }
+    
+    /**
+     * Update the SmartDashboard with NavX readings.
+     */
+    public void updateGyroSmartDashboard() {
+        SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
+        SmartDashboard.putBoolean(  "IMU_IsCalibrating",    ahrs.isCalibrating());
+        SmartDashboard.putNumber(   "IMU_Yaw",              ahrs.getYaw());
+        SmartDashboard.putNumber(   "IMU_Pitch",            ahrs.getPitch());
+        SmartDashboard.putNumber(   "IMU_Roll",             ahrs.getRoll());
     }
 
     public void initDefaultCommand() {
