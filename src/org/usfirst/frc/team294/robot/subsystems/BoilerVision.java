@@ -87,5 +87,22 @@ public class BoilerVision extends Subsystem {
 		else { distance = -1; }
 		return distance;
 	}
+	public double getBoilerAngle() {
+		//Gives the robot's angle of offset from the boiler in degrees
+		double boilerAngleOffset;
+		Contour[] targets = filterContours(); //Gets best two best contours
+		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
+		if (targets[0].getArea() > 20) {numValid++; }
+		if (targets[1].getArea() > 20) {numValid++; }
+		if (numValid == 2) {
+			boilerAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
+		}
+		else if (numValid == 1) {
+			boilerAngleOffset = (camPXWidth/2 - targets[0].getXPos())/camPXWidth * camHorizAngle; //in degrees
+		}
+		else { boilerAngleOffset = -500; } //Return -500 if there are no "valid" contours (see numValid assignment)
+		SmartDashboard.putNumber("Angle Offset", boilerAngleOffset);
+		return boilerAngleOffset;
+	}
 }
 
