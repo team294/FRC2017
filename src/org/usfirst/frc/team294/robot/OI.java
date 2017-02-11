@@ -102,8 +102,8 @@ public class OI {//Hopefully this works or maybe this will
 		 SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
 		 //SmartDashboard.putData("Boiler Distance", new DisplayBoilerDistance());
 		 //SmartDashboard.putData("Boiler Angle", new DisplayBoilerAngle());
-		 SmartDashboard.putNumber("Boier Distance", Robot.boilerVision.getBoilerDistance());
-		 SmartDashboard.putNumber("Boiler Angle Offset", Robot.boilerVision.getBoilerAngleOffset());
+		 SmartDashboard.putNumber("Boier Distance wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", Robot.boilerVision.getBoilerDistance());
+		 SmartDashboard.putNumber("Boiler Angle Offset wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", Robot.boilerVision.getBoilerAngleOffset());
 		 SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
 		 SmartDashboard.putNumber("Gear Angle Offset", Robot.gearVision.getGearAngleOffset());
 		 
