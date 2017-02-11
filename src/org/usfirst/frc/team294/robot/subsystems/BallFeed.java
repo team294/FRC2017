@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import com.ctre.CANTalon;
@@ -56,6 +57,16 @@ public class BallFeed extends Subsystem {
 	 */
 	public double getVertSpeed() {
 		return vertConveyer.get();
+	}
+	
+	/**
+	 * Logs the speed of both conveyors to the robot log
+	 */
+	public void logStatus() {
+		Robot.log.writeLog(
+				"Ball Feed: Horizontal Conveyor-- Speed: " + horConveyer.get() +
+				" Vertical Conveyor-- Speed: " + vertConveyer.get()
+				);
 	}
 	
     public void initDefaultCommand() {
