@@ -25,8 +25,8 @@ public class SetShooterHood extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (position) Robot.shooterHood.deployShooterHood();
-    	else { Robot.shooterHood.stowShooterHood(); }
+    	if (position) Robot.shooterHood.deploy();
+    	else { Robot.shooterHood.stow(); }
     }
 
     // Called repeatedly when this Command is scheduled to run
