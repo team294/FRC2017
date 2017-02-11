@@ -59,7 +59,7 @@ public class OI {//Hopefully this works or maybe this will
 	    	 else i.whenPressed(new ShiftUp());
 	     }
 
-	     // Gyro Testing Commands
+	   /*  // Gyro Testing Commands
 	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
 	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
 	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180));
@@ -97,6 +97,7 @@ public class OI {//Hopefully this works or maybe this will
 
 		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
 		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
+		 */
 		 
 		 //Vision command testing
 		 SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
