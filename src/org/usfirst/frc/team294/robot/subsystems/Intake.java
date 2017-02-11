@@ -81,9 +81,11 @@ public class Intake extends Subsystem {
  		SmartDashboard.putNumber("Intake motor setpoint", -intakeMotor.get());
  		SmartDashboard.putNumber("Intake motor current", intakeMotor.getOutputCurrent());
 // 		SmartDashboard.putString("Intake position", intakeIsUp() ? "Up" : "Down");
-
-     * Deploy the intake
-     */
+    }
+    
+     /**
+      * Deploy the intake
+      */
     public void deployIntake() {
     	intakeSolenoid.set(DoubleSolenoid.Value.kForward);
     }

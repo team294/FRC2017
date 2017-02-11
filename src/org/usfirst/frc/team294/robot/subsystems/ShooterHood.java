@@ -1,6 +1,9 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.RobotMap;
+
+import com.ctre.CANTalon;
+
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -17,7 +20,7 @@ public class ShooterHood extends Subsystem {
     // here. Call these from Commands.
 	
 
-	public static DoubleSolenoid shooterHoodSolenoid = new DoubleSolenoid(RobotMap.shooterHoodFwd, RobotMap.shooterHoodRev);
+//	public static DoubleSolenoid shooterHoodSolenoid = new DoubleSolenoid(RobotMap.shooterHoodFwd, RobotMap.shooterHoodRev);
 
 	// add potentiometer here
 	
@@ -45,14 +48,14 @@ public class ShooterHood extends Subsystem {
 	 * Deploy the shooter hood into the up position
 	 */
 	public void deployShooterHood() {
-		shooterHoodSolenoid.set(DoubleSolenoid.Value.kForward);
+//		shooterHoodSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
 	
 	/**
 	 * Stow the shooter hood in the down position
 	 */
 	public void stowShooterHood() {
-		shooterHoodSolenoid.set(DoubleSolenoid.Value.kReverse);
+//		shooterHoodSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 	
    
