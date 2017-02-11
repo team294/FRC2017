@@ -18,13 +18,17 @@ public class RobotMap {
 	public static int driveTrainRightMotor3 = 10;
 	public static int intakeMotor = 9;
 	public static int shooterMotor = 20;
-	// Will the shooter hood be a piston, a motor, or a servo?
-	public static int shooterHoodMotor = 21;
 	
     // Pneumatic controller PCM IDs
     public static int shifterSolenoidFwd = 0;
     public static int shifterSolenoidRev = 1;
-    public static int gearSolenoid = 4;
+    public static int shooterHoodFwd = 2;
+    public static int shooterHoodRev = 3;
+    public static int intakeSolenoidFwd = 4;
+    public static int intakeSolenoidRev = 5;
+    public static int hopperSolenoidFwd = 6;
+    public static int hopperSolenoidRev = 7;
+    public static int gearSolenoid = 8;
     
     // Analog I/O addresses
     public static int driveTrainGyro = 0;

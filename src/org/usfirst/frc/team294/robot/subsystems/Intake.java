@@ -4,6 +4,7 @@ import org.usfirst.frc.team294.robot.RobotMap;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -12,7 +13,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Intake extends Subsystem {
 
     private final CANTalon intakeMotor = new CANTalon(RobotMap.intakeMotor);
-
+    private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.intakeSolenoidFwd, RobotMap.intakeSolenoidRev);
+    private final DoubleSolenoid hopperSolenoid = new DoubleSolenoid(RobotMap.hopperSolenoidFwd, RobotMap.hopperSolenoidRev);
+    
     /**
      * Set the speed of the intake motor
      * @param speed of the motor, between -1 (outtake) and +1 (intake), 0 = stopped
@@ -27,6 +30,34 @@ public class Intake extends Subsystem {
      */
     public double getSpeed() {
     	return -intakeMotor.get();
+    }
+    
+    /**
+     * Deploy the intake
+     */
+    public void deployIntake() {
+    	intakeSolenoid.set(DoubleSolenoid.Value.kForward);
+    }
+    
+    /**
+     * Stows the intake
+     */
+    public void stowIntake() {
+    	intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
+    }
+    
+    /**
+     * Stow the hopper (for climbing)
+     */
+    public void stowHopper() {
+    	hopperSolenoid.set(DoubleSolenoid.Value.kReverse);
+    }
+    
+    /**
+     * Deploy the hopper out
+     */
+    public void deployHopper() {
+    	hopperSolenoid.set(DoubleSolenoid.Value.kForward);
     }
     
     public void initDefaultCommand() {
