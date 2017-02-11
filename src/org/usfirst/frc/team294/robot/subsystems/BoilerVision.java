@@ -65,6 +65,7 @@ public class BoilerVision extends Subsystem {
 				}
 			}
 		}
+		
 		//Find two largest remaining contours and return them
 		Contour[] bestContours = {new Contour(), new Contour()};
 		for (int i = 0; i < contours.length; i++) {
@@ -86,8 +87,10 @@ public class BoilerVision extends Subsystem {
 			distance = (7.208 - camHeight)/Math.tan(phi*Math.PI/180); //7.208 is the height in feet to the center of the top contour
 		}
 		else { distance = -1; }
+		SmartDashboard.putNumber("Distance to boiler", distance);
 		return distance;
 	}
+	
 	public double getBoilerAngle() {
 		//Gives the robot's angle of offset from the boiler in degrees
 		Contour[] targets = filterContours(); //Gets best two best contours
