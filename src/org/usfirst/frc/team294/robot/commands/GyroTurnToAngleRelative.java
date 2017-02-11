@@ -4,6 +4,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.utilities.ToleranceChecker;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -83,6 +84,8 @@ public class GyroTurnToAngleRelative extends Command {
     	Robot.driveTrain.resetDegrees();
     	
     	angle = (vision) ? Robot.vision.getGearAngleOffset() : angle;
+    	if (angle == -500) SmartDashboard.putBoolean("Contours Found", false);
+    	else { SmartDashboard.putBoolean("Contours Found", true); }
     	// Normalize angle to -180 to +180
         angle = (angle > 180) ? angle - 360 : angle;
         angle = (angle < -180) ? angle + 360 : angle;

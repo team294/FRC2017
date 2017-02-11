@@ -16,7 +16,8 @@ public class AutoDriveAndGearRight extends CommandGroup {
         addSequential(new DriveStraightDistance(0.4, -20, Units.inches, true, true));
         addSequential(new GyroTurnToAngleRelative(30, 0.7));
         // This should turn the robot to the gear (no offset on camera)
-//      addSequential(new GyroTurnToAngleRelative(0.0, 0.4, true));
+        addSequential(new WaitSeconds(0.5));
+        addSequential(new GyroTurnToAngleRelative(0.0, 0.4, true));
         addSequential(new DriveStraightDistance(0.4, -35.25, Units.inches, true, true));
     }
 }
