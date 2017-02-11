@@ -26,7 +26,7 @@ public class Robot extends IterativeRobot {
 	public static Shooter shooter;
 	public static Intake intake;
 	public static GearGate gearGate;
-	public static Vision vision;
+	public static GearVision gearVision;
 	public static ShooterHood shooterHood;
 	public static BoilerVision boilerVision;
 	
@@ -47,10 +47,10 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter();
 		intake = new Intake();
 		gearGate = new GearGate();
-		vision = new Vision();
+		gearVision = new GearVision();
 		boilerVision = new BoilerVision();
 		log = new FileLog();
-		vision = new Vision();
+		gearVision = new GearVision();
 		oi = new OI();
 
 

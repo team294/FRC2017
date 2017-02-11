@@ -23,11 +23,11 @@ public class TurnToAngle extends Command {
 	
     public TurnToAngle(double target) {
     	requires(Robot.driveTrain);
-    	requires(Robot.vision);
+    	requires(Robot.gearVision);
     	targetAngle=target;
     }
   // Called just before this Command runs the first time
-    protected void initialize() {currentAngle = Robot.vision.getGearAngleOffset();
+    protected void initialize() {currentAngle = Robot.gearVision.getGearAngleOffset();
     	angle = targetAngle - currentAngle;
     	double speed=calculateSpeed(angle);
     	Robot.driveTrain.driveAtAngle(speed, 1);
@@ -35,7 +35,7 @@ public class TurnToAngle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	currentAngle = Robot.vision.getGearAngleOffset();
+    	currentAngle = Robot.gearVision.getGearAngleOffset();
     	if (currentAngle == -500) {
     		Robot.driveTrain.driveAtAngle(MAX_POWER, defaultDirection);
     	}

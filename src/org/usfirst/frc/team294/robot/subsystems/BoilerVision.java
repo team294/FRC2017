@@ -87,7 +87,6 @@ public class BoilerVision extends Subsystem {
 			distance = (7.208 - camHeight)/Math.tan(phi*Math.PI/180); //7.208 is the height in feet to the center of the top contour
 		}
 		else { distance = -1; }
-		SmartDashboard.putNumber("Distance to boiler", distance);
 		return distance;
 	}
 	
@@ -106,7 +105,6 @@ public class BoilerVision extends Subsystem {
 			boilerAngleOffset = (camPXWidth/2 - targets[0].getXPos())/camPXWidth * camHorizAngle; //in degrees
 		}
 		else { boilerAngleOffset = -500; } //Return -500 if there are no "valid" contours (see numValid assignment)
-		SmartDashboard.putNumber("Angle Offset", boilerAngleOffset);
 		return boilerAngleOffset;
 	}
 }

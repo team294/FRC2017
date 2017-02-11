@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
-public class Vision extends Subsystem {
+public class GearVision extends Subsystem {
 	NetworkTable table;
 	NetworkTable grip_table;
 	double[] networkTableDefault = new double[] { -1.0 };
@@ -24,7 +24,7 @@ public class Vision extends Subsystem {
 		// Set the default command for a subsystem here.
 		//setDefaultCommand(new MySpecialCommand());
 	}
-	public Vision(){
+	public GearVision(){
 		table = NetworkTable.getTable("GRIP/myContoursReport");
 		grip_table = NetworkTable.getTable("GRIP");
 	}
