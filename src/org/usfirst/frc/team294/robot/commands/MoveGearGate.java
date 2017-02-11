@@ -7,17 +7,26 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class IntakeRaise extends Command {
+public class MoveGearGate extends Command {
 
-    public IntakeRaise() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.intake);
+	private boolean state;
+	
+	/**
+	 * Set the gear piston
+	 * @param state true for out, false for in
+	 */
+    public MoveGearGate(boolean state) {
+        requires(Robot.gearGate);
+        this.state = state;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.stowIntake();
+    	if (state) {
+    		Robot.gearGate.out();
+    	} else {
+    		Robot.gearGate.in();
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run

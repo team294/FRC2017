@@ -4,6 +4,7 @@ import org.usfirst.frc.team294.robot.RobotMap;
 //import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -14,29 +15,36 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Ball intake from ground
  */
 public class Intake extends Subsystem {
+	
+	// Motors
     private final CANTalon intakeMotor = new CANTalon(RobotMap.intakeMotor);
+    private final CANTalon climbMotor1 = new CANTalon(RobotMap.climbMotor1);
+    private final CANTalon climbMotor2 = new CANTalon(RobotMap.climbMotor2);
+    
+    // Pneumatics
+    private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.intakeSolenoidFwd, RobotMap.intakeSolenoidRev);
+    private final DoubleSolenoid hopperSolenoid = new DoubleSolenoid(RobotMap.hopperSolenoidFwd, RobotMap.hopperSolenoidRev);
    
     //public final MotorCurrentTrigger motorCurrentTrigger = new MotorCurrentTrigger(intakeMotor, 35, 2);
 
     public Intake() {
+    	
     	// Call the Subsystem constructor
     	super();
     	
     	// Set up subsystem components
     	intakeMotor.setVoltageRampRate(50);
+		climbMotor2.changeControlMode(TalonControlMode.Follower);
+        climbMotor2.set(climbMotor1.getDeviceID());
 
     	// Stall protection
         //motorCurrentTrigger.whenActive(new IntakeMotorStop());
 
     	// Add the subsystem to the LiveWindow
         LiveWindow.addActuator("Intake", "Intake Motor", intakeMotor);
-//        LiveWindow.addActuator("Intake", "Intake Solenoid", intakeSolenoid);
+        LiveWindow.addActuator("Intake", "Intake Solenoid", intakeSolenoid);
     }
-    
-    /**
- 
-    
-  
+
     /**
      * Get the current position of the intake
      * @return true if the intake is deployed, false if not
@@ -44,14 +52,9 @@ public class Intake extends Subsystem {
     public boolean getPosition(){
     	return (intakeSolenoid.get() == DoubleSolenoid.Value.kForward);
     }
-
-    private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.intakeSolenoidFwd, RobotMap.intakeSolenoidRev);
-    private final DoubleSolenoid hopperSolenoid = new DoubleSolenoid(RobotMap.hopperSolenoidFwd, RobotMap.hopperSolenoidRev);
-
     
     /**
      * Set the speed of the intake motor
-
      * @param speed of the motor, between -1 (outtake) and +1 (intake), 0 = stopped
      */
     public void setSpeed(double speed) {
@@ -98,6 +101,13 @@ public class Intake extends Subsystem {
     }
     
     /**
+     * Deploy the hopper out
+     */
+    public void deployHopper() {
+    	hopperSolenoid.set(DoubleSolenoid.Value.kForward);
+    }
+    
+    /**
      * Stow the hopper (for climbing)
      */
     public void stowHopper() {
@@ -105,11 +115,12 @@ public class Intake extends Subsystem {
     }
     
     /**
-     * Deploy the hopper out
+     * Set the speed of the climbing mechanism
+     * @param speed from -1 (down) to +1 (climb)
      */
-    public void deployHopper() {
-    	hopperSolenoid.set(DoubleSolenoid.Value.kForward);
-
+    public void setClimbSpeed(double speed) {
+    	// Need to check if hopper and intake are stowed first
+    	climbMotor1.set(speed);
     }
     
     public void initDefaultCommand() {

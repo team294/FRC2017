@@ -78,8 +78,8 @@ public class OI {//Hopefully this works or maybe this will
 	     SmartDashboard.putData("Drive Stop", new DriveStop());
 	     
 	     // Subsystem Testing Commands
-	     SmartDashboard.putData("Gear Piston Out", new SetGearSolenoid(true));
-	     SmartDashboard.putData("Gear Piston In", new SetGearSolenoid(false));
+	     SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
+	     SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
 	     SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
 	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
 	     SmartDashboard.putData("Stop Shooter Motor", new ShooterSetToSpeed(0.0));
