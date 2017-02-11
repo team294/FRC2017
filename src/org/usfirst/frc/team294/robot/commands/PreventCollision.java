@@ -15,6 +15,7 @@ public class PreventCollision extends Command {
     	requires(Robot.ultrasonicSensors);
     	requires(Robot.driveTrain);
     }
+    
 
     // Called just before this Command runs the first time
     protected void initialize() {
@@ -29,7 +30,11 @@ public class PreventCollision extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        if(Robot.ultrasonicSensors.collisionPrevention() == true){
+        	return true;
+        }else{
+        	return false;
+        }
     }
 
     // Called once after isFinished returns true
