@@ -87,6 +87,9 @@ public class BoilerVision extends Subsystem {
 			distance = (7.208 - camHeight)/Math.tan(phi*Math.PI/180); //7.208 is the height in feet to the center of the top contour
 		}
 		else { distance = -1; }
+		System.out.println(""+targets[0].getArea());
+		System.out.println(""+targets[1].getArea());
+
 		return distance;
 	}
 	
