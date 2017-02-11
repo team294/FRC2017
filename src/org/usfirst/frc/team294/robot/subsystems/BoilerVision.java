@@ -15,7 +15,7 @@ public class BoilerVision extends Subsystem {
 	double boilerAngleOffset;
 
 	double camHeight = 1+6.7/12; //Height of center of camera off of the ground
-	double camAngle  = 25; //Upward angle offset of camera (in degrees)
+	double camAngle  = 50; //Upward angle offset of camera (in degrees)
 	
 	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
 	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera pixel length
