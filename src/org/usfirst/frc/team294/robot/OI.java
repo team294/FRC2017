@@ -63,7 +63,12 @@ public class OI {//Hopefully this works or maybe this will
 	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
 	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
 	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180));
-	     SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
+	     SmartDashboard.putData("Turn to 5", new GyroTurnToAngle(0.4, 5));
+	     SmartDashboard.putData("Turn to -5", new GyroTurnToAngle(0.4, -5));
+	     SmartDashboard.putData("Turn to 10", new GyroTurnToAngle(0.4, 10));
+	     SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10));
+	     
+	     SmartDashboard.putData("Turn to gear", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
 	     
 
 	     //double speed = SmartDashboard.getDouble("Drive Speed");

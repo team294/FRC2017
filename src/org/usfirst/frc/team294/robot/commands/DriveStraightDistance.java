@@ -122,13 +122,13 @@ public class DriveStraightDistance extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.driveTrain.stop();
-    	Robot.log.writeLog("Autonomous Drive Completed: Distance: " + distance);
+    	Robot.log.writeLogEcho("Autonomous Drive Completed: Distance: " + distance);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.driveTrain.stop();
-    	Robot.log.writeLog("Autonomous Drive Command Interrupted");
+    	Robot.log.writeLogEcho("Autonomous Drive Command Interrupted");
     }
 }
