@@ -87,7 +87,7 @@ public class DriveTrain extends Subsystem {
     }
 
     /**
-     * Set the drive controller to use power settings, instead of using the
+   s  * Set the drive controller to use power settings, instead of using the
      * encoder PID controller.
      */
     public void setDriveControlByPower() {
