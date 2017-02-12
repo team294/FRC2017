@@ -98,5 +98,6 @@ public class OI {//Hopefully this works or maybe this will
 
 	     // Stop Command
 	     SmartDashboard.putData("Drive Stop", new DriveStop());
+	     SmartDashboard.putNumber("2", 2.0);
 	}
 }
