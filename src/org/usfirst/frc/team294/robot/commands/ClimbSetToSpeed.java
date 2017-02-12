@@ -3,28 +3,28 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class DriveForward extends Command {
+public class ClimbSetToSpeed extends Command {
 
-
-	private double speed = 0.0;
-	private double curve = 0.0;
-	private double duration = 0.0;
+	private double speed;
 	
-    public DriveForward(double setSpeed) {
-        requires(Robot.driveTrain);
-        speed = setSpeed;
+	/**
+	 * Set the speed of the climber motors
+	 * @param speed from -1 (down) to +1 (up)
+	 */
+    public ClimbSetToSpeed(double speed) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.intake);
+    	this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-      System.out.println("Drive forward init");		
-    	Robot.driveTrain.driveForward(speed);
-    	SmartDashboard.putNumber("Drive Forward Speed", speed);
+    	Robot.intake.setClimbSpeed(speed);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,7 +33,7 @@ public class DriveForward extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (timeSinceInitialized() >= duration);
+        return true;
     }
 
     // Called once after isFinished returns true

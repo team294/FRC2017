@@ -11,11 +11,13 @@ public class AutoDriveAndGearRight extends CommandGroup {
 
     public AutoDriveAndGearRight() {
     	// Speeds 0.7 for testing purposes
-        addSequential(new DriveStraightDistance(1.0, -93.25, Units.inches));
+        addSequential(new DriveStraightDistance(0.4, -93.25, Units.inches, false, true));
         // Extra segment for testing
-        addSequential(new DriveStraightDistance(1.0, -20, Units.inches));
-        addSequential(new GyroTurnToAngleRelative(30, 0.7));
-        addSequential(new DriveStraightDistance(1.0, -35.25, Units.inches));
-        // will add vision here once integration
+        addSequential(new DriveStraightDistance(0.4, -20, Units.inches, true, true));
+        addSequential(new GyroTurnToAngle(0.7, 30));
+        // This should turn the robot to the gear (no offset on camera)
+        addSequential(new WaitSeconds(0.5));
+        addSequential(new GyroTurnToAngle(0.4, 0.0, 4.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+        addSequential(new DriveStraightDistance(0.4, -35.25, Units.inches, true, true));
     }
 }

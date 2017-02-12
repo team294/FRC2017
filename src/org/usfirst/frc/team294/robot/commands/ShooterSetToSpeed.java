@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.command.Command;
 
 
 public class ShooterSetToSpeed extends Command {
-	double speed;
+	
+	private double speed;
 
 	/**
 	 * Set the shooter to speed
@@ -25,7 +26,7 @@ public class ShooterSetToSpeed extends Command {
     	Robot.shooter.setSpeed(speed);
     	
     	// Write log of shooting
-    	Robot.log.writeLog(" Set Shooting Speed: " + speed);
+    	Robot.log.writeLogEcho(" Set Shooting Speed: " + speed);
     }
 
     // Called repeatedly when this Command is scheduled to run

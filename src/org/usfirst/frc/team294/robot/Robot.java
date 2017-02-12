@@ -20,11 +20,15 @@ public class Robot extends IterativeRobot {
 	// Hardware subsystems
 	public static DriveTrain driveTrain;
 	public static Shifter shifter;
-	public static Shooter shooter;
-	public static Intake intake;
+	public static BallFeed ballFeed;
 	public static GearGate gearGate;
 	public static GearVision gearVision;
+	public static Intake intake;
+	public static Shooter shooter;
 	public static ShooterHood shooterHood;
+	
+	// Vision subsystems
+	public static Vision vision;
 	public static BoilerVision boilerVision;
 	
 	// The OI
@@ -38,7 +42,10 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+		
 		System.out.println("Robot init");
+
+		log = new FileLog();
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
 		shooter = new Shooter();
@@ -48,8 +55,9 @@ public class Robot extends IterativeRobot {
 		boilerVision = new BoilerVision();
 		log = new FileLog();
 		gearVision = new GearVision();
+		shooterHood = new ShooterHood();
+		ballFeed = new BallFeed();
 		oi = new OI();
-
 
 		// Put scheduler and subsystems on SmartDashboard
 		SmartDashboard.putData(Scheduler.getInstance());
@@ -95,7 +103,7 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		log.writeLog("Autonomous Mode Started");
+		log.writeLogEcho("Autonomous Mode Started");
 	}
 
 	/**
@@ -112,9 +120,7 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		System.out.println("Teleop init start");		
-		log.writeLog("Teleop Mode Started");
-		System.out.println("Teleop init done");		
+		log.writeLogEcho("Teleop Mode Started");
 	}
 
 	/**

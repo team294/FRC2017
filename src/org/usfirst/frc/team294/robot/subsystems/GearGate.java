@@ -24,6 +24,14 @@ public class GearGate extends Subsystem {
 	public void in() {
 		gearPiston.set(false);
 	}
+	
+	/**
+	 * Get the position of the gear solenoid
+	 * @return true for out, false for in
+	 */
+	public boolean getPosition() {
+		return gearPiston.get();
+	}
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
