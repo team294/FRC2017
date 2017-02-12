@@ -20,7 +20,7 @@ public class DriveStop extends Command {
 
     	SmartDashboard.putNumber("Drive Forward Speed", 0);
     
-    	Robot.log.writeLog("DriveTrain: Drivetrain stopped by software");
+    	Robot.log.writeLogEcho("DriveTrain: Drivetrain stopped by software");
     }
 
     // Called repeatedly when this Command is scheduled to run
