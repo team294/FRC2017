@@ -72,14 +72,8 @@ public class OI {//Hopefully this works or maybe this will
 	     SmartDashboard.putNumber("Drive Curve", 0.0);
 	     SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
 	     
-<<<<<<< HEAD
-	     //SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
-	     
-	     SmartDashboard.putNumber("Drive Forward Speed", 0.0);
 	     SmartDashboard.putData("Drive Stop", new DriveStop());
 	     
-=======
->>>>>>> refs/remotes/origin/VexUltrasonic
 	     // Subsystem Testing Commands
 	     SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
 	     SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
@@ -87,7 +81,6 @@ public class OI {//Hopefully this works or maybe this will
 	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
 	     SmartDashboard.putData("Stop Shooter Motor", new ShooterSetToSpeed(0.0));
 	     SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3));
-<<<<<<< HEAD
 	     
 	     // Autonomous Command Testing
 	     SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
@@ -95,20 +88,11 @@ public class OI {//Hopefully this works or maybe this will
 	     SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle());
 
 	     // Encoders
-
-	    // SmartDashboard.putData("Get Boiler Distance", new DisplayBoilerDistance());
 		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
 		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
 
 	     // Stop Command
-=======
-	     SmartDashboard.putNumber("Distance from target in inches", Robot.ultrasonicSensors.getDistance());
-
-	     /// Stop Command
->>>>>>> refs/remotes/origin/VexUltrasonic
 	     SmartDashboard.putData("Drive Stop", new DriveStop());
 	     
-	     // Ultrasonic Testing
-	     SmartDashboard.putData("Get Distance", new GetDistance ());
 	}
 }

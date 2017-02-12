@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class BallFeed extends Subsystem {
 
-	public static CANTalon horConveyer = new CANTalon(RobotMap.horizontalConveyer);
-	public static CANTalon vertConveyer = new CANTalon(RobotMap.verticalConveyer);
+	private final CANTalon horConveyer = new CANTalon(RobotMap.horizontalConveyer);
+	private final CANTalon vertConveyer = new CANTalon(RobotMap.verticalConveyer);
 
 	/**
 	 * Set the speed of the horizontal conveyer

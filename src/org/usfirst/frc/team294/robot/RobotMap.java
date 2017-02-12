@@ -30,16 +30,14 @@ public class RobotMap {
     public static int intakeSolenoidFwd = 2;
     public static int intakeSolenoidRev = 3;
     public static int gearSolenoid = 4;
-<<<<<<< HEAD
     public static int hopperSolenoidFwd = 5;
     public static int hopperSolenoidRev = 6;
     public static int shooterHoodSolenoid = 7;
-=======
     
     // Analog I/O addresses
     public static int driveTrainGyro = 0;
     
+    // Digital I/O addresses
     public static int usTx = 8;
     public static int usRx = 9;
->>>>>>> refs/remotes/origin/VexUltrasonic
 }

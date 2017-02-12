@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -29,6 +30,8 @@ public class DriveTrain extends Subsystem {
     private final CANTalon rightMotor2 = new CANTalon(RobotMap.driveTrainRightMotor2);
     private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
     private final RobotDrive robotDrive = new RobotDrive(leftMotor2, rightMotor2);
+    
+    private final Ultrasonic ultrasonicSensor;
     
     // NavX.  Create the object in the DriveTrain() constructor, so that we can catch errors.
     private AHRS ahrs;
@@ -83,7 +86,10 @@ public class DriveTrain extends Subsystem {
         	} catch (RuntimeException ex ) {
         		DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
         	}
-        ahrs.zeroYaw();        
+        ahrs.zeroYaw();
+        
+		ultrasonicSensor = new Ultrasonic(RobotMap.usTx,RobotMap.usRx);
+		ultrasonicSensor.setAutomaticMode(true);
     }
 
     /**
@@ -317,6 +323,14 @@ public class DriveTrain extends Subsystem {
     	return ahrs.getRate();
     }
     
+    /**
+     * Get the distance range of the ultrasonic sensor in inches
+     * @return
+     */
+    public double getUltrasonicDistance() {
+    	return ultrasonicSensor.getRangeInches();
+    }
+
     /**
      * Update the SmartDashboard with NavX readings.
      */
