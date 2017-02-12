@@ -101,6 +101,7 @@ public class OI {//Hopefully this works or maybe this will
 	     
 	     
 	     SmartDashboard.putData("Ultron WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", new GetDistance ());
+	     SmartDashboard.putData("Is Gear There?", new IsGearThere());
 	    // SmartDashboard.getDouble("GetDistance");
 	    // SmartDashboard.("GetDistance");
 	    // SmartDashboard.getData("GetDistance");
