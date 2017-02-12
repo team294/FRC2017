@@ -12,7 +12,7 @@ public class AutoDriveAndGearLeft extends CommandGroup {
     public AutoDriveAndGearLeft() {
     	// Speeds 0.7 for testing purposes
         addParallel(new DriveStraightDistance(0.7, -93.25, Units.inches, false, true));
-        addSequential(new GyroTurnToAngleRelative(-30, 0.7));
+        addSequential(new GyroTurnToAngle(0.7, -30));
         addSequential(new DriveStraightDistance(0.7, -35.25, Units.inches, false, true));
         // will need to add vision tracking
     }

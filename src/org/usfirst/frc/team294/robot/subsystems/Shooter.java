@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import com.ctre.CANTalon;
@@ -46,6 +47,16 @@ public class Shooter extends Subsystem {
     	setSpeed(0.0);
     }
 	
+	/**
+	 * Logs the speed of the shooter to the robot log
+	 */
+	public void logStatus() {
+		Robot.log.writeLog(
+				"Shooter: Shooter Motor 1 (Main)-- Speed: " + shooterMotor1.get() +
+				" Shooter Motor 2 (Follower)-- Speed: " + shooterMotor2.get()
+				);
+	}
+    
 	public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 //import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
@@ -122,6 +123,25 @@ public class Intake extends Subsystem {
     	// Need to check if hopper and intake are stowed first
     	climbMotor1.set(speed);
     }
+    
+	/**
+	 * Logs the speed of the intake to the robot log
+	 */
+	public void logIntakeStatus() {
+		Robot.log.writeLog(
+				"Intake: Intake Motor-- Speed: " + intakeMotor.get()
+				);
+	}
+	
+	/**
+	 * Logs the speed of both conveyors to the robot log
+	 */
+	public void logClimbStatus() {
+		Robot.log.writeLog(
+				"Climber: Climb Motor 1 (Main)-- Speed: " + climbMotor1.get() +
+				" Climb Motor 2 (Follower)-- Speed: " + climbMotor2.get()
+				);
+	}
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

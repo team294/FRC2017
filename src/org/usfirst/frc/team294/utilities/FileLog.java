@@ -33,7 +33,7 @@ public class FileLog {
 	}
 	
 	/**
-	 * Writes a message to the log file.  The message will be timestamped.
+	 * Writes a message to the log file.  The message will be timestamped.  Does not echo the message to the screen.
 	 * @param msg
 	 */
 	public void writeLog(String msg) {
@@ -43,6 +43,15 @@ public class FileLog {
 			fileStream.flush();
 		} catch (IOException e) {
 		}
+	}
+	
+	/**
+	 * Writes a message to the log file.  The message will be timestamped.  Also echos the message to the screen.
+	 * @param msg
+	 */
+	public void writeLogEcho(String msg) {
+		writeLog(msg);
+		System.out.println(msg);
 	}
 	
 	/**
