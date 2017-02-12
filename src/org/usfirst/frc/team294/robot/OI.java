@@ -58,8 +58,7 @@ public class OI {//Hopefully this works or maybe this will
 	    	 if (k > 2 && k < 7) i.whenPressed(new DriveWithJoysticks()); 
 	    	 else i.whenPressed(new ShiftUp());
 	     }
-
-	     /**
+		
 	     // Gyro Testing Commands
 	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
 	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
@@ -74,14 +73,6 @@ public class OI {//Hopefully this works or maybe this will
 	     SmartDashboard.putData("Drive at Angle", new DriveAtAngleFromSmartDashboard());
 	     SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
 	     
-	     //SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
-	     
-	     SmartDashboard.putNumber("Drive Forward Speed", 0.0);
-	     SmartDashboard.putData("Drive 50%", new DriveForward(.5));
-	     SmartDashboard.putData("Drive Stop", new DriveStop());
-		 SmartDashboard.putData("Distance from target in inches", new GetDistance());
-
-	     
 	     // Subsystem Testing Commands
 	     SmartDashboard.putData("Gear Piston Out", new SetGearSolenoid(true));
 	     SmartDashboard.putData("Gear Piston In", new SetGearSolenoid(false));
@@ -91,20 +82,10 @@ public class OI {//Hopefully this works or maybe this will
 	     SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3));
 	     SmartDashboard.putNumber("Distance from target in inches", Robot.ultrasonicSensors.getDistance());
 
-	     // Encoders
-//	     SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
-	    // SmartDashboard.putData("Get Boiler Distance", new DisplayBoilerDistance());
-
-*/
 	     /// Stop Command
 	     SmartDashboard.putData("Drive Stop", new DriveStop());
 	     
-	     
-	     SmartDashboard.putData("Ultron WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", new GetDistance ());
-	    // SmartDashboard.getDouble("GetDistance");
-	    // SmartDashboard.("GetDistance");
-	    // SmartDashboard.getData("GetDistance");
-
-
+	     // Ultrasonic Testing
+	     SmartDashboard.putData("Get Distance", new GetDistance ());
 	}
 }
