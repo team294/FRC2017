@@ -48,7 +48,7 @@ public class GyroTurnToAngle extends Command {
     public GyroTurnToAngle(double speed, double angle, double tolerance, TurnMode turnMode) {
     	requires(Robot.driveTrain);
     	if (turnMode == TurnMode.GEAR_VISION) {
-    		requires(Robot.vision);
+    		requires(Robot.gearVision);
     	}
     	if (turnMode == TurnMode.BOILER_VISION) {
     		requires(Robot.boilerVision);
@@ -104,7 +104,7 @@ public class GyroTurnToAngle extends Command {
     		break;
     	case GEAR_VISION:
     		Robot.driveTrain.resetDegrees();
-    		angle = Robot.vision.getGearAngleOffset();
+    		angle = Robot.gearVision.getGearAngleOffset();
         	if (angle == -500) SmartDashboard.putBoolean("Contours Found", false);
         		else SmartDashboard.putBoolean("Contours Found", true);
     		Robot.log.writeLogEcho("Gyro: Start turn to angle GEAR" + angle + " degrees.");

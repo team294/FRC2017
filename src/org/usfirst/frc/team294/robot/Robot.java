@@ -28,7 +28,6 @@ public class Robot extends IterativeRobot {
 	public static ShooterHood shooterHood;
 	
 	// Vision subsystems
-	public static Vision vision;
 	public static BoilerVision boilerVision;
 	
 	// The OI
