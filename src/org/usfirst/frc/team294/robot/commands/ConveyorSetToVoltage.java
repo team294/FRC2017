@@ -13,7 +13,7 @@ public class ConveyorSetToVoltage extends Command {
 	
 	/**
 	 * Set the voltage output of the vertical and horizontal conveyers
-	 * @param voltage from ? (out) to ? (in)
+	 * @param voltage from -12 (out) to 12 (in)
 	 */
     public ConveyorSetToVoltage(double voltage) {
         // Use requires() here to declare subsystem dependencies

@@ -3,45 +3,29 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Sets the Vbus of the shooter from the SmartDashboard
  */
-public class SetShooterMotorPIDF extends Command {
-
-    public SetShooterMotorPIDF() {
+public class ShooterSetVbusFromSmartDashboard extends Command {
+	
+	/**
+	 * Sets the Vbus of the shooter from the SmartDashboard
+	 */
+    public ShooterSetVbusFromSmartDashboard() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    
-    }
-	private double speed;
-
-	/**
-	 * Set the shooter to speed
-	 * @param speed between -1 and 1
-	 */
-    public void ShooterSetToSpeed(double speed) {
-        requires(Robot.shooter);
-        this.speed = speed;
+    	requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-
-    	// Validate inputs first
-    	if (speed > 1.0) speed = 1.0;
-    	if (speed < -1.0) speed = -1.0;
-    	Robot.shooter.setShooterMotorToSpeed(speed);
-    	
-    	// Write log of shooting
-    	Robot.log.writeLogEcho(" Set Shooting Speed: " + speed);
+    	Robot.shooter.useVbusControl(SmartDashboard.getNumber("Shooter Motor Set Vbus", 0));
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    		Robot.shooter.setPIDFromSmartDashboard();
-    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -57,4 +41,4 @@ public class SetShooterMotorPIDF extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
- }
+}

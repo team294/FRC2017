@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Output Motors, shooter and right
+ * The shooter
  */
 public class Shooter extends Subsystem {
 
@@ -20,13 +20,16 @@ public class Shooter extends Subsystem {
 	private final CANTalon shooterMotor1 = new CANTalon(RobotMap.shooterMotor1);
 	private final CANTalon shooterMotor2 = new CANTalon(RobotMap.shooterMotor2);
 	DigitalInput jumper = new DigitalInput(RobotMap.jumper);
+	
 	double setSpeed;
 	boolean error = false;
 
 	public Shooter() {
 		super();
+		
 		shooterMotor1.setVoltageRampRate(24.0);
 		shooterMotor2.setVoltageRampRate(24.0);
+		
 		if (jumper.get() == false) { // jumper in digital 1 will set PIDF values
 									// for the second shooter
 									//false means the jumper is present
@@ -71,26 +74,23 @@ public class Shooter extends Subsystem {
 		}
 
 		shooterMotor2.changeControlMode(TalonControlMode.Follower);
-		shooterMotor2.set(RobotMap.shooterMotor1);
+		shooterMotor2.set(shooterMotor1.getDeviceID());
 		shooterMotor1.enableBrakeMode(false);
 		shooterMotor2.enableBrakeMode(false);
 		shooterMotor1.set(0.0);
 	}
 	
 	/**
-	 * Sets the shooter motor to a specific speed
-	 * 
-	 * @param speed
-	 *            Double from 6000 to -100 as rpm
+	 * Sets the shooter motor to speed according to rpm
+	 * @param speed from -1000 to 18000
 	 */
-	public void setShooterMotorToSpeed(double speed) {
+	public void setShooterRpm(double speed) {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
-		if (speed > 18000.0){
-			speed = 18000.0;
-		}
-		if (speed < -1000.0){
-			speed = -1000.0;
-		}// Only run reverse to clear a possible jam
+		
+		speed = (speed > 18000.0) ? 18000.0 : speed;
+		speed = (speed < -1000.0) ? -1000.0 : speed;
+		// Only run reverse to clear a possible jam
+		
 		setSpeed = speed;
 		shooterMotor1.set(speed);
 	}
@@ -101,28 +101,33 @@ public class Shooter extends Subsystem {
 		shooterMotor1.setF(f);
 	}
 	
+	/**
+	 * Set the shooter speed according to Vbus
+	 * @param vbus from -1 to +1
+	 */
 	public void useVbusControl(double vbus){
 		shooterMotor1.changeControlMode(TalonControlMode.PercentVbus);
-		if (vbus > 1){
-			vbus = 1;
-		}
-		if (vbus < -1){
-			vbus = -1;
-		}
+		vbus = (vbus > 1.0) ? 1.0 : vbus;
+		vbus = (vbus < -1.0) ? -1.0 : vbus;
 		shooterMotor1.set(-vbus);	
 	}
 	
+	/**
+	 * Set the shooter speed according to voltage
+	 * @param voltage from -12.0 to +12.0
+	 */
 	public void setVoltage(double voltage){
 		shooterMotor1.changeControlMode(TalonControlMode.Voltage);
-		if(voltage < -12){
-			voltage = -12;
-		}if (voltage > 12){
-			voltage = 12;
-		}
+		voltage = (voltage > 12.0) ? 12.0 : voltage;
+		voltage = (voltage < -12.0) ? -12.0 : voltage;
 		shooterMotor1.set(voltage);
 	}
 	
-	public double getCurrentSpeed(){
+	/**
+	 * Get the speed of the shooter
+	 * @return from -1 to +1 (NOT VERIFIED. MAY DEPEND ON CONTROL MODE)
+	 */
+	public double getSpeed(){
 		return shooterMotor1.getSpeed();
 	}
 	
@@ -135,24 +140,10 @@ public class Shooter extends Subsystem {
 				", Motor error, " +  (shooterMotor1.getSpeed() - setSpeed)
 		);		
 	}
-	
-	public void brakeTheShooterMotor(double speed) {
-		shooterMotor1.changeControlMode(TalonControlMode.Voltage);
-		shooterMotor1.set(0);
-
-	}
 
 	/**
-	 * Sets the right motor to a specific speed
-	 * 
-	 * @param speed
-	 *            Double from -1.0 to 1.0 as a percentage of battery voltage
+	 * Update the Smart Dashboard
 	 */
-	/*
-	 * public void setRightMotorToSpeed(double speed) { if (speed > 1.0) speed =
-	 * 1.0; if (speed < -1.0) speed = -1.0; shooterMotor1.set(speed); }
-	 */
-
 	public void updateSmartDashboard() {
 		SmartDashboard.putNumber("Shooter Motor Speed", shooterMotor1.getSpeed());
 		SmartDashboard.putNumber("VBus - Voltage", (shooterMotor1.getBusVoltage() - Math.abs(shooterMotor1.getOutputVoltage())));
@@ -166,6 +157,9 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Shooter Motor 1000*F", shooterMotor1.getF() * 1000);
 	}
 
+	/**
+	 * Setup the Smart Dashboard
+	 */
 	public void setupSmartDashboard() {
 		//SmartDashboard.putNumber("Shooter Motor 1000*F", shooterMotor.getF() * 1000);
 		SmartDashboard.putNumber("Shooter Motor 1000*P", shooterMotor1.getP() * 1000);
@@ -177,6 +171,9 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Set Nominal F Value", 8.8);
 	}
 
+	/**
+	 * Sets the PID from the Smart Dashboard
+	 */
 	public void setPIDFromSmartDashboard(){
 		//shooterMotor.setF(SmartDashboard.getNumber("Shooter Motor 1000*F", 0) / 1000);
 		shooterMotor1.setP(SmartDashboard.getNumber("Shooter Motor 1000*P", 0) / 1000);
@@ -184,6 +181,17 @@ public class Shooter extends Subsystem {
 		shooterMotor1.setD(SmartDashboard.getNumber("Shooter Motor 1000*D", 0) / 1000);
 	}
 
+	/**
+	 * Set the shooter motor to speed according to Vbus
+	 * @param speed from -1 to +1
+	 */
+	public void setSpeed(double speed) {
+		shooterMotor1.changeControlMode(TalonControlMode.PercentVbus);
+		speed = (speed > 1.0) ? 1 : speed;
+		speed = (speed < -1.0) ? -1.0 : speed;
+		shooterMotor1.set(speed);
+	}
+	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());

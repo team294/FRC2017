@@ -10,7 +10,7 @@ public class ShooterSetToSpeed extends Command {
 	private double speed;
 
 	/**
-	 * Set the shooter to speed
+	 * Set the shooter to speed according to Vbus
 	 * @param speed between -1 and 1
 	 */
     public ShooterSetToSpeed(double speed) {
@@ -23,10 +23,10 @@ public class ShooterSetToSpeed extends Command {
     	// Validate inputs first
     	if (speed > 1.0) speed = 1.0;
     	if (speed < -1.0) speed = -1.0;
-    //	Robot.shooter.setSpeed(speed);
+    	Robot.shooter.setSpeed(speed);
     	
     	// Write log of shooting
-    	Robot.log.writeLogEcho(" Set Shooting Speed: " + speed);
+    	Robot.log.writeLogEcho("Shooter: Setting Shooting Speed " + speed);
     }
 
     // Called repeatedly when this Command is scheduled to run

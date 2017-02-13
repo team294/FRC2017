@@ -5,12 +5,16 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
-public class SetShooterMotorVbusFromDashboard extends Command {
 
-    public SetShooterMotorVbusFromDashboard() {
+/**
+ * Sets the shooter speed from the Smart Dashboard
+ */
+public class ShooterSetToSpeedFromSmartDashboard extends Command {
+
+	/**
+	 * Sets the shooter speed from the Smart Dashboard
+	 */
+    public ShooterSetToSpeedFromSmartDashboard() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.shooter);
@@ -18,7 +22,7 @@ public class SetShooterMotorVbusFromDashboard extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shooter.useVbusControl(SmartDashboard.getNumber("Shooter Motor Set Vbus", 0));
+    	Robot.shooter.setShooterRpm(SmartDashboard.getNumber("Shooter Motor Set Speed", 0));
     }
 
     // Called repeatedly when this Command is scheduled to run
