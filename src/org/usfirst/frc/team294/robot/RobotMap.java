@@ -21,8 +21,8 @@ public class RobotMap {
 	public static int intakeMotor = 11;
 	public static int shooterMotor1 = 12;	
 	public static int shooterMotor2 = 13;
-	public static int horizontalConveyer = 14;
-	public static int verticalConveyer = 15;
+	public static int horizontalConveyor = 14;
+	public static int verticalConveyor = 15;
 
 	// Pneumatic controller PCM IDs
     public static int shifterSolenoidFwd = 0;

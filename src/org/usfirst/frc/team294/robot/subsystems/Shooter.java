@@ -19,7 +19,6 @@ public class Shooter extends Subsystem {
 	// Motor Hardware
 	private final CANTalon shooterMotor1 = new CANTalon(RobotMap.shooterMotor1);
 	private final CANTalon shooterMotor2 = new CANTalon(RobotMap.shooterMotor2);
-	private final CANTalon intakeMotor = new CANTalon(RobotMap.intakeMotor);
 	DigitalInput jumper = new DigitalInput(RobotMap.jumper);
 	double setSpeed;
 	boolean error = false;
@@ -28,7 +27,6 @@ public class Shooter extends Subsystem {
 		super();
 		shooterMotor1.setVoltageRampRate(24.0);
 		shooterMotor2.setVoltageRampRate(24.0);
-		intakeMotor.setVoltageRampRate(24.0);
 		if (jumper.get() == false) { // jumper in digital 1 will set PIDF values
 									// for the second shooter
 									//false means the jumper is present
@@ -101,17 +99,6 @@ public class Shooter extends Subsystem {
 		double currentBatteryVoltage = shooterMotor1.getBusVoltage();
 		double f = ((12.1/currentBatteryVoltage)*fInit);
 		shooterMotor1.setF(f);
-	}
-	
-	public void setIntakeSpeed(double voltage){
-		intakeMotor.changeControlMode(TalonControlMode.Voltage);
-		if(voltage > 12){
-			voltage = 12;
-		}
-		else if (voltage < -4){
-			voltage = -4;
-		}
-		intakeMotor.set(voltage);
 	}
 	
 	public void useVbusControl(double vbus){
@@ -187,7 +174,6 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Shooter Motor Set Speed", shooterMotor1.get());
 		SmartDashboard.putNumber("Shooter Motor Set Vbus", 0.0);		
 		SmartDashboard.putNumber("Fixed Recovery Voltage", shooterMotor1.get());
-		SmartDashboard.putNumber("Intake Set Voltage", intakeMotor.get());
 		SmartDashboard.putNumber("Set Nominal F Value", 8.8);
 	}
 
