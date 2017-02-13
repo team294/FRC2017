@@ -27,11 +27,10 @@ public class Shooter extends Subsystem {
 		super();
 		shooterMotor1.setVoltageRampRate(24.0);
 		shooterMotor2.setVoltageRampRate(24.0);
-		if (jumper.get() == false) { // jumper in digital 1 will set PIDF values
 									// for the second shooter
 									//false means the jumper is present
-			shooterMotor1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-			shooterMotor1.configEncoderCodesPerRev(100);
+		shooterMotor1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		shooterMotor1.configEncoderCodesPerRev(100);
 			// shooterMotor.setPID(50.0, 0.2, 0, 40.0, 6000, 50, 0);
 			/*
 			 * It looks like the feedforward term sets a percent VBUS. It would
@@ -41,34 +40,14 @@ public class Shooter extends Subsystem {
 			// shooterMotor.setPID(.100, 0.0, .06, .00845, 6000, 500, 0); //
 			// this was for the one motor system
 
-			shooterMotor1.setPID(.02, 0, 1, .0088, 500, 500, 0); // two
+		shooterMotor1.setPID(.02, 0, 1, .0088, 500, 500, 0); // two
 																		// motor
 																		// system
-			shooterMotor1.reverseSensor(false);
-			shooterMotor1.reverseOutput(false);
-			shooterMotor1.changeControlMode(TalonControlMode.Speed);
-			shooterMotor2.reverseOutput(false);
+		shooterMotor1.reverseSensor(false);
+		shooterMotor1.reverseOutput(false);
+		shooterMotor1.changeControlMode(TalonControlMode.Speed);
+		shooterMotor2.reverseOutput(false);
 
-		} else {
-			shooterMotor1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-			shooterMotor1.configEncoderCodesPerRev(100);
-			// shooterMotor.setPID(50.0, 0.2, 0, 40.0, 6000, 50, 0);
-			/*
-			 * It looks like the feedforward term sets a percent VBUS. It would
-			 * therefore be better to multiply f by VBAT/12 to compensate for
-			 * battery voltage variation.
-			 */
-			// shooterMotor.setPID(.100, 0.0, .06, .00845, 6000, 500, 0); //
-			// this was for the one motor system
-			shooterMotor1.setPID(.1000, 0.00002, 5, .00827, 6000, 500, 0); // two
-																		// motor
-																		// system
-			shooterMotor1.reverseSensor(false);
-			shooterMotor1.reverseOutput(true);
-			shooterMotor1.changeControlMode(TalonControlMode.Speed);
-			shooterMotor2.reverseOutput(false);
-
-		}
 
 		shooterMotor2.changeControlMode(TalonControlMode.Follower);
 		shooterMotor2.set(RobotMap.shooterMotor1);
@@ -85,11 +64,11 @@ public class Shooter extends Subsystem {
 	 */
 	public void setShooterMotorToSpeed(double speed) {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
-		if (speed > 18000.0){
-			speed = 18000.0;
+		if (speed > 6000.0){
+			speed = 6000.0;
 		}
-		if (speed < -1000.0){
-			speed = -1000.0;
+		if (speed < -500.0){
+			speed = -500.0;
 		}// Only run reverse to clear a possible jam
 		setSpeed = speed;
 		shooterMotor1.set(speed);
@@ -173,7 +152,7 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Shooter Motor 1000*D", shooterMotor1.getD() * 1000);
 		SmartDashboard.putNumber("Shooter Motor Set Speed", shooterMotor1.get());
 		SmartDashboard.putNumber("Shooter Motor Set Vbus", 0.0);		
-		SmartDashboard.putNumber("Fixed Recovery Voltage", shooterMotor1.get());
+		SmartDashboard.putNumber("Fixed Recovery Voltage", shooterMotor1.get()); 
 		SmartDashboard.putNumber("Set Nominal F Value", 8.8);
 	}
 
