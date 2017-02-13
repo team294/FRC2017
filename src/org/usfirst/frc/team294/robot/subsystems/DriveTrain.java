@@ -159,7 +159,7 @@ public class DriveTrain extends Subsystem {
     public void resetEncoders() {
     	leftEncoderZero = leftMotor2.getPosition();
     	rightEncoderZero = rightMotor2.getPosition();
-		Robot.log.writeLog("Drive encoders reset");
+		Robot.log.writeLogEcho("Drive encoders reset");
     }
 
     /**
@@ -286,7 +286,7 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void resetDegrees() {
 		yawZero = ahrs.getAngle();
-		Robot.log.writeLog("Gyro angle reset");
+		Robot.log.writeLogEcho("Gyro angle reset");
 	}
     
     /**

@@ -100,7 +100,7 @@ public class OI {
 	public OI() {
 		
 		// Create button arrays for the input devices
-		Button[] left = new Button[12];
+		  Button[] left = new Button[12];
 	    Button[] right = new Button[12];
 	    Button[] coP =  new Button[15];
 	    	    
