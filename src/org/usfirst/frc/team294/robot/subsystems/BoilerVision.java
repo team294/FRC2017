@@ -83,7 +83,7 @@ public class BoilerVision extends Subsystem {
 		Contour[] targets = filterContours(); //Gets best two best contours
 		if (targets[0].getArea() > 20 && targets[1].getArea() > 20) { //Checks that both contours are significant and not default
 			//double phi = targets[0].getHeight()/camPXHeight*camVertAngle + (camAngle - camVertAngle/2); //Angle from horizontal to center of the top contour
-			double height = Math.abs(targets[0].getYPos() - targets[1].getYPos());
+			double height = camPXHeight - Math.abs(targets[0].getYPos() + targets[1].getYPos())/2;
 			double phi = height/camPXHeight*camVertAngle + (camAngle - camVertAngle/2);
 			distance = (7.208 - camHeight- 4/12)/Math.tan(phi*Math.PI/180); //7.208 is the height in feet to the center of the top contour
 			//Added - 4/12 in the line above

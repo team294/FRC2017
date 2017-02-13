@@ -58,8 +58,8 @@ public class OI {//Hopefully this works or maybe this will
 	    	 if (k > 2 && k < 7) i.whenPressed(new DriveWithJoysticks()); 
 	    	 else i.whenPressed(new ShiftUp());
 	     }
-
-	   /* // Gyro Testing Commands
+/*
+	    // Gyro Testing Commands
 	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
 	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90, 2.0));
 	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180, 2.0));
@@ -67,10 +67,14 @@ public class OI {//Hopefully this works or maybe this will
 	     SmartDashboard.putData("Turn to -5", new GyroTurnToAngle(0.4, -5, 2.0));
 	     SmartDashboard.putData("Turn to 10", new GyroTurnToAngle(0.4, 10, 2.0));
 	     SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
-	     
+	     */
+	     SmartDashboard.putData("Turn YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", new GyroTurnToAngle(0.4, 0, 1.0, GyroTurnToAngle.TurnMode.SMARTDASHBOARD));
+	     SmartDashboard.putNumber("Speed", 0);
+	     SmartDashboard.putNumber("Angle", 0);
+	     SmartDashboard.putNumber("Err", 0);
 	     SmartDashboard.putData("Turn to gear", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
 	     
-
+/*
 	     //double speed = SmartDashboard.getDouble("Drive Speed");
 	     //double curve = SmartDashboard.getDouble("Drive Curve");
 	     SmartDashboard.putNumber("Drive Speed", 0.0);
@@ -101,19 +105,21 @@ public class OI {//Hopefully this works or maybe this will
 
 		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
 		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
-		 */
+		 
 		 
 		 //Vision command testing
 		 SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
 		 SmartDashboard.putData("Get Boiler Distance TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT", new DisplayBoilerDistance());
-		 SmartDashboard.putData("Get Boiler Angle UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU", new DisplayBoilerAngle());
+		 //SmartDashboard.putData("Get Boiler Angle UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU", new DisplayBoilerAngle());
 		// SmartDashboard.putNumber("Boiler Distance", Robot.boilerVision.getBoilerDistance());
 		// SmartDashboard.putNumber("Boiler Angle Offset", Robot.boilerVision.getBoilerAngleOffset());
-		 SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
-		 SmartDashboard.putNumber("Gear Angle Offset", Robot.gearVision.getGearAngleOffset());
+//		 SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
+//		 SmartDashboard.putNumber("Gear Angle Offset", Robot.gearVision.getGearAngleOffset());
 		 
 
 	     // Stop Command
 	     SmartDashboard.putData("Drive Stop", new DriveStop());
+	     */
+	     
 	}
 }
