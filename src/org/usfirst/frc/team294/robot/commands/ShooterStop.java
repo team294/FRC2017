@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Why does this exist? Why not use ShooterSetToSpeed(0.0) ?
+ * 
+ * This exists because if you use ShooterSetToSpeed(0,0), the system will effectively brake to zero possibly damaging
+ *  belts and motors.  This routine sets the motors to  zero volts in voltage mode which will let the motors coast to a stop.
  */
 public class ShooterStop extends Command {
 
