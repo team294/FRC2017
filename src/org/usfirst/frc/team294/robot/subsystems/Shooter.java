@@ -158,9 +158,9 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Shooter Motor 1000*I", shooterMotor1.getI() * 1000);
 		SmartDashboard.putNumber("Shooter Motor 1000*D", shooterMotor1.getD() * 1000);
 		SmartDashboard.putNumber("Shooter Motor Set RPM", shooterMotor1.get());
-		SmartDashboard.putNumber("Shooter Motor Set Vbus", 0.0);		
+//		SmartDashboard.putNumber("Shooter Motor Set Vbus", 0.0);		
 		SmartDashboard.putNumber("Fixed Recovery Voltage", shooterMotor1.get()); 
-		SmartDashboard.putNumber("Set Nominal F Value", 8.8);
+		SmartDashboard.putNumber("Set Nominal F Value", 8.8);  // This should come from reference PIDF values
 	}
 
 	/**
