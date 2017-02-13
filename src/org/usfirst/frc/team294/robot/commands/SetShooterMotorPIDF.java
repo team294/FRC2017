@@ -5,25 +5,34 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 
-public class ShooterSetToSpeed extends Command {
-	
+/**
+ *
+ */
+public class SetShooterMotorPIDF extends Command {
+
+    public SetShooterMotorPIDF() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    
+    }
 	private double speed;
 
 	/**
 	 * Set the shooter to speed
 	 * @param speed between -1 and 1
 	 */
-    public ShooterSetToSpeed(double speed) {
+    public void ShooterSetToSpeed(double speed) {
         requires(Robot.shooter);
         this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+
     	// Validate inputs first
     	if (speed > 1.0) speed = 1.0;
     	if (speed < -1.0) speed = -1.0;
-    //	Robot.shooter.setSpeed(speed);
+    	Robot.shooter.setShooterMotorToSpeed(speed);
     	
     	// Write log of shooting
     	Robot.log.writeLogEcho(" Set Shooting Speed: " + speed);
@@ -31,6 +40,8 @@ public class ShooterSetToSpeed extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    		Robot.shooter.setPIDFromSmartDashboard();
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -46,4 +57,4 @@ public class ShooterSetToSpeed extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
-}
+ }
