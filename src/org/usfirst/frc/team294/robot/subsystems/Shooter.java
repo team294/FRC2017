@@ -29,11 +29,8 @@ public class Shooter extends Subsystem {
 		
 		shooterMotor1.setVoltageRampRate(24.0);
 		shooterMotor2.setVoltageRampRate(24.0);
-<<<<<<< HEAD
 		
 		if (jumper.get() == false) { // jumper in digital 1 will set PIDF values
-=======
->>>>>>> origin/Add-Shooter
 									// for the second shooter
 									//false means the jumper is present
 		shooterMotor1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
@@ -61,6 +58,7 @@ public class Shooter extends Subsystem {
 		shooterMotor1.enableBrakeMode(false);
 		shooterMotor2.enableBrakeMode(false);
 		shooterMotor1.set(0.0);
+		}
 	}
 	
 	/**
@@ -69,20 +67,11 @@ public class Shooter extends Subsystem {
 	 */
 	public void setShooterRpm(double speed) {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
-<<<<<<< HEAD
 		
 		speed = (speed > 18000.0) ? 18000.0 : speed;
 		speed = (speed < -1000.0) ? -1000.0 : speed;
 		// Only run reverse to clear a possible jam
 		
-=======
-		if (speed > 6000.0){
-			speed = 6000.0;
-		}
-		if (speed < -500.0){
-			speed = -500.0;
-		}// Only run reverse to clear a possible jam
->>>>>>> origin/Add-Shooter
 		setSpeed = speed;
 		shooterMotor1.set(speed);
 	}

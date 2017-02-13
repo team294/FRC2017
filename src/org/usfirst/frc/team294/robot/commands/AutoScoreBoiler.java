@@ -16,7 +16,7 @@ public class AutoScoreBoiler extends CommandGroup {
     	addSequential(new DriveStraightDistance(0.4, 15, Units.rotations));
     	addSequential(new GyroTurnToAngle(0.4, .75, 0.25, TurnMode.BOILER_VISION));
     	addSequential(new DriveToBoiler());
-    	addSequential(new SetShooterSpeed(12000));
+    	//addSequential(new ShooterSetToSpeed(12000)); // Need a new command for rpm. ShooterSetToSpeed uses Vbus
     	
     	
         // Add Commands here:
