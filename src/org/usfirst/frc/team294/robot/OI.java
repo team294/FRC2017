@@ -101,5 +101,12 @@ public class OI {//Hopefully this works or maybe this will
 
 	     // Stop Command
 	     SmartDashboard.putData("Drive Stop", new DriveStop());
+	     
+	     //  Shooter controls
+	     SmartDashboard.putData("Brake Shooter Motor", new ShooterStop());
+	     SmartDashboard.putData("Set Shooter RPM", new ShooterSetToSpeedFromSmartDashboard());
+		 SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
+
+
 	}
 }
