@@ -12,7 +12,7 @@ public class ShooterSetPIDF extends Command {
 	private double speed;
 	
 	/**
-	 * Set the PIDF of the shooter from the Smart Dashboard
+	 * Set the PIDF of the shooter from the Smart Dashboard and the speed here
 	 * @param speed rpm, from -1000 to 18000
 	 */
     public ShooterSetPIDF(double speed) {
@@ -25,11 +25,7 @@ public class ShooterSetPIDF extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
 		Robot.shooter.setPIDFromSmartDashboard();
-<<<<<<< HEAD
-    	Robot.shooter.setRPM(speed);
-=======
-//    	Robot.shooter.setShooterRpm(speed);
->>>>>>> origin/Add-Shooter
+		Robot.shooter.setRPM(speed);
     	
     	// Write log of setting PIDF
     	Robot.log.writeLog(" Shooter-- Setting PIDF ");
