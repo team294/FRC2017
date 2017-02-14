@@ -19,6 +19,7 @@ public class GearVision extends Subsystem {
 	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera pixel length
 	double camVertAngle = (camPXHeight / camPXDiagonal) * camDiagonalAngle; //Vertical camera aperture angle
 	double camHorizAngle = (camPXWidth / camPXDiagonal) * camDiagonalAngle; //Horizontal camera aperture angle
+	double camOffset = 0; //Camera horizontal offset from center of robot
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
@@ -91,8 +92,8 @@ public class GearVision extends Subsystem {
 		else if (numValid == 1) {
 			gearAngleOffset = (camPXWidth/2 - targets[0].getXPos())/camPXWidth * camHorizAngle; //in degrees
 		}
-		else { gearAngleOffset = -500; } //Return -500 if there are no "valid" contours (see numValid assignment)
-		SmartDashboard.putNumber("Angle Offset", gearAngleOffset);
+		else { return -500; } //Return -500 if there are no "valid" contours (see numValid assignment)
+		gearAngleOffset = Math.atan(camOffset/getGearDistance() + Math.tan(gearAngleOffset)); //Adjusts angle for when the camera is not centered on the robot
 		return gearAngleOffset;
 	}
 
