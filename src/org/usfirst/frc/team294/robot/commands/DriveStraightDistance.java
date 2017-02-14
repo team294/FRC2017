@@ -134,16 +134,14 @@ public class DriveStraightDistance extends Command {
     	case ULTRASONIC:
     		Robot.driveTrain.resetDegrees();
     		//TODO:  Add code for boiler vision
-    		distance = SmartDashboard.getNumber("Distance", 0);
-    		angleErr = SmartDashboard.getNumber("Err", 0);
-    		Robot.log.writeLogEcho("Drive to target SMARTDASHBOARD " + distance + " feet away.");
+    		distance = Robot.driveTrain.getUltrasonicDistance();
+    		Robot.log.writeLogEcho("Drive to target ULTRASONIC " + distance + " feet away.");
     		break;
     	case SMARTDASHBOARD:
     		Robot.driveTrain.resetDegrees();
     		//TODO:  Add code for boiler vision
     		distance = SmartDashboard.getNumber("Distance", 0); 
     		speed = SmartDashboard.getNumber("DriveSpeed", 0);
-    		angleErr = SmartDashboard.getNumber("Err", 0);
     		Robot.log.writeLogEcho("Drive to target SMARTDASHBOARD " + distance + " feet away.");
     		break;
     	}    	

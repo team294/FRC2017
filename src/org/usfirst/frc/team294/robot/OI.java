@@ -112,7 +112,6 @@ public class OI {
 	    	right[i].whenPressed(new ShiftUp());
 	    }
 	    
-<<<<<<< HEAD
 	    // Declare left joystick buttons and set them to shift down
 	     for (Button i : left) {
 	    	 i =  new JoystickButton(leftJoystick, j++);
@@ -143,7 +142,12 @@ public class OI {
 	     SmartDashboard.putNumber("Speed", 0);
 	     SmartDashboard.putNumber("Angle", 0);
 	     SmartDashboard.putNumber("Err", 0);
-	     SmartDashboard.putData("Turn to gear", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+	     SmartDashboard.putData("Turn to gear test test test test test test test test test", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+	    
+	     //DriveStraightDistance tests
+	     SmartDashboard.putData("drive DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD", new GyroTurnToAngle(0.4, 0, 1.0, GyroTurnToAngle.TurnMode.SMARTDASHBOARD));
+	     SmartDashboard.putNumber("DriveSpeed", 0);
+	     SmartDashboard.putNumber("Distance", 0);
 	     
 /*
 	     //double speed = SmartDashboard.getDouble("Drive Speed");
@@ -197,7 +201,7 @@ public class OI {
 	    coP[13].whenPressed(new MoveGearGate(false));
 	    coP[14].whenPressed(new MoveGearGate(true));
 		*/
-		
+		/*
 	    // Gyro Testing Commands
 	    SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
 	    SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
@@ -223,7 +227,7 @@ public class OI {
 	    
 	    // Stop Command
 	    SmartDashboard.putData("Drive Stop", new DriveStop());
-	    
+	    */
 	}
 	
 	/**
@@ -251,7 +255,6 @@ public class OI {
 	public TopKnob readTopKnob() {
 		return TopKnobPositions[readTopKnobRaw()];
 	}
->>>>>>> master
 
 	/**
 	 * Reads the middle knob.
@@ -277,15 +280,14 @@ public class OI {
 	public MiddleKnob readMiddleKnob(){
 		return MiddleKnobPositions[readMiddleKnobRaw()];
 	}
-
-<<<<<<< HEAD
+ /*
 		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
 		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
 		 
 		 
 		 //Vision command testing
-		 SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
-		 SmartDashboard.putData("Get Boiler Distance TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT", new DisplayBoilerDistance());
+	//	 SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
+	//	 SmartDashboard.putData("Get Boiler Distance TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT", new DisplayBoilerDistance());
 		 //SmartDashboard.putData("Get Boiler Angle UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU", new DisplayBoilerAngle());
 		// SmartDashboard.putNumber("Boiler Distance", Robot.boilerVision.getBoilerDistance());
 		// SmartDashboard.putNumber("Boiler Angle Offset", Robot.boilerVision.getBoilerAngleOffset());
@@ -295,13 +297,12 @@ public class OI {
 
 	     // Stop Command
 	     SmartDashboard.putData("Drive Stop", new DriveStop());
-	     */
 	     
-=======
+	     
 	/**
 	 * Reads the bottom knob.
 	 * @return Raw position 0 (full ccw) to 11 (full cw)
-	 */
+	 *//*
 	public int readBottomKnobRaw() {
 		double knobReading;
 		int i = 0;
@@ -319,7 +320,7 @@ public class OI {
 	/**
 	 * Reads the bottom knob.
 	 * @return OI.BottomKnobPositions
-	 */
+	 *//*
 	public BottomKnob readBottomKnob() {
 		return BottomKnobPositions[readBottomKnobRaw()];
 	}
@@ -329,19 +330,15 @@ public class OI {
 	/**
 	 * Get the command based on the position of the middle knob 
 	 * @return Command
-	 */
+	 *//*
 	public Command getMiddleKnobCommand() {
 		int i = readMiddleKnobRaw();
 		if (i < MiddleKnobCommands.length) {
 			return MiddleKnobCommands[i];
-<<<<<<< HEAD
 		} else {
 			return null;
 		}			
->>>>>>> master
-=======
 		}
 		return null;		
->>>>>>> master
-	}
+	} */
 }
