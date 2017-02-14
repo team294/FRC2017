@@ -5,14 +5,14 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Sets the intake to speed according to Vbus
  */
 public class IntakeSetToSpeed extends Command {
 
 	private double speed;
 
 	/**
-	 * Set the intake motor to speed
+	 * Set the intake motor to speed according to Vbus
 	 * @param speed -1 (outtake) to +1 (intake). 0 = stopped
 	 */
 	public IntakeSetToSpeed(double speed) {
