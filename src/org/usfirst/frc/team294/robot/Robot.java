@@ -128,6 +128,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();	
 		//System.out.print("Go!\r");
 		//driveTrain.logTalonStatus();
+		Robot.shooter.updateSmartDashboard();  //  I am not sure this is the best place for this
 	}
 
 	/**
