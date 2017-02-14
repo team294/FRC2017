@@ -5,30 +5,23 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Sets the shooter according to Vbus
+ *
  */
-public class ShooterSetToSpeed extends Command {
-	
-	private double speed;
+public class ConveyorSetToSpeed extends Command {
 
-	/**
-	 * Sets the shooter to speed according to Vbus
-	 * @param speed between -1 and 1
-	 */
-    public ShooterSetToSpeed(double speed) {
-        requires(Robot.shooter);
-        this.speed = speed;
+	private double speed;
+	
+    public ConveyorSetToSpeed(double speed) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.ballFeed);
+    	this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	// Validate inputs first
-    	if (speed > 1.0) speed = 1.0;
-    	if (speed < -1.0) speed = -1.0;
-    	Robot.shooter.setSpeed(speed);
-    	
-    	// Write log of shooting
-    	Robot.log.writeLogEcho("Shooter: Setting Shooting Speed " + speed);
+    	Robot.ballFeed.setHorSpeed(speed);
+    	Robot.ballFeed.setVertSpeed(speed);
     }
 
     // Called repeatedly when this Command is scheduled to run
