@@ -43,35 +43,18 @@ public class DriveStraightDistance extends Command {
 	private ToleranceChecker tolerance = new ToleranceChecker(DIST_TOL, 5);
 	
 	/**
-     * Turns the Robot using an angle from the Gear Vision
-	 * @param speed from 0 to +1
- 	 * @param angle from -180 to +180 degrees (ignored if turnMode = GEAR_VISION or BOILER_VISION)
-	 * @param tolerance angle tolerance to use (default is 4.0)
-     * @param drivMode :
-     * <p> <b>RELATIVE</b> = Reset gyro, turn <b>angle</b> degrees from current orientation
-     * <p> <b>ABSOLUTE</b> = Turn <b>angle</b> degrees from prior orientation zero (don't reset gyro)
-     * <p> <b>GEAR_VISION</b> = Reset gyro, turn per gear camera (ignore <b>angle</b>)
-     * <p> <b>BOILER_VISION</b> = Reset gyro, turn per gear camera (ignore <b>angle</b>)
-     *//*
-    public DriveStrateDistance(double distance, double speed, /*double tolerance, DriveMode driveMode) {
-    	requires(Robot.driveTrain);
-    	if (turnMode == TurnMode.GEAR_VISION) {
-    		requires(Robot.gearVision);
-    	}
-    	if (turnMode == TurnMode.BOILER_VISION) {
-    		requires(Robot.boilerVision);
-    	}
-
-		
-    }*/
-	
-	
-	/**
 	 * Drive the robot forward, using the NavX to adjust angle
-	 * @param speed from 0 to 1.0, minimum 0.25
-	 * @param distance 
+	 * @param speed from 0 to +1.0, minimum 0.25
+ 	 * @param distance
 	 * @param units either inches or revolutions of the encoder
-	 */
+     * @param drivMode :
+     * <p> <b>RELATIVE</b> = (NOT SET UP YET) Reset encoders, drive <b>distance</b> <b>units</b> from current location
+     * <p> <b>ABSOLUTE</b> = (NOT SET UP YET) Drive <b>distance</b> <b>units</b> from prior location zero (don't reset encoders)
+     * <p> <b>GEAR_VISION</b> = Reset encoders, drive per gear camera (ignore <b>angle</b>)
+     * <p> <b>BOILER_VISION</b> = Reset encoders, drive per boiler camera (ignore <b>angle</b>)
+     * <p> <b>ULTRASONIC</b> = Reset encoders, drive per ultrasonic sensor (ignore <b>angle</b>)
+     * <p> <b>SMARTDASHBOARD</b> = Reset encoders, drive per smartdashboard data (ignore <b>angle</b>)
+     */
     public DriveStraightDistance(double speed, double distance, DriveMode driveMode, Units units) {
         requires(Robot.driveTrain);
         if (driveMode == DriveMode.GEAR_VISION) {
@@ -117,29 +100,27 @@ public class DriveStraightDistance extends Command {
     				Robot.driveTrain.getGyroAngle() + " degrees.");
     		break;
     	case RELATIVE:
-    		Robot.driveTrain.resetDegrees();
+    		Robot.driveTrain.resetEncoders();
     		Robot.log.writeLogEcho("Gyro: Start turn to angle relative " + angle + " degrees.");
     		break; */
     	case GEAR_VISION:
-    		//Robot.driveTrain.resetDegrees();
+    		Robot.driveTrain.resetEncoders();
     		distance = Robot.gearVision.getGearDistance();
     		Robot.log.writeLogEcho("Drive to target GEAR " + distance + " feet away.");
     		break;
     	case BOILER_VISION:
-    		Robot.driveTrain.resetDegrees();
+    		Robot.driveTrain.resetEncoders();
     		//TODO:  Add code for boiler vision
     		distance = 0;	// Don't do anything, since boiler vision code isn't ready
     		Robot.log.writeLogEcho("Drive to target BOILER " + distance + " feet away.");
     		break;
     	case ULTRASONIC:
-    		Robot.driveTrain.resetDegrees();
-    		//TODO:  Add code for boiler vision
+    		Robot.driveTrain.resetEncoders();
     		distance = Robot.driveTrain.getUltrasonicDistance();
     		Robot.log.writeLogEcho("Drive to target ULTRASONIC " + distance + " feet away.");
     		break;
     	case SMARTDASHBOARD:
-    		Robot.driveTrain.resetDegrees();
-    		//TODO:  Add code for boiler vision
+    		Robot.driveTrain.resetEncoders();
     		distance = SmartDashboard.getNumber("Distance", 0); 
     		speed = SmartDashboard.getNumber("DriveSpeed", 0);
     		Robot.log.writeLogEcho("Drive to target SMARTDASHBOARD " + distance + " feet away.");
