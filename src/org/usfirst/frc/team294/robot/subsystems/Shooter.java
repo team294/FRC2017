@@ -184,6 +184,14 @@ public class Shooter extends Subsystem {
 		shooterMotor1.set(speed);
 	}
 	
+	/**
+	 * Stops the shooter motors
+	 * <p> <b>Does not change the control mode</b>
+	 */
+	public void stop() {
+		shooterMotor1.set(0.0);
+	}
+	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());

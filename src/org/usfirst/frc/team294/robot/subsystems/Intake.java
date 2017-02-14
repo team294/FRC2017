@@ -117,12 +117,31 @@ public class Intake extends Subsystem {
     
     /**
      * Set the speed of the climbing mechanism
-     * @param speed from -1 (down) to +1 (climb)
+     * @param speed from 0 to +1. <b>Climber does not go down!</b>
      */
     public void setClimbSpeed(double speed) {
+    	climbMotor1.changeControlMode(TalonControlMode.PercentVbus);
     	// Need to check if hopper and intake are stowed first
+    	if (speed < 0) speed = 0;
+    	if (speed > 1.0) speed = 1.0;
     	climbMotor1.set(speed);
     }
+    
+    /**
+     * Stops the intake rollers
+     * <p> <b>Does not change control mode</b>
+     */
+	public void stopIntake() {
+		intakeMotor.set(0.0);
+	}
+	
+	/**
+	 * Stops the climber
+	 * <p> <b>Does not change control mode</b>
+	 */
+	public void stopClimber() {
+		climbMotor1.set(0.0);
+	}
     
 	/**
 	 * Logs the speed of the intake to the robot log

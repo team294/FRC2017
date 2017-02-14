@@ -133,7 +133,7 @@ public class OI {
 	    coP[9].whenPressed(new IntakeSetToSpeed(-1.0));
 	    //coP[10].whenPressed(new deployIntakeAndHopper()); // Command does not yet exist
 	    coP[11].whenPressed(new IntakeSetToSpeed(1.0));
-	    //coP[12].whenPressed(new StopAllFlywheels()); // Command does not yet exist
+	    coP[12].whenPressed(new StopAllMotors());
 	    coP[13].whenPressed(new MoveGearGate(false));
 	    coP[14].whenPressed(new MoveGearGate(true));
 		*/
