@@ -21,8 +21,8 @@ public class RobotMap {
 	public static int intakeMotor = 11;
 	public static int shooterMotor1 = 12;	
 	public static int shooterMotor2 = 13;
-	public static int horizontalConveyer = 14;
-	public static int verticalConveyer = 15;
+	public static int horizontalConveyor = 14;
+	public static int verticalConveyor = 15;
 
 	// Pneumatic controller PCM IDs
     public static int shifterSolenoidFwd = 0;
@@ -38,6 +38,37 @@ public class RobotMap {
     public static int driveTrainGyro = 0;
     
     // Digital I/O addresses
+    public static int jumper = 1;
     public static int usTx = 8;
     public static int usRx = 9;
+        
+    // Field Map
+    
+    // Measurements in Inches
+    public static double distanceToBaseline = -93.25;
+    public static double distanceToGear = -35.25;
+    
+    public enum AutoDistances {
+    	toBaseLine, toGear
+    }
+    	
+    // Measurements in Degrees
+    public static double leftGearAngle = -30;
+    public static double rightGearAngle = 30;
+    
+    public enum AutoAngles {
+    	leftGear, rightGear
+    }
+    
+    public static double getDistance(AutoDistances distance) {
+    	if (distance == AutoDistances.toBaseLine) return distanceToBaseline;
+    	if (distance == AutoDistances.toGear) return distanceToGear;
+    	return 0.0;
+    }
+    
+    public static double getAngle(AutoAngles angle) {
+    	if (angle == AutoAngles.leftGear) return leftGearAngle;
+    	if (angle == AutoAngles.rightGear) return rightGearAngle;
+    	return 0.0;
+    }
 }
