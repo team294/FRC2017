@@ -6,10 +6,10 @@ public class Contour {
 	
 	//constructor
 	public Contour(double xPos, double yPos, double area, double height) {
-		this.xPos = xPos;
-		this.yPos = yPos;
-		this.area = area;
-		this.height = height;
+		this.xPos = xPos;//Center X position of contour
+		this.yPos = yPos;//Center Y position of contour
+		this.area = area;//Area of contour
+		this.height = height;//Height of the contour
 		this.radius = Math.sqrt(this.area/Math.PI)/2; //Adjusted radius of contour (Divided by two to reduce overlap detection likelihood)
 	}
 	//Argumentless Constructor
