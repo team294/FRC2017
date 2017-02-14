@@ -5,30 +5,30 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Sets the shooter according to Vbus
+ * Sets the shooter according to voltage
  */
-public class ShooterSetToSpeed extends Command {
-	
-	private double speed;
+public class ShooterSetVoltage extends Command {
 
+	private double voltage;
+	
 	/**
-	 * Sets the shooter to speed according to Vbus
-	 * @param speed between -1 and 1
+	 * Sets the shooter according to voltage
+	 * @param voltage from -12.0 to 12.0
 	 */
-    public ShooterSetToSpeed(double speed) {
-        requires(Robot.shooter);
-        this.speed = speed;
+    public ShooterSetVoltage(double voltage) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	this.voltage = voltage;
+    	requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	// Validate inputs first
-    	if (speed > 1.0) speed = 1.0;
-    	if (speed < -1.0) speed = -1.0;
-    	Robot.shooter.setSpeed(speed);
+    	// Validate inputs
+    	if (voltage > 12.0) voltage = 12.0;
+    	if (voltage < -12.0) voltage = -12.0;
     	
-    	// Write log of shooting
-    	Robot.log.writeLogEcho("Shooter: Setting Shooting Speed " + speed);
+    	Robot.shooter.setVoltage(voltage);
     }
 
     // Called repeatedly when this Command is scheduled to run

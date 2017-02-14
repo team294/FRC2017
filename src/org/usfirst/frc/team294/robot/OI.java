@@ -100,7 +100,7 @@ public class OI {
 	public OI() {
 		
 		// Create button arrays for the input devices
-		  Button[] left = new Button[12];
+		Button[] left = new Button[12];
 	    Button[] right = new Button[12];
 	    Button[] coP =  new Button[15];
 	    	    
@@ -178,6 +178,7 @@ public class OI {
 		}
 	    
 	    /*
+	     * Commented until we start using the practice bot
 	    // Bind commands to the codriver panel switches
 	    coP[1].whenPressed(new ConveyerSetToSpeed(1.0));
 	    coP[1].whenReleased(new ConveyerSetToSpeed(0.0));
@@ -333,9 +334,14 @@ public class OI {
 		int i = readMiddleKnobRaw();
 		if (i < MiddleKnobCommands.length) {
 			return MiddleKnobCommands[i];
+<<<<<<< HEAD
 		} else {
 			return null;
 		}			
+>>>>>>> master
+=======
+		}
+		return null;		
 >>>>>>> master
 	}
 }

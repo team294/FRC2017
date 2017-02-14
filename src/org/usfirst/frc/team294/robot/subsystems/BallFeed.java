@@ -4,59 +4,69 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * The conveyers that move balls from the hopper to the shooter
+ * 
  */
 public class BallFeed extends Subsystem {
 
-	private final CANTalon horConveyer = new CANTalon(RobotMap.horizontalConveyer);
-	private final CANTalon vertConveyer = new CANTalon(RobotMap.verticalConveyer);
-
-	/**
-	 * Set the speed of the horizontal conveyer
-	 * @param speed from -1 (out) to +1 (in)
-	 */
-	public void setHorSpeed(double speed) {
-		speed = (speed > 1) ? 1 : speed;
-		speed = (speed < -1) ? -1 : speed;
-		horConveyer.set(-speed);
+	// Hardware
+	public static CANTalon horConveyor = new CANTalon(RobotMap.horizontalConveyor);
+	public static CANTalon vertConveyor = new CANTalon(RobotMap.verticalConveyor);
+	
+	public BallFeed() {
+		super();
+		
+		horConveyor.changeControlMode(TalonControlMode.Voltage);
+		vertConveyor.changeControlMode(TalonControlMode.Voltage);
 	}
 	
 	/**
-	 * Set the speed of the vertical conveyer
-	 * @param speed from -1 (out) to +1 (in)
+	 * Set the speed of the horizontal conveyor according to voltage
+	 * @param voltage from -12.0 (out) to +12.0 (in)
 	 */
-	public void setVertSpeed(double speed) {
-		speed = (speed > 1) ? 1 : speed;
-		speed = (speed < -1) ? -1 : speed;
-		vertConveyer.set(-speed);
+	public void setHorSpeed(double voltage) {
+		if(voltage > 12.0) voltage = 12.0;
+		if (voltage < -12.0) voltage = -12.0;
+		horConveyor.set(-voltage);
 	}
 	
 	/**
-	 * Stops both conveyers
+	 * Set the speed of the vertical conveyor according to voltage
+	 * @param voltage from -12.0 (out) to +12.0 (in)
+	 */
+	public void setVertSpeed(double voltage) {
+		if(voltage > 12.0) voltage = 12.0;
+		if (voltage < -12.0) voltage = -12.0;
+		vertConveyor.set(-voltage);
+	}
+	
+	/**
+	 * Stops both conveyors
 	 */
 	public void stop() {
-		horConveyer.set(0.0);
-		vertConveyer.set(0.0);
+		horConveyor.set(0.0);
+		vertConveyor.set(0.0);
 	}
 	
 	/**
-	 * Get the speed of the horizontal conveyer
-	 * @return from -1 to +1
+	 * Get the speed of the horizontal conveyor
+	 * @return from -1 to +1 (This may depend on the control mode)
 	 */
 	public double getHorSpeed() {
-		return horConveyer.get();
+		return horConveyor.get();
 	}
 	
 	/**
-	 * Get the speed of the vertical conveyer
-	 * @return from -1 to +1
+	 * Get the speed of the vertical conveyor
+	 * @return from -1 to +1 (This may depend on the control mode)
 	 */
 	public double getVertSpeed() {
-		return vertConveyer.get();
+		return vertConveyor.getSpeed();
 	}
 	
 	/**
@@ -64,8 +74,8 @@ public class BallFeed extends Subsystem {
 	 */
 	public void logStatus() {
 		Robot.log.writeLog(
-				"Ball Feed: Horizontal Conveyor-- Speed: " + horConveyer.get() +
-				" Vertical Conveyor-- Speed: " + vertConveyer.get()
+				"Ball Feed: Horizontal Conveyor-- Speed: " + horConveyor.get() +
+				" Vertical Conveyor-- Speed: " + vertConveyor.get()
 				);
 	}
 	
