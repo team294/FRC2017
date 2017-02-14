@@ -14,41 +14,39 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class BallFeed extends Subsystem {
 
+	// Hardware
 	public static CANTalon horConveyor = new CANTalon(RobotMap.horizontalConveyor);
 	public static CANTalon vertConveyor = new CANTalon(RobotMap.verticalConveyor);
-
+	
+	public BallFeed() {
+		super();
+		
+		horConveyor.changeControlMode(TalonControlMode.Voltage);
+		vertConveyor.changeControlMode(TalonControlMode.Voltage);
+	}
+	
 	/**
-	 * Set the speed of the horizontal conveyer
-	 * @param speed from -1 (out) to +1 (in)
+	 * Set the speed of the horizontal conveyor according to voltage
+	 * @param voltage from -12.0 (out) to +12.0 (in)
 	 */
 	public void setHorSpeed(double voltage) {
-		horConveyor.changeControlMode(TalonControlMode.Voltage);
-		if(voltage > 12){
-			voltage = 12;
-		}
-		if (voltage < -12){
-			voltage = -12;
-		}
+		if(voltage > 12.0) voltage = 12.0;
+		if (voltage < -12.0) voltage = -12.0;
 		horConveyor.set(-voltage);
 	}
 	
 	/**
-	 * Set the speed of the vertical conveyer
-	 * @param voltage from -1 (out) to +1 (in)
+	 * Set the speed of the vertical conveyor according to voltage
+	 * @param voltage from -12.0 (out) to +12.0 (in)
 	 */
 	public void setVertSpeed(double voltage) {
-		vertConveyor.changeControlMode(TalonControlMode.Voltage);
-		if(voltage > 12){
-			voltage = 12;
-		}
-		if (voltage < -12){
-			voltage = -12;
-		}
+		if(voltage > 12.0) voltage = 12.0;
+		if (voltage < -12.0) voltage = -12.0;
 		vertConveyor.set(-voltage);
 	}
 	
 	/**
-	 * Stops both conveyers
+	 * Stops both conveyors
 	 */
 	public void stop() {
 		horConveyor.set(0.0);
@@ -56,16 +54,16 @@ public class BallFeed extends Subsystem {
 	}
 	
 	/**
-	 * Get the speed of the horizontal conveyer
-	 * @return from -1 to +1
+	 * Get the speed of the horizontal conveyor
+	 * @return from -1 to +1 (This may depend on the control mode)
 	 */
 	public double getHorSpeed() {
 		return horConveyor.get();
 	}
 	
 	/**
-	 * Get the speed of the vertical conveyer
-	 * @return from -1 to +1
+	 * Get the speed of the vertical conveyor
+	 * @return from -1 to +1 (This may depend on the control mode)
 	 */
 	public double getVertSpeed() {
 		return vertConveyor.getSpeed();

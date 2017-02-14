@@ -34,7 +34,41 @@ public class RobotMap {
     public static int hopperSolenoidRev = 6;
     public static int shooterHoodSolenoid = 7;
     
-	// RoboRIO digital I/O addresses
-    public static int jumper = 1;
+    // Analog I/O addresses
+    public static int driveTrainGyro = 0;
     
+    // Digital I/O addresses
+    public static int jumper = 1;
+    public static int usTx = 8;
+    public static int usRx = 9;
+        
+    // Field Map
+    
+    // Measurements in Inches
+    public static double distanceToBaseline = -93.25;
+    public static double distanceToGear = -35.25;
+    
+    public enum AutoDistances {
+    	toBaseLine, toGear
+    }
+    	
+    // Measurements in Degrees
+    public static double leftGearAngle = -30;
+    public static double rightGearAngle = 30;
+    
+    public enum AutoAngles {
+    	leftGear, rightGear
+    }
+    
+    public static double getDistance(AutoDistances distance) {
+    	if (distance == AutoDistances.toBaseLine) return distanceToBaseline;
+    	if (distance == AutoDistances.toGear) return distanceToGear;
+    	return 0.0;
+    }
+    
+    public static double getAngle(AutoAngles angle) {
+    	if (angle == AutoAngles.leftGear) return leftGearAngle;
+    	if (angle == AutoAngles.rightGear) return rightGearAngle;
+    	return 0.0;
+    }
 }

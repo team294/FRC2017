@@ -56,7 +56,7 @@ public class Robot extends IterativeRobot {
 		ballFeed = new BallFeed();
 			
 		oi = new OI();
-
+		
 		// Put scheduler and subsystems on SmartDashboard
 		SmartDashboard.putData(Scheduler.getInstance());
 		SmartDashboard.putData(driveTrain);
@@ -126,10 +126,11 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();	
-		//System.out.print("Go!\r");
 		//driveTrain.logTalonStatus();
+
 		shooter.updateSmartDashboard(); 
 		shooter.periodicSetF();
+
 	}
 
 	/**

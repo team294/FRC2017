@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * I'm not completely sure why a command needs to exist to display to the Smart Dashboard... just call it when you need it
+ * Testing purposes only
  */
 public class DisplayBoilerDistance extends Command {
 
