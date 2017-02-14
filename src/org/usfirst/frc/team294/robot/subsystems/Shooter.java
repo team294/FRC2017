@@ -23,9 +23,12 @@ public class Shooter extends Subsystem {
 	
 	double setSpeed;
 	boolean error = false;
+	private double fNominal;
+	
 
 	public Shooter() {
 		super();
+		
 		
 		shooterMotor1.setVoltageRampRate(24.0);
 		shooterMotor2.setVoltageRampRate(24.0);
@@ -46,7 +49,7 @@ public class Shooter extends Subsystem {
 
 			shooterMotor1.setPID(.02, 0, 1, .0088, 500, 500, 0); // two
 																		// motor
-																		// system
+			fNominal = 	0.088;														// system
 			shooterMotor1.reverseSensor(false);
 			shooterMotor1.reverseOutput(false);
 			shooterMotor1.changeControlMode(TalonControlMode.Speed);
@@ -57,7 +60,7 @@ public class Shooter extends Subsystem {
 			shooterMotor1.configEncoderCodesPerRev(100);
 				
 			shooterMotor1.setPID(.02, 0, 1, .0088, 500, 500, 0); // two
-																			
+			fNominal = 0.088;														
 			shooterMotor1.reverseSensor(false);
 			shooterMotor1.reverseOutput(false);
 			shooterMotor1.changeControlMode(TalonControlMode.Speed);
@@ -69,6 +72,8 @@ public class Shooter extends Subsystem {
 		shooterMotor1.enableBrakeMode(false);
 		shooterMotor2.enableBrakeMode(false);
 		shooterMotor1.set(0.0);
+		setupSmartDashboard();
+		periodicSetF();
 		
 	}
 	
@@ -87,9 +92,9 @@ public class Shooter extends Subsystem {
 		shooterMotor1.set(rpm);
 	}
 	
-	public void periodicSetF(double fInit){
+	public void periodicSetF(){
 		double currentBatteryVoltage = shooterMotor1.getBusVoltage();
-		double f = ((12.1/currentBatteryVoltage)*fInit);
+		double f = ((12.1/currentBatteryVoltage)*fNominal);
 		shooterMotor1.setF(f);
 	}
 	
@@ -153,24 +158,25 @@ public class Shooter extends Subsystem {
 	 * Setup the Smart Dashboard
 	 */
 	public void setupSmartDashboard() {
-		//SmartDashboard.putNumber("Shooter Motor 1000*F", shooterMotor.getF() * 1000);
+		SmartDashboard.putNumber("Shooter Motor 1000*F", shooterMotor1.getF() * 1000);
 		SmartDashboard.putNumber("Shooter Motor 1000*P", shooterMotor1.getP() * 1000);
 		SmartDashboard.putNumber("Shooter Motor 1000*I", shooterMotor1.getI() * 1000);
 		SmartDashboard.putNumber("Shooter Motor 1000*D", shooterMotor1.getD() * 1000);
 		SmartDashboard.putNumber("Shooter Motor Set RPM", shooterMotor1.get());
 //		SmartDashboard.putNumber("Shooter Motor Set Vbus", 0.0);		
 		SmartDashboard.putNumber("Fixed Recovery Voltage", shooterMotor1.get()); 
-		SmartDashboard.putNumber("Set Nominal F Value", 8.8);  // This should come from reference PIDF values
+		SmartDashboard.putNumber("Set Nominal 1000* F Value", fNominal*1000);  // This should come from reference PIDF values
 	}
 
 	/**
-	 * Sets the PID from the Smart Dashboard
+	 * Sets the PID from the Smart Dashboard  Nominal
 	 */
 	public void setPIDFromSmartDashboard(){
 		//shooterMotor.setF(SmartDashboard.getNumber("Shooter Motor 1000*F", 0) / 1000);
 		shooterMotor1.setP(SmartDashboard.getNumber("Shooter Motor 1000*P", 0) / 1000);
 		shooterMotor1.setI(SmartDashboard.getNumber("Shooter Motor 1000*I", 0) / 1000);
 		shooterMotor1.setD(SmartDashboard.getNumber("Shooter Motor 1000*D", 0) / 1000);
+		fNominal = SmartDashboard.getNumber("Set Nominal 1000* F Value",0) / 1000;
 	}
 
 	/**
