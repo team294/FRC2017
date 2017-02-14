@@ -40,4 +40,15 @@ public class RobotMap {
     // Digital I/O addresses
     public static int usTx = 8;
     public static int usRx = 9;
+    
+    // Field Map (Magic Numbers)
+    	// Measurements in Inches
+    public static double distanceToLeftGearBeforeTurn = -93.25;
+    public static double distanceToLeftGearAfterTurn = -35.25;
+    public static double distanceToMiddleGear = -93.25;
+    public static double distanceToRightGearBeforeTurn = -93.25;
+    public static double distanceToRightGearAfterTurn = -35.25;
+    	// Measurements in Degrees
+    public static double turnToLeftGear = -30;
+    public static double turnToRightGear = 30;
 }
