@@ -34,17 +34,31 @@ public class RobotMap {
     public static int hopperSolenoidRev = 6;
     public static int shooterHoodSolenoid = 7;
     
-<<<<<<< HEAD
     // Analog I/O addresses
     public static int driveTrainGyro = 0;
     
     // Digital I/O addresses
+    public static int jumper = 1;
     public static int usTx = 8;
     public static int usRx = 9;
-<<<<<<< HEAD
-=======
-	// RoboRIO digital I/O addresses
-    public static int jumper = 1;
+        
+    // Field Map
+    
+    // Measurements in Inches
+    public static double distanceToBaseline = -93.25;
+    public static double distanceToGear = -35.25;
+    
+    public enum AutoDistances {
+    	toBaseLine, toGear
+    }
+    	
+    // Measurements in Degrees
+    public static double leftGearAngle = -30;
+    public static double rightGearAngle = 30;
+    
+    public enum AutoAngles {
+    	leftGear, rightGear
+    }
     
     public static double getDistance(AutoDistances distance) {
     	if (distance == AutoDistances.toBaseLine) return distanceToBaseline;
@@ -52,15 +66,9 @@ public class RobotMap {
     	return 0.0;
     }
     
-    // Field Map (Magic Numbers)
-    	// Measurements in Inches
-    public static double distanceToLeftGearBeforeTurn = -93.25;
-    public static double distanceToLeftGearAfterTurn = -35.25;
-    public static double distanceToMiddleGear = -93.25;
-    public static double distanceToRightGearBeforeTurn = -93.25;
-    public static double distanceToRightGearAfterTurn = -35.25;
-    	// Measurements in Degrees
-    public static double turnToLeftGear = -30;
-    public static double turnToRightGear = 30;
->>>>>>> 06df4b07c286d4ce82f558ead9572bc75bf3484c
+    public static double getAngle(AutoAngles angle) {
+    	if (angle == AutoAngles.leftGear) return leftGearAngle;
+    	if (angle == AutoAngles.rightGear) return rightGearAngle;
+    	return 0.0;
+    }
 }
