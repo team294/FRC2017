@@ -21,13 +21,8 @@ public class Shooter extends Subsystem {
 	private final CANTalon shooterMotor2 = new CANTalon(RobotMap.shooterMotor2);
 	DigitalInput jumper = new DigitalInput(RobotMap.jumper);
 	
-<<<<<<< HEAD
-	private final CANTalon shooterMotor1 = new CANTalon(RobotMap.shooterMotor1);
-	private final CANTalon shooterMotor2 = new CANTalon(RobotMap.shooterMotor2);
-=======
 	double setSpeed;
 	boolean error = false;
->>>>>>> refs/remotes/origin/Add-Shooter
 
 	public Shooter() {
 		super();

@@ -46,8 +46,11 @@ public class RobotMap {
 	// RoboRIO digital I/O addresses
     public static int jumper = 1;
     
->>>>>>> refs/remotes/origin/Add-Shooter
-=======
+    public static double getDistance(AutoDistances distance) {
+    	if (distance == AutoDistances.toBaseLine) return distanceToBaseline;
+    	if (distance == AutoDistances.toGear) return distanceToGear;
+    	return 0.0;
+    }
     
     // Field Map (Magic Numbers)
     	// Measurements in Inches
