@@ -111,7 +111,7 @@ public class OI {
 	    	right[i] = new JoystickButton(rightJoystick, i);
 	    	right[i].whenPressed(new ShiftUp());
 	    }
-	    
+	    /*
 	    // Declare left joystick buttons and set them to shift down
 	     for (Button i : left) {
 	    	 i =  new JoystickButton(leftJoystick, j++);
@@ -127,7 +127,7 @@ public class OI {
 	    	 i = new JoystickButton(rightJoystick, k++);
 	    	 if (k > 2 && k < 7) i.whenPressed(new DriveWithJoysticks()); 
 	    	 else i.whenPressed(new ShiftUp());
-	     }
+	     }*/
 /*
 	    // Gyro Testing Commands
 	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
