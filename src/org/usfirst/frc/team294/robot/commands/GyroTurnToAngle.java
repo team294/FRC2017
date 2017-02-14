@@ -44,6 +44,7 @@ public class GyroTurnToAngle extends Command {
      * <p> <b>ABSOLUTE</b> = Turn <b>angle</b> degrees from prior orientation zero (don't reset gyro)
      * <p> <b>GEAR_VISION</b> = Reset gyro, turn per gear camera (ignore <b>angle</b>)
      * <p> <b>BOILER_VISION</b> = Reset gyro, turn per gear camera (ignore <b>angle</b>)
+     * <p> <b>SMARTDASHBOARD</b> = Reset gyro, turn <b>angle</b> degrees at <b>maxSpeed</b> speed within <b>angleErr</b> tolerance from current orientation based on input from Smartdashboard
      */
     public GyroTurnToAngle(double speed, double angle, double tolerance, TurnMode turnMode) {
     	requires(Robot.driveTrain);

@@ -4,14 +4,22 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.utilities.ToleranceChecker;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class DriveStraightDistance extends Command {
 
+	// Available drive modes
+	public enum DriveMode {
+	    RELATIVE, ABSOLUTE, GEAR_VISION, BOILER_VISION, ULTRASONIC, SMARTDASHBOARD
+	}
+	
 	public enum Units {rotations, inches};
 	
+	// Settings from command initialization
+	private DriveMode driveMode;
 	private double distance;
 	private double speed;
 	
@@ -35,13 +43,43 @@ public class DriveStraightDistance extends Command {
 	private ToleranceChecker tolerance = new ToleranceChecker(DIST_TOL, 5);
 	
 	/**
+     * Turns the Robot using an angle from the Gear Vision
+	 * @param speed from 0 to +1
+ 	 * @param angle from -180 to +180 degrees (ignored if turnMode = GEAR_VISION or BOILER_VISION)
+	 * @param tolerance angle tolerance to use (default is 4.0)
+     * @param drivMode :
+     * <p> <b>RELATIVE</b> = Reset gyro, turn <b>angle</b> degrees from current orientation
+     * <p> <b>ABSOLUTE</b> = Turn <b>angle</b> degrees from prior orientation zero (don't reset gyro)
+     * <p> <b>GEAR_VISION</b> = Reset gyro, turn per gear camera (ignore <b>angle</b>)
+     * <p> <b>BOILER_VISION</b> = Reset gyro, turn per gear camera (ignore <b>angle</b>)
+     *//*
+    public DriveStrateDistance(double distance, double speed, /*double tolerance, DriveMode driveMode) {
+    	requires(Robot.driveTrain);
+    	if (turnMode == TurnMode.GEAR_VISION) {
+    		requires(Robot.gearVision);
+    	}
+    	if (turnMode == TurnMode.BOILER_VISION) {
+    		requires(Robot.boilerVision);
+    	}
+
+		
+    }*/
+	
+	
+	/**
 	 * Drive the robot forward, using the NavX to adjust angle
 	 * @param speed from 0 to 1.0, minimum 0.25
 	 * @param distance 
 	 * @param units either inches or revolutions of the encoder
 	 */
-    public DriveStraightDistance(double speed, double distance, Units units) {
+    public DriveStraightDistance(double speed, double distance, DriveMode driveMode, Units units) {
         requires(Robot.driveTrain);
+        if (driveMode == DriveMode.GEAR_VISION) {
+    		requires(Robot.gearVision);
+    	}
+    	if (driveMode == DriveMode.BOILER_VISION) {
+    		requires(Robot.boilerVision);
+    	}
         
         this.speed = Math.abs(speed);
         this.distance = (units == Units.rotations) ? distance : distance / inchesPerRevolution;
@@ -72,6 +110,44 @@ public class DriveStraightDistance extends Command {
     	if (resetEncoders) {
     		Robot.driveTrain.resetEncoders();
     	}
+    	
+    switch (driveMode) {
+    	/*case ABSOLUTE:
+    		Robot.log.writeLogEcho("Gyro: Start turn to angle absolute " + angle  + " degrees, current heading " +
+    				Robot.driveTrain.getGyroAngle() + " degrees.");
+    		break;
+    	case RELATIVE:
+    		Robot.driveTrain.resetDegrees();
+    		Robot.log.writeLogEcho("Gyro: Start turn to angle relative " + angle + " degrees.");
+    		break; */
+    	case GEAR_VISION:
+    		//Robot.driveTrain.resetDegrees();
+    		distance = Robot.gearVision.getGearDistance();
+    		Robot.log.writeLogEcho("Drive to target GEAR " + distance + " feet away.");
+    		break;
+    	case BOILER_VISION:
+    		Robot.driveTrain.resetDegrees();
+    		//TODO:  Add code for boiler vision
+    		distance = 0;	// Don't do anything, since boiler vision code isn't ready
+    		Robot.log.writeLogEcho("Drive to target BOILER " + distance + " feet away.");
+    		break;
+    	case ULTRASONIC:
+    		Robot.driveTrain.resetDegrees();
+    		//TODO:  Add code for boiler vision
+    		distance = SmartDashboard.getNumber("Distance", 0);
+    		angleErr = SmartDashboard.getNumber("Err", 0);
+    		Robot.log.writeLogEcho("Drive to target SMARTDASHBOARD " + distance + " feet away.");
+    		break;
+    	case SMARTDASHBOARD:
+    		Robot.driveTrain.resetDegrees();
+    		//TODO:  Add code for boiler vision
+    		distance = SmartDashboard.getNumber("Distance", 0); 
+    		speed = SmartDashboard.getNumber("DriveSpeed", 0);
+    		angleErr = SmartDashboard.getNumber("Err", 0);
+    		Robot.log.writeLogEcho("Drive to target SMARTDASHBOARD " + distance + " feet away.");
+    		break;
+    	}    	
+    	
     	angleErr = 0;
     	distSpeedControl = 1;
     }
