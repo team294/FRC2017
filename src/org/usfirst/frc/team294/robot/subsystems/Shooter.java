@@ -39,18 +39,15 @@ public class Shooter extends Subsystem {
 			shooterMotor1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 			shooterMotor1.configEncoderCodesPerRev(100);
 			// shooterMotor.setPID(50.0, 0.2, 0, 40.0, 6000, 50, 0);
-			/*
-			 * It looks like the feedforward term sets a percent VBUS. It would
-			 * therefore be better to multiply f by VBAT/12 to compensate for
-			 * battery voltage variation.
-			 */
+			
 			// shooterMotor.setPID(.100, 0.0, .06, .00845, 6000, 500, 0); //
 			// this was for the one motor system
 
-			shooterMotor1.setPID(.02, 0, 1, .0088, 500, 500, 0); // two
+			fNominal = 	0.0088;
+			shooterMotor1.setPID(.03, 0, .2, fNominal, 500, 500, 0); // two
 																		// motor
-			fNominal = 	0.088;														// system
-			shooterMotor1.reverseSensor(false);
+																	// system
+			shooterMotor1.reverseSensor(true);
 			shooterMotor1.reverseOutput(false);
 			shooterMotor1.changeControlMode(TalonControlMode.Speed);
 			shooterMotor2.reverseOutput(false);
@@ -58,10 +55,10 @@ public class Shooter extends Subsystem {
 		else{			// COMPETITION ROBOT   
 			shooterMotor1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 			shooterMotor1.configEncoderCodesPerRev(100);
-				
-			shooterMotor1.setPID(.02, 0, 1, .0088, 500, 500, 0); // two
-			fNominal = 0.088;														
-			shooterMotor1.reverseSensor(false);
+			fNominal = 0.0088;	
+			shooterMotor1.setPID(.02, 0, 1, fNominal, 500, 500, 0); // two
+																	
+			shooterMotor1.reverseSensor(true);
 			shooterMotor1.reverseOutput(false);
 			shooterMotor1.changeControlMode(TalonControlMode.Speed);
 			shooterMotor2.reverseOutput(false);

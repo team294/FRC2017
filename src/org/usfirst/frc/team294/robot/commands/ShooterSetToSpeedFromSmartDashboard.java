@@ -22,7 +22,7 @@ public class ShooterSetToSpeedFromSmartDashboard extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shooter.setRPM(SmartDashboard.getNumber("Shooter Motor Set Speed", 0));
+    	Robot.shooter.setRPM(SmartDashboard.getNumber("Shooter Motor Set RPM", 0));
     }
 
     // Called repeatedly when this Command is scheduled to run
