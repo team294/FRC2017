@@ -25,7 +25,7 @@ public class ShooterSetPIDF extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
 		Robot.shooter.setPIDFromSmartDashboard();
-    	Robot.shooter.setShooterRpm(speed);
+    	Robot.shooter.setRPM(speed);
     	
     	// Write log of shooting
     	Robot.log.writeLog(" Shooter-- Setting Shooting Speed " + speed);

@@ -4,12 +4,15 @@ import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Sets the shooter according to Vbus
+ */
 public class ShooterSetToSpeed extends Command {
 	
 	private double speed;
 
 	/**
-	 * Set the shooter to speed according to Vbus
+	 * Sets the shooter to speed according to Vbus
 	 * @param speed between -1 and 1
 	 */
     public ShooterSetToSpeed(double speed) {
@@ -34,7 +37,7 @@ public class ShooterSetToSpeed extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

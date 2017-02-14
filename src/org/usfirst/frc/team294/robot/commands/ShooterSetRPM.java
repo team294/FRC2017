@@ -5,25 +5,28 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Why does this exist? Why not use ShooterSetToSpeed(0.0) ?
+ * Sets the shooter according to rpm
  */
-public class ShooterStop extends Command {
+public class ShooterSetRPM extends Command {
 
-    public ShooterStop() {
+	private double rpm;
+	
+    public ShooterSetRPM(double rpm) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	this.rpm = rpm;
     	requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shooter.setVoltage(0.0);
+    	Robot.shooter.setRPM(rpm);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
     }
+
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return true;

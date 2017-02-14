@@ -3,26 +3,32 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 /**
- * Sets the shooter speed from the Smart Dashboard
+ * Sets the shooter according to voltage
  */
-public class ShooterSetToSpeedFromSmartDashboard extends Command {
+public class ShooterSetVoltage extends Command {
 
+	private double voltage;
+	
 	/**
-	 * Sets the shooter speed from the Smart Dashboard
+	 * Sets the shooter according to voltage
+	 * @param voltage from -12.0 to 12.0
 	 */
-    public ShooterSetToSpeedFromSmartDashboard() {
+    public ShooterSetVoltage(double voltage) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	this.voltage = voltage;
     	requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shooter.setRPM(SmartDashboard.getNumber("Shooter Motor Set Speed", 0));
+    	// Validate inputs
+    	if (voltage > 12.0) voltage = 12.0;
+    	if (voltage < -12.0) voltage = -12.0;
+    	
+    	Robot.shooter.setVoltage(voltage);
     }
 
     // Called repeatedly when this Command is scheduled to run

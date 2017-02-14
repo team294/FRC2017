@@ -63,17 +63,17 @@ public class Shooter extends Subsystem {
 	
 	/**
 	 * Sets the shooter motor to speed according to rpm
-	 * @param speed from -1000 to 18000
+	 * @param rpm from -1000 to 18000
+	 * Only run reverse to clear a possible jam
 	 */
-	public void setShooterRpm(double speed) {
+	public void setRPM(double rpm) {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
 		
-		speed = (speed > 18000.0) ? 18000.0 : speed;
-		speed = (speed < -1000.0) ? -1000.0 : speed;
-		// Only run reverse to clear a possible jam
+		rpm = (rpm > 18000.0) ? 18000.0 : rpm;
+		rpm = (rpm < -1000.0) ? -1000.0 : rpm;
 		
-		setSpeed = speed;
-		shooterMotor1.set(speed);
+		setSpeed = rpm;
+		shooterMotor1.set(rpm);
 	}
 	
 	public void periodicSetF(double fInit){
