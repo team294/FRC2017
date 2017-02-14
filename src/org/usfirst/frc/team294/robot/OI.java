@@ -174,6 +174,7 @@ public class OI {
 		double knobReading;
 		int i = 0;
 
+<<<<<<< HEAD
 		knobReading = coPanel.getRawAxis(4);
 		int len = knobThreshold.length;
 		for (i = 0; i < len; i++) {
@@ -191,6 +192,29 @@ public class OI {
 	public TopKnob readTopKnob() {
 		return TopKnobPositions[readTopKnobRaw()];
 	}
+=======
+	     //double speed = SmartDashboard.getDouble("Drive Speed");
+	     //double curve = SmartDashboard.getDouble("Drive Curve");
+	     SmartDashboard.putNumber("Drive Speed", 0.0);
+	     SmartDashboard.putNumber("Drive Curve", 0.0);
+	     SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
+	     
+	     //SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
+	     
+	     SmartDashboard.putNumber("Drive Forward Speed", 0.0);
+	     SmartDashboard.putData("Drive Stop", new DriveStop());
+	     
+	     // Subsystem Testing Commands
+	     SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
+	     SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
+	     SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
+	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
+	     
+	     // Autonomous Command Testing
+	     SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
+	     SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGearRight());
+	     SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle());
+>>>>>>> refs/remotes/origin/Add-Shooter
 
 	/**
 	 * Reads the middle knob.
@@ -235,6 +259,7 @@ public class OI {
 		return i;
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Reads the bottom knob.
 	 * @return OI.BottomKnobPositions
@@ -256,5 +281,15 @@ public class OI {
 		} else {
 			return null;
 		}			
+=======
+	     // Stop Command
+	     SmartDashboard.putData("Drive Stop", new DriveStop());
+	     
+	     //  Shooter controls
+	     SmartDashboard.putData("Set Shooter RPM", new ShooterSetToSpeedFromSmartDashboard());
+		 SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
+
+
+>>>>>>> refs/remotes/origin/Add-Shooter
 	}
 }

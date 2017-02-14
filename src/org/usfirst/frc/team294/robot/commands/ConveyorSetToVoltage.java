@@ -5,27 +5,27 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Sets the speed of both conveyers
+ * Sets the voltage output of both conveyers
  */
-public class ConveyerSetToSpeed extends Command {
+public class ConveyorSetToVoltage extends Command {
 
-	private double speed;
+	private double voltage;
 	
 	/**
-	 * Set the speed of the vertical and horizontal conveyers
-	 * @param speed from -1 (out) to +1 (in)
+	 * Set the voltage output of the vertical and horizontal conveyers
+	 * @param voltage from -12 (out) to 12 (in)
 	 */
-    public ConveyerSetToSpeed(double speed) {
+    public ConveyorSetToVoltage(double voltage) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.ballFeed);
-    	this.speed = speed;
+    	this.voltage = voltage;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.ballFeed.setHorSpeed(speed);
-    	Robot.ballFeed.setVertSpeed(speed);
+    	Robot.ballFeed.setHorSpeed(voltage);
+    	Robot.ballFeed.setVertSpeed(voltage);
     }
 
     // Called repeatedly when this Command is scheduled to run

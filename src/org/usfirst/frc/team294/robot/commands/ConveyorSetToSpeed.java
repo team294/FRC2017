@@ -7,38 +7,21 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DriveToDistance extends Command {
+public class ConveyorSetToSpeed extends Command {
 
-    public DriveToDistance() {
+	private double speed;
+	
+    public ConveyorSetToSpeed(double speed) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.driveTrain);
-    }
-    
-    public double calculateSpeed() {
-    	double speed = 0;
-    	double t = 0;
-    	final double maxSpeed = 1;
-    	
-    	if (t <= 1) {
-    		speed = t;
-    	}
-    	if (1 <= t && t < 3) {
-    		speed = maxSpeed;
-    		}
-    	if (t >= 3 && t < 4) {
-    		speed = -t + 4;
-    	}
-    	if (t >= 4) {
-    		speed = 0;
-    	}
-    	return speed;
-    	
-    	
+    	requires(Robot.ballFeed);
+    	this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.ballFeed.setHorSpeed(speed);
+    	Robot.ballFeed.setVertSpeed(speed);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -47,7 +30,7 @@ public class DriveToDistance extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
