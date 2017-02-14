@@ -76,10 +76,15 @@ public class OI {//Hopefully this works or maybe this will
 	     }
 	     
 	     // Gyro Testing Commands
-	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
-	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
-	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180));
-	     SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
+	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
+	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90, 2.0));
+	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180, 2.0));
+	     SmartDashboard.putData("Turn to 5", new GyroTurnToAngle(0.4, 5, 2.0));
+	     SmartDashboard.putData("Turn to -5", new GyroTurnToAngle(0.4, -5, 2.0));
+	     SmartDashboard.putData("Turn to 10", new GyroTurnToAngle(0.4, 10, 2.0));
+	     SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
+	     
+	     SmartDashboard.putData("Turn to gear", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
 	     
 
 	     //double speed = SmartDashboard.getDouble("Drive Speed");

@@ -101,7 +101,7 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		log.writeLog("Autonomous Mode Started");
+		log.writeLogEcho("Autonomous Mode Started");
 	}
 
 	/**
@@ -118,9 +118,7 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		System.out.println("Teleop init start");		
-		log.writeLog("Teleop Mode Started");
-		System.out.println("Teleop init done");		
+		log.writeLogEcho("Teleop Mode Started");
 	}
 
 	/**
