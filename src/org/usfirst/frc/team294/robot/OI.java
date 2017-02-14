@@ -44,6 +44,7 @@ public class OI {//Hopefully this works or maybe this will
 	    Button[] right = new Button[12];
 	    Button[] coP = new Button[15];
 	    Button[] xbB = new Button[11];
+	    
 	    int j = 1;
 	    int k = 1;
 	    int l = 1;
@@ -63,7 +64,9 @@ public class OI {//Hopefully this works or maybe this will
 	     for (Button i : right) {
 	    	 i = new JoystickButton(rightJoystick, k++);
 	    	 if (k > 2 && k < 7) i.whenPressed(new DriveWithJoysticks()); 
+	    	 else if (k == 3) i.whenPressed(new DriveWithJoysticks());
 	    	 else i.whenPressed(new ShiftUp());
+	    	 
 	     }
 	     
 	     for (Button i : coP) {

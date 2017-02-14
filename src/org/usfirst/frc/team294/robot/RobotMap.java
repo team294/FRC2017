@@ -33,4 +33,11 @@ public class RobotMap {
     public static int hopperSolenoidFwd = 5;
     public static int hopperSolenoidRev = 6;
     public static int shooterHoodSolenoid = 7;
+    
+    // Analog I/O addresses
+    public static int driveTrainGyro = 0;
+    
+    // Digital I/O addresses
+    public static int usTx = 8;
+    public static int usRx = 9;
 }
