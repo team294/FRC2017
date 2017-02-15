@@ -43,8 +43,8 @@ public class Shooter extends Subsystem {
 			// shooterMotor.setPID(.100, 0.0, .06, .00845, 6000, 500, 0); //
 			// this was for the one motor system
 
-			fNominal = 	0.0088;
-			shooterMotor1.setPID(.03, 0, .2, fNominal, 500, 500, 0); // two
+			fNominal = 	0.008;
+			shooterMotor1.setPID(.02, 0, .2, fNominal, 500, 500, 0); // two
 																		// motor
 																	// system
 			shooterMotor1.reverseSensor(false);    // true for prototype false for practice!!!
