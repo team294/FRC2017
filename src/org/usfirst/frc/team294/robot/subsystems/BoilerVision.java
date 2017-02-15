@@ -93,27 +93,27 @@ public class BoilerVision extends Subsystem {
 		System.out.println(""+targets[0].getArea());
 		System.out.println(""+targets[1].getArea());
 
-		return distance;
+		return distance * 12; //Returns distance in inches
 	}
 
-public double getBoilerAngleOffset() {
-	//Gives the robot's angle of offset from the boiler in degrees
-	Contour[] targets = filterContours(); //Gets best two best contours
-	int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
-	if (targets[0].getArea() > 20) { // target[0] should be bigger than target[1], so if target[0] fails, so will target[1].
-		numValid++; 
-		if (targets[1].getArea() > 20) {numValid++; }
+	public double getBoilerAngleOffset() {
+		//Gives the robot's angle of offset from the boiler in degrees
+		Contour[] targets = filterContours(); //Gets best two best contours
+		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
+		if (targets[0].getArea() > 20) { // target[0] should be bigger than target[1], so if target[0] fails, so will target[1].
+			numValid++; 
+			if (targets[1].getArea() > 20) {numValid++; }
+		}
+		if (numValid == 2) { //If there are two valid contours, use both.
+			boilerAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
+		}
+		else if (numValid == 1) { //If there is only one valid contour, use only the one.
+			boilerAngleOffset = (camPXWidth/2 - targets[0].getXPos())/camPXWidth * camHorizAngle; //in degrees
+		}
+		else { return -500; } //Return -500 if there are no "valid" contours (see numValid assignment)
+		boilerAngleOffset = Math.atan(camOffset/getBoilerDistance()*12 + Math.tan(boilerAngleOffset*Math.PI/180))*180/Math.PI; //Adjusts angle for when the camera is not centered on the robot
+		return boilerAngleOffset;
 	}
-	if (numValid == 2) { //If there are two valid contours, use both.
-		boilerAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
-	}
-	else if (numValid == 1) { //If there is only one valid contour, use only the one.
-		boilerAngleOffset = (camPXWidth/2 - targets[0].getXPos())/camPXWidth * camHorizAngle; //in degrees
-	}
-	else { return -500; } //Return -500 if there are no "valid" contours (see numValid assignment)
-	boilerAngleOffset = Math.atan(camOffset/getBoilerDistance() + Math.tan(boilerAngleOffset)); //Adjusts angle for when the camera is not centered on the robot
-	return boilerAngleOffset;
-}
 }
 
 
