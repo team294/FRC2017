@@ -3,6 +3,7 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Sets the shooter according to voltage
@@ -27,7 +28,7 @@ public class ShooterSetVoltage extends Command {
     	// Validate inputs
     	if (voltage > 12.0) voltage = 12.0;
     	if (voltage < -12.0) voltage = -12.0;
-    	
+
     	Robot.shooter.setVoltage(voltage);
     }
 

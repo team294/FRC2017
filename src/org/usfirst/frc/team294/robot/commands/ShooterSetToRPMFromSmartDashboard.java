@@ -3,32 +3,26 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
- * Sets the shooter according to Vbus
+ * Sets the shooter speed from the Smart Dashboard
  */
-public class ShooterSetToSpeed extends Command {
-	
-	private double speed;
+public class ShooterSetToRPMFromSmartDashboard extends Command {
 
 	/**
-	 * Sets the shooter to speed according to Vbus
-	 * @param speed between -1 and 1
+	 * Sets the shooter speed from the Smart Dashboard
 	 */
-    public ShooterSetToSpeed(double speed) {
-        requires(Robot.shooter);
-        this.speed = speed;
+    public ShooterSetToRPMFromSmartDashboard() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	// Validate inputs first
-    	if (speed > 1.0) speed = 1.0;
-    	if (speed < -1.0) speed = -1.0;
-    	Robot.shooter.setSpeed(speed);
-    	
-    	// Write log of shooting
-    	Robot.log.writeLogEcho("Shooter: Setting Shooting Speed " + speed);
+    	Robot.shooter.setRPM(SmartDashboard.getNumber("Shooter Motor Set RPM", 0));
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -150,8 +150,7 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Shooter Motor 1000*I", shooterMotor1.getI() * 1000);
 		SmartDashboard.putNumber("Shooter Motor 1000*D", shooterMotor1.getD() * 1000);
 		SmartDashboard.putNumber("Shooter Motor Set RPM", shooterMotor1.get());
-//		SmartDashboard.putNumber("Shooter Motor Set Vbus", 0.0);		
-		SmartDashboard.putNumber("Fixed Recovery Voltage", shooterMotor1.get()); 
+		SmartDashboard.putNumber("Shooter Motor Set Voltage", 6); 
 		SmartDashboard.putNumber("Set Nominal 1000* F Value", fNominal*1000);  // This should come from reference PIDF values
 	}
 
@@ -159,35 +158,13 @@ public class Shooter extends Subsystem {
 	 * Sets the PID from the Smart Dashboard  Nominal
 	 */
 	public void setPIDFromSmartDashboard(){
-		//shooterMotor.setF(SmartDashboard.getNumber("Shooter Motor 1000*F", 0) / 1000);
 		shooterMotor1.setP(SmartDashboard.getNumber("Shooter Motor 1000*P", 0) / 1000);
 		shooterMotor1.setI(SmartDashboard.getNumber("Shooter Motor 1000*I", 0) / 1000);
 		shooterMotor1.setD(SmartDashboard.getNumber("Shooter Motor 1000*D", 0) / 1000);
 		fNominal = SmartDashboard.getNumber("Set Nominal 1000* F Value",0) / 1000;
 	}
 
-	/**
-	 * Set the shooter motor to speed according to Vbus
-	 * @param speed from -1 to +1
-	 */
-	public void setSpeed(double speed) {
-		shooterMotor1.changeControlMode(TalonControlMode.PercentVbus);
-		speed = (speed > 1.0) ? 1 : speed;
-		speed = (speed < -1.0) ? -1.0 : speed;
-		shooterMotor1.set(speed);
-	}
 	
-	/**
-	 * Set the shooter speed according to Vbus
-	 * @param vbus from -1 to +1
-	 
-	public void useVbusControl(double vbus){
-		shooterMotor1.changeControlMode(TalonControlMode.PercentVbus);
-		vbus = (vbus > 1.0) ? 1.0 : vbus;
-		vbus = (vbus < -1.0) ? -1.0 : vbus;
-		shooterMotor1.set(-vbus);	
-	}
-	*/
 	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
