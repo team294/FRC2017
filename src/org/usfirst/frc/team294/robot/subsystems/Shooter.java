@@ -47,7 +47,7 @@ public class Shooter extends Subsystem {
 			shooterMotor1.setPID(.03, 0, .2, fNominal, 500, 500, 0); // two
 																		// motor
 																	// system
-			shooterMotor1.reverseSensor(true);
+			shooterMotor1.reverseSensor(false);    // true for prototype false for practice!!!
 			shooterMotor1.reverseOutput(false);
 			shooterMotor1.changeControlMode(TalonControlMode.Speed);
 			shooterMotor2.reverseOutput(false);
@@ -58,7 +58,7 @@ public class Shooter extends Subsystem {
 			fNominal = 0.0088;	
 			shooterMotor1.setPID(.02, 0, 1, fNominal, 500, 500, 0); // two
 																	
-			shooterMotor1.reverseSensor(true);
+			shooterMotor1.reverseSensor(false);
 			shooterMotor1.reverseOutput(false);
 			shooterMotor1.changeControlMode(TalonControlMode.Speed);
 			shooterMotor2.reverseOutput(false);
@@ -95,16 +95,6 @@ public class Shooter extends Subsystem {
 		shooterMotor1.setF(f);
 	}
 	
-	/**
-	 * Set the shooter speed according to Vbus
-	 * @param vbus from -1 to +1
-	 */
-	public void useVbusControl(double vbus){
-		shooterMotor1.changeControlMode(TalonControlMode.PercentVbus);
-		vbus = (vbus > 1.0) ? 1.0 : vbus;
-		vbus = (vbus < -1.0) ? -1.0 : vbus;
-		shooterMotor1.set(-vbus);	
-	}
 	
 	/**
 	 * Set the shooter speed according to voltage
@@ -143,7 +133,7 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("VBus - Voltage", (shooterMotor1.getBusVoltage() - Math.abs(shooterMotor1.getOutputVoltage())));
 		SmartDashboard.putNumber("Closed Loop Error", shooterMotor1.getSpeed() - setSpeed);
 		SmartDashboard.putNumber("VBus", shooterMotor1.getBusVoltage());
-		SmartDashboard.putBoolean("Shooter One", jumper.get());
+		SmartDashboard.putBoolean("COMPETITION Robot", jumper.get());
 		SmartDashboard.putNumber("Shooter Motor 1 Current", shooterMotor1.getOutputCurrent());
 		SmartDashboard.putNumber("Shooter Motor 2 Current", shooterMotor2.getOutputCurrent());
 		SmartDashboard.putNumber("Shooter Motor voltage", shooterMotor1.getOutputVoltage());
@@ -186,6 +176,18 @@ public class Shooter extends Subsystem {
 		speed = (speed < -1.0) ? -1.0 : speed;
 		shooterMotor1.set(speed);
 	}
+	
+	/**
+	 * Set the shooter speed according to Vbus
+	 * @param vbus from -1 to +1
+	 
+	public void useVbusControl(double vbus){
+		shooterMotor1.changeControlMode(TalonControlMode.PercentVbus);
+		vbus = (vbus > 1.0) ? 1.0 : vbus;
+		vbus = (vbus < -1.0) ? -1.0 : vbus;
+		shooterMotor1.set(-vbus);	
+	}
+	*/
 	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
