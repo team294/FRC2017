@@ -127,7 +127,10 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();	
 		//driveTrain.logTalonStatus();
-		//Robot.shooter.updateSmartDashboard();  //  I am not sure this is the best place for this
+
+		shooter.updateSmartDashboard(); 
+		shooter.periodicSetF();
+
 	}
 
 	/**
