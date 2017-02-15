@@ -145,7 +145,7 @@ public class OI {
 	     SmartDashboard.putData("Turn to gear test test test test test test test test test", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
 	    
 	     //DriveStraightDistance tests
-	     SmartDashboard.putData("drive drive drive drive drive drive drive drive drive drive drive", new DriveStraightDistance(0.4, 0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	     SmartDashboard.putData("drive drive drive drive drive drive drive drive drive drive drive", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
 	     SmartDashboard.putNumber("DriveSpeed", 0);
 	     SmartDashboard.putNumber("Distance", 0);
 	     SmartDashboard.putNumber("BoilerDistance", 0);
