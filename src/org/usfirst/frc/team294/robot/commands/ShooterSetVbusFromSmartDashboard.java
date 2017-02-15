@@ -21,7 +21,7 @@ public class ShooterSetVbusFromSmartDashboard extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shooter.useVbusControl(SmartDashboard.getNumber("Shooter Motor Set Vbus", 0));
+ //   	Robot.shooter.useVbusControl(SmartDashboard.getNumber("Shooter Motor Set Vbus", 0));
     }
 
     // Called repeatedly when this Command is scheduled to run
