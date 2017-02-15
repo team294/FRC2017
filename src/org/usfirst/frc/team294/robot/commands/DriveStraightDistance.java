@@ -13,7 +13,7 @@ public class DriveStraightDistance extends Command {
 
 	// Available drive modes
 	public enum DriveMode {
-	    RELATIVE, ABSOLUTE, GEAR_VISION, BOILER_VISION, ULTRASONIC, SMARTDASHBOARD
+		ABSOLUTE, RELATIVE, GEAR_VISION, BOILER_VISION, ULTRASONIC, SMARTDASHBOARD, BOILER_SMARTDASHBOARD
 	}
 	
 	public enum Units {rotations, inches};
@@ -95,14 +95,14 @@ public class DriveStraightDistance extends Command {
     	}
     	
     switch (driveMode) {
-    	/*case ABSOLUTE:
-    		Robot.log.writeLogEcho("Gyro: Start turn to angle absolute " + angle  + " degrees, current heading " +
-    				Robot.driveTrain.getGyroAngle() + " degrees.");
+    	case ABSOLUTE:
+//    		Robot.log.writeLogEcho("Gyro: Start turn to angle absolute " + angle  + " degrees, current heading " +
+//    				Robot.driveTrain.getGyroAngle() + " degrees.");
     		break;
     	case RELATIVE:
     		Robot.driveTrain.resetEncoders();
-    		Robot.log.writeLogEcho("Gyro: Start turn to angle relative " + angle + " degrees.");
-    		break; */
+    		Robot.log.writeLogEcho("Drive to target GEAR " + distance + " feet away.");
+    		break; 
     	case GEAR_VISION:
     		Robot.driveTrain.resetEncoders();
     		distance = Robot.gearVision.getGearDistance();
@@ -122,6 +122,12 @@ public class DriveStraightDistance extends Command {
     	case SMARTDASHBOARD:
     		Robot.driveTrain.resetEncoders();
     		distance = SmartDashboard.getNumber("Distance", 0); 
+    		speed = SmartDashboard.getNumber("DriveSpeed", 0);
+    		Robot.log.writeLogEcho("Drive to target SMARTDASHBOARD " + distance + " feet away.");
+    		break;
+    	case BOILER_SMARTDASHBOARD:
+    		Robot.driveTrain.resetEncoders();
+    		distance = Robot.boilerVision.getBoilerDistance() - (Robot.boilerVision.getBoilerDistance() - SmartDashboard.getNumber("BoilerDistance", 0)); 
     		speed = SmartDashboard.getNumber("DriveSpeed", 0);
     		Robot.log.writeLogEcho("Drive to target SMARTDASHBOARD " + distance + " feet away.");
     		break;

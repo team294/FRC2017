@@ -148,6 +148,8 @@ public class OI {
 	     SmartDashboard.putData("drive drive drive drive drive drive drive drive drive drive drive", new DriveStraightDistance(0.4, 0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
 	     SmartDashboard.putNumber("DriveSpeed", 0);
 	     SmartDashboard.putNumber("Distance", 0);
+	     SmartDashboard.putNumber("BoilerDistance", 0);
+
 /*
 	     //double speed = SmartDashboard.getDouble("Drive Speed");
 	     //double curve = SmartDashboard.getDouble("Drive Curve");
