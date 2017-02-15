@@ -97,6 +97,10 @@ public class OI {
 	public Joystick rightJoystick = new Joystick(1);
 	public Joystick coPanel = new Joystick(2);
 	
+	public Button[] left = new Button[12];
+    public Button[] right = new Button[12];
+    public Button[] coP =  new Button[15];
+	
 	public OI() {
 		
 		// Create button arrays for the input devices
