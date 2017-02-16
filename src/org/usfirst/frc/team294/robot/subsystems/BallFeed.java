@@ -19,7 +19,7 @@ public class BallFeed extends Subsystem {
 	// Hardware
 	public static CANTalon horConveyor = new CANTalon(RobotMap.horizontalConveyor);
 	public static CANTalon vertConveyor = new CANTalon(RobotMap.verticalConveyor);
-	private static double hFactor = 0.8;   //hFactor allows horiz. and vertical to run at different voltages
+	private static double hFactor = 0.6;   //hFactor allows horiz. and vertical to run at different voltages
 	
 	public BallFeed() {
 		super();

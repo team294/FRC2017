@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.util.prefs.Preferences;
+
 import org.usfirst.frc.team294.robot.subsystems.*;
 import org.usfirst.frc.team294.utilities.FileLog;
 
@@ -35,6 +37,7 @@ public class Robot extends IterativeRobot {
 	
 	// File logger
 	public static FileLog log;
+	public static Preferences robotPrefs;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -54,6 +57,7 @@ public class Robot extends IterativeRobot {
 		boilerVision = new BoilerVision();
 		shooterHood = new ShooterHood();
 		ballFeed = new BallFeed();
+		robotPrefs.getDouble("shooterPValue", 7.6);
 			
 		oi = new OI();
 		

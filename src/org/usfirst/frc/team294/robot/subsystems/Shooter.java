@@ -43,7 +43,7 @@ public class Shooter extends Subsystem {
 			// shooterMotor.setPID(.100, 0.0, .06, .00845, 6000, 500, 0); //
 			// this was for the one motor system
 
-			fNominal = 	0.008;
+			fNominal = 	0.0074;
 			shooterMotor1.setPID(.02, 0, .2, fNominal, 500, 500, 0); // two
 																		// motor
 																	// system
@@ -150,7 +150,7 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Shooter Motor 1000*I", shooterMotor1.getI() * 1000);
 		SmartDashboard.putNumber("Shooter Motor 1000*D", shooterMotor1.getD() * 1000);
 		SmartDashboard.putNumber("Shooter Motor Set RPM", shooterMotor1.get());
-		SmartDashboard.putNumber("Shooter Motor Set Voltage", 6); 
+		SmartDashboard.putNumber("Shooter Motor Set Voltage", 9); 
 		SmartDashboard.putNumber("Set Nominal 1000* F Value", fNominal*1000);  // This should come from reference PIDF values
 	}
 
