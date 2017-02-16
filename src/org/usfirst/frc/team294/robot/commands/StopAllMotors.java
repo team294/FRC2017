@@ -5,7 +5,11 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
+<<<<<<< HEAD:src/org/usfirst/frc/team294/robot/commands/StopAllMotors.java
  * Stops all motors except the drive train
+=======
+ *              NOT USED.  SEE ConveyorSetToVoltage()
+>>>>>>> refs/remotes/origin/master:src/org/usfirst/frc/team294/robot/commands/ConveyorSetToSpeed.java
  */
 public class StopAllMotors extends Command {
 
