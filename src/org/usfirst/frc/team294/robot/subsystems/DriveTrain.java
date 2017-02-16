@@ -178,6 +178,7 @@ public class DriveTrain extends Subsystem {
      * @return
      */
     public double getLeftEncoder() {
+    	SmartDashboard.putNumber("LeftMotor", 0);
     	return leftMotor2.getPosition() - leftEncoderZero;
     }
     
@@ -187,6 +188,7 @@ public class DriveTrain extends Subsystem {
      */
 
     public double getRightEncoder() {
+    	SmartDashboard.putNumber("RightMotor", 0);
     	return rightMotor2.getPosition() - rightEncoderZero;
     }
     

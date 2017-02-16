@@ -28,7 +28,7 @@ public class DriveStraightDistance extends Command {
     // Encoder and distance settings, copied from 2016 code and robot
 	private double distErr, distSpeedControl;
 	private double kPdist = 3;
-	private double inchesPerRevolution = 18.5; //will need to be changed for wheel size on 2017 robot
+	private double inchesPerRevolution = 19; //will need to be changed for wheel size on 2017 robot
 	private double minSpeed = 0.1;
 	
     // Steering settings, also copied from 2016 code. May need to be changed
@@ -36,11 +36,10 @@ public class DriveStraightDistance extends Command {
     private double kPangle = 0.018;
     
     // Expanded settings
-    private boolean resetEncoders = true;
     private boolean preciseDistance = true;
     
     private boolean success = false;
-    private final double DIST_TOL = 0.5;
+    private final double DIST_TOL = 0.0000001;
 	
 	private ToleranceChecker tolerance = new ToleranceChecker(DIST_TOL, 5);
 	
@@ -86,8 +85,7 @@ public class DriveStraightDistance extends Command {
         this.speed = Math.abs(speed);
         this.distance = (units == Units.rotations) ? distance : distance / inchesPerRevolution;
         this.preciseDistance = precise;
-        this.resetEncoders = resetEncoders;
-        this.driveMode = DriveMode.RELATIVE;
+        this.driveMode = resetEncoders ? DriveMode.RELATIVE : DriveMode.ABSOLUTE;
     }
     
     // Called just before this Command runs the first time
@@ -95,9 +93,6 @@ public class DriveStraightDistance extends Command {
     	success = false;
     	tolerance.reset();
     	Robot.driveTrain.resetDegrees();
-    	if (resetEncoders) {
-    		Robot.driveTrain.resetEncoders();
-    	}
     	
     switch (driveMode) {
     	case ABSOLUTE:
@@ -106,40 +101,46 @@ public class DriveStraightDistance extends Command {
     		break;
     	case RELATIVE:
     		Robot.driveTrain.resetEncoders();
-    		//Robot.log.writeLogEcho("Drive to target GEAR " + distance + " feet away.");
+    		Robot.log.writeLogEcho("Drive to target RELATIVE " + distance + " inches away.");
     		break; 
     	case GEAR_VISION:
     		Robot.driveTrain.resetEncoders();
-    		distance = -Robot.gearVision.getGearDistance();
+    		distance = -Robot.gearVision.getGearDistance() / inchesPerRevolution;
+
     		Robot.log.writeLogEcho("Drive to target GEAR " + distance + " feet away.");
     		break;
     	case BOILER_VISION:
     		Robot.driveTrain.resetEncoders();
-    		//TODO:  Add code for boiler vision
+    		//TODO:  Add code for boiler vision.  Return value in inches!
     		distance = 0;	// Don't do anything, since boiler vision code isn't ready
+        	distance = distance / inchesPerRevolution;  // Convert inches to rotations
+
     		Robot.log.writeLogEcho("Drive to target BOILER " + distance + " feet away.");
     		break;
     	case ULTRASONIC:
     		Robot.driveTrain.resetEncoders();
-    		distance = -Robot.driveTrain.getUltrasonicDistance();
+    		distance = -Robot.driveTrain.getUltrasonicDistance() / inchesPerRevolution;
+
     		Robot.log.writeLogEcho("Drive to target ULTRASONIC " + distance + " feet away.");
     		break;
     	case SMARTDASHBOARD:
     		Robot.driveTrain.resetEncoders();
-    		distance = SmartDashboard.getNumber("Distance", 0); 
+    		distance = SmartDashboard.getNumber("Distance", 0) / inchesPerRevolution;
+
     		speed = SmartDashboard.getNumber("DriveSpeed", 0);
     		Robot.log.writeLogEcho("Drive to target SMARTDASHBOARD " + distance + " feet away.");
     		break;
     	case BOILER_SMARTDASHBOARD:
     		Robot.driveTrain.resetEncoders();
+    		//TODO:  Fix this code
     		distance = -(Robot.boilerVision.getBoilerDistance() - (Robot.boilerVision.getBoilerDistance() - SmartDashboard.getNumber("BoilerDistance", 0))); 
+        	distance = distance / inchesPerRevolution;   // Convert inches to rotations
+
     		speed = SmartDashboard.getNumber("DriveSpeed", 0);
     		Robot.log.writeLogEcho("Drive to target SMARTDASHBOARD " + distance + " feet away.");
     		break;
     	}    
     
-    	distance = (units == Units.rotations) ? distance : distance / inchesPerRevolution;
- 
     	angleErr = 0;
     	distSpeedControl = 1;
     }
@@ -180,7 +181,7 @@ public class DriveStraightDistance extends Command {
         	
         	Robot.driveTrain.driveAtAngle(distSpeedControl, curve);
     	}
-    }
+    } 
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
