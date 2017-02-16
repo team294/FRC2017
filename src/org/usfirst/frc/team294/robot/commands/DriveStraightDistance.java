@@ -39,7 +39,7 @@ public class DriveStraightDistance extends Command {
     private boolean preciseDistance = true;
     
     private boolean success = false;
-    private final double DIST_TOL = 0.05;
+    private final double DIST_TOL = 0.05; //Tolerance in rotations not inches
 	
 	private ToleranceChecker tolerance = new ToleranceChecker(DIST_TOL, 5);
 	
