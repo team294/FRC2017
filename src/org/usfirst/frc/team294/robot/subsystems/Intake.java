@@ -119,10 +119,38 @@ public class Intake extends Subsystem {
      * Set the speed of the climbing mechanism
      * @param speed from -1 (down) to +1 (climb)
      */
-    public void setClimbSpeed(double speed) {
-    	// Need to check if hopper and intake are stowed first
-    	climbMotor1.set(speed);
-    }
+	public void setClimbSpeed(double speed){
+		//Need to check in hopper and intake are stowed first
+        climbMotor1.changeControlMode(TalonControlMode.Speed);    
+        climbMotor2.changeControlMode(TalonControlMode.Speed);  
+		if(Math.abs(speed) > 1.0) speed = 1.0 * Math.signum(speed);
+		climbMotor1.set(speed);
+		climbMotor2.set(speed);
+	}
+	
+	/*
+	 * Returns the average current of the climb motors
+	 */
+	public double getClimberCurrent() {
+		double motor1Current = climbMotor1.getOutputCurrent();
+		double motor2Current = climbMotor2.getOutputCurrent();
+		return (motor1Current + motor2Current)/2;
+	}
+	
+	/*
+	 * Stops the climber (as the name implies)
+	 */
+	public void stopClimber(){
+		climbMotor1.set(0);
+		climbMotor2.set(0);
+	}
+	
+	public void driveClimberWithJoystick(){
+        climbMotor1.changeControlMode(TalonControlMode.PercentVbus);    
+        climbMotor2.changeControlMode(TalonControlMode.PercentVbus);  
+        climbMotor1.configPeakOutputVoltage(+12.0f, -12.0f);
+        climbMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
+	}
     
 	/**
 	 * Logs the speed of the intake to the robot log
