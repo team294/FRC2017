@@ -139,9 +139,9 @@ public class OI {
 	     SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
 	     */
 	     SmartDashboard.putData("Turn YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", new GyroTurnToAngle(0.4, 0, 1.0, GyroTurnToAngle.TurnMode.SMARTDASHBOARD));
-	     SmartDashboard.putNumber("Speed", 0);
+	     SmartDashboard.putNumber("TurnSpeed", 0);
 	     SmartDashboard.putNumber("Angle", 0);
-	     SmartDashboard.putNumber("Err", 0);
+	     SmartDashboard.putNumber("Tolerance", 0);
 	     SmartDashboard.putData("Turn to gear test test test test test test test test test", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
 	    
 	     //DriveStraightDistance tests
