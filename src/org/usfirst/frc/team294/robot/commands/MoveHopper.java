@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.subsystems.Intake.Positions;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class MoveHopper extends Command {
 
 	private boolean position;
+	private boolean waitForMovement;
 	
 	/**
 	 * Set the position of the hopper
@@ -25,8 +27,17 @@ public class MoveHopper extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (position) Robot.intake.deployHopper();
-    	else { Robot.intake.stowHopper(); }
+    	if ((position && Robot.intake.getHopperTracker() == Positions.deployed) || 
+    			(!position && Robot.intake.getHopperTracker() == Positions.stowed)) {
+    		waitForMovement = false;
+    	} else if (Robot.intake.getIntakeTracker() != Positions.deployed) {
+    		waitForMovement = false;
+    	} else {
+    		waitForMovement = true;
+    		Robot.intake.setHopperTracker(Positions.unknown);
+        	if (position) Robot.intake.deployHopper();
+        	else { Robot.intake.stowHopper(); }
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -35,11 +46,13 @@ public class MoveHopper extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+        if (waitForMovement) return (timeSinceInitialized() > Robot.intake.HOPPER_DELAY);
         return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.intake.setHopperTracker(position ? Positions.deployed : Positions.stowed);
     }
 
     // Called when another command which requires one or more of the same

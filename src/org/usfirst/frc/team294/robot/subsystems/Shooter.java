@@ -100,11 +100,22 @@ public class Shooter extends Subsystem {
 	 * Set the shooter speed according to voltage
 	 * @param voltage from -12.0 to +12.0
 	 */
-	public void setVoltage(double voltage){
+	public void setVoltage(double voltage) {
 		shooterMotor1.changeControlMode(TalonControlMode.Voltage);
 		voltage = (voltage > 12.0) ? 12.0 : voltage;
 		voltage = (voltage < -12.0) ? -12.0 : voltage;
 		shooterMotor1.set(voltage);
+	}
+	
+	/**
+	 * Sets the shooter speed based on Vbus
+	 * @param vbus from -1 to +1
+	 */
+	public void setVbus(double vbus) {
+		shooterMotor1.changeControlMode(TalonControlMode.PercentVbus);
+		vbus = (vbus > 1.0) ? 1.0 : vbus;
+		vbus = (vbus < -1.0) ? -1.0 : vbus;
+		shooterMotor1.set(vbus);
 	}
 	
 	/**
@@ -164,8 +175,6 @@ public class Shooter extends Subsystem {
 		fNominal = SmartDashboard.getNumber("Set Nominal 1000* F Value",0) / 1000;
 	}
 
-	
-	
 	/**
 	 * Stops the shooter motors
 	 * <p> <b>Does not change the control mode</b>

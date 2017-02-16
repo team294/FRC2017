@@ -25,7 +25,7 @@ public class ShooterSetToSpeed extends Command {
     	// Validate inputs first
     	if (speed > 1.0) speed = 1.0;
     	if (speed < -1.0) speed = -1.0;
-    	Robot.shooter.setSpeed(speed);
+    	Robot.shooter.setVbus(speed);
     	
     	// Write log of shooting
     	Robot.log.writeLogEcho("Shooter: Setting Shooting Speed " + speed);
