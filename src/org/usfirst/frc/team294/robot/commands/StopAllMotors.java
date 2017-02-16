@@ -5,7 +5,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Stops all motors except the drive train
  */
 public class StopAllMotors extends Command {
 

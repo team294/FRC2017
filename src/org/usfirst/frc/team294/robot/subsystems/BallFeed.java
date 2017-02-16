@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * The conveyers that move balls from the hopper to the shooter
- * 
  */
 public class BallFeed extends Subsystem {
 

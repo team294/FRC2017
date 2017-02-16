@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveToBoiler extends Command {
 
+	/**
+	 * Drives to the boiler according to vision
+	 */
     public DriveToBoiler() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);

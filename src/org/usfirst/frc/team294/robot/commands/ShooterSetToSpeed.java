@@ -13,7 +13,7 @@ public class ShooterSetToSpeed extends Command {
 
 	/**
 	 * Sets the shooter to speed according to Vbus
-	 * @param speed between -1 and 1
+	 * @param speed between -1 and +1
 	 */
     public ShooterSetToSpeed(double speed) {
         requires(Robot.shooter);

@@ -120,11 +120,11 @@ public class OI {
 	    /*
 	     * Commented until we start using the practice bot
 	    // Bind commands to the codriver panel switches
-	    coP[1].whenPressed(new ConveyerSetToSpeed(1.0));
+	    coP[1].whenPressed(new ConveyerSetToSpeed(1.0)); // Need to update all numbers to voltage instead of Vbus
 	    coP[1].whenReleased(new ConveyerSetToSpeed(0.0));
 	    coP[2].whenPressed(new ShooterSetToSpeed(1.0)); // This will likely change according to the position of the shooter hood. A new command will be required
 	    coP[3].whenPressed(new ConveyerSetToSpeed(-1.0));
-	    coP[3].whenReleased(new ConveyerSetToSpeed(-1.0));
+	    coP[3].whenReleased(new ConveyerSetToSpeed(0.0));
 	    //coP[4].whenPressed(new PrepareToClimb()); // Command does not yet exist
 	    coP[5].whenPressed(new ClimbSetToSpeed(1.0)); // This will likely change according to measured values on the robot
 	    coP[6].whenPressed(new MoveShooterHood(true));
