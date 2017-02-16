@@ -57,7 +57,7 @@ public class DriveStraightDistance extends Command {
      * <p> <b>SMARTDASHBOARD</b> = Reset encoders, drive per smartdashboard data (ignore <b>distance</b>)
      * <p> <b>BOILER_SMARTDASHBOARD</b> = Reset encoders, drive <b>distance</b> towards boiler (ignore <b>distance</b>)
      */
-    public DriveStraightDistance(double speed, double distance, DriveMode driveMode, Units units) {
+    public DriveStraightDistance(double speed, double distance, DriveMode driveMode, Units units/*, ToleranceChecker tolerance*/) {
         requires(Robot.driveTrain);
         if (driveMode == DriveMode.GEAR_VISION) {
     		requires(Robot.gearVision);
@@ -70,6 +70,7 @@ public class DriveStraightDistance extends Command {
         this.distance = (units == Units.rotations) ? distance : distance / inchesPerRevolution;
     	this.driveMode = driveMode;
     	this.units = units;
+    	//this.tolerance = tolerance;
     }
 
     /**
@@ -125,6 +126,7 @@ public class DriveStraightDistance extends Command {
     		Robot.driveTrain.resetEncoders();
     		distance = SmartDashboard.getNumber("Distance", 0) / inchesPerRevolution;
     		speed = SmartDashboard.getNumber("DriveSpeed", 0);
+    		//tolerance = SmartDashboard.getData("DriveTolerance", 0);
     		Robot.log.writeLogEcho("Drive to target SMARTDASHBOARD " + distance + " inches away.");
     		break;
     	case BOILER_SMARTDASHBOARD:
