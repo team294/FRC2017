@@ -78,7 +78,11 @@ public class BoilerVision extends Subsystem {
 		}
 		return bestContours;
 	}
-		
+	
+	/**
+	 * Gets the distance of the robot from the ball goal
+	 * @return distance in inches
+	 */
 	public double getBoilerDistance() {
 		//Gives the distance of the robot from the ball goal
 		Contour[] targets = filterContours(); //Gets best two best contours
@@ -96,6 +100,10 @@ public class BoilerVision extends Subsystem {
 		return distance * 12; //Returns distance in inches
 	}
 
+	/**
+	 * Gets the robot's angle of offset from the boiler
+	 * @return Angle offset in degrees
+	 */
 	public double getBoilerAngleOffset() {
 		//Gives the robot's angle of offset from the boiler in degrees
 		Contour[] targets = filterContours(); //Gets best two best contours

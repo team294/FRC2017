@@ -80,6 +80,10 @@ public class GearVision extends Subsystem {
 		return bestContours; //Returns largest two contours
 	}
 
+	/**
+	 * Gets the robot's angle of offset from the gear target
+	 * @return Angle offset in degrees
+	 */
 	public double getGearAngleOffset() {
 		//Gives the robot's angle of offset from the gear target in degrees
 		Contour[] targets = filterContours(); //Gets best two best contours
