@@ -39,18 +39,15 @@ public class Shooter extends Subsystem {
 			shooterMotor1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 			shooterMotor1.configEncoderCodesPerRev(100);
 			// shooterMotor.setPID(50.0, 0.2, 0, 40.0, 6000, 50, 0);
-			/*
-			 * It looks like the feedforward term sets a percent VBUS. It would
-			 * therefore be better to multiply f by VBAT/12 to compensate for
-			 * battery voltage variation.
-			 */
+			
 			// shooterMotor.setPID(.100, 0.0, .06, .00845, 6000, 500, 0); //
 			// this was for the one motor system
 
-			shooterMotor1.setPID(.02, 0, 1, .0088, 500, 500, 0); // two
+			fNominal = 	0.008;
+			shooterMotor1.setPID(.02, 0, .2, fNominal, 500, 500, 0); // two
 																		// motor
-			fNominal = 	0.088;														// system
-			shooterMotor1.reverseSensor(false);
+																	// system
+			shooterMotor1.reverseSensor(false);    // true for prototype false for practice!!!
 			shooterMotor1.reverseOutput(false);
 			shooterMotor1.changeControlMode(TalonControlMode.Speed);
 			shooterMotor2.reverseOutput(false);
@@ -58,9 +55,9 @@ public class Shooter extends Subsystem {
 		else{			// COMPETITION ROBOT   
 			shooterMotor1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 			shooterMotor1.configEncoderCodesPerRev(100);
-				
-			shooterMotor1.setPID(.02, 0, 1, .0088, 500, 500, 0); // two
-			fNominal = 0.088;														
+			fNominal = 0.0088;	
+			shooterMotor1.setPID(.02, 0, 1, fNominal, 500, 500, 0); // two
+																	
 			shooterMotor1.reverseSensor(false);
 			shooterMotor1.reverseOutput(false);
 			shooterMotor1.changeControlMode(TalonControlMode.Speed);
@@ -98,16 +95,6 @@ public class Shooter extends Subsystem {
 		shooterMotor1.setF(f);
 	}
 	
-	/**
-	 * Set the shooter speed according to Vbus
-	 * @param vbus from -1 to +1
-	 */
-	public void useVbusControl(double vbus){
-		shooterMotor1.changeControlMode(TalonControlMode.PercentVbus);
-		vbus = (vbus > 1.0) ? 1.0 : vbus;
-		vbus = (vbus < -1.0) ? -1.0 : vbus;
-		shooterMotor1.set(-vbus);	
-	}
 	
 	/**
 	 * Set the shooter speed according to voltage
@@ -146,7 +133,7 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("VBus - Voltage", (shooterMotor1.getBusVoltage() - Math.abs(shooterMotor1.getOutputVoltage())));
 		SmartDashboard.putNumber("Closed Loop Error", shooterMotor1.getSpeed() - setSpeed);
 		SmartDashboard.putNumber("VBus", shooterMotor1.getBusVoltage());
-		SmartDashboard.putBoolean("Shooter One", jumper.get());
+		SmartDashboard.putBoolean("COMPETITION Robot", jumper.get());
 		SmartDashboard.putNumber("Shooter Motor 1 Current", shooterMotor1.getOutputCurrent());
 		SmartDashboard.putNumber("Shooter Motor 2 Current", shooterMotor2.getOutputCurrent());
 		SmartDashboard.putNumber("Shooter Motor voltage", shooterMotor1.getOutputVoltage());
@@ -163,8 +150,7 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Shooter Motor 1000*I", shooterMotor1.getI() * 1000);
 		SmartDashboard.putNumber("Shooter Motor 1000*D", shooterMotor1.getD() * 1000);
 		SmartDashboard.putNumber("Shooter Motor Set RPM", shooterMotor1.get());
-//		SmartDashboard.putNumber("Shooter Motor Set Vbus", 0.0);		
-		SmartDashboard.putNumber("Fixed Recovery Voltage", shooterMotor1.get()); 
+		SmartDashboard.putNumber("Shooter Motor Set Voltage", 6); 
 		SmartDashboard.putNumber("Set Nominal 1000* F Value", fNominal*1000);  // This should come from reference PIDF values
 	}
 
@@ -172,23 +158,13 @@ public class Shooter extends Subsystem {
 	 * Sets the PID from the Smart Dashboard  Nominal
 	 */
 	public void setPIDFromSmartDashboard(){
-		//shooterMotor.setF(SmartDashboard.getNumber("Shooter Motor 1000*F", 0) / 1000);
 		shooterMotor1.setP(SmartDashboard.getNumber("Shooter Motor 1000*P", 0) / 1000);
 		shooterMotor1.setI(SmartDashboard.getNumber("Shooter Motor 1000*I", 0) / 1000);
 		shooterMotor1.setD(SmartDashboard.getNumber("Shooter Motor 1000*D", 0) / 1000);
 		fNominal = SmartDashboard.getNumber("Set Nominal 1000* F Value",0) / 1000;
 	}
 
-	/**
-	 * Set the shooter motor to speed according to Vbus
-	 * @param speed from -1 to +1
-	 */
-	public void setSpeed(double speed) {
-		shooterMotor1.changeControlMode(TalonControlMode.PercentVbus);
-		speed = (speed > 1.0) ? 1 : speed;
-		speed = (speed < -1.0) ? -1.0 : speed;
-		shooterMotor1.set(speed);
-	}
+	
 	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
