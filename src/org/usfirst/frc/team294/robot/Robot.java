@@ -4,8 +4,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import java.util.prefs.Preferences;
+import edu.wpi.first.wpilibj.Preferences;
 
 import org.usfirst.frc.team294.robot.subsystems.*;
 import org.usfirst.frc.team294.utilities.FileLog;
@@ -37,7 +36,11 @@ public class Robot extends IterativeRobot {
 	
 	// File logger
 	public static FileLog log;
+	
+	// set up preferences
 	public static Preferences robotPrefs;
+	public static double shooterPValue;
+	public static boolean invertDrive;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -46,7 +49,11 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		
 		System.out.println("Robot init");
-
+		
+		robotPrefs = Preferences.getInstance();
+		shooterPValue = robotPrefs.getDouble("shooterPValue",0);  // This has to be done before Shooter()
+		invertDrive = robotPrefs.getBoolean("invertDrive",false);
+		
 		log = new FileLog();
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
@@ -57,7 +64,9 @@ public class Robot extends IterativeRobot {
 		boilerVision = new BoilerVision();
 		shooterHood = new ShooterHood();
 		ballFeed = new BallFeed();
-		robotPrefs.getDouble("shooterPValue", 7.6);
+		
+		robotPrefs = Preferences.getInstance();
+		shooterPValue = robotPrefs.getDouble("shooterPValue",0);
 			
 		oi = new OI();
 		

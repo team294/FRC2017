@@ -10,6 +10,7 @@ import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Preferences;
 
 /**
  * The shooter
@@ -24,6 +25,9 @@ public class Shooter extends Subsystem {
 	double setSpeed;
 	boolean error = false;
 	private double fNominal;
+	public static Preferences robotPrefs;
+//	public static double shooterPValue;
+
 	
 
 	public Shooter() {
@@ -36,34 +40,25 @@ public class Shooter extends Subsystem {
 		if (jumper.get() == false) { // jumper in digital 1 will set PIDF values
 									// for the PRACTICE ROBOT
 									//false means the jumper is present
-			shooterMotor1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-			shooterMotor1.configEncoderCodesPerRev(100);
-			// shooterMotor.setPID(50.0, 0.2, 0, 40.0, 6000, 50, 0);
-			
-			// shooterMotor.setPID(.100, 0.0, .06, .00845, 6000, 500, 0); //
-			// this was for the one motor system
-
 			fNominal = 	0.0074;
-			shooterMotor1.setPID(.02, 0, .2, fNominal, 500, 500, 0); // two
+			shooterMotor1.setPID(Robot.shooterPValue, 0, .2, fNominal, 500, 500, 0); // two
 																		// motor
 																	// system
 			shooterMotor1.reverseSensor(false);    // true for prototype false for practice!!!
 			shooterMotor1.reverseOutput(false);
-			shooterMotor1.changeControlMode(TalonControlMode.Speed);
 			shooterMotor2.reverseOutput(false);
 		}
 		else{			// COMPETITION ROBOT   
-			shooterMotor1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-			shooterMotor1.configEncoderCodesPerRev(100);
 			fNominal = 0.0088;	
 			shooterMotor1.setPID(.02, 0, 1, fNominal, 500, 500, 0); // two
 																	
 			shooterMotor1.reverseSensor(false);
 			shooterMotor1.reverseOutput(false);
-			shooterMotor1.changeControlMode(TalonControlMode.Speed);
 			shooterMotor2.reverseOutput(false);
 		
 		}
+		shooterMotor1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		shooterMotor1.configEncoderCodesPerRev(100);
 		shooterMotor2.changeControlMode(TalonControlMode.Follower);
 		shooterMotor2.set(shooterMotor1.getDeviceID());
 		shooterMotor1.enableBrakeMode(false);
@@ -158,7 +153,10 @@ public class Shooter extends Subsystem {
 	 * Sets the PID from the Smart Dashboard  Nominal
 	 */
 	public void setPIDFromSmartDashboard(){
-		shooterMotor1.setP(SmartDashboard.getNumber("Shooter Motor 1000*P", 0) / 1000);
+		double p= SmartDashboard.getNumber("Shooter Motor 1000*P",010)/1000;
+		
+		shooterMotor1.setP(p) ;
+//		robotPrefs.putDouble("shooterPValue",p); // not working  Need to save in preferences
 		shooterMotor1.setI(SmartDashboard.getNumber("Shooter Motor 1000*I", 0) / 1000);
 		shooterMotor1.setD(SmartDashboard.getNumber("Shooter Motor 1000*D", 0) / 1000);
 		fNominal = SmartDashboard.getNumber("Set Nominal 1000* F Value",0) / 1000;
