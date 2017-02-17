@@ -128,7 +128,7 @@ public class Intake extends Subsystem {
 		climbMotor2.set(speed);
 	}
 	
-	/*
+	/**
 	 * Returns the average current of the climb motors
 	 */
 	public double getClimberCurrent() {
@@ -137,14 +137,16 @@ public class Intake extends Subsystem {
 		return (motor1Current + motor2Current)/2;
 	}
 	
-	/*
+	/**
 	 * Stops the climber (as the name implies)
 	 */
 	public void stopClimber(){
 		climbMotor1.set(0);
 		climbMotor2.set(0);
 	}
-	
+	/**
+	 * Sets climber to be driven with joysticks
+	 */
 	public void driveClimberWithJoystick(){
         climbMotor1.changeControlMode(TalonControlMode.PercentVbus);    
         climbMotor2.changeControlMode(TalonControlMode.PercentVbus);  

@@ -20,12 +20,13 @@ public class ClimbToTop extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.intake.setClimbSpeed(1.0);
+		Robot.intake.setClimbSpeed(0.35);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if(Robot.intake.getClimberCurrent() > 3 && !initialized){
+			Robot.intake.setClimbSpeed(1.0);
 			initTime = timeSinceInitialized();
 			initialized  = true;
 		}
