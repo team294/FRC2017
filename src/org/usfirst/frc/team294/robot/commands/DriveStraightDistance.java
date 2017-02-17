@@ -13,7 +13,7 @@ public class DriveStraightDistance extends Command {
 
 	// Available drive modes
 	public enum DriveMode {
-		ABSOLUTE, RELATIVE, GEAR_VISION, BOILER_VISION, ULTRASONIC, SMARTDASHBOARD, BOILER_SMARTDASHBOARD
+		ABSOLUTE, RELATIVE, GEAR_VISION, BOILER_VISION, ULTRASONIC, SMARTDASHBOARD, BOILER_SMARTDASHBOARD, ULTRASONIC_SMARTDASHBOARD
 	}
 	
 	public enum Units {rotations, inches};
@@ -118,6 +118,7 @@ public class DriveStraightDistance extends Command {
     		break;
     	case ULTRASONIC:
     		Robot.driveTrain.resetEncoders();
+    		//TODO: make this like boiler john
     		SmartDashboard.putNumber("Ultrasonic Distance", Robot.driveTrain.getUltrasonicDistance());
     		distance = -Robot.driveTrain.getUltrasonicDistance() / inchesPerRevolution;
     		Robot.log.writeLogEcho("Drive to target ULTRASONIC " + distance + " inches away.");
@@ -132,6 +133,13 @@ public class DriveStraightDistance extends Command {
     	case BOILER_SMARTDASHBOARD:
     		Robot.driveTrain.resetEncoders();
     		distance = -(Robot.boilerVision.getBoilerDistance() - SmartDashboard.getNumber("BoilerDistance", 0)); 
+        	distance = distance / inchesPerRevolution;   // Convert inches to rotations
+    		speed = SmartDashboard.getNumber("DriveSpeed", 0);
+    		Robot.log.writeLogEcho("Drive towards target BOILER " + distance + " inches.");
+    		break;
+    	case ULTRASONIC_SMARTDASHBOARD:
+    		Robot.driveTrain.resetEncoders();
+    		distance = -(Robot.driveTrain.getUltrasonicDistance() - SmartDashboard.getNumber("UltrasonicDistance", 0)); 
         	distance = distance / inchesPerRevolution;   // Convert inches to rotations
     		speed = SmartDashboard.getNumber("DriveSpeed", 0);
     		Robot.log.writeLogEcho("Drive towards target BOILER " + distance + " inches.");

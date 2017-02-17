@@ -149,8 +149,10 @@ public class OI {
 	     SmartDashboard.putNumber("DriveSpeed", 0);
 	     SmartDashboard.putNumber("Distance", 0);
 	     SmartDashboard.putNumber("BoilerDistance", 0);
+	     SmartDashboard.putNumber("UltrasonicDistance", 0);
 	     SmartDashboard.putData("drive 12 in ttttttttttttttttttttttttttttttttt", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
 	     SmartDashboard.putData("drive ultra   wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
+	     SmartDashboard.putData("drive ultra_dash   ttttttttttttttttttttttttttttttttttt", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
 
 
 /*
