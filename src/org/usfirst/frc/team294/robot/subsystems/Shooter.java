@@ -19,8 +19,7 @@ public class Shooter extends Subsystem {
 
 	// Motor Hardware
 	private final CANTalon shooterMotor1 = new CANTalon(RobotMap.shooterMotor1);
-	private final CANTalon shooterMotor2 = new CANTalon(RobotMap.shooterMotor2);
-	DigitalInput jumper = new DigitalInput(RobotMap.jumper);
+//	private final CANTalon shooterMotor2 = new CANTalon(RobotMap.shooterMotor2);
 	
 	double setSpeed;
 	boolean error = false;
@@ -88,8 +87,7 @@ public class Shooter extends Subsystem {
 	
 	/**
 	 * Get the speed of the shooter
-	 * @return from -1 to +1 (NOT VERIFIED. MAY DEPEND ON CONTROL MODE)
-	 */
+	*/
 	public double getSpeed(){
 		return shooterMotor1.getSpeed();
 	}
@@ -112,9 +110,7 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("VBus - Voltage", (shooterMotor1.getBusVoltage() - Math.abs(shooterMotor1.getOutputVoltage())));
 		SmartDashboard.putNumber("Closed Loop Error", shooterMotor1.getSpeed() - setSpeed);
 		SmartDashboard.putNumber("VBus", shooterMotor1.getBusVoltage());
-		SmartDashboard.putBoolean("COMPETITION Robot", jumper.get());
 		SmartDashboard.putNumber("Shooter Motor 1 Current", shooterMotor1.getOutputCurrent());
-		SmartDashboard.putNumber("Shooter Motor 2 Current", shooterMotor2.getOutputCurrent());
 		SmartDashboard.putNumber("Shooter Motor voltage", shooterMotor1.getOutputVoltage());
 		SmartDashboard.putBoolean("Connection Error", error);
 		SmartDashboard.putNumber("Shooter Motor 1000*F", shooterMotor1.getF() * 1000);
@@ -124,6 +120,7 @@ public class Shooter extends Subsystem {
 	 * Setup the Smart Dashboard
 	 */
 	public void setupSmartDashboard() {
+		fNominal = robotPrefs.getDouble("shooterFNominal", 0);
 		SmartDashboard.putNumber("Shooter Motor 1000*F", shooterMotor1.getF() * 1000);
 		SmartDashboard.putNumber("Shooter Motor 1000*P", shooterMotor1.getP() * 1000);
 		SmartDashboard.putNumber("Shooter Motor 1000*I", shooterMotor1.getI() * 1000);
