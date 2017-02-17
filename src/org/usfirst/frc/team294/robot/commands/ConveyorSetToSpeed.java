@@ -5,7 +5,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ *              NOT USED.  SEE ConveyorSetToVoltage()
  */
 public class ConveyorSetToSpeed extends Command {
 
