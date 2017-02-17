@@ -3,6 +3,7 @@ import org.usfirst.frc.team294.utilities.Contour;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class BoilerVision extends Subsystem {
@@ -86,7 +87,7 @@ public class BoilerVision extends Subsystem {
 	public double getBoilerDistance() {
 		//Gives the distance of the robot from the ball goal
 		Contour[] targets = filterContours(); //Gets best two best contours
-		if (targets[0].getArea() > 20 && targets[1].getArea() > 20) { //Checks that both contours are significant and not default
+		if (targets[0].getArea() > 5 && targets[1].getArea() > 5) { //Checks that both contours are significant and not default
 			//double phi = targets[0].getHeight()/camPXHeight*camVertAngle + (camAngle - camVertAngle/2); //Angle from horizontal to center of the top contour
 			double height = camPXHeight - Math.abs(targets[0].getYPos() + targets[1].getYPos())/2;
 			double phi = height/camPXHeight*camVertAngle + (camAngle - camVertAngle/2);

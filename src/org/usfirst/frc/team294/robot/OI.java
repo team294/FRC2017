@@ -138,18 +138,21 @@ public class OI {
 	     SmartDashboard.putData("Turn to 10", new GyroTurnToAngle(0.4, 10, 2.0));
 	     SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
 	     */
+	    /*
 	     SmartDashboard.putData("Turn YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", new GyroTurnToAngle(0.4, 0, 1.0, GyroTurnToAngle.TurnMode.SMARTDASHBOARD));
 	     SmartDashboard.putNumber("TurnSpeed", 0);
 	     SmartDashboard.putNumber("Angle", 0);
 	     SmartDashboard.putNumber("Tolerance", 0);
 	     SmartDashboard.putData("Turn to gear test test test test test test test test test", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
-	    
+	    */
 	     //DriveStraightDistance tests
 	     SmartDashboard.putData("drive drive drive drive drive drive drive drive drive drive drive", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
 	     SmartDashboard.putNumber("DriveSpeed", 0);
 	     SmartDashboard.putNumber("Distance", 0);
 	     SmartDashboard.putNumber("BoilerDistance", 0);
+     	 SmartDashboard.putNumber("KILLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLme", Robot.boilerVision.getBoilerDistance());
 	     SmartDashboard.putNumber("UltrasonicDistance", 0);
+	     SmartDashboard.putData("drive to boiler smart", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.BOILER_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
 	     SmartDashboard.putData("drive 12 in ttttttttttttttttttttttttttttttttt", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
 	     SmartDashboard.putData("drive ultra   wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
 	     SmartDashboard.putData("drive ultra_dash   ttttttttttttttttttttttttttttttttttt", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));

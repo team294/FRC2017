@@ -39,7 +39,7 @@ public class DriveStraightDistance extends Command {
     private boolean preciseDistance = true;
     
     private boolean success = false;
-    private final double DIST_TOL = 0.05; //Tolerance in rotations not inches
+    private final double DIST_TOL = 0.025; //Tolerance in rotations not inches
 	
 	private ToleranceChecker tolerance = new ToleranceChecker(DIST_TOL, 5);
 	
@@ -134,6 +134,7 @@ public class DriveStraightDistance extends Command {
     		Robot.driveTrain.resetEncoders();
     		distance = -(Robot.boilerVision.getBoilerDistance() - SmartDashboard.getNumber("BoilerDistance", 0)); 
         	distance = distance / inchesPerRevolution;   // Convert inches to rotations
+        	SmartDashboard.putNumber("DisToBoilerDisToBoilerDisToBoilerDisToBoilerDisToBoiler", Robot.boilerVision.getBoilerDistance());
     		speed = SmartDashboard.getNumber("DriveSpeed", 0);
     		Robot.log.writeLogEcho("Drive towards target BOILER " + distance + " inches.");
     		break;
