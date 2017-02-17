@@ -1,31 +1,43 @@
 package org.usfirst.frc.team294.robot.commands;
 
+import org.usfirst.frc.team294.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc.team294.robot.*;
 
 /**
- *
+ * Set the PIDF of the shooter from the Smart Dashboard
  */
-public class DriveWithJoysticks extends Command {
+public class ShooterSetPIDF extends Command {
 
-    public DriveWithJoysticks() {
+	private double speed;
+	
+	/**
+	 * Set the PIDF of the shooter from the Smart Dashboard and the speed here
+	 * @param speed rpm, from -1000 to 18000
+	 */
+    public ShooterSetPIDF(double speed) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.driveTrain);
+        // eg. requires(chassis);
+		requires(Robot.shooter);
+		this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.setDriveControlByPower();
+		Robot.shooter.setPIDFromSmartDashboard();
+		Robot.shooter.setRPM(speed);
+    	
+    	// Write log of setting PIDF
+    	Robot.log.writeLog(" Shooter-- Setting PIDF ");
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	Robot.driveTrain.driveWithJoystick(Robot.oi.leftJoystick, Robot.oi.rightJoystick);
+    protected void execute() {    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
@@ -35,6 +47,5 @@ public class DriveWithJoysticks extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.driveTrain.stop();
     }
-}
+ }

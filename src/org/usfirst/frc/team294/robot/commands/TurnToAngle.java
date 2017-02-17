@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
- *
+ * Testing only
  */
 public class TurnToAngle extends Command {
 
@@ -76,6 +76,7 @@ public class TurnToAngle extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.driveTrain.stop();
     }
     
 }

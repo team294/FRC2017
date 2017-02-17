@@ -2,103 +2,178 @@ package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.utilities.ToleranceChecker;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
+/**
+ *
+ */
 public class GyroTurnToAngle extends Command {
 	
-	private double speed;
-	private double turnAngle;
-	private double angleErr;
+	// Available turn modes
+	public enum TurnMode {
+	    RELATIVE, ABSOLUTE, GEAR_VISION, BOILER_VISION 
+	}
 	
-	protected ToleranceChecker angleTol = new ToleranceChecker(4.0, 5);
+	// Settings from command initialization
+	private double angle;
+	private double maxSpeed;
+	private TurnMode turnMode;
 	
+	// Tolerance checker
+	private ToleranceChecker tolCheck;
+	
+	// Turning parameters
+	private double kPangle = 0.025;
+	private double kDangle = 0.05;
+	private double minSpeed = 0.25;
 
+	// Local variables
+	private double angleErr;
+	private double priorAngleErr;
+	private double speedControl;
+
+    /**
+     * Turns the Robot using an angle from the Gear Vision
+	 * @param speed from 0 to +1
+ 	 * @param angle from -180 to +180 degrees (ignored if turnMode = GEAR_VISION or BOILER_VISION)
+	 * @param tolerance angle tolerance to use (default is 4.0)
+     * @param turnMode :
+     * <p> <b>RELATIVE</b> = Reset gyro, turn <b>angle</b> degrees from current orientation
+     * <p> <b>ABSOLUTE</b> = Turn <b>angle</b> degrees from prior orientation zero (don't reset gyro)
+     * <p> <b>GEAR_VISION</b> = Reset gyro, turn per gear camera (ignore <b>angle</b>)
+     * <p> <b>BOILER_VISION</b> = Reset gyro, turn per gear camera (ignore <b>angle</b>)
+     */
+    public GyroTurnToAngle(double speed, double angle, double tolerance, TurnMode turnMode) {
+    	requires(Robot.driveTrain);
+    	if (turnMode == TurnMode.GEAR_VISION) {
+    		requires(Robot.vision);
+    	}
+    	if (turnMode == TurnMode.BOILER_VISION) {
+    		requires(Robot.boilerVision);
+    	}
+
+		// Normalize angle
+		angle = angle - Math.floor(angle/360)*360;  // Normalize to 0 to 360 degrees
+        angle = (angle > 180) ? angle - 360 : angle;  // Normalize to -180 to +180 degrees
+    	this.angle = angle;
+
+    	// Limit speed range
+    	speed = Math.abs(speed);
+    	speed = (speed > 1) ? 1 : speed;
+    	this.maxSpeed = speed;
+
+    	// Save rest of parameters
+    	tolCheck = new ToleranceChecker(tolerance, 5);
+    	this.turnMode = turnMode; 
+    }
+	
 	/**
-	 * Turn the robot to a desired angle using the Gyro, relative to the absolute orientation, not the current position
-	 * @param speed speed to turn at, from 0 to 1
-	 * @param turnAngle 0 to +180 for clockwise, 0 to -180 for counterclockwise
-	 * @param tolerance the angle tolerance to accept (default is 4.0)
+	 * Turn to an angle relative to the robot's current position (resets the gyro before turning).
+	 * @param speed from 0 to +1
+	 * @param angle from -180 to +180 degrees
+	 * @param tolerance angle tolerance to use (default is 4.0)
 	 */
-    public GyroTurnToAngle(double speed, double turnAngle, double tolerance) {
-        requires(Robot.driveTrain);
-        this.turnAngle = turnAngle;
-        this.speed = Math.abs(speed);
-        angleTol.setTolerance(tolerance);
+    public GyroTurnToAngle(double speed, double angle, double tolerance) {
+    	this(speed, angle, tolerance, TurnMode.RELATIVE);
     }
     
-	/**
-	 * Turn the robot to a desired angle using the Gyro, relative to the absolute orientation, not the current position (tolerance of 4.0)
-	 * @param speed speed to turn at, from 0 to 1, minimum of 0.25
-	 * @param turnAngle 0 to +180 for clockwise, 0 to -180 for counterclockwise
-	 */
-    public GyroTurnToAngle(double speed, double turnAngle) {
-        requires(Robot.driveTrain);
-        this.turnAngle = turnAngle;
-        this.speed = Math.abs(speed);
+    /**
+	 * Turn to an angle relative to the robot's current position (resets the gyro before turning),
+	 * with a tolerance of 4.0 degrees.
+	 * @param speed from 0 to +1
+	 * @param angle from -180 to +180 degrees
+     */
+    public GyroTurnToAngle(double speed, double angle) {
+    	this(speed, angle, 4.0, TurnMode.RELATIVE);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	// Validate inputs for safety
-    	if (turnAngle > 180.0) turnAngle = 180.0;
-    	if (turnAngle < -180.0) turnAngle = -180.0;
-    	if (speed > 1.0) speed = 1.0;
-    	if (speed < 0.25) speed = 0.25;
-    	angleTol.reset();
+    	tolCheck.reset();
+
+    	switch (turnMode) {
+    	case ABSOLUTE:
+    		Robot.log.writeLogEcho("Gyro: Start turn to angle absolute " + angle  + " degrees, current heading " +
+    				Robot.driveTrain.getGyroAngle() + " degrees.");
+    		break;
+    	case RELATIVE:
+    		Robot.driveTrain.resetDegrees();
+    		Robot.log.writeLogEcho("Gyro: Start turn to angle relative " + angle + " degrees.");
+    		break;
+    	case GEAR_VISION:
+    		Robot.driveTrain.resetDegrees();
+    		angle = Robot.vision.getGearAngleOffset();
+        	if (angle == -500) SmartDashboard.putBoolean("Contours Found", false);
+        		else SmartDashboard.putBoolean("Contours Found", true);
+    		Robot.log.writeLogEcho("Gyro: Start turn to angle GEAR" + angle + " degrees.");
+    		break;
+    	case BOILER_VISION:
+    		Robot.driveTrain.resetDegrees();
+    		//TODO:  Add code for boiler vision
+    		angle = 0;	// Don't do anything, since boiler vision code isn't ready
+    		Robot.log.writeLogEcho("Gyro: Start turn to angle BOILER" + angle + " degrees.");
+    		break;
+    	}
+
+    	priorAngleErr = getAngleErr();
     }
-    
-    /**
-     * Get the change in angle needed to turn
-     * @return angle error from -180 to +180
-     */
-    private double getAngleError() {
+
+    private double getAngleErr() {
     	double angleErr;
     	
     	// Find angle error.  - = left, + = right
-    	angleErr = turnAngle - Robot.driveTrain.getGyroAngle();
-    	if (angleErr > 180.0) angleErr -= 360;
-    	if (angleErr < -180.0) angleErr += 360;  
+    	angleErr = angle - Robot.driveTrain.getGyroAngle();
+    	angleErr = (angleErr>180) ? angleErr-360 : angleErr;
+    	angleErr = (angleErr<-180) ? angleErr+360 : angleErr;  
     	
     	return angleErr;
-    }    
-
+    }
+    
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	// Find angle error.  - = left, + = right
-    	angleErr = getAngleError();
-    	SmartDashboard.putNumber("Current Angle:", Robot.driveTrain.getGyroAngle());
-    	SmartDashboard.putNumber("Angle Error:", angleErr);
+    	angleErr = getAngleErr();
     	
-    	angleTol.check(Math.abs(angleErr));
+    	tolCheck.check(Math.abs(angleErr));
     	
-    	if (angleTol.success()) {
-        	Robot.driveTrain.stop();
-        	Robot.log.writeLog("Auto turn (finish):  current angle = " + Robot.driveTrain.getGyroAngle() + 
-        			", target angle = " + turnAngle);
-        	System.out.println("Auto turn (finish):  current angle = " + Robot.driveTrain.getGyroAngle() + 
-        			", target angle = " + turnAngle);
+    	if (tolCheck.success()) {
+    		Robot.driveTrain.stop();
+    		Robot.log.writeLogEcho("Gyro: Turned to angle goal " + angle + ", final angle " + Robot.driveTrain.getGyroAngle());
     	} else {
-    		if (angleErr < 0.0) speed = -speed;
-    		SmartDashboard.putNumber("Speed:", speed);
-        	Robot.driveTrain.driveAtAngle(speed, 1);
+    		speedControl = angleErr*kPangle;
+        	
+        	if (speedControl>0) {
+        		speedControl = (speedControl<minSpeed) ? minSpeed : speedControl;
+        	} else {
+        		speedControl = (speedControl>-minSpeed) ? -minSpeed : speedControl;
+        	}
+
+        	speedControl += kDangle*(angleErr-priorAngleErr);
+        	speedControl = (speedControl>maxSpeed) ? maxSpeed : speedControl;
+        	speedControl = (speedControl<-maxSpeed) ? -maxSpeed : speedControl;
+
+        	Robot.driveTrain.driveAtAngle(speedControl, 1);
+        	
+        	priorAngleErr = angleErr;
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return angleTol.success();
+        return tolCheck.success();
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	Robot.driveTrain.stop();
+    	Robot.log.writeLogEcho("Autonomous Turn Completed: Expected Angle " + angle + " Actual Angle " + Robot.driveTrain.getGyroAngle() + " Error " + angleErr);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.driveTrain.stop();
+    	Robot.log.writeLogEcho("Autonomous Turn Command Interrupted");
     }
 }

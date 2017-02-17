@@ -5,26 +5,23 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ *              NOT USED.  SEE ConveyorSetToVoltage()
  */
-public class SetShooterHoodToAngle extends Command {
+public class ConveyorSetToSpeed extends Command {
 
-	protected double angle;
+	private double speed;
 	
-	/**
-	 * Set the shooter hood to an angle
-	 * @param angle from -180 to +180
-	 */
-    public SetShooterHoodToAngle(double angle) {
+    public ConveyorSetToSpeed(double speed) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.shooterHood);
-        this.angle = angle;
+        // eg. requires(chassis);
+    	requires(Robot.ballFeed);
+    	this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	// sterilize inputs here
-    	Robot.shooterHood.setShooterHoodAngle(angle);
+    	Robot.ballFeed.setHorSpeed(speed);
+    	Robot.ballFeed.setVertSpeed(speed);
     }
 
     // Called repeatedly when this Command is scheduled to run

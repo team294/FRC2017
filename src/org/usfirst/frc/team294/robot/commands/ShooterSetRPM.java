@@ -3,28 +3,24 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
- */
-public class DriveForward extends Command {
+ * Sets the shooter according to rpm
+**/
+public class ShooterSetRPM extends Command {
 
-
-	private double speed = 0.0;
-	private double curve = 0.0;
-	private double duration = 0.0;
+	private double rpm;
 	
-    public DriveForward(double setSpeed) {
-        requires(Robot.driveTrain);
-        speed = setSpeed;
+    public ShooterSetRPM(double rpm) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	this.rpm = rpm;
+    	requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-      System.out.println("Drive forward init");		
-    	Robot.driveTrain.driveForward(speed);
-    	SmartDashboard.putNumber("Drive Forward Speed", speed);
+    	Robot.shooter.setRPM(rpm);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,7 +29,7 @@ public class DriveForward extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (timeSinceInitialized() >= duration);
+        return true;
     }
 
     // Called once after isFinished returns true

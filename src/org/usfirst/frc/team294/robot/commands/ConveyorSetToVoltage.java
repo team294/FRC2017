@@ -1,39 +1,40 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.subsystems.UltrasonicSensors;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Sets the voltage output of both conveyers
  */
-public class GetDistance extends Command {
+public class ConveyorSetToVoltage extends Command {
 
-    public GetDistance() {
+	private double voltage;
+	
+	/**
+	 * Set the voltage output of the vertical and horizontal conveyers
+	 * @param voltage from -12 (out) to 12 (in)
+	 */
+    public ConveyorSetToVoltage(double voltage) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	System.out.println("construct");
-
-    	requires(Robot.ultrasonicSensors);
-    	//requires(Robot.driveTrain);
+    	requires(Robot.ballFeed);
+    	this.voltage = voltage;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.ultrasonicSensors.getDistance();
-    	System.out.println("CMDdis");
+    	Robot.ballFeed.setHorSpeed(voltage);
+    	Robot.ballFeed.setVertSpeed(voltage);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ultrasonicSensors.printDistance();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

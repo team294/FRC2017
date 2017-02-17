@@ -35,6 +35,13 @@ public class GearGate extends Subsystem {
 	DigitalInput lightSensor;
 	
 
+	/**
+	 * Get the position of the gear solenoid
+	 * @return true for out, false for in
+	 */
+	public boolean getPosition() {
+		return gearPiston.get();
+	}
 
 	public boolean isGearThere() {
 			return lightSensor.get();

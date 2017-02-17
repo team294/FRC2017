@@ -7,34 +7,35 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class PreventCollision extends Command {
+public class MoveShooterHood extends Command {
 
-    public PreventCollision() {
+	private boolean position;
+	
+	/**
+	 * Set the position of the shooter hood
+	 * @param position true for out/up, false for in/down
+	 */
+    public MoveShooterHood(boolean position) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.ultrasonicSensors);
-    	requires(Robot.driveTrain);
+    	requires(Robot.shooterHood);
+    	
+    	this.position = position;
     }
-    
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	if (position) Robot.shooterHood.deploy();
+    	else { Robot.shooterHood.stow(); }
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.ultrasonicSensors.collisionPrevention() == true){
-    		Robot.driveTrain.stop();
-    	}	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if(Robot.ultrasonicSensors.collisionPrevention() == true){
-        	return true;
-        }else{
-        	return false;
-        }
+        return true;
     }
 
     // Called once after isFinished returns true

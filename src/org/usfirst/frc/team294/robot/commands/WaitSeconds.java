@@ -1,40 +1,18 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class DriveToDistance extends Command {
+public class WaitSeconds extends Command {
 
-    public DriveToDistance() {
+	private double duration;
+	
+    public WaitSeconds(double duration) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.driveTrain);
-    }
-    
-    public double calculateSpeed() {
-    	double speed = 0;
-    	double t = 0;
-    	final double maxSpeed = 1;
-    	
-    	if (t <= 1) {
-    		speed = t;
-    	}
-    	if (1 <= t && t < 3) {
-    		speed = maxSpeed;
-    		}
-    	if (t >= 3 && t < 4) {
-    		speed = -t + 4;
-    	}
-    	if (t >= 4) {
-    		speed = 0;
-    	}
-    	return speed;
-    	
-    	
+    	this.duration = duration;
     }
 
     // Called just before this Command runs the first time
@@ -47,7 +25,7 @@ public class DriveToDistance extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return (timeSinceInitialized() >= duration);
     }
 
     // Called once after isFinished returns true
