@@ -39,7 +39,13 @@ public class Robot extends IterativeRobot {
 	
 	// set up preferences
 	public static Preferences robotPrefs;
-	public static double shooterPValue;
+	public static double shooterP;
+	public static double shooterI;
+	public static double shooterD;
+	public static double shooterFNominal;
+	
+	
+	
 	public static boolean invertDrive;
 
 	/**
@@ -51,7 +57,11 @@ public class Robot extends IterativeRobot {
 		System.out.println("Robot init");
 		
 		robotPrefs = Preferences.getInstance();
-		shooterPValue = robotPrefs.getDouble("shooterPValue",0);  // This has to be done before Shooter()
+		shooterP = robotPrefs.getDouble("shooterP",0);  // This has to be done before Shooter()
+		shooterP = robotPrefs.getDouble("shooterI",0);
+		shooterP = robotPrefs.getDouble("shooterD",0);
+		shooterP = robotPrefs.getDouble("shooterFNominal",0);	
+		
 		invertDrive = robotPrefs.getBoolean("invertDrive",false);
 		
 		log = new FileLog();
@@ -66,7 +76,6 @@ public class Robot extends IterativeRobot {
 		ballFeed = new BallFeed();
 		
 		robotPrefs = Preferences.getInstance();
-		shooterPValue = robotPrefs.getDouble("shooterPValue",0);
 			
 		oi = new OI();
 		

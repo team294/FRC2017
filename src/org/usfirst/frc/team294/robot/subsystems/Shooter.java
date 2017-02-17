@@ -26,45 +26,29 @@ public class Shooter extends Subsystem {
 	boolean error = false;
 	private double fNominal;
 	public static Preferences robotPrefs;
-//	public static double shooterPValue;
 
 	
 
 	public Shooter() {
 		super();
-		
+		robotPrefs = Preferences.getInstance();
 		
 		shooterMotor1.setVoltageRampRate(24.0);
-		shooterMotor2.setVoltageRampRate(24.0);
+//		shooterMotor2.setVoltageRampRate(24.0);
 		
-		if (jumper.get() == false) { // jumper in digital 1 will set PIDF values
-									// for the PRACTICE ROBOT
-									//false means the jumper is present
-			fNominal = 	0.0074;
-			shooterMotor1.setPID(Robot.shooterPValue, 0, .2, fNominal, 500, 500, 0); // two
-																		// motor
-																	// system
-			shooterMotor1.reverseSensor(false);    // true for prototype false for practice!!!
-			shooterMotor1.reverseOutput(false);
-			shooterMotor2.reverseOutput(false);
-		}
-		else{			// COMPETITION ROBOT   
-			fNominal = 0.0088;	
-			shooterMotor1.setPID(.02, 0, 1, fNominal, 500, 500, 0); // two
-																	
-			shooterMotor1.reverseSensor(false);
-			shooterMotor1.reverseOutput(false);
-			shooterMotor2.reverseOutput(false);
 		
-		}
+		shooterMotor1.reverseSensor(true);    // true for prototype false for practice!!!
+		shooterMotor1.reverseOutput(false);
+		
 		shooterMotor1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		shooterMotor1.configEncoderCodesPerRev(100);
-		shooterMotor2.changeControlMode(TalonControlMode.Follower);
-		shooterMotor2.set(shooterMotor1.getDeviceID());
+//		shooterMotor2.changeControlMode(TalonControlMode.Follower);
+//		shooterMotor2.set(shooterMotor1.getDeviceID());
 		shooterMotor1.enableBrakeMode(false);
-		shooterMotor2.enableBrakeMode(false);
+//		shooterMotor2.enableBrakeMode(false);
 		shooterMotor1.set(0.0);
 		setupSmartDashboard();
+		shooterMotor1.setPID(Robot.shooterP, Robot.shooterI, Robot.shooterD, Robot.shooterFNominal, 500, 500, 0); 
 		periodicSetF();
 		
 	}
@@ -86,7 +70,7 @@ public class Shooter extends Subsystem {
 	
 	public void periodicSetF(){
 		double currentBatteryVoltage = shooterMotor1.getBusVoltage();
-		double f = ((12.1/currentBatteryVoltage)*fNominal);
+		double f = ((12.1/currentBatteryVoltage)*Robot.shooterFNominal);
 		shooterMotor1.setF(f);
 	}
 	
@@ -146,20 +130,26 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Shooter Motor 1000*D", shooterMotor1.getD() * 1000);
 		SmartDashboard.putNumber("Shooter Motor Set RPM", shooterMotor1.get());
 		SmartDashboard.putNumber("Shooter Motor Set Voltage", 9); 
-		SmartDashboard.putNumber("Set Nominal 1000* F Value", fNominal*1000);  // This should come from reference PIDF values
+		SmartDashboard.putNumber("Set Nominal 1000* F Value", fNominal*1000);  
 	}
 
 	/**
 	 * Sets the PID from the Smart Dashboard  Nominal
 	 */
 	public void setPIDFromSmartDashboard(){
-		double p= SmartDashboard.getNumber("Shooter Motor 1000*P",010)/1000;
+		double p= SmartDashboard.getNumber("Shooter Motor 1000*P", 0)/1000;
+		double i= SmartDashboard.getNumber("Shooter Motor 1000*I", 0) / 1000;
+		double d= SmartDashboard.getNumber("Shooter Motor 1000*D", 0) / 1000;
+		fNominal = SmartDashboard.getNumber("Set Nominal 1000* F Value",0) / 1000;
 		
 		shooterMotor1.setP(p) ;
-//		robotPrefs.putDouble("shooterPValue",p); // not working  Need to save in preferences
-		shooterMotor1.setI(SmartDashboard.getNumber("Shooter Motor 1000*I", 0) / 1000);
-		shooterMotor1.setD(SmartDashboard.getNumber("Shooter Motor 1000*D", 0) / 1000);
-		fNominal = SmartDashboard.getNumber("Set Nominal 1000* F Value",0) / 1000;
+		shooterMotor1.setI(i);
+		shooterMotor1.setD(d);
+		robotPrefs.putDouble("shooterP",p); 
+		robotPrefs.putDouble("shooterI",i); 
+		robotPrefs.putDouble("shooterD",d); 
+		robotPrefs.putDouble("shooterFNominal",fNominal); 
+
 	}
 
 	
