@@ -150,7 +150,7 @@ public class OI {
 	     SmartDashboard.putNumber("DriveSpeed", 0);
 	     SmartDashboard.putNumber("Distance", 0);
 	     SmartDashboard.putNumber("BoilerDistance", 0);
-     	 SmartDashboard.putNumber("KILLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLme", Robot.boilerVision.getBoilerDistance());
+//     	 SmartDashboard.putNumber("Distance To Boiler", Robot.boilerVision.getBoilerDistance());
 	     SmartDashboard.putNumber("UltrasonicDistance", 0);
 	     SmartDashboard.putData("drive to boiler smart", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.BOILER_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
 	     SmartDashboard.putData("drive 12 in ttttttttttttttttttttttttttttttttt", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
