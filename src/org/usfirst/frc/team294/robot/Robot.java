@@ -58,9 +58,9 @@ public class Robot extends IterativeRobot {
 		
 		robotPrefs = Preferences.getInstance();
 		shooterP = robotPrefs.getDouble("shooterP",0);  // This has to be done before Shooter()
-		shooterP = robotPrefs.getDouble("shooterI",0);
-		shooterP = robotPrefs.getDouble("shooterD",0);
-		shooterP = robotPrefs.getDouble("shooterFNominal",0);	
+		shooterI = robotPrefs.getDouble("shooterI",0);
+		shooterD = robotPrefs.getDouble("shooterD",0);
+		shooterFNominal = robotPrefs.getDouble("shooterFNominal",0);	
 		
 		invertDrive = robotPrefs.getBoolean("invertDrive",false);
 		
