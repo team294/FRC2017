@@ -50,8 +50,16 @@ public class Intake extends Subsystem {
      * Get the current position of the intake
      * @return true if the intake is deployed, false if not
      */
-    public boolean getPosition(){
+    public boolean getIntakePosition(){
     	return (intakeSolenoid.get() == DoubleSolenoid.Value.kForward);
+    }
+    
+    /**
+     * Get the current position of the hopper
+     * @return true if the hopper is deployed, false if not
+     */
+    public boolean getHopperPosition(){
+    	return (hopperSolenoid.get() == DoubleSolenoid.Value.kForward);
     }
     
     /**
