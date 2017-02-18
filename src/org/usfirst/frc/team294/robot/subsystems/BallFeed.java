@@ -2,6 +2,8 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.commands.ConveyorSetVoltage;
+import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
@@ -23,6 +25,10 @@ public class BallFeed extends Subsystem {
 	public static CANTalon horConveyor = new CANTalon(RobotMap.horizontalConveyor);
 	public static CANTalon vertConveyor = new CANTalon(RobotMap.verticalConveyor);
 	private static double hFactor = 0.6;   //  hFactor allows horizontal to run at ratio to vertical voltage
+    public final MotorCurrentTrigger horizontalCurrentTrigger = new MotorCurrentTrigger(horConveyor, 35, 2);
+    public final MotorCurrentTrigger verticalCurrentTrigger = new MotorCurrentTrigger(vertConveyor, 35, 2);
+
+
 	
 	public BallFeed() {
 		super();
@@ -31,6 +37,8 @@ public class BallFeed extends Subsystem {
 		vertConveyor.changeControlMode(TalonControlMode.Voltage);
 		horConveyor.enableBrakeMode(false);
 		vertConveyor.enableBrakeMode(false);
+		 horizontalCurrentTrigger.whenActive(new ConveyorSetVoltage(0.0));
+		 verticalCurrentTrigger.whenActive(new ConveyorSetVoltage(0.0));
 	}
 	
 	/**

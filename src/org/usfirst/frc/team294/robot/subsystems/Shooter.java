@@ -2,6 +2,8 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.commands.ShooterSetToSpeed;
+import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -20,6 +22,9 @@ public class Shooter extends Subsystem {
 	// Motor Hardware
 	private final CANTalon shooterMotor1 = new CANTalon(RobotMap.shooterMotor1);
 //	private final CANTalon shooterMotor2 = new CANTalon(RobotMap.shooterMotor2);
+	
+    public final MotorCurrentTrigger shooterCurrentTrigger = new MotorCurrentTrigger(shooterMotor1, 35, 2);
+
 	
 	double setSpeed;
 	boolean error = false;
@@ -49,6 +54,8 @@ public class Shooter extends Subsystem {
 		setupSmartDashboard();
 		shooterMotor1.setPID(Robot.shooterP, Robot.shooterI, Robot.shooterD, Robot.shooterFNominal, 500, 500, 0); 
 		periodicSetF();
+		
+		shooterCurrentTrigger.whenActive(new ShooterSetToSpeed(0.0));
 		
 	}
 	

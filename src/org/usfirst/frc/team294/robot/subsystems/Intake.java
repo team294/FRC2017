@@ -28,7 +28,8 @@ public class Intake extends Subsystem {
     private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.intakeSolenoidFwd, RobotMap.intakeSolenoidRev);
     private final DoubleSolenoid hopperSolenoid = new DoubleSolenoid(RobotMap.hopperSolenoidFwd, RobotMap.hopperSolenoidRev);
    
-    public final MotorCurrentTrigger climberCurrentTrigger = new MotorCurrentTrigger(climbMotor1, 35, 2);
+    public final MotorCurrentTrigger climber1CurrentTrigger = new MotorCurrentTrigger(climbMotor1, 35, 2);
+    public final MotorCurrentTrigger climber2CurrentTrigger = new MotorCurrentTrigger(climbMotor2, 35, 2);
     public final MotorCurrentTrigger intakeCurrentTrigger = new MotorCurrentTrigger(intakeMotor, 35, 2);
 
     // Control variables for mechanical interlock
@@ -54,7 +55,8 @@ public class Intake extends Subsystem {
         climbMotor2.set(climbMotor1.getDeviceID());
 
     	// Stall protection
-        climberCurrentTrigger.whenActive(new ClimberSetToSpeed(0.0));
+        climber1CurrentTrigger.whenActive(new ClimberSetToSpeed(0.0));
+        climber2CurrentTrigger.whenActive(new ClimberSetToSpeed(0.0));
         intakeCurrentTrigger.whenActive(new IntakeSetToSpeed(0.0));
 
     	// Add the subsystem to the LiveWindow
@@ -68,7 +70,7 @@ public class Intake extends Subsystem {
      */
     public boolean getIntakePosition(){
     	return (intakeSolenoid.get() == DoubleSolenoid.Value.kForward);
-        updateConflicts();
+        //updateConflicts();
     }
     
     /**

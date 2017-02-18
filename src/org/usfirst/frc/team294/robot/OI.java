@@ -222,7 +222,7 @@ public class OI {
 		 SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
 		 SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
 		 SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-		 SmartDashboard.putData("Start BallFeed", new ConveyorSetToVoltage(7.5));   //  Pass the voltage to vertical conveyor
+		 SmartDashboard.putData("Start BallFeed", new ConveyorSetVoltage(7.5));   //  Pass the voltage to vertical conveyor
 //	 	 SmartDashboard.putData("Stop BallFeed", new ConveyorSetToVoltage(0.0)); 
 		    
 		 // Encoders (I don't think these work because the command is never called. this should be done in teleopPeriodic -John)
@@ -230,7 +230,14 @@ public class OI {
 		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
 		    
 		 // Stop Command
-		 SmartDashboard.putData("Drive Stop", new DriveStop());	   
+		 SmartDashboard.putData("Drive Stop", new DriveStop());
+	     
+	     
+	    // SmartDashboard.putData("Ultron WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", new GetDistance ());
+	     SmartDashboard.putData("Is Gear There?", new IsGearThere());
+	    // SmartDashboard.getDouble("GetDistance");
+	    // SmartDashboard.("GetDistance");
+	    // SmartDashboard.getData("GetDistance");
 		    
 	    
 	}
@@ -260,16 +267,6 @@ public class OI {
 	public TopKnob readTopKnob() {
 		return TopKnobPositions[readTopKnobRaw()];
 	}
-
-	     /// Stop Command
-	     SmartDashboard.putData("Drive Stop", new DriveStop());
-	     
-	     
-	     SmartDashboard.putData("Ultron WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", new GetDistance ());
-	     SmartDashboard.putData("Is Gear There?", new IsGearThere());
-	    // SmartDashboard.getDouble("GetDistance");
-	    // SmartDashboard.("GetDistance");
-	    // SmartDashboard.getData("GetDistance");
 
 	/**
 	 * Reads the middle knob.
