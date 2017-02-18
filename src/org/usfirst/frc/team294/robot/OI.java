@@ -142,6 +142,11 @@ public class OI {
 	     SmartDashboard.putData("Turn to 10", new GyroTurnToAngle(0.4, 10, 2.0));
 	     SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
 	     */
+	    
+	    
+	    SmartDashboard.putBoolean("Joystick button 3", right[3].get());
+	    SmartDashboard.putNumber("Joystick value", rightJoystick.getRawAxis(1));
+	    
 	     SmartDashboard.putData("Turn YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", new GyroTurnToAngle(0.4, 0, 1.0, GyroTurnToAngle.TurnMode.SMARTDASHBOARD));
 	     SmartDashboard.putNumber("Speed", 0);
 	     SmartDashboard.putNumber("Angle", 0);
