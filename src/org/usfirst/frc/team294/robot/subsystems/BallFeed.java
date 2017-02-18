@@ -37,6 +37,7 @@ public class BallFeed extends Subsystem {
 	 * Set the speed of the horizontal conveyor according to voltage *
 	 * @param voltage from -12.0 (out) to +12.0 (in)
 	 */
+	
 	public void setHorSpeed(double voltage) {  
 		voltage *= hFactor;
 		if(voltage > 12.0) voltage = 12.0;

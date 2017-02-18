@@ -23,12 +23,12 @@ public class Robot extends IterativeRobot {
 	public static Shifter shifter;
 	public static BallFeed ballFeed;
 	public static GearGate gearGate;
+	public static GearVision gearVision;
 	public static Intake intake;
 	public static Shooter shooter;
 	public static ShooterHood shooterHood;
 	
 	// Vision subsystems
-	public static Vision vision;
 	public static BoilerVision boilerVision;
 	
 	// The OI
@@ -70,15 +70,17 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter();
 		intake = new Intake();
 		gearGate = new GearGate();
-		vision = new Vision();
+		gearVision = new GearVision();
 		boilerVision = new BoilerVision();
+		log = new FileLog();
+		gearVision = new GearVision();
 		shooterHood = new ShooterHood();
 		ballFeed = new BallFeed();
 		
 		robotPrefs = Preferences.getInstance();
 			
 		oi = new OI();
-		
+
 		// Put scheduler and subsystems on SmartDashboard
 		SmartDashboard.putData(Scheduler.getInstance());
 		SmartDashboard.putData(driveTrain);
@@ -149,6 +151,9 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();	
+		//for testing purposes 
+		driveTrain.updateSmartDashboardEncoders();
+		boilerVision.updateSmartDashboard();
 		//driveTrain.logTalonStatus();
 
 		shooter.updateSmartDashboard(); 

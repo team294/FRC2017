@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutoScoreBoiler extends CommandGroup {
 
-    public AutoScoreBoiler() {
-    	// Add Commands here:
+    public AutoScoreBoiler() {	
+        // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.

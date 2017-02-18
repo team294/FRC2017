@@ -13,7 +13,7 @@ public class GyroTurnToAngle extends Command {
 	
 	// Available turn modes
 	public enum TurnMode {
-	    RELATIVE, ABSOLUTE, GEAR_VISION, BOILER_VISION 
+	    RELATIVE, ABSOLUTE, GEAR_VISION, BOILER_VISION, SMARTDASHBOARD
 	}
 	
 	// Settings from command initialization
@@ -44,11 +44,12 @@ public class GyroTurnToAngle extends Command {
      * <p> <b>ABSOLUTE</b> = Turn <b>angle</b> degrees from prior orientation zero (don't reset gyro)
      * <p> <b>GEAR_VISION</b> = Reset gyro, turn per gear camera (ignore <b>angle</b>)
      * <p> <b>BOILER_VISION</b> = Reset gyro, turn per gear camera (ignore <b>angle</b>)
+     * <p> <b>SMARTDASHBOARD</b> = Reset gyro, turn <b>angle</b> degrees at <b>maxSpeed</b> speed within <b>angleErr</b> tolerance from current orientation based on input from Smartdashboard
      */
     public GyroTurnToAngle(double speed, double angle, double tolerance, TurnMode turnMode) {
     	requires(Robot.driveTrain);
     	if (turnMode == TurnMode.GEAR_VISION) {
-    		requires(Robot.vision);
+    		requires(Robot.gearVision);
     	}
     	if (turnMode == TurnMode.BOILER_VISION) {
     		requires(Robot.boilerVision);
@@ -104,16 +105,22 @@ public class GyroTurnToAngle extends Command {
     		break;
     	case GEAR_VISION:
     		Robot.driveTrain.resetDegrees();
-    		angle = Robot.vision.getGearAngleOffset();
+    		angle = Robot.gearVision.getGearAngleOffset();
         	if (angle == -500) SmartDashboard.putBoolean("Contours Found", false);
         		else SmartDashboard.putBoolean("Contours Found", true);
     		Robot.log.writeLogEcho("Gyro: Start turn to angle GEAR" + angle + " degrees.");
     		break;
     	case BOILER_VISION:
     		Robot.driveTrain.resetDegrees();
-    		//TODO:  Add code for boiler vision
-    		angle = 0;	// Don't do anything, since boiler vision code isn't ready
+    		angle = Robot.boilerVision.getBoilerAngleOffset();
     		Robot.log.writeLogEcho("Gyro: Start turn to angle BOILER" + angle + " degrees.");
+    		break;
+    	case SMARTDASHBOARD:
+    		Robot.driveTrain.resetDegrees();
+    		angle = SmartDashboard.getNumber("TurnAngle", 0); 
+    		maxSpeed = SmartDashboard.getNumber("TurnSpeed", 0);
+    		angleErr = SmartDashboard.getNumber("AngleTolerance", 0);
+    		Robot.log.writeLogEcho("Gyro: Start turn to angle SMARTDASHBOARD" + angle + " degrees.");
     		break;
     	}
 

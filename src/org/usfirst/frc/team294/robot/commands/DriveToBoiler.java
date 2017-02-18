@@ -5,7 +5,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Testing purposes only
+ * Testing purposes only (replaced by DriveStraightDistance -John)
  */
 public class DriveToBoiler extends Command {
 
