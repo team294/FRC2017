@@ -122,6 +122,21 @@ public class BoilerVision extends Subsystem {
 		boilerAngleOffset = Math.atan(camOffset/getBoilerDistance()*12 + Math.tan(boilerAngleOffset*Math.PI/180))*180/Math.PI; //Adjusts angle for when the camera is not centered on the robot
 		return boilerAngleOffset;
 	}
+	
+	/**
+	 * Gets the last positive distance of the robot from the ball goal
+	 * @return distance in inches only if there are contours 
+	 */
+	public double getLastBoilerDistance() {
+		double firstBoilerDistance = getBoilerDistance();
+		double lastBoilerDistance = 0;
+		//double negNum = 0;
+		if (firstBoilerDistance > 0){
+			lastBoilerDistance = firstBoilerDistance;
+		}
+		//this.boilerAngleOffset = (this.boilerAngleOffset > 0) ? lastBoilerDistance : negNum;
+		return lastBoilerDistance;
+	}
 	public void updateSmartDashboard(){
 		SmartDashboard.putNumber("DisToBoilerDisToBoilerDisToBoilerDisToBoilerDisToBoiler", Robot.boilerVision.getBoilerDistance());
 	}

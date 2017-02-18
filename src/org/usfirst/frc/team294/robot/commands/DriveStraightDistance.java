@@ -23,6 +23,7 @@ public class DriveStraightDistance extends Command {
 	private double distance;
 	private double speed;
 	private Units units;
+	//private double
 
 	
     // Encoder and distance settings, copied from 2016 code and robot
@@ -132,7 +133,7 @@ public class DriveStraightDistance extends Command {
     		break;
     	case BOILER_SMARTDASHBOARD:
     		Robot.driveTrain.resetEncoders();
-    		distance = -(Robot.boilerVision.getBoilerDistance() - SmartDashboard.getNumber("BoilerDistance", 0)); 
+    		distance = -(Robot.boilerVision.getLastBoilerDistance() - SmartDashboard.getNumber("BoilerDistance", 0)); 
         	distance = distance / inchesPerRevolution;   // Convert inches to rotations
         	//SmartDashboard.putNumber("DisToBoilerDisToBoilerDisToBoilerDisToBoilerDisToBoiler", Robot.boilerVision.getBoilerDistance());
     		speed = SmartDashboard.getNumber("DriveSpeed", 0);
@@ -140,8 +141,8 @@ public class DriveStraightDistance extends Command {
     		break;
     	case ULTRASONIC_SMARTDASHBOARD:
     		Robot.driveTrain.resetEncoders();
-    		distance = -(Robot.driveTrain.getUltrasonicDistance() - SmartDashboard.getNumber("UltrasonicDistance", 0)); 
-        	distance = distance / inchesPerRevolution;   // Convert inches to rotations
+    		distance = -((Robot.driveTrain.getUltrasonicDistance()/ inchesPerRevolution) - SmartDashboard.getNumber("UltrasonicDistance", 0)); 
+        	//distance = distance / inchesPerRevolution;   // Convert inches to rotations
     		speed = SmartDashboard.getNumber("DriveSpeed", 0);
     		Robot.log.writeLogEcho("Drive towards target BOILER " + distance + " inches.");
     		break;
