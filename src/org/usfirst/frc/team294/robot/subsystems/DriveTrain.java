@@ -42,17 +42,19 @@ public class DriveTrain extends Subsystem {
     // Track encoder resets in software due to latency (like NavX)
     private double leftEncoderZero = 0, rightEncoderZero = 0;
     
+  
 
     public DriveTrain() {
     	super();
-    	
-    	leftMotor2.reverseSensor(true);
     	
     	// Set the other motors to follow motor 2 on each side
     	leftMotor1.changeControlMode(TalonControlMode.Follower);
         leftMotor1.set(leftMotor2.getDeviceID());
     	leftMotor3.changeControlMode(TalonControlMode.Follower);
         leftMotor3.set(leftMotor2.getDeviceID());
+        
+		robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft,Robot.invertDrive);
+		robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight,Robot.invertDrive);
 
         rightMotor1.changeControlMode(TalonControlMode.Follower);
         rightMotor1.set(rightMotor2.getDeviceID());
