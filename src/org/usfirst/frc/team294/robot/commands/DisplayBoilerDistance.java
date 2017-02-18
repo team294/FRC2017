@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * I'm not completely sure why a command needs to exist to display to the Smart Dashboard... just call it when you need it
- * Testing purposes only
+ * Testing purposes only (useless and can be done cleaner in teleopPeriodic -John)
  */
 public class DisplayBoilerDistance extends Command {
 
