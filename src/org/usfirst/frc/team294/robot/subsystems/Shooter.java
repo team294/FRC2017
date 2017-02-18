@@ -17,9 +17,6 @@ import edu.wpi.first.wpilibj.Preferences;
  */
 public class Shooter extends Subsystem {
 	
-//	public static CANTalon shooterMotor1 = new CANTalon(RobotMap.shooterMotor1);
-//	public static CANTalon shooterMotor2 = new CANTalon(RobotMap.shooterMotor2);
-
 	// Motor Hardware
 	private final CANTalon shooterMotor1 = new CANTalon(RobotMap.shooterMotor1);
 //	private final CANTalon shooterMotor2 = new CANTalon(RobotMap.shooterMotor2);
