@@ -129,13 +129,13 @@ public class OI {
 	    coP[2].whenPressed(new ShooterSetToSpeed(1.0)); // This will likely change according to the position of the shooter hood. A new command will be required
 	    coP[3].whenPressed(new ConveyerSetToSpeed(-1.0));
 	    coP[3].whenReleased(new ConveyerSetToSpeed(0.0));
-	    //coP[4].whenPressed(new PrepareToClimb()); // Command does not yet exist
+	    coP[4].whenPressed(new PrepareToClimb());
 	    coP[5].whenPressed(new ClimbSetToSpeed(1.0)); // This will likely change according to measured values on the robot
 	    coP[6].whenPressed(new MoveShooterHood(true));
 	    coP[7].whenPressed(new MoveShooterHood(false));
-	    //coP[8].whenPressed(new stowIntakeAndHopper()); // Command does not yet exist
+	    coP[8].whenPressed(new StowIntakeAndHopper());
 	    coP[9].whenPressed(new IntakeSetToSpeed(-1.0));
-	    //coP[10].whenPressed(new deployIntakeAndHopper()); // Command does not yet exist
+	    coP[10].whenPressed(new DeployIntakeAndHopper());
 	    coP[11].whenPressed(new IntakeSetToSpeed(1.0));
 	    coP[12].whenPressed(new StopAllMotors());
 	    coP[13].whenPressed(new MoveGearGate(false));
