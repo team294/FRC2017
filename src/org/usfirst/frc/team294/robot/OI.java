@@ -154,7 +154,6 @@ public class OI {
 	    SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
 	    SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
 	    SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
-//	    SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3));   use call to control loop - below
 	    
 	    // Autonomous Command Testing
 	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
@@ -167,7 +166,7 @@ public class OI {
 	    SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
 	    SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
 	    SmartDashboard.putData("Start BallFeed", new ConveyorSetToVoltage(7.5));   //  Pass the voltage to vertical conveyor
-	    SmartDashboard.putData("Stop BallFeed", new ConveyorSetToVoltage(0.0)); 
+//	    SmartDashboard.putData("Stop BallFeed", new ConveyorSetToVoltage(0.0)); 
 	    
 	    // Encoders
 	    SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
