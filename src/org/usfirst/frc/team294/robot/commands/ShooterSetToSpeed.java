@@ -5,28 +5,30 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Sets the shooter according to Vbus
  */
-public class MoveHopper extends Command {
-
-	private boolean position;
+public class ShooterSetToSpeed extends Command {
 	
+	private double speed;
+
 	/**
-	 * Set the position of the hopper
-	 * @param position true for deployed, false for stowed
+	 * Sets the shooter to speed according to Vbus
+	 * @param speed between -1 and +1
 	 */
-    public MoveHopper(boolean position) {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.intake);
-    	
-    	this.position = position;
+    public ShooterSetToSpeed(double speed) {
+        requires(Robot.shooter);
+        this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (position) Robot.intake.deployHopper();
-    	else { Robot.intake.stowHopper(); }
+    	// Validate inputs first
+    	if (speed > 1.0) speed = 1.0;
+    	if (speed < -1.0) speed = -1.0;
+    	Robot.shooter.setVbus(speed);
+    	
+    	// Write log of shooting
+    	Robot.log.writeLogEcho("Shooter: Setting Shooting Speed " + speed);
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -124,11 +124,11 @@ public class OI {
 	    /*
 	     * Commented until we start using the practice bot
 	    // Bind commands to the codriver panel switches
-	    coP[1].whenPressed(new ConveyerSetToSpeed(1.0));
+	    coP[1].whenPressed(new ConveyerSetToSpeed(1.0)); // Need to update all numbers to voltage instead of Vbus
 	    coP[1].whenReleased(new ConveyerSetToSpeed(0.0));
 	    coP[2].whenPressed(new ShooterSetToSpeed(1.0)); // This will likely change according to the position of the shooter hood. A new command will be required
 	    coP[3].whenPressed(new ConveyerSetToSpeed(-1.0));
-	    coP[3].whenReleased(new ConveyerSetToSpeed(-1.0));
+	    coP[3].whenReleased(new ConveyerSetToSpeed(0.0));
 	    //coP[4].whenPressed(new PrepareToClimb()); // Command does not yet exist
 	    coP[5].whenPressed(new ClimbSetToSpeed(1.0)); // This will likely change according to measured values on the robot
 	    coP[6].whenPressed(new MoveShooterHood(true));
@@ -137,7 +137,7 @@ public class OI {
 	    coP[9].whenPressed(new IntakeSetToSpeed(-1.0));
 	    //coP[10].whenPressed(new deployIntakeAndHopper()); // Command does not yet exist
 	    coP[11].whenPressed(new IntakeSetToSpeed(1.0));
-	    //coP[12].whenPressed(new StopAllFlywheels()); // Command does not yet exist
+	    coP[12].whenPressed(new StopAllMotors());
 	    coP[13].whenPressed(new MoveGearGate(false));
 	    coP[14].whenPressed(new MoveGearGate(true));
 		*/
@@ -165,8 +165,8 @@ public class OI {
 	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
 	    SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
 	    SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-	    SmartDashboard.putData("Start BallFeed", new ConveyorSetToVoltage(7.5));   //  Pass the voltage to vertical conveyor
-//	    SmartDashboard.putData("Stop BallFeed", new ConveyorSetToVoltage(0.0)); 
+	    SmartDashboard.putData("Start BallFeed", new ConveyorSetVoltage(7.5));   //  Pass the voltage to vertical conveyor
+	    SmartDashboard.putData("Stop BallFeed", new ConveyorSetVoltage(0.0)); 
 	    
 	    // Encoders
 	    SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());

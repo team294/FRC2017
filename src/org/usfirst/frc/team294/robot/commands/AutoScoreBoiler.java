@@ -1,6 +1,5 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.Units;
 import org.usfirst.frc.team294.robot.commands.GyroTurnToAngle.TurnMode;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -12,14 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoScoreBoiler extends CommandGroup {
 
     public AutoScoreBoiler() {
-    	addSequential(new ShiftDown());
-    	addSequential(new DriveStraightDistance(0.4, 15, Units.rotations));
-    	addSequential(new GyroTurnToAngle(0.4, .75, 0.25, TurnMode.BOILER_VISION));
-    	addSequential(new DriveToBoiler());
-    	//addSequential(new ShooterSetToSpeed(12000)); // Need a new command for rpm. ShooterSetToSpeed uses Vbus
-    	
-    	
-        // Add Commands here:
+    	// Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
@@ -35,5 +27,14 @@ public class AutoScoreBoiler extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	
+    	addSequential(new ShiftDown());
+    	//addSequential(new DriveStraightDistance(0.4, 15, Units.rotations)); // 15 rotations is a huge distance, and is also a magic number. What distance is necessary here?
+    	addSequential(new GyroTurnToAngle(0.4, .75, 0.25, TurnMode.BOILER_VISION));
+    	addSequential(new DriveToBoiler());
+    	addSequential(new ShooterSetRPM(12000));
+    	
+    	
+
     }
 }
