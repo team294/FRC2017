@@ -115,7 +115,7 @@ public class OI {
 	    	right[i] = new JoystickButton(rightJoystick, i);
 	    	right[i].whenPressed(new ShiftUp());
 	    }
-	    /*
+	    /* //this does not seem to be in master but I don't know if its important so I will leave it here commented out so it doesn't cause errors - John
 	    // Declare left joystick buttons and set them to shift down
 	     for (Button i : left) {
 	    	 i =  new JoystickButton(leftJoystick, j++);
@@ -132,64 +132,10 @@ public class OI {
 	    	 if (k > 2 && k < 7) i.whenPressed(new DriveWithJoysticks()); 
 	    	 else i.whenPressed(new ShiftUp());
 	     }*/
-/*
-	    // Gyro Testing Commands
-	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
-	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90, 2.0));
-	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180, 2.0));
-	     SmartDashboard.putData("Turn to 5", new GyroTurnToAngle(0.4, 5, 2.0));
-	     SmartDashboard.putData("Turn to -5", new GyroTurnToAngle(0.4, -5, 2.0));
-	     SmartDashboard.putData("Turn to 10", new GyroTurnToAngle(0.4, 10, 2.0));
-	     SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
-	     */
-	    /*
-	     SmartDashboard.putData("Turn YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", new GyroTurnToAngle(0.4, 0, 1.0, GyroTurnToAngle.TurnMode.SMARTDASHBOARD));
-	     SmartDashboard.putNumber("TurnSpeed", 0);
-	     SmartDashboard.putNumber("Angle", 0);
-	     SmartDashboard.putNumber("Tolerance", 0);
-	     SmartDashboard.putData("Turn to gear test test test test test test test test test", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
-	    */
-	     //DriveStraightDistance tests
-	     SmartDashboard.putData("drive drive drive drive drive drive drive drive drive drive drive", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
-	     SmartDashboard.putNumber("DriveSpeed", 0);
-	     SmartDashboard.putNumber("Distance", 0);
-	     SmartDashboard.putNumber("BoilerDistance", 0);
-//     	 SmartDashboard.putNumber("Distance To Boiler", Robot.boilerVision.getBoilerDistance());
-	     SmartDashboard.putNumber("UltrasonicDistance", 0);
-	     SmartDashboard.putData("drive to boiler smart", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.BOILER_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
-	     SmartDashboard.putData("drive 12 in ttttttttttttttttttttttttttttttttt", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
-	     SmartDashboard.putData("drive ultra   wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
-	     SmartDashboard.putData("drive ultra_dash   ttttttttttttttttttttttttttttttttttt", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
 
 
-/*
-	     //double speed = SmartDashboard.getDouble("Drive Speed");
-	     //double curve = SmartDashboard.getDouble("Drive Curve");
-	     SmartDashboard.putNumber("Drive Speed", 0.0);
-	     SmartDashboard.putNumber("Drive Curve", 0.0);
 
-	     SmartDashboard.putData("Drive at Angle", new DriveAtAngleFromSmartDashboard());
-	     SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
-	     
-	     //SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
-	     
-	     SmartDashboard.putNumber("Drive Forward Speed", 0.0);
-	     SmartDashboard.putData("Drive Stop", new DriveStop());
-	     
-	     // Subsystem Testing Commands
-	     SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
-	     SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
-	     SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
-	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
-	     SmartDashboard.putData("Stop Shooter Motor", new ShooterSetToSpeed(0.0));
-	     SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3));
-	     
-	     // Autonomous Command Testing
-	     SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
-	     SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGearRight());
-	     SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle());
-=======
-	    // Declare codriver panel switches
+	     // Declare codriver panel switches
 	    for (int i = 1; i < coP.length; i++) {
 	    	coP[i] = new JoystickButton(coPanel, i);
 		}
@@ -214,40 +160,67 @@ public class OI {
 	    coP[13].whenPressed(new MoveGearGate(false));
 	    coP[14].whenPressed(new MoveGearGate(true));
 		*/
-		/*
+			    
+	    
+	    // it has become standard practice to comment out all not used commands during testing to make it possible to use the SmartDashboard. 
+	    //If you don't do this then your button will be buried in other buttons making it stupidly hard to find.
+	    //I will uncomment them for now but keep this in mind in future testing -John
 	    // Gyro Testing Commands
-	    SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
-	    SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
-	    SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180));
-	    SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
-	    SmartDashboard.putData("Turn to gear", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
+	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90, 2.0));
+	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180, 2.0));
+	     SmartDashboard.putData("Turn to 5", new GyroTurnToAngle(0.4, 5, 2.0));
+	     SmartDashboard.putData("Turn to -5", new GyroTurnToAngle(0.4, -5, 2.0));
+	     SmartDashboard.putData("Turn to 10", new GyroTurnToAngle(0.4, 10, 2.0));
+	     SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
+		 SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
+		     
+	     SmartDashboard.putData("Turn to angle", new GyroTurnToAngle(0.4, 0, 1.0, GyroTurnToAngle.TurnMode.SMARTDASHBOARD));
+	     SmartDashboard.putNumber("TurnSpeed", 0);
+	     SmartDashboard.putNumber("TurnAngle", 0);
+	     SmartDashboard.putNumber("AngleTolerance", 0);
+	     SmartDashboard.putData("Turn to gear", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+	    
+	     //DriveStraightDistance tests
+	     SmartDashboard.putData("Drive straight distance", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	     SmartDashboard.putNumber("DriveSpeed", 0);
+	     SmartDashboard.putNumber("Distance", 0);
+	     SmartDashboard.putNumber("BoilerDistance", 0);
+	     SmartDashboard.putNumber("UltrasonicDistance", 0);
+	     SmartDashboard.putData("Drive to Boiler_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.BOILER_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	     SmartDashboard.putData("Drive 12 inches", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
+	     SmartDashboard.putData("Drive to Ultraonic", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
+	     SmartDashboard.putData("Drive to Ultrasonic_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	     	     	     
+	     // Subsystem Testing Commands
+	     SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
+	     SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
+	     SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
+	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
+//	     SmartDashboard.putData("Stop Shooter Motor", new ShooterSetToSpeed(0.0)); //command does not exist
+//	     SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3)); //command does not exist
 	     
-	    // Subsystem Testing Commands
-	    SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
-	    SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
-	    SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
-	    SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
+	     // Autonomous Command Testing
+	     SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
+	     SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGearRight());
+	     SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle()); 
+	     
+	     //  Shooter controls
+		 SmartDashboard.putData("Set Shooter RPM", new ShooterSetToRPMFromSmartDashboard());
+		 SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
+		 SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
+		 SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
+		 SmartDashboard.putData("Start BallFeed", new ConveyorSetToVoltage(7.5));   //  Pass the voltage to vertical conveyor
+//	 	 SmartDashboard.putData("Stop BallFeed", new ConveyorSetToVoltage(0.0)); 
+		    
+		 // Encoders (I don't think these work because the command is never called. this should be done in teleopPeriodic -John)
+		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
+		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
+		    
+		 // Stop Command
+		 SmartDashboard.putData("Drive Stop", new DriveStop());	   
+		    
 	    
-	    // Autonomous Command Testing
-	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
-	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGearRight());
-	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle());
-	    
-	    //  Shooter controls
-	    SmartDashboard.putData("Set Shooter RPM", new ShooterSetToRPMFromSmartDashboard());
-	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
-	    SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
-	    SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-	    SmartDashboard.putData("Start BallFeed", new ConveyorSetToVoltage(7.5));   //  Pass the voltage to vertical conveyor
-//	    SmartDashboard.putData("Stop BallFeed", new ConveyorSetToVoltage(0.0)); 
-	    
-	    // Encoders
-	    SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
-	    SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
-	    
-	    // Stop Command
-	    SmartDashboard.putData("Drive Stop", new DriveStop());
-	    */
 	}
 	
 	/**
@@ -299,30 +272,14 @@ public class OI {
 	 */
 	public MiddleKnob readMiddleKnob(){
 		return MiddleKnobPositions[readMiddleKnobRaw()];
-	}
- /*
-		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
-		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
-		 
-		 
-		 //Vision command testing
-	//	 SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
-	//	 SmartDashboard.putData("Get Boiler Distance TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT", new DisplayBoilerDistance());
-		 //SmartDashboard.putData("Get Boiler Angle UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU", new DisplayBoilerAngle());
-		// SmartDashboard.putNumber("Boiler Distance", Robot.boilerVision.getBoilerDistance());
-		// SmartDashboard.putNumber("Boiler Angle Offset", Robot.boilerVision.getBoilerAngleOffset());
-//		 SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
-//		 SmartDashboard.putNumber("Gear Angle Offset", Robot.gearVision.getGearAngleOffset());
-		 
+	}		 
 
-	     // Stop Command
-	     SmartDashboard.putData("Drive Stop", new DriveStop());
-	     
+
 	     
 	/**
 	 * Reads the bottom knob.
 	 * @return Raw position 0 (full ccw) to 11 (full cw)
-	 *//*
+	 */
 	public int readBottomKnobRaw() {
 		double knobReading;
 		int i = 0;
@@ -340,7 +297,7 @@ public class OI {
 	/**
 	 * Reads the bottom knob.
 	 * @return OI.BottomKnobPositions
-	 *//*
+	 */
 	public BottomKnob readBottomKnob() {
 		return BottomKnobPositions[readBottomKnobRaw()];
 	}
@@ -350,7 +307,7 @@ public class OI {
 	/**
 	 * Get the command based on the position of the middle knob 
 	 * @return Command
-	 *//*
+	 */
 	public Command getMiddleKnobCommand() {
 		int i = readMiddleKnobRaw();
 		if (i < MiddleKnobCommands.length) {
@@ -358,7 +315,5 @@ public class OI {
 		} else {
 			return null;
 		}			
-		}
-		return null;		
-	} */
+	} 
 }

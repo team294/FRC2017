@@ -137,8 +137,12 @@ public class BoilerVision extends Subsystem {
 		//this.boilerAngleOffset = (this.boilerAngleOffset > 0) ? lastBoilerDistance : negNum;
 		return lastBoilerDistance;
 	}
+	
+	/**
+	 * Displays the distance to boiler on SmartDashboard
+	 */
 	public void updateSmartDashboard(){
-		SmartDashboard.putNumber("DisToBoilerDisToBoilerDisToBoilerDisToBoilerDisToBoiler", Robot.boilerVision.getBoilerDistance());
+		SmartDashboard.putNumber("Distance to Boiler", Robot.boilerVision.getBoilerDistance());
 	}
 	
 }

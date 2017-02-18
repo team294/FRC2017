@@ -117,7 +117,7 @@ public class GyroTurnToAngle extends Command {
     		break;
     	case SMARTDASHBOARD:
     		Robot.driveTrain.resetDegrees();
-    		angle = SmartDashboard.getNumber("Angle", 0); 
+    		angle = SmartDashboard.getNumber("TurnAngle", 0); 
     		maxSpeed = SmartDashboard.getNumber("TurnSpeed", 0);
     		angleErr = SmartDashboard.getNumber("AngleTolerance", 0);
     		Robot.log.writeLogEcho("Gyro: Start turn to angle SMARTDASHBOARD" + angle + " degrees.");

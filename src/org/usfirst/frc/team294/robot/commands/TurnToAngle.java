@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
- * Testing only
+ * Testing only (is no longer needed. replaced by GyroTurnToAngle GEAR_VISION case -Johns)
  */
 public class TurnToAngle extends Command {
 

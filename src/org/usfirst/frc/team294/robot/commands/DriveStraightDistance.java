@@ -56,7 +56,8 @@ public class DriveStraightDistance extends Command {
      * <p> <b>BOILER_VISION</b> = Reset encoders, drive per boiler camera (ignore <b>distance</b>)
      * <p> <b>ULTRASONIC</b> = Reset encoders, drive per ultrasonic sensor (ignore <b>distance</b>)
      * <p> <b>SMARTDASHBOARD</b> = Reset encoders, drive per smartdashboard data (ignore <b>distance</b>)
-     * <p> <b>BOILER_SMARTDASHBOARD</b> = Reset encoders, drive <b>distance</b> towards boiler (ignore <b>distance</b>)
+     * <p> <b>BOILER_SMARTDASHBOARD</b> = Reset encoders, drive until <b>distance</b> away from boiler (ignore <b>distance</b>)
+     * <p> <b>ULTRASONIC_SMARTDASHBOARD</b> = Reset encoders, drive until <b>distance</b> away from boiler (ignore <b>distance</b>)
      */
     public DriveStraightDistance(double speed, double distance, DriveMode driveMode, Units units/*, ToleranceChecker tolerance*/) {
         requires(Robot.driveTrain);

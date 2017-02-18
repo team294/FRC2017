@@ -150,6 +150,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();	
+		//for testing purposes 
 		driveTrain.updateSmartDashboardEncoders();
 		boilerVision.updateSmartDashboard();
 		//driveTrain.logTalonStatus();
