@@ -2,7 +2,8 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.StopClimber;
+import org.usfirst.frc.team294.robot.commands.ClimberSetToSpeed;
+import org.usfirst.frc.team294.robot.commands.IntakeSetToSpeed;
 import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
 
 import com.ctre.CANTalon;
@@ -27,7 +28,8 @@ public class Intake extends Subsystem {
     private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.intakeSolenoidFwd, RobotMap.intakeSolenoidRev);
     private final DoubleSolenoid hopperSolenoid = new DoubleSolenoid(RobotMap.hopperSolenoidFwd, RobotMap.hopperSolenoidRev);
    
-    public final MotorCurrentTrigger motorCurrentTrigger = new MotorCurrentTrigger(intakeMotor, 35, 2);
+    public final MotorCurrentTrigger climberCurrentTrigger = new MotorCurrentTrigger(climbMotor1, 35, 2);
+    public final MotorCurrentTrigger intakeCurrentTrigger = new MotorCurrentTrigger(intakeMotor, 35, 2);
 
     // Control variables for mechanical interlock
     public static enum Positions {
@@ -52,7 +54,8 @@ public class Intake extends Subsystem {
         climbMotor2.set(climbMotor1.getDeviceID());
 
     	// Stall protection
-        motorCurrentTrigger.whenActive(new StopClimber());
+        climberCurrentTrigger.whenActive(new ClimberSetToSpeed(0.0));
+        intakeCurrentTrigger.whenActive(new IntakeSetToSpeed(0.0));
 
     	// Add the subsystem to the LiveWindow
         LiveWindow.addActuator("Intake", "Intake Motor", intakeMotor);

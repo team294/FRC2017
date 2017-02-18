@@ -7,21 +7,28 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class StopClimber extends Command {
+public class ClimberSetToSpeed extends Command {
 
-    public StopClimber() {
+	private double speed;
+	
+	/**
+	 * Set the speed of the climber motors
+	 * @param speed from 0 to +1
+	 */
+    public ClimberSetToSpeed(double speed) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
+    	this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.intake.setClimbSpeed(speed);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.stopClimber();
     }
 
     // Make this return true when this Command no longer needs to run execute()
