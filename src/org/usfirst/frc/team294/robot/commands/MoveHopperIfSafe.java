@@ -8,16 +8,16 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class MoveIntake extends Command {
+public class MoveHopperIfSafe extends Command {
 
 	private boolean position;
 	private boolean waitForMovement;
 	
 	/**
-	 * Set the position of the intake only if safe to do so
+	 * Set the position of the hopper if it is safe to do so (e.g. intake is not stowed)
 	 * @param position true for deployed, false for stowed
 	 */
-    public MoveIntake(boolean position) {
+    public MoveHopperIfSafe(boolean position) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
@@ -27,16 +27,16 @@ public class MoveIntake extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if ((position && Robot.intake.getIntakeTracker() == Positions.deployed) || 
-    			(!position && Robot.intake.getIntakeTracker() == Positions.stowed)) {
+    	if ((position && Robot.intake.getHopperTracker() == Positions.deployed) || 
+    			(!position && Robot.intake.getHopperTracker() == Positions.stowed)) {
     		waitForMovement = false;
-    	} else if (Robot.intake.getHopperTracker() != Positions.stowed) {
+    	} else if (Robot.intake.getIntakeTracker() != Positions.deployed) {
     		waitForMovement = false;
     	} else {
     		waitForMovement = true;
-    		Robot.intake.setIntakeTracker(Positions.unknown);
-        	if (position) Robot.intake.deployIntake();
-        	else { Robot.intake.stowIntake(); }
+    		Robot.intake.setHopperTracker(Positions.unknown);
+        	if (position) Robot.intake.deployHopper();
+        	else { Robot.intake.stowHopper(); }
     	}
     }
 
@@ -46,7 +46,7 @@ public class MoveIntake extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if (waitForMovement) return (timeSinceInitialized() > Robot.intake.INTAKE_DELAY);
+        if (waitForMovement) return (timeSinceInitialized() > Robot.intake.HOPPER_DELAY);
         return true;
     }
 
