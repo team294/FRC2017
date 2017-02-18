@@ -67,7 +67,6 @@ public class BoilerVision extends Subsystem {
 				}
 			}
 		}
-		
 		//Find two largest remaining contours and return them
 		Contour[] bestContours = {new Contour(), new Contour()};
 		for (int i = 0; i < contours.length; i++) {
@@ -80,7 +79,6 @@ public class BoilerVision extends Subsystem {
 		}
 		return bestContours;
 	}
-	
 	/**
 	 * Gets the distance of the robot from the ball goal
 	 * @return distance in inches
@@ -101,7 +99,6 @@ public class BoilerVision extends Subsystem {
 
 		return distance * 12; //Returns distance in inches
 	}
-
 	/**
 	 * Gets the robot's angle of offset from the boiler
 	 * @return Angle offset in degrees
@@ -110,9 +107,9 @@ public class BoilerVision extends Subsystem {
 		//Gives the robot's angle of offset from the boiler in degrees
 		Contour[] targets = filterContours(); //Gets best two best contours
 		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
-		if (targets[0].getArea() > 20) { // target[0] should be bigger than target[1], so if target[0] fails, so will target[1].
+		if (targets[0].getArea() > 5) { // target[0] should be bigger than target[1], so if target[0] fails, so will target[1].
 			numValid++; 
-			if (targets[1].getArea() > 20) {numValid++; }
+			if (targets[1].getArea() > 5) {numValid++; }
 		}
 		if (numValid == 2) { //If there are two valid contours, use both.
 			boilerAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
