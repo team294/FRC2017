@@ -67,7 +67,7 @@ public class Robot extends IterativeRobot {
 			inchesPerRevolutionEnabled = false;
 		} else {
 			inchesPerRevolutionEnabled = true;
-		
+		}
 		invertDrive = robotPrefs.getBoolean("invertDrive",false);
 		
 		log = new FileLog();
