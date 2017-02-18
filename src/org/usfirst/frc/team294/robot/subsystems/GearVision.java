@@ -89,8 +89,8 @@ public class GearVision extends Subsystem {
 		//Gives the robot's angle of offset from the gear target in degrees
 		Contour[] targets = filterContours(); //Gets best two best contours
 		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
-		if (targets[0].getArea() > 20) {numValid++; }
-		if (targets[1].getArea() > 20) {numValid++; }
+		if (targets[0].getArea() > 10) {numValid++; }
+		if (targets[1].getArea() > 10) {numValid++; }
 		if (numValid == 2) {
 			gearAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
 		}
