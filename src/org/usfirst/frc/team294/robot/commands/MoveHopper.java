@@ -14,7 +14,7 @@ public class MoveHopper extends Command {
 	private boolean waitForMovement;
 	
 	/**
-	 * Set the position of the hopper
+	 * Set the position of the hopper if it is safe to do so (e.g. intake is not stowed)
 	 * @param position true for deployed, false for stowed
 	 */
     public MoveHopper(boolean position) {
@@ -52,7 +52,7 @@ public class MoveHopper extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.intake.setHopperTracker(position ? Positions.deployed : Positions.stowed);
+    	if (waitForMovement) Robot.intake.setHopperTracker(position ? Positions.deployed : Positions.stowed);
     }
 
     // Called when another command which requires one or more of the same

@@ -36,8 +36,9 @@ public class Intake extends Subsystem {
     private Positions intakePos = Positions.unknown;
     private Positions hopperPos = Positions.unknown;
     
-    // Time to move hopper in seconds
+    // Time to move hopper/intake in seconds (refine by testing)
     public final double HOPPER_DELAY = 4.0;
+    public final double INTAKE_DELAY = 4.0;
     
     public Intake() {
     	
