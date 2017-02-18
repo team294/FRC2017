@@ -2,7 +2,7 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-//import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
+import org.usfirst.frc.team294.robot.commands.StopClimber;
 import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
 
 import com.ctre.CANTalon;
@@ -52,7 +52,7 @@ public class Intake extends Subsystem {
         climbMotor2.set(climbMotor1.getDeviceID());
 
     	// Stall protection
-        motorCurrentTrigger.whenActive(new IntakeMotorStop());
+        motorCurrentTrigger.whenActive(new StopClimber());
 
     	// Add the subsystem to the LiveWindow
         LiveWindow.addActuator("Intake", "Intake Motor", intakeMotor);
@@ -208,6 +208,7 @@ public class Intake extends Subsystem {
 	 */
 	public void stopClimber() {
 		climbMotor1.set(0.0);
+		climbMotor2.set(0.0);
 	}
     
 	/**
