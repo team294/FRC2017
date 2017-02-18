@@ -104,16 +104,16 @@ public class OI {
 	public OI() {
 		
 		// Create button arrays for the input devices
-		Button[] left = new Button[12];
-	    Button[] right = new Button[12];
-	    Button[] coP =  new Button[15];
+		// Button[] left = new Button[12];
+	    // Button[] right = new Button[12];
+	    // Button[] coP =  new Button[15];
 	    	    
 	    // Declare left and right joystick buttons
 	    for (int i = 1; i < left.length; i++) {
 	    	left[i] = new JoystickButton(leftJoystick, i);
 	    	left[i].whenPressed(new ShiftUp());
 	    	right[i] = new JoystickButton(rightJoystick, i);
-	    	right[i].whenPressed(new ShiftUp());
+	    	right[i].whenPressed(new ClimbJoystickControl());
 	    }
 	    /*
 	    // Declare left joystick buttons and set them to shift down
@@ -143,10 +143,9 @@ public class OI {
 	     SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
 	     */
 	    
+	    System.out.println("Getting joystick button");
 	    
-	    SmartDashboard.putBoolean("Joystick button 3", right[3].get());
-	    SmartDashboard.putNumber("Joystick value", rightJoystick.getRawAxis(1));
-	    
+	     SmartDashboard.putData("Climb with Joystick", new ClimbJoystickControl() );
 	     SmartDashboard.putData("Turn YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", new GyroTurnToAngle(0.4, 0, 1.0, GyroTurnToAngle.TurnMode.SMARTDASHBOARD));
 	     SmartDashboard.putNumber("Speed", 0);
 	     SmartDashboard.putNumber("Angle", 0);
