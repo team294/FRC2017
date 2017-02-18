@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Sets the voltage output of both conveyers
  */
-public class ConveyorSetToVoltage extends Command {
+public class ConveyorSetVoltage extends Command {
 
 	private double voltage;
 	
@@ -15,7 +15,7 @@ public class ConveyorSetToVoltage extends Command {
 	 * Set the voltage output of the vertical and horizontal conveyers
 	 * @param voltage from -12 (out) to 12 (in)
 	 */
-    public ConveyorSetToVoltage(double voltage) {
+    public ConveyorSetVoltage(double voltage) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.ballFeed);

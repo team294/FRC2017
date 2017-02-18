@@ -95,6 +95,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
 	 */
 	public void disabledInit() {
+		intake.updateConflicts();
 
 	}
 
@@ -123,6 +124,7 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
+		intake.updateConflicts();
 		log.writeLogEcho("Autonomous Mode Started");
 	}
 
@@ -140,6 +142,7 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		intake.updateConflicts();
 		log.writeLogEcho("Teleop Mode Started");
 	}
 
