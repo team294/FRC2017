@@ -10,6 +10,9 @@ public class RobotMap {
 	// Hardware addresses
 	
 	// CANbus Addresses
+	/**               IF these change update wiring map at bottom!
+	 * 
+	 **/
 	public static int climbMotor1 = 3;
 	public static int climbMotor2 = 4;
 	public static int driveTrainLeftMotor1 = 5;
@@ -72,3 +75,23 @@ public class RobotMap {
     	return 0.0;
     }
 }
+
+/******     ACTUAL MAP  of TALONS   **************
+ * 				(THIS SIDE UP)
+ * _________________________________________
+ * INTAKE (11)				  
+ * ________________________________________
+ * VERTICAL CONVEYOR(15)	SHOOTER 2 (13)
+ * _________________________________________
+ * HORIZONTAL CONVEYOR(14)	SHOOTER 1 (12)
+ * _________________________________________
+ * CLIMB 2 (4)              CLIMB 1(8)
+ * _________________________________________
+ * DT LEFT 1 (5)            DT RIGHT 1 (8)
+ * _________________________________________
+ * DT LEFT 2 (6)            DT RIGHT 2 (9)
+ * _________________________________________
+ * DT LEFT 3 (7)            DT RIGHT 3 (10)
+ *__________________________________________
+ *
+**************************************************/

@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Preferences;
 
 import org.usfirst.frc.team294.robot.subsystems.*;
 import org.usfirst.frc.team294.utilities.FileLog;
@@ -35,6 +36,17 @@ public class Robot extends IterativeRobot {
 	
 	// File logger
 	public static FileLog log;
+	
+	// set up preferences
+	public static Preferences robotPrefs;
+	public static double shooterP;
+	public static double shooterI;
+	public static double shooterD;
+	public static double shooterFNominal;
+	
+	
+	
+	public static boolean invertDrive;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -43,7 +55,15 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		
 		System.out.println("Robot init");
-
+		
+		robotPrefs = Preferences.getInstance();
+		shooterP = robotPrefs.getDouble("shooterP",0);  // This has to be done before Shooter()
+		shooterI = robotPrefs.getDouble("shooterI",0);
+		shooterD = robotPrefs.getDouble("shooterD",0);
+		shooterFNominal = robotPrefs.getDouble("shooterFNominal",0);	
+		
+		invertDrive = robotPrefs.getBoolean("invertDrive",false);
+		
 		log = new FileLog();
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
@@ -56,6 +76,9 @@ public class Robot extends IterativeRobot {
 		gearVision = new GearVision();
 		shooterHood = new ShooterHood();
 		ballFeed = new BallFeed();
+		
+		robotPrefs = Preferences.getInstance();
+			
 		oi = new OI();
 
 		// Put scheduler and subsystems on SmartDashboard
@@ -129,6 +152,11 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();	
 		driveTrain.updateSmartDashboardEncoders();
 		boilerVision.updateSmartDashboard();
+		//driveTrain.logTalonStatus();
+
+		shooter.updateSmartDashboard(); 
+		shooter.periodicSetF();
+
 	}
 
 	/**

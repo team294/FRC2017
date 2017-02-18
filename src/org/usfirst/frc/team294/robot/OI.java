@@ -97,6 +97,10 @@ public class OI {
 	public Joystick rightJoystick = new Joystick(1);
 	public Joystick coPanel = new Joystick(2);
 	
+	public Button[] left = new Button[12];
+    public Button[] right = new Button[12];
+    public Button[] coP =  new Button[15];
+	
 	public OI() {
 		
 		// Create button arrays for the input devices
@@ -216,19 +220,26 @@ public class OI {
 	    SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
 	    SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180));
 	    SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
+	    SmartDashboard.putData("Turn to gear", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
 	     
 	    // Subsystem Testing Commands
 	    SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
 	    SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
 	    SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
 	    SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
-	    SmartDashboard.putData("Stop Shooter Motor", new ShooterSetToSpeed(0.0));
-	    SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3));
 	    
 	    // Autonomous Command Testing
 	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
 	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGearRight());
 	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle());
+	    
+	    //  Shooter controls
+	    SmartDashboard.putData("Set Shooter RPM", new ShooterSetToRPMFromSmartDashboard());
+	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
+	    SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
+	    SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
+	    SmartDashboard.putData("Start BallFeed", new ConveyorSetToVoltage(7.5));   //  Pass the voltage to vertical conveyor
+//	    SmartDashboard.putData("Stop BallFeed", new ConveyorSetToVoltage(0.0)); 
 	    
 	    // Encoders
 	    SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
