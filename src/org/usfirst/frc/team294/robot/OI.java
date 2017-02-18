@@ -165,13 +165,8 @@ public class OI {
 	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
 	    SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
 	    SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-<<<<<<< HEAD
 	    SmartDashboard.putData("Start BallFeed", new ConveyorSetVoltage(7.5));   //  Pass the voltage to vertical conveyor
 	    SmartDashboard.putData("Stop BallFeed", new ConveyorSetVoltage(0.0)); 
-=======
-	    SmartDashboard.putData("Start BallFeed", new ConveyorSetToVoltage(7.5));   //  Pass the voltage to vertical conveyor
-//	    SmartDashboard.putData("Stop BallFeed", new ConveyorSetToVoltage(0.0)); 
->>>>>>> refs/remotes/origin/master
 	    
 	    // Encoders
 	    SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
