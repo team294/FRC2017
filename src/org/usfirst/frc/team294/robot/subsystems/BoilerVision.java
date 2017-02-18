@@ -1,5 +1,6 @@
 //Only losers play Pokemon Go
 package org.usfirst.frc.team294.robot.subsystems;
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.utilities.Contour;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -121,6 +122,10 @@ public class BoilerVision extends Subsystem {
 		boilerAngleOffset = Math.atan(camOffset/getBoilerDistance()*12 + Math.tan(boilerAngleOffset*Math.PI/180))*180/Math.PI; //Adjusts angle for when the camera is not centered on the robot
 		return boilerAngleOffset;
 	}
+	public void updateSmartDashboard(){
+		SmartDashboard.putNumber("DisToBoilerDisToBoilerDisToBoilerDisToBoilerDisToBoiler", Robot.boilerVision.getBoilerDistance());
+	}
+	
 }
 
 
