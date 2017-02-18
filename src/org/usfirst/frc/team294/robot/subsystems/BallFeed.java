@@ -31,7 +31,7 @@ public class BallFeed extends Subsystem {
 	 */
 	public void setHorSpeed(double voltage) {
 		if(voltage > 12.0) voltage = 12.0;
-		if (voltage < -12.0) voltage = -12.0;
+		else if (voltage < -12.0) voltage = -12.0;
 		horConveyor.set(-voltage);
 	}
 	
@@ -41,7 +41,7 @@ public class BallFeed extends Subsystem {
 	 */
 	public void setVertSpeed(double voltage) {
 		if(voltage > 12.0) voltage = 12.0;
-		if (voltage < -12.0) voltage = -12.0;
+		else if (voltage < -12.0) voltage = -12.0;
 		vertConveyor.set(-voltage);
 	}
 	
