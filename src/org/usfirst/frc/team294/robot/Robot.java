@@ -73,6 +73,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
 	 */
 	public void disabledInit() {
+		intake.updateConflicts();
 
 	}
 
@@ -101,6 +102,7 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
+		intake.updateConflicts();
 		log.writeLogEcho("Autonomous Mode Started");
 	}
 

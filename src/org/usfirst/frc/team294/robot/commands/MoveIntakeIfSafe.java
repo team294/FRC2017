@@ -17,13 +17,13 @@ public class MoveIntakeIfSafe extends Command {
 	 * Set the position of the intake only if safe to do so
 	 * @param position true for deployed, false for stowed
 	 */
-    public MoveIntakeIfSafe(boolean position) {
+	public MoveIntakeIfSafe(boolean position) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.intake);
-    	
-    	this.position = position;
-    }
+		requires(Robot.intake);
+		
+		this.position = position;
+	}
 
     // Called just before this Command runs the first time
     protected void initialize() {
