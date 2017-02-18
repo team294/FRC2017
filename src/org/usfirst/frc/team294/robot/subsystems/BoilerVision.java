@@ -1,3 +1,4 @@
+//Only losers play Pokemon Go
 package org.usfirst.frc.team294.robot.subsystems;
 import org.usfirst.frc.team294.utilities.Contour;
 

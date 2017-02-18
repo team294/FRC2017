@@ -80,6 +80,7 @@ public class GearVision extends Subsystem {
 		return bestContours; //Returns largest two contours
 	}
 
+//Only losers play Pokemon Go
 	/**
 	 * Gets the robot's angle of offset from the gear target
 	 * @return Angle offset in degrees
