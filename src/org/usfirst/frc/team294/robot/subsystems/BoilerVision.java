@@ -48,8 +48,8 @@ public class BoilerVision extends Subsystem {
 			double[] tempHeight = table.getNumberArray("height", networkTableDefault);
 			tempXLength = tempXPos.length;
 			tempYLength = tempYPos.length;
-			tempAreaLength = tempXPos.length;
-			tempHeightLength = tempArea.length;
+			tempAreaLength = tempArea.length;
+			tempHeightLength = tempHeight.length;
 			contours = new Contour[tempXLength];
 			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength){
 				for (int i = 0; i < tempXLength; i++) {

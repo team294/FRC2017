@@ -134,7 +134,7 @@ public class DriveStraightDistance extends Command {
     		Robot.driveTrain.resetEncoders();
     		distance = -(Robot.boilerVision.getBoilerDistance() - SmartDashboard.getNumber("BoilerDistance", 0)); 
         	distance = distance / inchesPerRevolution;   // Convert inches to rotations
-        	SmartDashboard.putNumber("DisToBoilerDisToBoilerDisToBoilerDisToBoilerDisToBoiler", Robot.boilerVision.getBoilerDistance());
+        	//SmartDashboard.putNumber("DisToBoilerDisToBoilerDisToBoilerDisToBoilerDisToBoiler", Robot.boilerVision.getBoilerDistance());
     		speed = SmartDashboard.getNumber("DriveSpeed", 0);
     		Robot.log.writeLogEcho("Drive towards target BOILER " + distance + " inches.");
     		break;
