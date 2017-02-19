@@ -85,9 +85,9 @@ public class Shooter extends Subsystem {
 	 */
 	public void setVoltage(double voltage){
 		shooterMotor1.changeControlMode(TalonControlMode.Voltage);
-		voltage = (voltage > 0) ? 0.0 : voltage;
+		voltage = (voltage > 12) ? 0.0 : voltage;
 		voltage = (voltage < -12.0) ? -12.0 : voltage;
-		shooterMotor1.set(voltage);
+		shooterMotor1.set(-voltage);
 	}
 	
 	/**
