@@ -6,6 +6,7 @@ import org.usfirst.frc.team294.robot.RobotMap;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.CANTalon.VelocityMeasurementPeriod;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -49,19 +50,20 @@ public class Shooter extends Subsystem {
 		setupSmartDashboard();
 		shooterMotor1.setPID(Robot.shooterP, Robot.shooterI, Robot.shooterD, Robot.shooterFNominal, 500, 500, 0); 
 		periodicSetF();
-		shooterMotor1.
+		shooterMotor1.SetVelocityMeasurementWindow(5);		//These need to be tuned
+		shooterMotor1.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_1Ms);
 		
 	}
 	
 	/**
 	 * Sets the shooter motor to speed according to rpm
-	 * @param rpm from -1000 to 18000
+	 * @param rpm from -1000 to 6000  (18000 if encoder is on motor
 	 * Only run reverse to clear a possible jam
 	 */
 	public void setRPM(double rpm) {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
 		
-		rpm = (rpm > 18000.0) ? 18000.0 : rpm;
+		rpm = (rpm > 18000.0) ? 6000.0 : rpm;
 		rpm = (rpm < -1000.0) ? -1000.0 : rpm;
 		
 		setSpeed = rpm;
