@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -43,9 +44,8 @@ public class Robot extends IterativeRobot {
 	public static double shooterI;
 	public static double shooterD;
 	public static double shooterFNominal;
-	
-	
-	
+	public static double inchesPerRevolution;
+	public static boolean inchesPerRevolutionEnabled;
 	public static boolean invertDrive;
 
 	/**
@@ -60,8 +60,15 @@ public class Robot extends IterativeRobot {
 		shooterP = robotPrefs.getDouble("shooterP",0);  // This has to be done before Shooter()
 		shooterI = robotPrefs.getDouble("shooterI",0);
 		shooterD = robotPrefs.getDouble("shooterD",0);
-		shooterFNominal = robotPrefs.getDouble("shooterFNominal",0);	
-		
+		shooterFNominal = robotPrefs.getDouble("shooterFNominal",0);
+		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
+		if (inchesPerRevolution==0) {
+			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches pre Revolution calibration. Distance disabled.", true);
+			inchesPerRevolutionEnabled = false;
+			inchesPerRevolution = 100000;	//  set to a very large number for a minimum distance.  0 would go forever
+		} else {
+			inchesPerRevolutionEnabled = true;
+		}
 		invertDrive = robotPrefs.getBoolean("invertDrive",false);
 		
 		log = new FileLog();
