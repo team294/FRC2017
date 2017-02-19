@@ -100,6 +100,8 @@ public class OI {
 	public Button[] left = new Button[12];
     public Button[] right = new Button[12];
     public Button[] coP =  new Button[15];
+    
+    private boolean driveDirection = true; 
 	
 	public OI() {
 		
@@ -111,29 +113,15 @@ public class OI {
 	    // Declare left and right joystick buttons
 	    for (int i = 1; i < left.length; i++) {
 	    	left[i] = new JoystickButton(leftJoystick, i);
-	    	left[i].whenPressed(new ShiftUp());
 	    	right[i] = new JoystickButton(rightJoystick, i);
-	    	right[i].whenPressed(new ShiftUp());
+	    	if (i == 3) {
+	    		right[i].whenPressed(new SwitchDriveDirection());
+	    		left[i].whenPressed(new SwitchDriveDirection());
+	    	} else {
+	    		right[i].whenPressed(new ShiftUp());
+	    		left[i].whenPressed(new ShiftUp());
+	    	}
 	    }
-	    /* //this does not seem to be in master but I don't know if its important so I will leave it here commented out so it doesn't cause errors - John
-	    // Declare left joystick buttons and set them to shift down
-	     for (Button i : left) {
-	    	 i =  new JoystickButton(leftJoystick, j++);
-	    	 if (j == 3) i.whenPressed(new GyroTurnToAngle(0.3, 180));
-	    	 else if (j == 4) i.whenPressed(new GyroTurnToAngle(0.3, 0));
-	    	 else if (j == 5) i.whenPressed(new GyroTurnToAngle(0.3, -90));
-	    	 else if (j == 6) i.whenPressed(new GyroTurnToAngle(0.3, 90.0));
-	    	 else i.whenPressed(new ShiftDown());
-	     }
-	     
-	     // Declare right joystick buttons and set them to shift up
-	     for (Button i : right) {
-	    	 i = new JoystickButton(rightJoystick, k++);
-	    	 if (k > 2 && k < 7) i.whenPressed(new DriveWithJoysticks()); 
-	    	 else i.whenPressed(new ShiftUp());
-	     }*/
-
-
 
 	     // Declare codriver panel switches
 	    for (int i = 1; i < coP.length; i++) {
@@ -316,4 +304,12 @@ public class OI {
 			return null;
 		}			
 	} 
+	
+	public void setDriveDirection(boolean direction){
+		this.driveDirection = direction;
+	}
+	
+	public boolean getDriveDirection(){
+		return driveDirection;
+	}
 }
