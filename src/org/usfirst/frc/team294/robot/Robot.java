@@ -63,8 +63,9 @@ public class Robot extends IterativeRobot {
 		shooterFNominal = robotPrefs.getDouble("shooterFNominal",0);
 		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
 		if (inchesPerRevolution==0) {
-			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches pre Revolution calibration. Robot disabled.", true);
+			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches pre Revolution calibration. Distance disabled.", true);
 			inchesPerRevolutionEnabled = false;
+			inchesPerRevolution = 100000;	//  set to a very large number for a minimum distance.  0 would go forever
 		} else {
 			inchesPerRevolutionEnabled = true;
 		}
