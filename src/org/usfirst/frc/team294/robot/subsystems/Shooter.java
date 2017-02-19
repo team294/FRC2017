@@ -49,6 +49,7 @@ public class Shooter extends Subsystem {
 		setupSmartDashboard();
 		shooterMotor1.setPID(Robot.shooterP, Robot.shooterI, Robot.shooterD, Robot.shooterFNominal, 500, 500, 0); 
 		periodicSetF();
+		shooterMotor1.
 		
 	}
 	
