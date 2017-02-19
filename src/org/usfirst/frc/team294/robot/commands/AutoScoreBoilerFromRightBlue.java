@@ -1,24 +1,17 @@
 package org.usfirst.frc.team294.robot.commands;
 
+import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.DriveMode;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.Units;
 import org.usfirst.frc.team294.robot.commands.GyroTurnToAngle.TurnMode;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *skeleton command for scoring in the boiler in autonomous
- *parameters in the command not accurate(well, I mean, they are pretty accurate, because they are written by me, and I am very smart)
+ *
  */
-public class AutoScoreBoiler extends CommandGroup {
+public class AutoScoreBoilerFromRightBlue extends CommandGroup {
 
-    public AutoScoreBoiler() {
-    	addSequential(new ShiftDown());
-//    	addSequential(new DriveStraightDistance(0.4, 15, Units.rotations));
-    	addSequential(new GyroTurnToAngle(0.4, .75, 0.25, TurnMode.BOILER_VISION));
-    	addSequential(new DriveToBoiler());
-    	//addSequential(new ShooterSetToSpeed(12000)); // Need a new command for rpm. ShooterSetToSpeed uses Vbus
-    	
-    	
+    public AutoScoreBoilerFromRightBlue() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -35,5 +28,16 @@ public class AutoScoreBoiler extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	addSequential(new ShiftDown());
+    	addSequential(new ShooterSetRPM(11000));
+    	addSequential(new DriveStraightDistance(1.0, 52.0, DriveMode.RELATIVE, Units.inches));
+    	addSequential(new WaitSeconds(.2));
+      	addSequential(new GyroTurnToAngle(1, 130, 0, TurnMode.RELATIVE));
+      	addSequential(new WaitSeconds(.2));
+      	addSequential(new GyroTurnToAngle(1, .75, 1, TurnMode.BOILER_VISION));
+      	addSequential(new WaitSeconds(.2));
+       	addSequential(new DriveToBoiler());
+       	addSequential(new WaitSeconds(.2));
+       	addSequential(new ConveyorSetToVoltage(8));
     }
 }

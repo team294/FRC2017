@@ -20,8 +20,9 @@ public class AutoDriveAndGearRight extends CommandGroup {
         // addSequential(new DriveStraightDistance(0.4, -20, Units.inches, true, true));
         addSequential(new GyroTurnToAngle(0.7, RobotMap.getAngle(AutoAngles.rightGear)));
         // Wait seconds to give the cameras a clearer picture
-        addSequential(new WaitSeconds(0.5));
+        addSequential(new WaitSeconds(0.2));
         addSequential(new GyroTurnToAngle(0.4, 0.0, 4.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+        addSequential(new WaitSeconds(.2));
         addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGear), Units.inches, true, true));
     }
 }
