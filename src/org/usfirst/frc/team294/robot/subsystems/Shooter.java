@@ -50,7 +50,7 @@ public class Shooter extends Subsystem {
 		setupSmartDashboard();
 		shooterMotor1.setPID(Robot.shooterP, Robot.shooterI, Robot.shooterD, Robot.shooterFNominal, 500, 500, 0); 
 		periodicSetF();
-		shooterMotor1.SetVelocityMeasurementWindow(5);		//These need to be tuned
+		shooterMotor1.SetVelocityMeasurementWindow(1);		//These need to be tuned
 		shooterMotor1.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_1Ms);
 		
 	}
