@@ -30,12 +30,12 @@ public class RobotMap {
 	// Pneumatic controller PCM IDs
     public static int shifterSolenoidFwd = 0;
     public static int shifterSolenoidRev = 1;
-    public static int intakeSolenoidFwd = 4;
-    public static int intakeSolenoidRev = 5;
-    public static int gearSolenoidIn = 2;
-    public static int hopperSolenoidFwd = 7;
-    public static int hopperSolenoidRev = 6;
-    public static int shooterHoodSolenoid = 3;
+    public static int intakeSolenoidFwd = 2;
+    public static int intakeSolenoidRev = 3;
+    public static int gearSolenoidIn = 7;
+    public static int hopperSolenoidFwd = 4;
+    public static int hopperSolenoidRev = 5;
+    public static int shooterHoodSolenoid = 6;
     
     // Analog I/O addresses
     public static int driveTrainGyro = 0;
