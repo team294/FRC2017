@@ -113,8 +113,8 @@ public class DriveTrain extends Subsystem {
      * @param leftStick Left joystick
      * @param rightStick Right joystick
      */
-    public void driveWithJoystick(Joystick leftStick, Joystick rightStick) {
-    	robotDrive.tankDrive(leftStick, rightStick);
+    public void driveWithJoystick(double leftStick, double rightStick) {
+    	robotDrive.tankDrive(leftStick, rightStick, false);
     }
 
     /**

@@ -16,12 +16,12 @@ public class BoilerVision extends Subsystem {
 	double distance;
 	double boilerAngleOffset;
 
-	double camHeight = 1+9.5/12; //Height of center of camera off of the ground
+	double camHeight = 1.792; //Height of center of camera off of the ground (in feet)
 	double camAngle  = 40; //Upward angle offset of camera (in degrees)
 	double camOffset = 0; //Camera horizontal offset from center of robot
 	
 	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
-	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera pixel length
+	double camPXDiagonal = Math.hypot(camPXWidth, camPXHeight); //Diagonal camera pixel length
 	double camVertAngle = (camPXHeight / camPXDiagonal) * camDiagonalAngle; //Vertical camera aperture angle
 	double camHorizAngle = (camPXWidth / camPXDiagonal) * camDiagonalAngle; //Horizontal camera aperture angle
 
@@ -91,8 +91,7 @@ public class BoilerVision extends Subsystem {
 			//double phi = targets[0].getHeight()/camPXHeight*camVertAngle + (camAngle - camVertAngle/2); //Angle from horizontal to center of the top contour
 			double height = camPXHeight - Math.abs(targets[0].getYPos() + targets[1].getYPos())/2;
 			double phi = height/camPXHeight*camVertAngle + (camAngle - camVertAngle/2);
-			distance = (7.208 - camHeight- 4/12)/Math.tan(phi*Math.PI/180); //7.208 is the height in feet to the center of the top contour
-			//Added - 4/12 in the line above
+			distance = (6.875 - camHeight)/Math.tan(phi*Math.PI/180); //6.875 is the height in feet to the center of the two contours
 		}
 		else { distance = -1; }
 		System.out.println(""+targets[0].getArea());
@@ -119,7 +118,7 @@ public class BoilerVision extends Subsystem {
 			boilerAngleOffset = (camPXWidth/2 - targets[0].getXPos())/camPXWidth * camHorizAngle; //in degrees
 		}
 		else { return -500; } //Return -500 if there are no "valid" contours (see numValid assignment)
-		boilerAngleOffset = Math.atan(camOffset/getBoilerDistance()*12 + Math.tan(boilerAngleOffset*Math.PI/180))*180/Math.PI; //Adjusts angle for when the camera is not centered on the robot
+		if (camOffset != 0) {boilerAngleOffset = Math.atan(camOffset/getBoilerDistance()*12 + Math.tan(boilerAngleOffset*Math.PI/180))*180/Math.PI;} //Adjusts angle for when the camera is not centered on the robot
 		return boilerAngleOffset;
 	}
 	
