@@ -13,6 +13,12 @@ public class MotorCurrentTrigger extends Trigger {
     double duration;
     Timer timer = new Timer();
     
+    /**
+     * checks if <b>talon</b> is outputting <b>limit</b> amps for <b>duration</b> seconds.
+     * @param talon
+     * @param limit
+     * @param duration
+     */
     public MotorCurrentTrigger(CANTalon talon, double limit, double duration) {
         this.talon = talon;
         this.limit = limit;
