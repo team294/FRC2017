@@ -47,9 +47,9 @@ public class Robot extends IterativeRobot {
 	public static double inchesPerRevolution;
 	public static boolean inchesPerRevolutionEnabled;
 	public static boolean invertDrive;
-	public static boolean intakeSpeed;
-	public static boolean shootSpeedHigh;
-	public static boolean shootSpeedLow;
+	public static double intakeSpeed;
+	public static double shootSpeedHigh;
+	public static double shootSpeedLow;
 
 
 	/**
