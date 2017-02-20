@@ -179,12 +179,13 @@ public class OI {
 	     SmartDashboard.putData("Drive 12 inches", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
 	     SmartDashboard.putData("Drive to Ultraonic", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
 	     SmartDashboard.putData("Drive to Ultrasonic_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
-	     	     	     
+	     */	     	     
 	     // Subsystem Testing Commands
 	     SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
 	     SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
 //	     SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));  //  don't need on dashboard
-	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.6));
+//	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.6));
+	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(Robot.intakeSpeed));
 	     
 	     // Autonomous Command Testing
 	     SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
@@ -192,16 +193,18 @@ public class OI {
 	     SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle()); 
 	     
 	     //  Shooter controls
-		 SmartDashboard.putData("Set Shooter RPM", new ShooterSetToRPMFromSmartDashboard());
+		 SmartDashboard.putData("Set Shooter RPM From SmartDashboard", new ShooterSetToRPMFromSmartDashboard());
+		 SmartDashboard.putData("Set Shooter RPM High", new ShooterSetRPM(Robot.shootSpeedHigh));
+		 SmartDashboard.putData("Set Shooter RPM Low", new ShooterSetRPM(Robot.shootSpeedLow));
 		 SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
 		 SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
 		 SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-		 SmartDashboard.putData("Start BallFeed", new ConveyorSetToVoltage(7.5));   //  Pass the voltage to vertical conveyor
+		 SmartDashboard.putData("Start Vertical and Horizontal BallFeed", new ConveyorSetToVoltage(Robot.verticalConveyor, Robot.horizontalConveyor));
 //	 	 SmartDashboard.putData("Stop BallFeed", new ConveyorSetToVoltage(0.0)); 
 		    
 		 // Encoders (I don't think these work because the command is never called. this should be done in teleopPeriodic -John)
 		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
-		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw()); */
+		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
 		    
 		 // Stop Command
 		 SmartDashboard.putData("Drive Stop", new DriveStop());	   

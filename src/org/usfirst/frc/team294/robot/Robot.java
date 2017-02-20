@@ -48,7 +48,7 @@ public class Robot extends IterativeRobot {
 	public static double inchesPerRevolution;
 	public static boolean inchesPerRevolutionEnabled;
 	public static boolean invertDrive;
-	public static double intakeSpeed;
+	public static double intakeSpeed; // -1 to 1
 	public static double shootSpeedHigh;
 	public static double shootSpeedLow;
 	public static double horizontalConveyor;
@@ -79,8 +79,8 @@ public class Robot extends IterativeRobot {
 		}
 		invertDrive = robotPrefs.getBoolean("invertDrive",false);
 		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
-		shootSpeedHigh = robotPrefs.getDouble("shootSpeedHigh",0);
-		shootSpeedLow = robotPrefs.getDouble("shootSpeedLow",0);
+		shootSpeedHigh = robotPrefs.getDouble("shootSpeedHighRPM",0);
+		shootSpeedLow = robotPrefs.getDouble("shootSpeedLowRPM",0);
 		horizontalConveyor = robotPrefs.getDouble("horizontalConveyor",0);
 		verticalConveyor = robotPrefs.getDouble("verticalConveyor",0);
 		
