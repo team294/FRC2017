@@ -15,8 +15,10 @@ public class AutoDriveAndGearLeft extends CommandGroup {
 
     public AutoDriveAndGearLeft() {
     	// Speeds 0.7 for testing purposes
-        addParallel(new DriveStraightDistance(0.7, RobotMap.getDistance(AutoDistances.toBaseLine), Units.inches, false, true));
+        addSequential(new DriveStraightDistance(0.7, RobotMap.getDistance(AutoDistances.toBaseLine), Units.inches, false, true));
+        addSequential(new WaitSeconds(.2));
         addSequential(new GyroTurnToAngle(0.7, RobotMap.getAngle(AutoAngles.leftGear)));
+        addSequential(new WaitSeconds(.2));
         addSequential(new DriveStraightDistance(0.7, RobotMap.getDistance(AutoDistances.toGear), Units.inches, false, true));
         // will need to add vision tracking
     }
