@@ -47,6 +47,10 @@ public class Robot extends IterativeRobot {
 	public static double inchesPerRevolution;
 	public static boolean inchesPerRevolutionEnabled;
 	public static boolean invertDrive;
+	public static boolean intakeSpeed;
+	public static boolean shootSpeedHigh;
+	public static boolean shootSpeedLow;
+
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -70,6 +74,10 @@ public class Robot extends IterativeRobot {
 			inchesPerRevolutionEnabled = true;
 		}
 		invertDrive = robotPrefs.getBoolean("invertDrive",false);
+		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
+		shootSpeedHigh = robotPrefs.getDouble("shootSpeedHigh",0);
+		shootSpeedLow = robotPrefs.getDouble("shootSpeedLow",0);
+
 		
 		log = new FileLog();
 		driveTrain = new DriveTrain();
