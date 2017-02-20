@@ -56,7 +56,7 @@ public class Shooter extends Subsystem {
 	}
 	
 	/**
-	 * Sets the shooter motor to speed according to rpm
+	 * Sets the shooter motor to speed according to rpm (normal, I kept this is in case it was used somewhere I don't know about -John)
 	 * @param rpm from -1000 to 6000  (18000 if encoder is on motor
 	 * Only run reverse to clear a possible jam
 	 */
@@ -68,6 +68,45 @@ public class Shooter extends Subsystem {
 		
 		setSpeed = rpm;
 		shooterMotor1.set(-rpm);
+		
+	}
+	
+	/**
+	 * Sets the shooter motor to speed according to rpm (Low)
+	 * @param rpm from -1000 to 6000  (18000 if encoder is on motor
+	 * Only run reverse to clear a possible jam
+	 */
+	public void setRPMLow() {
+		double low;
+		shooterMotor1.changeControlMode(TalonControlMode.Speed);
+		
+		low = SmartDashboard.getNumber("Shooter Motor Set RPM Low", Robot.shootSpeedLow);
+
+		low = (low > 18000.0) ? 6000.0 : low;
+		low = (low < -1000.0) ? -600.0 : low;
+		
+		setSpeed = low;
+		shooterMotor1.set(-low);
+		robotPrefs.putDouble("shootSpeedLowRPM", low); 
+	}
+	
+	/**
+	 * Sets the shooter motor to speed according to rpm (High)
+	 * @param rpm from -1000 to 6000  (18000 if encoder is on motor
+	 * Only run reverse to clear a possible jam
+	 */
+	public void setRPMHigh() {
+		double high;
+		shooterMotor1.changeControlMode(TalonControlMode.Speed);
+		
+		high = SmartDashboard.getNumber("Shooter Motor Set RPM High", Robot.shootSpeedHigh);
+
+		high = (high > 18000.0) ? 6000.0 : high;
+		high = (high < -1000.0) ? -600.0 : high;
+		
+		setSpeed = high;
+		shooterMotor1.set(-high);
+		robotPrefs.putDouble("shootSpeedHighRPM", high);
 	}
 	
 	public void periodicSetF(){
@@ -133,6 +172,8 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Shooter Motor Set RPM", 4000);		// this should come from preferences
 		SmartDashboard.putNumber("Shooter Motor Set Voltage", 5); 
 		SmartDashboard.putNumber("Set Nominal 1000* F Value", fNominal*1000);  
+		SmartDashboard.putNumber("Shooter Motor Set RPM High", Robot.shootSpeedHigh);
+		SmartDashboard.putNumber("Shooter Motor Set RPM Low", Robot.shootSpeedLow);
 	}
 
 	/**
