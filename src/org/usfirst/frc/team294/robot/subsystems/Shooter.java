@@ -73,7 +73,7 @@ public class Shooter extends Subsystem {
 	public void periodicSetF(){
 		double currentBatteryVoltage = shooterMotor1.getBusVoltage();
 		double f = ((12.1/currentBatteryVoltage)*Robot.shooterFNominal);
-		f = .999 * fLast + .001 * f;
+		f = .99 * fLast + .01 * f;
 		fLast = f;
 		shooterMotor1.setF(f);
 	}
@@ -130,7 +130,7 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Shooter Motor 1000*P", shooterMotor1.getP() * 1000);
 		SmartDashboard.putNumber("Shooter Motor 1000*I", shooterMotor1.getI() * 1000);
 		SmartDashboard.putNumber("Shooter Motor 1000*D", shooterMotor1.getD() * 1000);
-		SmartDashboard.putNumber("Shooter Motor Set RPM", shooterMotor1.get());
+		SmartDashboard.putNumber("Shooter Motor Set RPM", 4000);		// this should come from preferences
 		SmartDashboard.putNumber("Shooter Motor Set Voltage", 5); 
 		SmartDashboard.putNumber("Set Nominal 1000* F Value", fNominal*1000);  
 	}
