@@ -27,11 +27,11 @@ public class MotorGroupCurrentTrigger extends Trigger {
 	 */
 	public MotorGroupCurrentTrigger(double value1, double value2, double value3) {
 	//public MotorGroupCurrentTrigger(CANTalon motor1, double value1, CANTalon motor2, double value2, CANTalon motor3, double value3) {
-		this.the1stMotor = motor1;
+//		this.the1stMotor = motor1;
 		this.the1stValue = value1;
-		this.the2nsMotor = motor2;
+//		this.the2nsMotor = motor2;
 		this.the2ndValue = value2;
-		this.the3rdMotor = motor3;
+//		this.the3rdMotor = motor3;
 		this.the3rdValue = value3;
 	}
 
