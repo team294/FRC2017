@@ -199,7 +199,7 @@ public class OI {
 		 SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
 		 SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
 		 SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-		 SmartDashboard.putData("Start Vertical and Horizontal BallFeed", new ConveyorSetToVoltage(Robot.verticalConveyor, Robot.horizontalConveyor));
+		 SmartDashboard.putData("Start Vertical and Horizontal BallFeed", new ConveyorSetToVoltage());
 //	 	 SmartDashboard.putData("Stop BallFeed", new ConveyorSetToVoltage(0.0)); 
 		    
 		 // Encoders (I don't think these work because the command is never called. this should be done in teleopPeriodic -John)
