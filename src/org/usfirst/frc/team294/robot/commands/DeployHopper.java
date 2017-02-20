@@ -1,5 +1,8 @@
 package org.usfirst.frc.team294.robot.commands;
 
+
+
+
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -10,6 +13,18 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DeployHopper extends Command {
 
     public DeployHopper() {
+
+ 
+public class MoveHopper extends Command { //Why?? -John
+
+	private boolean position;
+	
+
+	 /* Set the position of the hopper
+	 * @param position true for deployed, false for stowed
+	 */
+	
+    public MoveHopper(boolean position) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
@@ -39,3 +54,5 @@ public class DeployHopper extends Command {
     protected void interrupted() {
     }
 }
+
+
