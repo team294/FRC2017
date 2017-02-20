@@ -17,7 +17,7 @@ public class ConveyorSetToVoltage extends Command {
 	 * @param vertical voltage from -12 (out) to 12 (in)
 	 * @param horizontal voltage from -12 (out) to 12 (in)
 	 */
-    public ConveyorSetToVoltage(double vertVoltage, double horVoltage) {
+    public ConveyorSetToVoltage() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.ballFeed);
