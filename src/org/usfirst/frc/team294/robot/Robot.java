@@ -27,7 +27,8 @@ public class Robot extends IterativeRobot {
 	public static GearVision gearVision;
 	public static Intake intake;
 	public static Shooter shooter;
-	public static ShooterHood shooterHood;
+	public static ShooterHood shooterHood; horizontal
+	
 	
 	// Vision subsystems
 	public static BoilerVision boilerVision;
@@ -50,6 +51,9 @@ public class Robot extends IterativeRobot {
 	public static double intakeSpeed;
 	public static double shootSpeedHigh;
 	public static double shootSpeedLow;
+	public static double horizontalConveyor;
+	public static double verticalConveyor;
+
 
 
 	/**
@@ -77,7 +81,8 @@ public class Robot extends IterativeRobot {
 		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
 		shootSpeedHigh = robotPrefs.getDouble("shootSpeedHigh",0);
 		shootSpeedLow = robotPrefs.getDouble("shootSpeedLow",0);
-
+		horizontalConveyor = robotPrefs.getDouble("horizontalConveyor",0);
+		verticalConveyor = robotPrefs.getDouble("verticalConveyor",0);
 		
 		log = new FileLog();
 		driveTrain = new DriveTrain();
