@@ -44,9 +44,11 @@ public class DriveTrain extends Subsystem {
     // Track encoder resets in software due to latency (like NavX)
     private double leftEncoderZero = 0, rightEncoderZero = 0;
     
-    //Current checkers //I do not have CTRlib so I cannot see if this works -John //TODO: add a led output or something is returns false
-    public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotor1, leftMotor1.getOutputCurrent, leftMotor2, leftMotor2.getOutputCurrent, leftMotor3, leftMotor3.getOutputCurrent);
-    public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotor1, rightMotor1.getOutputCurrent, rightMotor2, rightMotor2.getOutputCurrent, rightMotor3, rightMotor3.getOutputCurrent);
+    //Current checkers //I do not have CTRlib so I cannot see if this works -John //TODO: add an LED output or something is returns false
+    public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotor1.getOutputCurrent, leftMotor2.getOutputCurrent, leftMotor3.getOutputCurrent);
+    public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotor1.getOutputCurrent, rightMotor2.getOutputCurrent, rightMotor3.getOutputCurrent);
+//    public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotor1, leftMotor1.getOutputCurrent, leftMotor2, leftMotor2.getOutputCurrent, leftMotor3, leftMotor3.getOutputCurrent);
+//    public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotor1, rightMotor1.getOutputCurrent, rightMotor2, rightMotor2.getOutputCurrent, rightMotor3, rightMotor3.getOutputCurrent);
 
     
   

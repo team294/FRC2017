@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
  *
  */
 public class MotorGroupCurrentTrigger extends Trigger {
-	CANTalon the1stMotor;
-	CANTalon the2nsMotor;
-	CANTalon the3rdMotor;
+	//CANTalon the1stMotor;
+	//CANTalon the2nsMotor;
+	//CANTalon the3rdMotor;
 	double the1stValue;
 	double the2ndValue;
 	double the3rdValue;
@@ -25,7 +25,8 @@ public class MotorGroupCurrentTrigger extends Trigger {
 	 * @param value3
 	 * I may only need the amp values, and not the motors -John
 	 */
-	public MotorGroupCurrentTrigger(CANTalon motor1, double value1, CANTalon motor2, double value2, CANTalon motor3, double value3) {
+	public MotorGroupCurrentTrigger(double value1, double value2, double value3) {
+	//public MotorGroupCurrentTrigger(CANTalon motor1, double value1, CANTalon motor2, double value2, CANTalon motor3, double value3) {
 		this.the1stMotor = motor1;
 		this.the1stValue = value1;
 		this.the2nsMotor = motor2;
