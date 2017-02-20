@@ -23,7 +23,7 @@ public class ShooterSetToRPMFromSmartDashboardLow extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.shooter.setRPMLow();
-
+    	Robot.shooter.setVoltage(Robot.shootSpeedLow);
     }
 
     // Called repeatedly when this Command is scheduled to run
