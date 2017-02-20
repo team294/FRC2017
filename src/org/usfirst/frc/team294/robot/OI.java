@@ -193,7 +193,7 @@ public class OI {
 	     SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle()); 
 	     
 	     //  Shooter controls
-		 SmartDashboard.putData("Set Shooter RPM High", new ShooterSetToRPMFromSmartDashboardLow());
+		 SmartDashboard.putData("Set Shooter RPM Low", new ShooterSetToRPMFromSmartDashboardLow());
 		 SmartDashboard.putData("Set Shooter RPM High", new ShooterSetToRPMFromSmartDashboardHigh());
 		 SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
 		 SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));

@@ -76,8 +76,7 @@ public class Shooter extends Subsystem {
 	 * @param rpm from -1000 to 6000  (18000 if encoder is on motor
 	 * Only run reverse to clear a possible jam
 	 */
-	public void setRPMLow() {
-		double low;
+	public void setRPMLow(double low) {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
 		
 		low = SmartDashboard.getNumber("Shooter Motor Set RPM Low", Robot.shootSpeedLow);
@@ -95,8 +94,7 @@ public class Shooter extends Subsystem {
 	 * @param rpm from -1000 to 6000  (18000 if encoder is on motor
 	 * Only run reverse to clear a possible jam
 	 */
-	public void setRPMHigh() {
-		double high;
+	public void setRPMHigh(double high) {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
 		
 		high = SmartDashboard.getNumber("Shooter Motor Set RPM High", Robot.shootSpeedHigh);
