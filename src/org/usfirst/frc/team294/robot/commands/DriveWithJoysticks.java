@@ -28,7 +28,7 @@ public class DriveWithJoysticks extends Command {
     	double finalRightVal = 0;
     	
     	//if (Robot.shifter.isLowMode(lowGear) = true){
-    		
+    		/*
     		if(leftVal > 0.075){
         		finalLeftVal = (.7/.925)*leftVal + (1 - (.7/.925));
         	}
@@ -72,7 +72,7 @@ public class DriveWithJoysticks extends Command {
         		finalRightVal = 0;
         	}
     	}*/
-    			
+    	/*		
     	if (Robot.oi.getDriveDirection() == true){
     		Robot.driveTrain.driveWithJoystick(finalLeftVal, finalRightVal);
     		SmartDashboard.putBoolean("Forward", true);
@@ -80,7 +80,11 @@ public class DriveWithJoysticks extends Command {
     	else {
     		Robot.driveTrain.driveWithJoystick(-finalRightVal, -finalLeftVal);
     		SmartDashboard.putBoolean("Forward", false);
-    	}
+    	}*/
+    	
+    	//for fine tuning delete after finished -John
+		Robot.driveTrain.driveWithJoystick(finalLeftVal, finalRightVal);
+
     	
     }
 

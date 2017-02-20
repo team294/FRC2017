@@ -153,8 +153,8 @@ public class OI {
 	    // it has become standard practice to comment out all not used commands during testing to make it possible to use the SmartDashboard. 
 	    //If you don't do this then your button will be buried in other buttons making it stupidly hard to find.
 	    //I will uncomment them for now but keep this in mind in future testing -John
-	    // Gyro Testing Commands
-	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
+	    // Gyro Testing Commands 
+/*	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
 	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90, 2.0));
 	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180, 2.0));
 	     SmartDashboard.putData("Turn to 5", new GyroTurnToAngle(0.4, 5, 2.0));
@@ -203,7 +203,7 @@ public class OI {
 		    
 		 // Encoders (I don't think these work because the command is never called. this should be done in teleopPeriodic -John)
 		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
-		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
+		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw()); */
 		    
 		 // Stop Command
 		 SmartDashboard.putData("Drive Stop", new DriveStop());	   
