@@ -27,7 +27,7 @@ public class Robot extends IterativeRobot {
 	public static GearVision gearVision;
 	public static Intake intake;
 	public static Shooter shooter;
-	public static ShooterHood shooterHood; horizontal
+	public static ShooterHood shooterHood;
 	
 	
 	// Vision subsystems
