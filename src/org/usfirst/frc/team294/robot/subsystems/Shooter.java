@@ -8,6 +8,7 @@ import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.CANTalon.VelocityMeasurementPeriod;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -28,7 +29,7 @@ public class Shooter extends Subsystem {
 	
 	double setSpeed;
 	boolean error = false;
-	private double fNominal;
+	private double fNominal, fLast;
 	public static Preferences robotPrefs;
 
 	
@@ -37,11 +38,11 @@ public class Shooter extends Subsystem {
 		super();
 		robotPrefs = Preferences.getInstance();
 		
-		shooterMotor1.setVoltageRampRate(24.0);
+		shooterMotor1.setVoltageRampRate(5.0);
 //		shooterMotor2.setVoltageRampRate(24.0);
 		
 		
-		shooterMotor1.reverseSensor(true);    // true for prototype false for practice!!!
+		shooterMotor1.reverseSensor(true);    
 		shooterMotor1.reverseOutput(false);
 		
 		shooterMotor1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
@@ -54,6 +55,8 @@ public class Shooter extends Subsystem {
 		setupSmartDashboard();
 		shooterMotor1.setPID(Robot.shooterP, Robot.shooterI, Robot.shooterD, Robot.shooterFNominal, 500, 500, 0); 
 		periodicSetF();
+		shooterMotor1.SetVelocityMeasurementWindow(10);		//These need to be tuned
+		shooterMotor1.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_100Ms);
 		
 		shooterCurrentTrigger.whenActive(new ShooterSetToSpeed(0.0));
 		
@@ -61,22 +64,24 @@ public class Shooter extends Subsystem {
 	
 	/**
 	 * Sets the shooter motor to speed according to rpm
-	 * @param rpm from -1000 to 18000
+	 * @param rpm from -1000 to 6000  (18000 if encoder is on motor
 	 * Only run reverse to clear a possible jam
 	 */
 	public void setRPM(double rpm) {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
 		
-		rpm = (rpm > 18000.0) ? 18000.0 : rpm;
-		rpm = (rpm < -1000.0) ? -1000.0 : rpm;
+		rpm = (rpm > 18000.0) ? 6000.0 : rpm;
+		rpm = (rpm < -1000.0) ? -600.0 : rpm;
 		
 		setSpeed = rpm;
-		shooterMotor1.set(rpm);
+		shooterMotor1.set(-rpm);
 	}
 	
 	public void periodicSetF(){
 		double currentBatteryVoltage = shooterMotor1.getBusVoltage();
 		double f = ((12.1/currentBatteryVoltage)*Robot.shooterFNominal);
+		f = .999 * fLast + .001 * f;
+		fLast = f;
 		shooterMotor1.setF(f);
 	}
 	
@@ -87,9 +92,9 @@ public class Shooter extends Subsystem {
 	 */
 	public void setVoltage(double voltage) {
 		shooterMotor1.changeControlMode(TalonControlMode.Voltage);
-		voltage = (voltage > 12.0) ? 12.0 : voltage;
+		voltage = (voltage > 12) ? 0.0 : voltage;
 		voltage = (voltage < -12.0) ? -12.0 : voltage;
-		shooterMotor1.set(voltage);
+		shooterMotor1.set(-voltage);
 	}
 	
 	/**
@@ -124,9 +129,9 @@ public class Shooter extends Subsystem {
 	 * Update the Smart Dashboard
 	 */
 	public void updateSmartDashboard() {
-		SmartDashboard.putNumber("Shooter Motor Speed", shooterMotor1.getSpeed());
+		SmartDashboard.putNumber("Shooter Motor Speed", -shooterMotor1.getSpeed());
 		SmartDashboard.putNumber("VBus - Voltage", (shooterMotor1.getBusVoltage() - Math.abs(shooterMotor1.getOutputVoltage())));
-		SmartDashboard.putNumber("Closed Loop Error", shooterMotor1.getSpeed() - setSpeed);
+		SmartDashboard.putNumber("Closed Loop Error", shooterMotor1.getSpeed() + setSpeed);  // actually difference
 		SmartDashboard.putNumber("VBus", shooterMotor1.getBusVoltage());
 		SmartDashboard.putNumber("Shooter Motor 1 Current", shooterMotor1.getOutputCurrent());
 		SmartDashboard.putNumber("Shooter Motor voltage", shooterMotor1.getOutputVoltage());
@@ -144,7 +149,7 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Shooter Motor 1000*I", shooterMotor1.getI() * 1000);
 		SmartDashboard.putNumber("Shooter Motor 1000*D", shooterMotor1.getD() * 1000);
 		SmartDashboard.putNumber("Shooter Motor Set RPM", shooterMotor1.get());
-		SmartDashboard.putNumber("Shooter Motor Set Voltage", 9); 
+		SmartDashboard.putNumber("Shooter Motor Set Voltage", 5); 
 		SmartDashboard.putNumber("Set Nominal 1000* F Value", fNominal*1000);  
 	}
 
@@ -152,6 +157,8 @@ public class Shooter extends Subsystem {
 	 * Sets the PID from the Smart Dashboard  Nominal
 	 */
 	public void setPIDFromSmartDashboard(){
+		shooterMotor1.changeControlMode(TalonControlMode.Voltage);
+		shooterMotor1.set(0);		// Needed because setting PID values sets loop to O RPM set point which will snap belts or worse		
 		double p= SmartDashboard.getNumber("Shooter Motor 1000*P", 0)/1000;
 		double i= SmartDashboard.getNumber("Shooter Motor 1000*I", 0) / 1000;
 		double d= SmartDashboard.getNumber("Shooter Motor 1000*D", 0) / 1000;
