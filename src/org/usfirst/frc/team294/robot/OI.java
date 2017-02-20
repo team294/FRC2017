@@ -196,7 +196,7 @@ public class OI {
 	     SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
 	     SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
 	     SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
-	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
+	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(1.0));
 //	     SmartDashboard.putData("Stop Shooter Motor", new ShooterSetToSpeed(0.0)); //command does not exist
 //	     SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3)); //command does not exist
 	     
