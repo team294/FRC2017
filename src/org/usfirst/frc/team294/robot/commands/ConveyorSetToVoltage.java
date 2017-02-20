@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ConveyorSetToVoltage extends Command {
 
-	private double horVoltage;
-	private double vertVoltage;
+	private double horVoltage = Robot.horizontalConveyor;
+	private double vertVoltage = Robot.verticalConveyor;
 	
 	/**
 	 * Set the vertical and horizontal voltage output of the vertical and horizontal conveyers
@@ -21,8 +21,8 @@ public class ConveyorSetToVoltage extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.ballFeed);
-    	this.vertVoltage = vertVoltage;
-    	this.horVoltage = horVoltage;
+//    	this.vertVoltage = vertVoltage;
+//    	this.horVoltage = horVoltage;
 
     }
 
