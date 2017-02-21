@@ -31,10 +31,8 @@ public class Shooter extends Subsystem {
 	
 	double setSpeed;
 	boolean error = false;
-
 	private double fNominal, fLast;
 	public static Preferences robotPrefs;
-
 
 	public Shooter() {
 		super();

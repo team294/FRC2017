@@ -97,9 +97,7 @@ public class Robot extends IterativeRobot {
 		gearVision = new GearVision();
 		shooterHood = new ShooterHood();
 		ballFeed = new BallFeed();
-		
 		robotPrefs = Preferences.getInstance();
-			
 		oi = new OI();
 
 		// Put scheduler and subsystems on SmartDashboard
