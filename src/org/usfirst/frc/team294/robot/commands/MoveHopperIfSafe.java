@@ -4,7 +4,6 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.subsystems.Intake.Positions;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *

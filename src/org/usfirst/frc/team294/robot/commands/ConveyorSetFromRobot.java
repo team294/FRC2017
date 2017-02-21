@@ -7,27 +7,35 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Sets the voltage output of both conveyers
  */
-public class ConveyorSetVoltage extends Command {
+public class ConveyorSetFromRobot extends Command {
 
-	private double horVoltage = Robot.horizontalConveyor;
-	private double vertVoltage = Robot.verticalConveyor;
+	public enum States {
+		in, out, stopped
+	}
+	
+	private double horVoltage;
+	private double vertVoltage;
 	
 	/**
 	 * Set the vertical and horizontal voltage output of the vertical and horizontal conveyers
-	 * @param vertical voltage from -12 (out) to 12 (in)
-	 * @param horizontal voltage from -12 (out) to 12 (in)
+	 * @param vertical voltage from -12 (out) to 12 (in) is in Robot
+	 * @param horizontal voltage from -12 (out) to 12 (in) is in Robot
 	 */
-<<<<<<< HEAD:src/org/usfirst/frc/team294/robot/commands/ConveyorSetVoltage.java
-    public ConveyorSetVoltage(double voltage) {
-=======
-    public ConveyorSetToVoltage() {
->>>>>>> refs/remotes/origin/master:src/org/usfirst/frc/team294/robot/commands/ConveyorSetToVoltage.java
+    public ConveyorSetFromRobot(States state) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.ballFeed);
-//    	this.vertVoltage = vertVoltage;
-//    	this.horVoltage = horVoltage;
 
+    	if (state == States.in) {
+    		horVoltage = Robot.horizontalConveyor;
+    		vertVoltage = Robot.verticalConveyor;
+    	} else if (state == States.out) {
+    		horVoltage = -1.0; // This will need to be finalized and added to the Robot prefs
+    		vertVoltage = -1.0; // This will need to be finalized and added to the Robot prefs
+    	} else {
+    		horVoltage = 0.0;
+    		vertVoltage = 0.0;
+    	}
     }
 
     // Called just before this Command runs the first time

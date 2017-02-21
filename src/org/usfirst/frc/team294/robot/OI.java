@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.commands.*;
+import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
 import org.usfirst.frc.team294.robot.triggers.AxisTrigger;
 import org.usfirst.frc.team294.robot.triggers.POVTrigger;
 
@@ -99,16 +100,9 @@ public class OI {
 	public Joystick leftJoystick = new Joystick(0);
 	public Joystick rightJoystick = new Joystick(1);
 	public Joystick coPanel = new Joystick(2);
-<<<<<<< HEAD
 	public Joystick xboxController = new Joystick(3);
-=======
 	
-	public Button[] left = new Button[12];
-    public Button[] right = new Button[12];
-    public Button[] coP =  new Button[15];
-    
-    private boolean driveDirection = true; 
->>>>>>> refs/remotes/origin/master
+	private boolean driveDirection = true;
 	
 	public OI() {
 		
@@ -153,15 +147,14 @@ public class OI {
 	    //coP[3].whenPressed(new StartManualClimbControl());
 	    //coP[4].whenPressed(); Shooter preset speed
 	    //coP[5].whenPressed(); Shooter preset speed
-	    coP[6].whenPressed(new ConveyorSetVoltage(7.5));
-	    coP[6].whenReleased(new ConveyorSetVoltage(0.0));
-	    coP[7].whenPressed(new ConveyorSetVoltage(-4.0)); // Run conveyors out. Number subject to change.
-	    coP[7].whenReleased(new ConveyorSetVoltage(0.0));
+	    coP[6].whenPressed(new ConveyorSetFromRobot(States.in));
+	    coP[6].whenReleased(new ConveyorSetFromRobot(States.stopped));
+	    coP[7].whenPressed(new ConveyorSetFromRobot(States.out));
+	    coP[7].whenReleased(new ConveyorSetFromRobot(States.stopped));
 	    coP[8].whenPressed(new MoveGearGate(false));
 	    coP[9].whenPressed(new IntakeSetToSpeed(-1.0));
 	    coP[10].whenPressed(new MoveGearGate(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(1.0));
-<<<<<<< HEAD
 	    //coP[12].whenPressed(); Shooter preset speed
 	    coP[13].whenPressed(new MoveShooterHood(false));
 	    coP[14].whenPressed(new MoveShooterHood(true));
@@ -187,10 +180,10 @@ public class OI {
 	     */
 	    
 	    // Xbox triggers
-	    xbLT.whenActive(new ConveyorSetVoltage(-4.0)); // This runs the conveyors out. The number is subject to change.
-	    xbLT.whenInactive(new ConveyorSetVoltage(0.0));
-	    xbRT.whenActive(new ConveyorSetVoltage(7.5));
-	    xbRT.whenInactive(new ConveyorSetVoltage(0.0));
+	    xbLT.whenActive(new ConveyorSetFromRobot(States.out)); // This runs the conveyors out. The number is subject to change.
+	    xbLT.whenInactive(new ConveyorSetFromRobot(States.stopped));
+	    xbRT.whenActive(new ConveyorSetFromRobot(States.in));
+	    xbRT.whenInactive(new ConveyorSetFromRobot(States.stopped));
 		
 	    // Gyro Testing Commands
 	    SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
@@ -204,13 +197,6 @@ public class OI {
 	    SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
 	    SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
 	    SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
-=======
-	    //coP[12].whenPressed(new StopAllFlywheels()); // Command does not yet exist
-	    coP[13].whenPressed(new MoveGearGate(false));
-	    coP[14].whenPressed(new MoveGearGate(true));
-		*/
-			    
->>>>>>> refs/remotes/origin/master
 	    
 	    // it has become standard practice to comment out all not used commands during testing to make it possible to use the SmartDashboard. 
 	    //If you don't do this then your button will be buried in other buttons making it stupidly hard to find.
@@ -276,7 +262,7 @@ public class OI {
 		 SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
 		 SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
 		 SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-		 SmartDashboard.putData("Start Vertical and Horizontal BallFeed", new ConveyorSetToVoltage());
+		 SmartDashboard.putData("Start Vertical and Horizontal BallFeed", new ConveyorSetFromRobot(States.in));
 //	 	 SmartDashboard.putData("Stop BallFeed", new ConveyorSetToVoltage(0.0)); 
 		    
 		 // Encoders (I don't think these work because the command is never called. this should be done in teleopPeriodic -John)
@@ -284,10 +270,7 @@ public class OI {
 		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
 		    
 		 // Stop Command
-		 SmartDashboard.putData("Drive Stop", new DriveStop());	   
-		    
->>>>>>> refs/remotes/origin/master
-	    
+		 SmartDashboard.putData("Drive Stop", new DriveStop());	   	    
 	}
 	
 	/**

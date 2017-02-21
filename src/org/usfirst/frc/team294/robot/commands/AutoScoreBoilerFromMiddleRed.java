@@ -1,10 +1,8 @@
 package org.usfirst.frc.team294.robot.commands;
 
-<<<<<<< HEAD:src/org/usfirst/frc/team294/robot/commands/AutoScoreBoiler.java
-=======
+import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.DriveMode;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.Units;
->>>>>>> refs/remotes/origin/master:src/org/usfirst/frc/team294/robot/commands/AutoScoreBoilerFromMiddleRed.java
 import org.usfirst.frc.team294.robot.commands.GyroTurnToAngle.TurnMode;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -15,17 +13,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutoScoreBoilerFromMiddleRed extends CommandGroup {
 
-<<<<<<< HEAD:src/org/usfirst/frc/team294/robot/commands/AutoScoreBoiler.java
-    public AutoScoreBoiler() {
-    	// Add Commands here:
-=======
-    public AutoScoreBoilerFromMiddleRed() {
-    	
-    	//addSequential(new ShooterSetToSpeed(12000)); // Need a new command for rpm. ShooterSetToSpeed uses Vbus
-    	
-    	
+    public AutoScoreBoilerFromMiddleRed() {    	
         // Add Commands here:
->>>>>>> refs/remotes/origin/master:src/org/usfirst/frc/team294/robot/commands/AutoScoreBoilerFromMiddleRed.java
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
@@ -43,15 +32,6 @@ public class AutoScoreBoilerFromMiddleRed extends CommandGroup {
         // arm.
     	
     	addSequential(new ShiftDown());
-<<<<<<< HEAD:src/org/usfirst/frc/team294/robot/commands/AutoScoreBoiler.java
-    	//addSequential(new DriveStraightDistance(0.4, 15, Units.rotations)); // 15 rotations is a huge distance, and is also a magic number. What distance is necessary here?
-    	addSequential(new GyroTurnToAngle(0.4, .75, 0.25, TurnMode.BOILER_VISION));
-    	addSequential(new DriveToBoiler());
-    	addSequential(new ShooterSetRPM(12000));
-    	
-    	
-
-=======
     	addSequential(new ShooterSetRPM(11000));
     	addSequential(new DriveStraightDistance(1.0, 26.0, DriveMode.RELATIVE, Units.inches));
     	addSequential(new WaitSeconds(.2));
@@ -61,7 +41,6 @@ public class AutoScoreBoilerFromMiddleRed extends CommandGroup {
       	addSequential(new WaitSeconds(.2));
        	addSequential(new DriveToBoiler());
        	addSequential(new WaitSeconds(.2));
-       	addSequential(new ConveyorSetToVoltage());
->>>>>>> refs/remotes/origin/master:src/org/usfirst/frc/team294/robot/commands/AutoScoreBoilerFromMiddleRed.java
+       	addSequential(new ConveyorSetFromRobot(States.in));
     }
 }
