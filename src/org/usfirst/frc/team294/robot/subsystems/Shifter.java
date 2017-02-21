@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Gear shifter for the drive train
  */
 public class Shifter extends Subsystem {
+	
+	private boolean isLowGear = true;
+	//private boolean isHighGear = false;
 
     private final DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterSolenoidFwd, RobotMap.shifterSolenoidRev);
 
@@ -16,14 +19,26 @@ public class Shifter extends Subsystem {
      * Shift the gears down
      */
 	public void shiftDown(){
-		shifter.set(DoubleSolenoid.Value.kForward);
+		shifter.set(DoubleSolenoid.Value.kReverse);
+		isLowGear = true;
+		//isHighGear = false;
 	}
 	
 	/**
 	 * Shift the gears up
 	 */
 	public void shiftUp(){
-		shifter.set(DoubleSolenoid.Value.kReverse);
+		shifter.set(DoubleSolenoid.Value.kForward);
+		isLowGear = false;
+		//isHighGear = true;
+	}
+	/**
+	 * gets the gear mode
+	 * @return true = low false = high
+	 */
+	public boolean isLowMode(boolean lowGear){
+		this.isLowGear = lowGear;
+		return lowGear;
 	}
 	
     public void initDefaultCommand() {

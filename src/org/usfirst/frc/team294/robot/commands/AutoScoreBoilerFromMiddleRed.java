@@ -44,6 +44,6 @@ public class AutoScoreBoilerFromMiddleRed extends CommandGroup {
       	addSequential(new WaitSeconds(.2));
        	addSequential(new DriveToBoiler());
        	addSequential(new WaitSeconds(.2));
-       	addSequential(new ConveyorSetToVoltage(8));
+       	addSequential(new ConveyorSetToVoltage());
     }
 }
