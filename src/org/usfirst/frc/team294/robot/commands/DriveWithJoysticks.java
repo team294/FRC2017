@@ -1,6 +1,8 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc.team294.robot.*;
 
 /**
@@ -22,31 +24,15 @@ public class DriveWithJoysticks extends Command {
     protected void execute() {
     	double leftVal = Robot.oi.leftJoystick.getY();
     	double rightVal = Robot.oi.rightJoystick.getY();
-    	double finalLeftVal = 0;
-    	double finalRightVal = 0;
-
-    	if(leftVal > 0.075){
-    		finalLeftVal = (.7/.925)*leftVal + (1 - (.7/.925));
-    	}
-    	else if (leftVal < -0.05){
-    		finalLeftVal = (.7/.95)*leftVal + -(1 - (.7/.95));
+    	
+    	if (Robot.oi.getDriveDirection() == true){
+    		Robot.driveTrain.driveWithJoystick(leftVal, rightVal);
+    		SmartDashboard.putBoolean("Forward", true);
     	}
     	else {
-    		finalLeftVal = 0;
+    		Robot.driveTrain.driveWithJoystick(-rightVal, -leftVal);
+    		SmartDashboard.putBoolean("Forward", false);
     	}
-    	
-    	if(rightVal > 0.075){
-    		finalRightVal = (.7/.925)*rightVal + (1 - (.7/.925));
-    	}
-    	else if (rightVal < -0.05){
-    		finalRightVal = (.7/.95)*rightVal + -(1 - (.7/.95));
-    	}
-    	else {
-    		finalRightVal = 0;
-    	}
-    			
-    	
-    	Robot.driveTrain.driveWithJoystick(finalLeftVal, finalRightVal);
     }
 
     // Make this return true when this Command no longer needs to run execute()
