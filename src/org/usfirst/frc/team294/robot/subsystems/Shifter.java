@@ -19,7 +19,7 @@ public class Shifter extends Subsystem {
      * Shift the gears down
      */
 	public void shiftDown(){
-		shifter.set(DoubleSolenoid.Value.kForward);
+		shifter.set(DoubleSolenoid.Value.kReverse);
 		isLowGear = true;
 		//isHighGear = false;
 	}
@@ -28,7 +28,7 @@ public class Shifter extends Subsystem {
 	 * Shift the gears up
 	 */
 	public void shiftUp(){
-		shifter.set(DoubleSolenoid.Value.kReverse);
+		shifter.set(DoubleSolenoid.Value.kForward);
 		isLowGear = false;
 		//isHighGear = true;
 	}
