@@ -3,6 +3,7 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -23,12 +24,13 @@ public class ClimbJoystickControl extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.intake.setClimbSpeed(Robot.oi.rightJoystick.getRawAxis(1));
-    	
+    	SmartDashboard.putBoolean("Joystick button 3", Robot.oi.right[3].get());
+	    SmartDashboard.putNumber("Joystick value", Robot.oi.rightJoystick.getRawAxis(1));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return !Robot.oi.right[3].get();
+    	return false;//!Robot.oi.right[3].get();
     }
 
     // Called once after isFinished returns true

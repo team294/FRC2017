@@ -129,6 +129,8 @@ public class Intake extends Subsystem {
         climbMotor1.changeControlMode(TalonControlMode.Speed);    
         climbMotor2.changeControlMode(TalonControlMode.Speed);  
 		if(Math.abs(speed) > 1.0) speed = 1.0 * Math.signum(speed);
+		SmartDashboard.putNumber("Climb Speed ", speed);
+		SmartDashboard.putNumber("Climber Motor IDs", climbMotor1.getDeviceID());
 		climbMotor1.set(speed);
 		climbMotor2.set(speed);
 	}
