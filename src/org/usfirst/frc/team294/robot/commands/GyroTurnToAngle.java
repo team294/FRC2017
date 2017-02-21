@@ -112,16 +112,14 @@ public class GyroTurnToAngle extends Command {
     		break;
     	case BOILER_VISION:
     		Robot.driveTrain.resetDegrees();
-    		//TODO:  Add code for boiler vision
-    		angle = 0;	// Don't do anything, since boiler vision code isn't ready
+    		angle = Robot.boilerVision.getBoilerAngleOffset();
     		Robot.log.writeLogEcho("Gyro: Start turn to angle BOILER" + angle + " degrees.");
     		break;
     	case SMARTDASHBOARD:
     		Robot.driveTrain.resetDegrees();
-    		//TODO:  Add code for boiler vision
-    		angle = SmartDashboard.getNumber("Angle", 0); 
-    		maxSpeed = SmartDashboard.getNumber("Speed", 0);
-    		angleErr = SmartDashboard.getNumber("Err", 0);
+    		angle = SmartDashboard.getNumber("TurnAngle", 0); 
+    		maxSpeed = SmartDashboard.getNumber("TurnSpeed", 0);
+    		angleErr = SmartDashboard.getNumber("AngleTolerance", 0);
     		Robot.log.writeLogEcho("Gyro: Start turn to angle SMARTDASHBOARD" + angle + " degrees.");
     		break;
     	}

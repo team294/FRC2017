@@ -42,17 +42,19 @@ public class DriveTrain extends Subsystem {
     // Track encoder resets in software due to latency (like NavX)
     private double leftEncoderZero = 0, rightEncoderZero = 0;
     
+  
 
     public DriveTrain() {
     	super();
-    	
-    	leftMotor2.reverseSensor(true);
     	
     	// Set the other motors to follow motor 2 on each side
     	leftMotor1.changeControlMode(TalonControlMode.Follower);
         leftMotor1.set(leftMotor2.getDeviceID());
     	leftMotor3.changeControlMode(TalonControlMode.Follower);
         leftMotor3.set(leftMotor2.getDeviceID());
+        
+		robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft,Robot.invertDrive);
+		robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight,Robot.invertDrive);
 
         rightMotor1.changeControlMode(TalonControlMode.Follower);
         rightMotor1.set(rightMotor2.getDeviceID());
@@ -111,8 +113,8 @@ public class DriveTrain extends Subsystem {
      * @param leftStick Left joystick
      * @param rightStick Right joystick
      */
-    public void driveWithJoystick(Joystick leftStick, Joystick rightStick) {
-    	robotDrive.tankDrive(leftStick, rightStick);
+    public void driveWithJoystick(double leftStick, double rightStick) {
+    	robotDrive.tankDrive(leftStick, rightStick, false);
     }
 
     /**
@@ -178,6 +180,7 @@ public class DriveTrain extends Subsystem {
      * @return
      */
     public double getLeftEncoder() {
+    	SmartDashboard.putNumber("LeftMotor", 0);
     	return leftMotor2.getPosition() - leftEncoderZero;
     }
     
@@ -187,6 +190,7 @@ public class DriveTrain extends Subsystem {
      */
 
     public double getRightEncoder() {
+    	SmartDashboard.putNumber("RightMotor", 0);
     	return rightMotor2.getPosition() - rightEncoderZero;
     }
     
@@ -307,7 +311,7 @@ public class DriveTrain extends Subsystem {
 		angle = ahrs.getAngle() - yawZero; 
 		
 		// Normalize to 0 to 360 degrees
-		angle = angle - Math.floor(angle/360)*360;
+		angle = (angle + 360) % 360;
 		
 		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
 		//Robot.log.writeLog("Gyro: Current Angle: " + angle);

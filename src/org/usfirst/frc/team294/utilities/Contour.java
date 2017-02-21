@@ -10,7 +10,8 @@ public class Contour {
 		this.yPos = yPos;//Center Y position of contour
 		this.area = area;//Area of contour
 		this.height = height;//Height of the contour
-		this.radius = Math.sqrt(this.area/Math.PI)/2; //Adjusted radius of contour (Divided by two to reduce overlap detection likelihood)
+		//this.radius = Math.sqrt(this.area/Math.PI)/3; //Adjusted radius of contour (Divided by three to reduce overlap detection likelihood)
+		this.radius = Math.sqrt(this.area)*(.188); // .188063195 = 1/(sqrt(pi)*3) optimized
 	}
 	//Argumentless Constructor
 	public Contour() {this.xPos = this.yPos = this.area = this.height = this.radius = 0; }
@@ -28,11 +29,9 @@ public class Contour {
 	
 	//Special Methods
 	public double getDistance(Contour c) { //Gets pixel distance between two contours
-		double xDist = c.getXPos() - this.getXPos();
-		double yDist = c.getYPos() - this.getYPos();
-		return Math.hypot(xDist, yDist); //  = Math.sqrt(xDist * xDist + yDist * yDist);
+		return Math.hypot(c.getXPos() - this.getXPos(), c.getYPos() - this.getYPos()); //  = Math.sqrt(xDist * xDist + yDist * yDist);
 	}
 	public boolean intersects(Contour c) { //Determines if two contours intersect (treated as circles)
-		return (c.getDistance(this) < c.getRadius() + this.getRadius());
+		return (c.getDistance(this) < (c.getRadius() + this.getRadius()));
 	}
 }
