@@ -24,8 +24,15 @@ public class DriveWithJoysticks extends Command {
     protected void execute() {
     	double leftVal = Robot.oi.leftJoystick.getY();
     	double rightVal = Robot.oi.rightJoystick.getY();
-
-   		Robot.driveTrain.driveWithJoystick(leftVal, rightVal);
+    	
+    	if (Robot.oi.getDriveDirection() == true){
+    		Robot.driveTrain.driveWithJoystick(leftVal, rightVal);
+    		SmartDashboard.putBoolean("Forward", true);
+    	}
+    	else {
+    		Robot.driveTrain.driveWithJoystick(-rightVal, -leftVal);
+    		SmartDashboard.putBoolean("Forward", false);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

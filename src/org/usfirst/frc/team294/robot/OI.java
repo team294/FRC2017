@@ -119,7 +119,7 @@ public class OI {
 	    		left[i].whenPressed(new SwitchDriveDirection());
 	    	} else {
 	    		right[i].whenPressed(new ShiftUp());
-	    		left[i].whenPressed(new ShiftUp());
+	    		left[i].whenPressed(new ShiftDown());
 	    	}
 	    }
 
