@@ -116,7 +116,7 @@ public class DriveTrain extends Subsystem {
      * @param rightStick Right joystick
      */
     public void driveWithJoystick(double leftStick, double rightStick) {
-    	robotDrive.tankDrive(leftStick, rightStick, false);
+    	robotDrive.tankDrive(leftStick, rightStick, false); //false is so that squared inputs is not used
     }
 
     /**

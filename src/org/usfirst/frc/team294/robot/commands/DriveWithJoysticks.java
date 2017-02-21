@@ -24,68 +24,8 @@ public class DriveWithJoysticks extends Command {
     protected void execute() {
     	double leftVal = Robot.oi.leftJoystick.getY();
     	double rightVal = Robot.oi.rightJoystick.getY();
-    	double finalLeftVal = 0;
-    	double finalRightVal = 0;
-    	
-    	//if (Robot.shifter.isLowMode(lowGear) = true){
-    		/*
-    		if(leftVal > 0.075){
-        		finalLeftVal = (.7/.925)*leftVal + (1 - (.7/.925));
-        	}
-        	else if (leftVal < -0.05){
-        		finalLeftVal = (.7/.95)*leftVal + -(1 - (.7/.95));
-        	}
-        	else {
-        		finalLeftVal = 0;
-        	}
-        	
-        	if(rightVal > 0.075){
-        		finalRightVal = (.7/.925)*rightVal + (1 - (.7/.925));
-        	}
-        	else if (rightVal < -0.05){
-        		finalRightVal = (.7/.95)*rightVal + -(1 - (.7/.95));
-        	}
-        	else {
-        		finalRightVal = 0;
-        	}
-    	//}
-    	
-    /*	if (Robot.shifter.isHighGear = true){
-    		
-    		if(leftVal > 0.075){
-        		finalLeftVal = (.7/.925)*leftVal + (1 - (.7/.925));
-        	}
-        	else if (leftVal < -0.05){
-        		finalLeftVal = (.7/.95)*leftVal + -(1 - (.7/.95));
-        	}
-        	else {
-        		finalLeftVal = 0;
-        	}
-        	
-        	if(rightVal > 0.075){
-        		finalRightVal = (.7/.925)*rightVal + (1 - (.7/.925));
-        	}
-        	else if (rightVal < -0.05){
-        		finalRightVal = (.7/.95)*rightVal + -(1 - (.7/.95));
-        	}
-        	else {
-        		finalRightVal = 0;
-        	}
-    	}*/
-    	/*		
-    	if (Robot.oi.getDriveDirection() == true){
-    		Robot.driveTrain.driveWithJoystick(finalLeftVal, finalRightVal);
-    		SmartDashboard.putBoolean("Forward", true);
-    	}
-    	else {
-    		Robot.driveTrain.driveWithJoystick(-finalRightVal, -finalLeftVal);
-    		SmartDashboard.putBoolean("Forward", false);
-    	}*/
-    	
-    	//for fine tuning delete after finished -John
-		Robot.driveTrain.driveWithJoystick(finalLeftVal, finalRightVal);
 
-    	
+   		Robot.driveTrain.driveWithJoystick(leftVal, rightVal);
     }
 
     // Make this return true when this Command no longer needs to run execute()

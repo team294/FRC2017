@@ -2,6 +2,9 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.commands.IntakeSetToSpeed;
+import org.usfirst.frc.team294.robot.commands.ShooterSetVoltage;
+import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -21,6 +24,10 @@ public class Shooter extends Subsystem {
 	// Motor Hardware
 	private final CANTalon shooterMotor1 = new CANTalon(RobotMap.shooterMotor1);
 //	private final CANTalon shooterMotor2 = new CANTalon(RobotMap.shooterMotor2);
+	
+    //Current Protection
+    public final MotorCurrentTrigger shooterMotorCurrentTrigger = new MotorCurrentTrigger(shooterMotor1, 10, 2);
+
 	
 	double setSpeed;
 	boolean error = false;
@@ -52,6 +59,9 @@ public class Shooter extends Subsystem {
 		periodicSetF();
 		shooterMotor1.SetVelocityMeasurementWindow(10);		//These need to be tuned
 		shooterMotor1.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_100Ms);
+		
+    	// Stall protection
+ //       shooterMotorCurrentTrigger.whenActive(new ShooterSetVoltage(0));
 		
 	}
 	
