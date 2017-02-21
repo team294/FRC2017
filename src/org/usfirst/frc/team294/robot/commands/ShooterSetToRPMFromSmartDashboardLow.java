@@ -3,33 +3,26 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
- * Sets the voltage output of both conveyers
+ * Sets the shooter speed from the Smart Dashboard
  */
-public class ConveyorSetToVoltage extends Command {
+public class ShooterSetToRPMFromSmartDashboardLow extends Command {
 
-	private double horVoltage = Robot.horizontalConveyor;
-	private double vertVoltage = Robot.verticalConveyor;
-	
 	/**
-	 * Set the vertical and horizontal voltage output of the vertical and horizontal conveyers
-	 * @param vertical voltage from -12 (out) to 12 (in)
-	 * @param horizontal voltage from -12 (out) to 12 (in)
+	 * Sets the shooter speed from the Smart Dashboard
 	 */
-    public ConveyorSetToVoltage() {
+    public ShooterSetToRPMFromSmartDashboardLow() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.ballFeed);
-//    	this.vertVoltage = vertVoltage;
-//    	this.horVoltage = horVoltage;
-
+    	requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.ballFeed.setHorSpeed(horVoltage);
-    	Robot.ballFeed.setVertSpeed(vertVoltage);
+    	Robot.shooter.setRPMLow(Robot.shootSpeedLow);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -43,12 +36,12 @@ public class ConveyorSetToVoltage extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.ballFeed.stop();
+    	Robot.shooter.setVoltage(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.ballFeed.stop();
+    	Robot.shooter.setVoltage(0);
     }
 }
