@@ -3,11 +3,14 @@ package org.usfirst.frc.team294.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.commands.*;
+import org.usfirst.frc.team294.robot.triggers.AxisTrigger;
+import org.usfirst.frc.team294.robot.triggers.POVTrigger;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -96,10 +99,7 @@ public class OI {
 	public Joystick leftJoystick = new Joystick(0);
 	public Joystick rightJoystick = new Joystick(1);
 	public Joystick coPanel = new Joystick(2);
-	
-	public Button[] left = new Button[12];
-    public Button[] right = new Button[12];
-    public Button[] coP =  new Button[15];
+	public Joystick xboxController = new Joystick(3);
 	
 	public OI() {
 		
@@ -107,6 +107,13 @@ public class OI {
 		Button[] left = new Button[12];
 	    Button[] right = new Button[12];
 	    Button[] coP =  new Button[15];
+	    Button[] xbB = new Button[11];
+	    Trigger xbLT = new AxisTrigger(xboxController, 2, 0.9);
+        Trigger xbRT = new AxisTrigger(xboxController, 3, 0.9);
+		Trigger xbPovUp = new POVTrigger(xboxController, 0);
+        Trigger xbPovRight = new POVTrigger(xboxController, 90);
+        Trigger xbPovDown = new POVTrigger(xboxController, 180);
+        Trigger xbPovLeft = new POVTrigger(xboxController, 270);
 	    	    
 	    // Declare left and right joystick buttons
 	    for (int i = 1; i < left.length; i++) {
@@ -121,26 +128,54 @@ public class OI {
 	    	coP[i] = new JoystickButton(coPanel, i);
 		}
 	    
-	    /*
-	     * Commented until we start using the practice bot
+	    // Xbox controller buttons
+	    for (int i = 1; i < xbB.length; i++) {
+	    	xbB[i] = new JoystickButton(xboxController, i);
+	    }
+	    
 	    // Bind commands to the codriver panel switches
-	    coP[1].whenPressed(new ConveyerSetToSpeed(1.0)); // Need to update all numbers to voltage instead of Vbus
-	    coP[1].whenReleased(new ConveyerSetToSpeed(0.0));
-	    coP[2].whenPressed(new ShooterSetToSpeed(1.0)); // This will likely change according to the position of the shooter hood. A new command will be required
-	    coP[3].whenPressed(new ConveyerSetToSpeed(-1.0));
-	    coP[3].whenReleased(new ConveyerSetToSpeed(0.0));
-	    coP[4].whenPressed(new PrepareToClimb());
-	    coP[5].whenPressed(new ClimbSetToSpeed(1.0)); // This will likely change according to measured values on the robot
-	    coP[6].whenPressed(new MoveShooterHood(true));
-	    coP[7].whenPressed(new MoveShooterHood(false));
-	    coP[8].whenPressed(new StowIntakeAndHopper());
+	    coP[1].whenPressed(new StopAllMotors());
+	    coP[2].whenPressed(new PrepareToClimb());
+	    //coP[3].whenPressed(new StartManualClimbControl());
+	    //coP[4].whenPressed(); Shooter preset speed
+	    //coP[5].whenPressed(); Shooter preset speed
+	    coP[6].whenPressed(new ConveyorSetVoltage(7.5));
+	    coP[6].whenReleased(new ConveyorSetVoltage(0.0));
+	    coP[7].whenPressed(new ConveyorSetVoltage(-4.0)); // Run conveyors out. Number subject to change.
+	    coP[7].whenReleased(new ConveyorSetVoltage(0.0));
+	    coP[8].whenPressed(new MoveGearGate(false));
 	    coP[9].whenPressed(new IntakeSetToSpeed(-1.0));
-	    coP[10].whenPressed(new DeployIntakeAndHopper());
+	    coP[10].whenPressed(new MoveGearGate(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(1.0));
-	    coP[12].whenPressed(new StopAllMotors());
-	    coP[13].whenPressed(new MoveGearGate(false));
-	    coP[14].whenPressed(new MoveGearGate(true));
-		*/
+	    //coP[12].whenPressed(); Shooter preset speed
+	    coP[13].whenPressed(new MoveShooterHood(false));
+	    coP[14].whenPressed(new MoveShooterHood(true));
+	    
+	    // Xbox controller buttons
+	    xbB[1].whenPressed(new MoveShooterHood(false));
+	    xbB[2].whenPressed(new MoveGearGate(true));
+	    xbB[3].whenPressed(new MoveShooterHood(true));
+	    xbB[4].whenPressed(new MoveGearGate(false));
+	    xbB[5].whenPressed(new IntakeSetToSpeed(1.0));
+	    xbB[6].whenPressed(new IntakeSetToSpeed(-1.0));
+	    xbB[9].whenPressed(new StopAllMotors());
+	    //xbB[10].whenPressed(new StartManualClimbControl()); //Command does not yet exist
+	    
+	    /*
+	     * Commands to set the shooter to preset speeds
+	     * Commands do not yet exist
+	     * 
+	     *	xbPovUp.whenActive();
+	     *	xbPovDown.whenActive();
+	     *	xbPovLeft.whenActive();
+	     *	xbPovRight.whenActive();
+	     */
+	    
+	    // Xbox triggers
+	    xbLT.whenActive(new ConveyorSetVoltage(-4.0)); // This runs the conveyors out. The number is subject to change.
+	    xbLT.whenInactive(new ConveyorSetVoltage(0.0));
+	    xbRT.whenActive(new ConveyorSetVoltage(7.5));
+	    xbRT.whenInactive(new ConveyorSetVoltage(0.0));
 		
 	    // Gyro Testing Commands
 	    SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
