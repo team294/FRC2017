@@ -3,6 +3,7 @@ package org.usfirst.frc.team294.robot.subsystems;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
+import org.usfirst.frc.team294.utilities.MotorGroupCurrentTrigger;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -42,7 +43,8 @@ public class DriveTrain extends Subsystem {
     // Track encoder resets in software due to latency (like NavX)
     private double leftEncoderZero = 0, rightEncoderZero = 0;
     
-  
+    public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotor1.getOutputCurrent(), rightMotor2.getOutputCurrent(), rightMotor3.getOutputCurrent());
+    public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotor1.getOutputCurrent(), leftMotor2.getOutputCurrent(), leftMotor3.getOutputCurrent());
 
     public DriveTrain() {
     	super();
@@ -113,8 +115,8 @@ public class DriveTrain extends Subsystem {
      * @param leftStick Left joystick
      * @param rightStick Right joystick
      */
-    public void driveWithJoystick(Joystick leftStick, Joystick rightStick) {
-    	robotDrive.tankDrive(leftStick, rightStick);
+    public void driveWithJoystick(double leftStick, double rightStick) {
+    	robotDrive.tankDrive(leftStick, rightStick, false); //false is so that squared inputs is not used
     }
 
     /**
@@ -180,6 +182,7 @@ public class DriveTrain extends Subsystem {
      * @return
      */
     public double getLeftEncoder() {
+    	SmartDashboard.putNumber("LeftMotor", 0);
     	return leftMotor2.getPosition() - leftEncoderZero;
     }
     
@@ -189,6 +192,7 @@ public class DriveTrain extends Subsystem {
      */
 
     public double getRightEncoder() {
+    	SmartDashboard.putNumber("RightMotor", 0);
     	return rightMotor2.getPosition() - rightEncoderZero;
     }
     
@@ -309,7 +313,7 @@ public class DriveTrain extends Subsystem {
 		angle = ahrs.getAngle() - yawZero; 
 		
 		// Normalize to 0 to 360 degrees
-		angle = angle - Math.floor(angle/360)*360;
+		angle = (angle + 360) % 360;
 		
 		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
 		//Robot.log.writeLog("Gyro: Current Angle: " + angle);

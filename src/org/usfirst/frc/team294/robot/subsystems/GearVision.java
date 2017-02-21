@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
-public class Vision extends Subsystem {
+public class GearVision extends Subsystem {
 	NetworkTable table;
 	NetworkTable grip_table;
 	double[] networkTableDefault = new double[] { -1.0 };
@@ -19,12 +19,13 @@ public class Vision extends Subsystem {
 	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera pixel length
 	double camVertAngle = (camPXHeight / camPXDiagonal) * camDiagonalAngle; //Vertical camera aperture angle
 	double camHorizAngle = (camPXWidth / camPXDiagonal) * camDiagonalAngle; //Horizontal camera aperture angle
+	double camOffset = 0; //Camera horizontal offset from center of robot
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		//setDefaultCommand(new MySpecialCommand());
 	}
-	public Vision(){
+	public GearVision(){
 		table = NetworkTable.getTable("GRIP/myContoursReport");
 		grip_table = NetworkTable.getTable("GRIP");
 	}
@@ -79,31 +80,40 @@ public class Vision extends Subsystem {
 		return bestContours; //Returns largest two contours
 	}
 
+//Only losers play Pokemon Go
+	/**
+	 * Gets the robot's angle of offset from the gear target
+	 * @return Angle offset in degrees
+	 */
 	public double getGearAngleOffset() {
 		//Gives the robot's angle of offset from the gear target in degrees
 		Contour[] targets = filterContours(); //Gets best two best contours
 		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
-		if (targets[0].getArea() > 20) {numValid++; }
-		if (targets[1].getArea() > 20) {numValid++; }
+		if (targets[0].getArea() > 10) {numValid++; }
+		if (targets[1].getArea() > 10) {numValid++; }
 		if (numValid == 2) {
 			gearAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
 		}
 		else if (numValid == 1) {
 			gearAngleOffset = (camPXWidth/2 - targets[0].getXPos())/camPXWidth * camHorizAngle; //in degrees
 		}
-		else { gearAngleOffset = -500; } //Return -500 if there are no "valid" contours (see numValid assignment)
-		SmartDashboard.putNumber("Angle Offset", gearAngleOffset);
+		else { return -500; } //Return -500 if there are no "valid" contours (see numValid assignment)
+		gearAngleOffset = Math.atan(camOffset/getGearDistance()*12 + Math.tan(gearAngleOffset*Math.PI/180))*180/Math.PI; //Adjusts angle for when the camera is not centered on the robot
 		return gearAngleOffset;
 	}
 
+	/**
+	 * Gets the distance of the robot from the gear target 
+	 * @return distance in inches
+	 */
 	public double getGearDistance() {
-		//Gives the distance of the robot from the gear target if our camera's center is at the same elevantion as the center of the gear tape
+		//Gives the distance of the robot from the gear target if our camera's center is at the same elevation as the center of the gear tape
 		int heightOfTape = 5; //Height of the tape on the gear lift
 		double tACC = .5; //Proportion of the tape that is at or above our camera's center (if the camera is straight on)
 		Contour[] targets = filterContours(); //Gets best two best contours
 		distance = heightOfTape*tACC/Math.tan((camVertAngle/2*(targets[0].getHeight() + targets[1].getHeight())/2/camPXHeight)*Math.PI/180); //in inches (faster)
 		SmartDashboard.putNumber("Gear Distance", distance);
-		return distance;
+		return distance*12;
 	}
 }
 

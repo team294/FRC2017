@@ -9,7 +9,10 @@ import edu.wpi.first.wpilibj.Solenoid;
  */
 public class ShooterHood extends Subsystem {
 
-	private final Solenoid shooterHoodSolenoid = new Solenoid(RobotMap.shooterHoodSolenoid);
+    // Put methods for controlling this subsystem
+    // here. Call these from Commands.
+
+	public static Solenoid shooterHoodSolenoid = new Solenoid(RobotMap.shooterHoodSolenoid);
     
 	/**
 	 * Deploy the shooter hood into the up position
@@ -17,14 +20,13 @@ public class ShooterHood extends Subsystem {
 	public void deploy() {
 		shooterHoodSolenoid.set(true);
 	}
-
+	
 	/**
 	 * Stow the shooter hood in the down position
 	 */
 	public void stow() {
 		shooterHoodSolenoid.set(false);
 	}
-
 	
   	public void initDefaultCommand() {
         // Set the default command for a subsystem here.

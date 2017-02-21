@@ -1,9 +1,13 @@
 package org.usfirst.frc.team294.robot.commands;
 
+
+
+
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+<<<<<<< HEAD:src/org/usfirst/frc/team294/robot/commands/StopAllMotors.java
 /**
 <<<<<<< HEAD:src/org/usfirst/frc/team294/robot/commands/StopAllMotors.java
  * Stops all motors except the drive train
@@ -17,6 +21,20 @@ public class StopAllMotors extends Command {
 	 * Stops all motors except the drive train
 	 */
     public StopAllMotors() {
+=======
+
+ 
+public class MoveHopper extends Command {
+
+	private boolean position;
+	
+
+	 /* Set the position of the hopper
+	 * @param position true for deployed, false for stowed
+	 */
+	
+    public MoveHopper(boolean position) {
+>>>>>>> refs/remotes/origin/master:src/org/usfirst/frc/team294/robot/commands/MoveHopper.java
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.shooter);
@@ -54,3 +72,5 @@ public class StopAllMotors extends Command {
     	Robot.intake.stopClimber();
     }
 }
+
+

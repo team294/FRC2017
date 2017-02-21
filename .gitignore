@@ -54,5 +54,6 @@ Temporary Items
 .apdisk
 
 sysProps.xml
+*.classpath
 
 /bin/

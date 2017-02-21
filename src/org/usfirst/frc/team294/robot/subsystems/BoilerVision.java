@@ -1,8 +1,11 @@
+//Only losers play Pokemon Go
 package org.usfirst.frc.team294.robot.subsystems;
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.utilities.Contour;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class BoilerVision extends Subsystem {
@@ -11,12 +14,14 @@ public class BoilerVision extends Subsystem {
 	double[] networkTableDefault = new double[] { -1.0 };
 
 	double distance;
+	double boilerAngleOffset;
 
-	double camHeight = 1; //Height of center of camera off of the ground
+	double camHeight = 1.792; //Height of center of camera off of the ground (in feet)
 	double camAngle  = 40; //Upward angle offset of camera (in degrees)
+	double camOffset = 0; //Camera horizontal offset from center of robot
 	
 	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
-	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera pixel length
+	double camPXDiagonal = Math.hypot(camPXWidth, camPXHeight); //Diagonal camera pixel length
 	double camVertAngle = (camPXHeight / camPXDiagonal) * camDiagonalAngle; //Vertical camera aperture angle
 	double camHorizAngle = (camPXWidth / camPXDiagonal) * camDiagonalAngle; //Horizontal camera aperture angle
 
@@ -43,8 +48,8 @@ public class BoilerVision extends Subsystem {
 			double[] tempHeight = table.getNumberArray("height", networkTableDefault);
 			tempXLength = tempXPos.length;
 			tempYLength = tempYPos.length;
-			tempAreaLength = tempXPos.length;
-			tempHeightLength = tempArea.length;
+			tempAreaLength = tempArea.length;
+			tempHeightLength = tempHeight.length;
 			contours = new Contour[tempXLength];
 			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength){
 				for (int i = 0; i < tempXLength; i++) {
@@ -75,16 +80,70 @@ public class BoilerVision extends Subsystem {
 		}
 		return bestContours;
 	}
-		
+	/**
+	 * Gets the distance of the robot from the ball goal
+	 * @return distance in inches
+	 */
 	public double getBoilerDistance() {
 		//Gives the distance of the robot from the ball goal
 		Contour[] targets = filterContours(); //Gets best two best contours
-		if (targets[0].getArea() > 20 && targets[1].getArea() > 20) { //Checks that both contours are significant and not default
-			double phi = targets[0].getHeight()/camPXHeight*camVertAngle + (camAngle - camVertAngle/2); //Angle from horizontal to center of the top contour
-			distance = (7.208 - camHeight)/Math.tan(phi*Math.PI/180); //7.208 is the height in feet to the center of the top contour
+		if (targets[0].getArea() > 5 && targets[1].getArea() > 5) { //Checks that both contours are significant and not default
+			//double phi = targets[0].getHeight()/camPXHeight*camVertAngle + (camAngle - camVertAngle/2); //Angle from horizontal to center of the top contour
+			double height = camPXHeight - Math.abs(targets[0].getYPos() + targets[1].getYPos())/2;
+			double phi = height/camPXHeight*camVertAngle + (camAngle - camVertAngle/2);
+			distance = (6.875 - camHeight)/Math.tan(phi*Math.PI/180); //6.875 is the height in feet to the center of the two contours
 		}
 		else { distance = -1; }
-		return distance;
+		System.out.println(""+targets[0].getArea());
+		System.out.println(""+targets[1].getArea());
+
+		return distance * 12; //Returns distance in inches
 	}
+	/**
+	 * Gets the robot's angle of offset from the boiler
+	 * @return Angle offset in degrees
+	 */
+	public double getBoilerAngleOffset() {
+		//Gives the robot's angle of offset from the boiler in degrees
+		Contour[] targets = filterContours(); //Gets best two best contours
+		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
+		if (targets[0].getArea() > 5) { // target[0] should be bigger than target[1], so if target[0] fails, so will target[1].
+			numValid++; 
+			if (targets[1].getArea() > 5) {numValid++; }
+		}
+		if (numValid == 2) { //If there are two valid contours, use both.
+			boilerAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
+		}
+		else if (numValid == 1) { //If there is only one valid contour, use only the one.
+			boilerAngleOffset = (camPXWidth/2 - targets[0].getXPos())/camPXWidth * camHorizAngle; //in degrees
+		}
+		else { return -500; } //Return -500 if there are no "valid" contours (see numValid assignment)
+		if (camOffset != 0) {boilerAngleOffset = Math.atan(camOffset/getBoilerDistance()*12 + Math.tan(boilerAngleOffset*Math.PI/180))*180/Math.PI;} //Adjusts angle for when the camera is not centered on the robot
+		return boilerAngleOffset;
+	}
+	
+	/**
+	 * Gets the last positive distance of the robot from the ball goal
+	 * @return distance in inches only if there are contours 
+	 */
+	public double getLastBoilerDistance() {
+		double firstBoilerDistance = getBoilerDistance();
+		double lastBoilerDistance = 0;
+		//double negNum = 0;
+		if (firstBoilerDistance > 0){
+			lastBoilerDistance = firstBoilerDistance;
+		}
+		//this.boilerAngleOffset = (this.boilerAngleOffset > 0) ? lastBoilerDistance : negNum;
+		return lastBoilerDistance;
+	}
+	
+	/**
+	 * Displays the distance to boiler on SmartDashboard
+	 */
+	public void updateSmartDashboard(){
+		SmartDashboard.putNumber("Distance to Boiler", Robot.boilerVision.getBoilerDistance());
+	}
+	
 }
+
 

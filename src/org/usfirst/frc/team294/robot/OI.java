@@ -99,7 +99,16 @@ public class OI {
 	public Joystick leftJoystick = new Joystick(0);
 	public Joystick rightJoystick = new Joystick(1);
 	public Joystick coPanel = new Joystick(2);
+<<<<<<< HEAD
 	public Joystick xboxController = new Joystick(3);
+=======
+	
+	public Button[] left = new Button[12];
+    public Button[] right = new Button[12];
+    public Button[] coP =  new Button[15];
+    
+    private boolean driveDirection = true; 
+>>>>>>> refs/remotes/origin/master
 	
 	public OI() {
 		
@@ -118,12 +127,17 @@ public class OI {
 	    // Declare left and right joystick buttons
 	    for (int i = 1; i < left.length; i++) {
 	    	left[i] = new JoystickButton(leftJoystick, i);
-	    	left[i].whenPressed(new ShiftUp());
 	    	right[i] = new JoystickButton(rightJoystick, i);
-	    	right[i].whenPressed(new ShiftUp());
+	    	if (i == 3) {
+	    		right[i].whenPressed(new SwitchDriveDirection());
+	    		left[i].whenPressed(new SwitchDriveDirection());
+	    	} else {
+	    		right[i].whenPressed(new ShiftUp());
+	    		left[i].whenPressed(new ShiftDown());
+	    	}
 	    }
-	    
-	    // Declare codriver panel switches
+
+	     // Declare codriver panel switches
 	    for (int i = 1; i < coP.length; i++) {
 	    	coP[i] = new JoystickButton(coPanel, i);
 		}
@@ -147,6 +161,7 @@ public class OI {
 	    coP[9].whenPressed(new IntakeSetToSpeed(-1.0));
 	    coP[10].whenPressed(new MoveGearGate(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(1.0));
+<<<<<<< HEAD
 	    //coP[12].whenPressed(); Shooter preset speed
 	    coP[13].whenPressed(new MoveShooterHood(false));
 	    coP[14].whenPressed(new MoveShooterHood(true));
@@ -189,12 +204,34 @@ public class OI {
 	    SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
 	    SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
 	    SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
+=======
+	    //coP[12].whenPressed(new StopAllFlywheels()); // Command does not yet exist
+	    coP[13].whenPressed(new MoveGearGate(false));
+	    coP[14].whenPressed(new MoveGearGate(true));
+		*/
+			    
+>>>>>>> refs/remotes/origin/master
 	    
-	    // Autonomous Command Testing
-	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
-	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGearRight());
-	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle());
+	    // it has become standard practice to comment out all not used commands during testing to make it possible to use the SmartDashboard. 
+	    //If you don't do this then your button will be buried in other buttons making it stupidly hard to find.
+	    //I will uncomment them for now but keep this in mind in future testing -John
+	    // Gyro Testing Commands 
+/*	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
+	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90, 2.0));
+	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180, 2.0));
+	     SmartDashboard.putData("Turn to 5", new GyroTurnToAngle(0.4, 5, 2.0));
+	     SmartDashboard.putData("Turn to -5", new GyroTurnToAngle(0.4, -5, 2.0));
+	     SmartDashboard.putData("Turn to 10", new GyroTurnToAngle(0.4, 10, 2.0));
+	     SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
+		 SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
+		     
+	     SmartDashboard.putData("Turn to angle", new GyroTurnToAngle(0.4, 0, 1.0, GyroTurnToAngle.TurnMode.SMARTDASHBOARD));
+	     SmartDashboard.putNumber("TurnSpeed", 0);
+	     SmartDashboard.putNumber("TurnAngle", 0);
+	     SmartDashboard.putNumber("AngleTolerance", 0);
+	     SmartDashboard.putData("Turn to gear", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
 	    
+<<<<<<< HEAD
 	    //  Shooter controls
 	    SmartDashboard.putData("Set Shooter RPM", new ShooterSetToRPMFromSmartDashboard());
 	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
@@ -209,6 +246,47 @@ public class OI {
 	    
 	    // Stop Command
 	    SmartDashboard.putData("Drive Stop", new DriveStop());
+=======
+	     //DriveStraightDistance tests
+	     SmartDashboard.putData("Drive straight distance", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	     SmartDashboard.putNumber("DriveSpeed", 0);
+	     SmartDashboard.putNumber("Distance", 0);
+	     SmartDashboard.putNumber("BoilerDistance", 0);
+	     SmartDashboard.putNumber("UltrasonicDistance", 0);
+	     SmartDashboard.putData("Drive to Boiler_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.BOILER_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	     SmartDashboard.putData("Drive 12 inches", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
+	     SmartDashboard.putData("Drive to Ultraonic", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
+	     SmartDashboard.putData("Drive to Ultrasonic_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	     */	     	     
+	     // Subsystem Testing Commands
+	     SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
+	     SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
+//	     SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));  //  don't need on dashboard
+//	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.6));
+	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(Robot.intakeSpeed));
+	     
+	     // Autonomous Command Testing
+	     SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
+	     SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGearRight());
+	     SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle()); 
+	     
+	     //  Shooter controls
+		 SmartDashboard.putData("Set Shooter RPM Low", new ShooterSetToRPMFromSmartDashboardLow());
+		 SmartDashboard.putData("Set Shooter RPM High", new ShooterSetToRPMFromSmartDashboardHigh());
+		 SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
+		 SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
+		 SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
+		 SmartDashboard.putData("Start Vertical and Horizontal BallFeed", new ConveyorSetToVoltage());
+//	 	 SmartDashboard.putData("Stop BallFeed", new ConveyorSetToVoltage(0.0)); 
+		    
+		 // Encoders (I don't think these work because the command is never called. this should be done in teleopPeriodic -John)
+		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
+		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
+		    
+		 // Stop Command
+		 SmartDashboard.putData("Drive Stop", new DriveStop());	   
+		    
+>>>>>>> refs/remotes/origin/master
 	    
 	}
 	
@@ -261,8 +339,10 @@ public class OI {
 	 */
 	public MiddleKnob readMiddleKnob(){
 		return MiddleKnobPositions[readMiddleKnobRaw()];
-	}
+	}		 
 
+
+	     
 	/**
 	 * Reads the bottom knob.
 	 * @return Raw position 0 (full ccw) to 11 (full cw)
@@ -299,7 +379,16 @@ public class OI {
 		int i = readMiddleKnobRaw();
 		if (i < MiddleKnobCommands.length) {
 			return MiddleKnobCommands[i];
-		}
-		return null;		
+		} else {
+			return null;
+		}			
+	} 
+	
+	public void setDriveDirection(boolean direction){
+		this.driveDirection = direction;
+	}
+	
+	public boolean getDriveDirection(){
+		return driveDirection;
 	}
 }
