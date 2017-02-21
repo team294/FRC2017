@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.commands.ClimbSetToSpeed;
 import org.usfirst.frc.team294.robot.commands.IntakeSetToSpeed;
 //import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
@@ -49,6 +50,15 @@ public class Intake extends Subsystem {
     	// Add the subsystem to the LiveWindow
         LiveWindow.addActuator("Intake", "Intake Motor", intakeMotor);
         LiveWindow.addActuator("Intake", "Intake Solenoid", intakeSolenoid);
+    }
+    
+    /**
+     * Adds current protection to intake and climber motors
+     */
+    public void intakeCurrentProtection(){
+    	intakeCurrentTrigger.whenActive(new IntakeSetToSpeed(0.0));
+    	climber1CurrentTrigger.whenActive(new ClimbSetToSpeed(0.0));
+    	climber2CurrentTrigger.whenActive(new ClimbSetToSpeed(0.0));
     }
 
     /**
