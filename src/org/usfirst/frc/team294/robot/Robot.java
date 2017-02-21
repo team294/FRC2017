@@ -109,6 +109,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(shooter);
 		SmartDashboard.putData(intake);
 		SmartDashboard.putData(gearGate);
+		
+		CameraServer.getInstance().startAutomaticCapture();
+
 
 	}
 
