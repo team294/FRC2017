@@ -100,6 +100,8 @@ public class OI {
 	public Button[] left = new Button[12];
     public Button[] right = new Button[12];
     public Button[] coP =  new Button[15];
+    
+    private boolean driveDirection = true; 
 	
 	public OI() {
 		
@@ -111,29 +113,15 @@ public class OI {
 	    // Declare left and right joystick buttons
 	    for (int i = 1; i < left.length; i++) {
 	    	left[i] = new JoystickButton(leftJoystick, i);
-	    	left[i].whenPressed(new ShiftUp());
 	    	right[i] = new JoystickButton(rightJoystick, i);
-	    	right[i].whenPressed(new ShiftUp());
+	    	if (i == 3) {
+	    		right[i].whenPressed(new SwitchDriveDirection());
+	    		left[i].whenPressed(new SwitchDriveDirection());
+	    	} else {
+	    		right[i].whenPressed(new ShiftUp());
+	    		left[i].whenPressed(new ShiftDown());
+	    	}
 	    }
-	    /* //this does not seem to be in master but I don't know if its important so I will leave it here commented out so it doesn't cause errors - John
-	    // Declare left joystick buttons and set them to shift down
-	     for (Button i : left) {
-	    	 i =  new JoystickButton(leftJoystick, j++);
-	    	 if (j == 3) i.whenPressed(new GyroTurnToAngle(0.3, 180));
-	    	 else if (j == 4) i.whenPressed(new GyroTurnToAngle(0.3, 0));
-	    	 else if (j == 5) i.whenPressed(new GyroTurnToAngle(0.3, -90));
-	    	 else if (j == 6) i.whenPressed(new GyroTurnToAngle(0.3, 90.0));
-	    	 else i.whenPressed(new ShiftDown());
-	     }
-	     
-	     // Declare right joystick buttons and set them to shift up
-	     for (Button i : right) {
-	    	 i = new JoystickButton(rightJoystick, k++);
-	    	 if (k > 2 && k < 7) i.whenPressed(new DriveWithJoysticks()); 
-	    	 else i.whenPressed(new ShiftUp());
-	     }*/
-
-
 
 	     // Declare codriver panel switches
 	    for (int i = 1; i < coP.length; i++) {
@@ -165,8 +153,8 @@ public class OI {
 	    // it has become standard practice to comment out all not used commands during testing to make it possible to use the SmartDashboard. 
 	    //If you don't do this then your button will be buried in other buttons making it stupidly hard to find.
 	    //I will uncomment them for now but keep this in mind in future testing -John
-	    // Gyro Testing Commands
-	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
+	    // Gyro Testing Commands 
+/*	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
 	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90, 2.0));
 	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180, 2.0));
 	     SmartDashboard.putData("Turn to 5", new GyroTurnToAngle(0.4, 5, 2.0));
@@ -191,14 +179,13 @@ public class OI {
 	     SmartDashboard.putData("Drive 12 inches", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
 	     SmartDashboard.putData("Drive to Ultraonic", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
 	     SmartDashboard.putData("Drive to Ultrasonic_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
-	     	     	     
+	     */	     	     
 	     // Subsystem Testing Commands
 	     SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
 	     SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
-	     SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
-	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
-//	     SmartDashboard.putData("Stop Shooter Motor", new ShooterSetToSpeed(0.0)); //command does not exist
-//	     SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3)); //command does not exist
+//	     SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));  //  don't need on dashboard
+//	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.6));
+	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(Robot.intakeSpeed));
 	     
 	     // Autonomous Command Testing
 	     SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
@@ -206,11 +193,12 @@ public class OI {
 	     SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle()); 
 	     
 	     //  Shooter controls
-		 SmartDashboard.putData("Set Shooter RPM", new ShooterSetToRPMFromSmartDashboard());
+		 SmartDashboard.putData("Set Shooter RPM Low", new ShooterSetToRPMFromSmartDashboardLow());
+		 SmartDashboard.putData("Set Shooter RPM High", new ShooterSetToRPMFromSmartDashboardHigh());
 		 SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
 		 SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
 		 SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-		 SmartDashboard.putData("Start BallFeed", new ConveyorSetToVoltage(7.5));   //  Pass the voltage to vertical conveyor
+		 SmartDashboard.putData("Start Vertical and Horizontal BallFeed", new ConveyorSetToVoltage());
 //	 	 SmartDashboard.putData("Stop BallFeed", new ConveyorSetToVoltage(0.0)); 
 		    
 		 // Encoders (I don't think these work because the command is never called. this should be done in teleopPeriodic -John)
@@ -316,4 +304,12 @@ public class OI {
 			return null;
 		}			
 	} 
+	
+	public void setDriveDirection(boolean direction){
+		this.driveDirection = direction;
+	}
+	
+	public boolean getDriveDirection(){
+		return driveDirection;
+	}
 }

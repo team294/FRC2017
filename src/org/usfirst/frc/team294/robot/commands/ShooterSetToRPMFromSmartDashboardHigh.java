@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Sets the shooter speed from the Smart Dashboard
  */
-public class ShooterSetToRPMFromSmartDashboard extends Command {
+public class ShooterSetToRPMFromSmartDashboardHigh extends Command {
 
 	/**
 	 * Sets the shooter speed from the Smart Dashboard
 	 */
-    public ShooterSetToRPMFromSmartDashboard() {
+    public ShooterSetToRPMFromSmartDashboardHigh() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.shooter);
@@ -22,7 +22,7 @@ public class ShooterSetToRPMFromSmartDashboard extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shooter.setRPM(SmartDashboard.getNumber("Shooter Motor Set RPM", 0));
+    	Robot.shooter.setRPMHigh(Robot.shootSpeedHigh);
     }
 
     // Called repeatedly when this Command is scheduled to run

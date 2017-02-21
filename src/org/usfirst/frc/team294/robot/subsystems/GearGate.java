@@ -9,20 +9,24 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class GearGate extends Subsystem {
 
-	private final Solenoid gearPiston = new Solenoid(RobotMap.gearSolenoid);
+	private final Solenoid gearPistonIn = new Solenoid(RobotMap.gearSolenoidIn);
+//	private final Solenoid gearPistonOut = new Solenoid(RobotMap.gearSolenoidOut);
 
 	/**
 	 * Set the gear piston to out
 	 */
 	public void out() {
-		gearPiston.set(true);
+//		gearPistonOut.set(true);
+		gearPistonIn.set(false);
 	}
 	
 	/**
 	 * Set the gear piston to in
 	 */
 	public void in() {
-		gearPiston.set(false);
+		gearPistonIn.set(true);
+//		gearPistonOut.set(false);
+		
 	}
 	
 	/**
@@ -30,7 +34,7 @@ public class GearGate extends Subsystem {
 	 * @return true for out, false for in
 	 */
 	public boolean getPosition() {
-		return gearPiston.get();
+		return gearPistonIn.get();
 	}
 
     public void initDefaultCommand() {
