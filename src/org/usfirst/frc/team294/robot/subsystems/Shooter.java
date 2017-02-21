@@ -26,7 +26,7 @@ public class Shooter extends Subsystem {
 //	private final CANTalon shooterMotor2 = new CANTalon(RobotMap.shooterMotor2);
 	
     //Current Protection
-    public final MotorCurrentTrigger shooterMotorCurrentTrigger = new MotorCurrentTrigger(shooterMotor1, 10, 2);
+    public final MotorCurrentTrigger shooterMotorCurrentTrigger = new MotorCurrentTrigger(shooterMotor1, 25, 3);
 
 	
 	double setSpeed;
@@ -73,12 +73,11 @@ public class Shooter extends Subsystem {
 	public void setRPM(double rpm) {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
 		
-		rpm = (rpm > 18000.0) ? 6000.0 : rpm;
-		rpm = (rpm < -1000.0) ? -600.0 : rpm;
+		rpm = (rpm > 6000.0) ? 6000.0 : rpm;
+		rpm = (rpm < -600.0) ? -600.0 : rpm;
 		
 		setSpeed = rpm;
-		shooterMotor1.set(-rpm);
-		
+		shooterMotor1.set(-rpm);		
 	}
 	
 	/**
@@ -90,12 +89,10 @@ public class Shooter extends Subsystem {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
 		
 		low = SmartDashboard.getNumber("Shooter Motor Set RPM Low", Robot.shootSpeedLow);
-
-		low = (low > 18000.0) ? 6000.0 : low;
-		low = (low < -1000.0) ? -600.0 : low;
-		
-		setSpeed = low;
-		shooterMotor1.set(-low);
+	
+//		setSpeed = low;
+//		shooterMotor1.set(-low);
+		setRPM(low);
 		robotPrefs.putDouble("shootSpeedLowRPM", low); 
 	}
 	
@@ -108,12 +105,7 @@ public class Shooter extends Subsystem {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
 		
 		high = SmartDashboard.getNumber("Shooter Motor Set RPM High", Robot.shootSpeedHigh);
-
-		high = (high > 18000.0) ? 6000.0 : high;
-		high = (high < -1000.0) ? -600.0 : high;
-		
-		setSpeed = high;
-		shooterMotor1.set(-high);
+		setRPM(high);
 		robotPrefs.putDouble("shootSpeedHighRPM", high);
 	}
 	

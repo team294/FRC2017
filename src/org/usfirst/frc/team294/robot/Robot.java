@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Preferences;
 
+import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
 import org.usfirst.frc.team294.utilities.FileLog;
 
@@ -39,7 +40,7 @@ public class Robot extends IterativeRobot {
 	// File logger
 	public static FileLog log;
 	
-	// set up preferences
+	// set up preferences (robot specific calibrations flash memory in roborio)
 	public static Preferences robotPrefs;
 	public static double shooterP;
 	public static double shooterI;
@@ -177,7 +178,10 @@ public class Robot extends IterativeRobot {
 
 		shooter.updateSmartDashboard(); 
 		shooter.periodicSetF();
-
+		
+    	// Stall protection
+//		Robot.intake.intakeCurrentTrigger.whenActive(new IntakeSetToSpeed(0));
+//		Robot.shooter.shooterMotorCurrentTrigger.whenActive(new ShooterSetVoltage(0));
 	}
 
 	/**
