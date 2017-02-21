@@ -15,7 +15,11 @@ public class BoilerVision extends Subsystem {
 
 	double distance;
 	double boilerAngleOffset;
-
+	
+	//Shooter Threshold (dividing line between where near distance and far distance ought be used)
+	double shooterThreshold = 60; //In inches //Temporary value, real value should be input at some point
+	int lastVal = 0;
+	
 	double camHeight = 1.792; //Height of center of camera off of the ground (in feet)
 	double camAngle  = 40; //Upward angle offset of camera (in degrees)
 	double camOffset = 0; //Camera horizontal offset from center of robot
@@ -137,6 +141,26 @@ public class BoilerVision extends Subsystem {
 		return lastBoilerDistance;
 	}
 	
+	/**
+	 * Tells which shooter mode should be used based on the robot's distance from the boiler
+	 * Where that threshold is should be set in BoilerVision.java
+	 * @return 0 if close range, 1 if long range
+	 */
+	public int getShooterMode() {
+		double tol = 5; //(in inches) range where change should not occur, prevents rapid switching at threshold
+		double d = getLastBoilerDistance();
+		if (d < shooterThreshold + tol && d > shooterThreshold - tol){
+			return lastVal;
+		}
+		if (d < shooterThreshold ) {
+			lastVal = 0;
+			return lastVal; 
+		}
+		else {
+			lastVal = 1;
+			return lastVal;
+		}
+	}
 	/**
 	 * Displays the distance to boiler on SmartDashboard
 	 */
