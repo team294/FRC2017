@@ -65,8 +65,9 @@ public class Shooter extends Subsystem {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
 		
 		rpm = (rpm > 6000.0) ? 6000.0 : rpm;
+
 		rpm = (rpm < -600.0) ? -600.0 : rpm;
-		
+
 		setSpeed = rpm;
 		shooterMotor1.set(-rpm);		
 	}
