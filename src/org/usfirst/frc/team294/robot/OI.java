@@ -198,6 +198,16 @@ public class OI {
 	    SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
 	    SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
 	    
+	    //climb test
+	    SmartDashboard.putData("Start Climb Motor", new ClimbSetToSpeed(0.4));
+	    SmartDashboard.putData("Stop Climb Motor", new IntakeSetToSpeed(0));
+	    
+	    //Intake and Hopper Tests
+	    SmartDashboard.putData("Deploy Intake", new MoveIntakeIfSafe(true));
+	    SmartDashboard.putData("Stow Intake", new MoveIntakeIfSafe(false));
+	    SmartDashboard.putData("Deploy Hopper", new MoveHopperIfSafe(true));
+	    SmartDashboard.putData("Stow Hopper", new MoveHopperIfSafe(false));
+	    
 	    // it has become standard practice to comment out all not used commands during testing to make it possible to use the SmartDashboard. 
 	    //If you don't do this then your button will be buried in other buttons making it stupidly hard to find.
 	    //I will uncomment them for now but keep this in mind in future testing -John
@@ -262,8 +272,6 @@ public class OI {
 		 SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
 		 SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
 		 SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-		 SmartDashboard.putData("Start BallFeed", new ConveyorSetToVoltage());
-//	 	 SmartDashboard.putData("Stop BallFeed", new ConveyorSetToVoltage(0.0)); 
 		    
 		 // Encoders (I don't think these work because the command is never called. this should be done in teleopPeriodic -John)
 		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());

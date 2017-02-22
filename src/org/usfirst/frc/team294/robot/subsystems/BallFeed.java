@@ -2,8 +2,8 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.ConveyorSetToSpeed;
-import org.usfirst.frc.team294.robot.commands.ConveyorSetToVoltage;
+import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot;
+import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
 import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
 
 import com.ctre.CANTalon;
@@ -42,8 +42,8 @@ public class BallFeed extends Subsystem {
 	 * Adds current protection to the conveyor. If either conveyor trips this, both sections will start
 	 */
 	public void ballFeedCurrentProtection(){
-		vertCurrentTrigger.whenActive(new ConveyorSetToSpeed(0.0));
-		horCurrentTrigger.whenActive(new ConveyorSetToSpeed(0.0));
+		vertCurrentTrigger.whenActive(new ConveyorSetFromRobot(States.stopped));
+		horCurrentTrigger.whenActive(new ConveyorSetFromRobot(States.stopped));
 	}
 	
 	/**

@@ -80,7 +80,7 @@ public class Intake extends Subsystem {
     public boolean getPosition(){
     	return (intakeSolenoid.get() == DoubleSolenoid.Value.kForward);
         
-        updateConflicts();
+//        updateConflicts();
     }
     
     /**
