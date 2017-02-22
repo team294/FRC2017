@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
@@ -17,18 +18,17 @@ public class MotorGroupCurrentTrigger extends Trigger {
 	double duration;
 	double limit;
 	Timer timer = new Timer();
+	int badMotor = -1;
+
 	/*double the1stValue;
 	double the2ndValue;
 	double the3rdValue;*/
 
 	/**
 	 * test to see if a motor is dead
-	 * @param motor1
-	 * @param value1
-	 * @param motor2
-	 * @param value2
-	 * @param motor3
-	 * @param value3
+	 * @param inputMotors -  CANTalon list containing all the motors
+	 * @param limit - Current limit
+	 * @param duration - Time needed to be running properly
 	 * I may only need the amp values, and not the motors -John
 	 */
 	public MotorGroupCurrentTrigger(List<CANTalon> inputMotors, double limit, double duration) {
@@ -45,19 +45,20 @@ public class MotorGroupCurrentTrigger extends Trigger {
 	}
 
 
-	public boolean get() {
-		List<Double> currents =  new ArrayList<Double>();
-		for(int i =0; i < motorList.size(); i++){
-			for(int j = i+1; j < motorList.size(); j++){
-			/*if (the1stValue < Math.abs(the2ndValue + the3rdValue) || the2ndValue < Math.abs(the1stValue + the3rdValue) || the3rdValue < Math.abs(the1stValue + the2ndValue)) {
-			return true;
-		}
-		else {
-			return false;
-		}*/
-		//if(motorList.get(i).getOutputCurrent()<)
+	public boolean get() {		for(int i = 0; i < motorList.size(); i++){
+		for(int j = 0; j < motorList.size(); j++){
+			if((motorList.get(j).getOutputCurrent() > 0.1) && (motorList.get(i).getOutputCurrent()/motorList.get(j).getOutputCurrent() < 0.67)){
+				badMotor = i;
+			}
+			else{
+				timer.reset();
 			}
 		}
-		return timer.get() >= duration;
+	}
+	//SmartDashboard.putNumber("Bad motor", motorList.get(badMotor).getDeviceID());
+	return timer.get() >= duration;
+	}
+	public void printBadMotor(){
+		SmartDashboard.putNumber("Bad motor" , badMotor);
 	}
 }

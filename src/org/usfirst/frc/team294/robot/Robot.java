@@ -101,6 +101,8 @@ public class Robot extends IterativeRobot {
 		ballFeed.ballFeedCurrentProtection();
 		shooter.shooterCurrentProtection();
 		intake.intakeCurrentProtection();
+		driveTrain.leftCurrentProtection();
+		driveTrain.rightCurrentProtection();
 	
 		robotPrefs = Preferences.getInstance();
 			
