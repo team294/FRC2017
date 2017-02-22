@@ -7,23 +7,35 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Sets the voltage output of both conveyers
  */
-public class ConveyorSetToVoltage extends Command {
+public class ConveyorSetFromRobot extends Command {
 
-	private double horVoltage = Robot.horizontalConveyor;
-	private double vertVoltage = Robot.verticalConveyor;
+	public enum States {
+		in, out, stopped
+	}
+	
+	private double horVoltage;
+	private double vertVoltage;
 	
 	/**
 	 * Set the vertical and horizontal voltage output of the vertical and horizontal conveyers
-	 * @param vertical voltage from -12 (out) to 12 (in)
-	 * @param horizontal voltage from -12 (out) to 12 (in)
+	 * @param vertical voltage from -12 (out) to 12 (in) is in Robot
+	 * @param horizontal voltage from -12 (out) to 12 (in) is in Robot
 	 */
-    public ConveyorSetToVoltage() {
+    public ConveyorSetFromRobot(States state) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.ballFeed);
-//    	this.vertVoltage = vertVoltage;
-//    	this.horVoltage = horVoltage;
 
+    	if (state == States.in) {
+    		horVoltage = Robot.horizontalConveyor;
+    		vertVoltage = Robot.verticalConveyor;
+    	} else if (state == States.out) {
+    		horVoltage = Robot.horizontalConveyorOut;
+    		vertVoltage = Robot.verticalConveyorOut;
+    	} else {
+    		horVoltage = 0.0;
+    		vertVoltage = 0.0;
+    	}
     }
 
     // Called just before this Command runs the first time
