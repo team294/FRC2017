@@ -100,6 +100,12 @@ public class Robot extends IterativeRobot {
 		shooterHood = new ShooterHood();
 		ballFeed = new BallFeed();
 		
+		ballFeed.ballFeedCurrentProtection();
+		shooter.shooterCurrentProtection();
+		intake.intakeCurrentProtection();
+		driveTrain.leftCurrentProtection();
+		driveTrain.rightCurrentProtection();
+	
 		robotPrefs = Preferences.getInstance();
 			
 		oi = new OI();
