@@ -3,6 +3,7 @@ package org.usfirst.frc.team294.robot.subsystems;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
+import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
 import org.usfirst.frc.team294.utilities.MotorGroupCurrentTrigger;
 
 import com.ctre.CANTalon;
@@ -43,8 +44,14 @@ public class DriveTrain extends Subsystem {
     // Track encoder resets in software due to latency (like NavX)
     private double leftEncoderZero = 0, rightEncoderZero = 0;
     
-    public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotor1.getOutputCurrent(), rightMotor2.getOutputCurrent(), rightMotor3.getOutputCurrent());
-    public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotor1.getOutputCurrent(), leftMotor2.getOutputCurrent(), leftMotor3.getOutputCurrent());
+    //Current checkers //I do not have CTRlib so I cannot see if this works -John //TODO: add an LED output or something is returns false
+//    public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotor1.getOutputCurrent() getOutputCurrent, leftMotor2.getOutputCurrent, leftMotor3.getOutputCurrent);
+//    public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotor1.getOutputCurrent, rightMotor2.getOutputCurrent, rightMotor3.getOutputCurrent);
+//    public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotor1, leftMotor1.getOutputCurrent, leftMotor2, leftMotor2.getOutputCurrent, leftMotor3, leftMotor3.getOutputCurrent);
+//    public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotor1, rightMotor1.getOutputCurrent, rightMotor2, rightMotor2.getOutputCurrent, rightMotor3, rightMotor3.getOutputCurrent);
+
+    
+  
 
     public DriveTrain() {
     	super();
@@ -116,7 +123,7 @@ public class DriveTrain extends Subsystem {
      * @param rightStick Right joystick
      */
     public void driveWithJoystick(double leftStick, double rightStick) {
-    	robotDrive.tankDrive(leftStick, rightStick, false); //false is so that squared inputs is not used
+    	robotDrive.tankDrive(leftStick, rightStick, false);
     }
 
     /**
