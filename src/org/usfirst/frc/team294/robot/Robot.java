@@ -51,10 +51,11 @@ public class Robot extends IterativeRobot {
 	public static boolean inchesPerRevolutionEnabled;
 	public static boolean invertDrive;
 	public static double intakeSpeed; // -1 to 1
-	public static double shootSpeedHigh;
-	public static double shootSpeedLow;
-	public static double horizontalConveyor;
-	public static double verticalConveyor;
+	public static double shootSpeedHigh; //RPM
+	public static double shootSpeedLow; //RPM
+	public static double horizontalConveyor; //Voltage
+	public static double verticalConveyor; //Voltage
+	public static double gearCam; // Gear vision cam horizontal offset
 
 
 
@@ -85,6 +86,7 @@ public class Robot extends IterativeRobot {
 		shootSpeedLow = robotPrefs.getDouble("shootSpeedLowRPM",0);
 		horizontalConveyor = robotPrefs.getDouble("horizontalConveyor",0);
 		verticalConveyor = robotPrefs.getDouble("verticalConveyor",0);
+		gearCam = robotPrefs.getDouble("gearCam",0);
 		
 		log = new FileLog();
 		driveTrain = new DriveTrain();
