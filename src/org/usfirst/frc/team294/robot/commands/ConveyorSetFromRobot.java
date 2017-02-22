@@ -30,8 +30,8 @@ public class ConveyorSetFromRobot extends Command {
     		horVoltage = Robot.horizontalConveyor;
     		vertVoltage = Robot.verticalConveyor;
     	} else if (state == States.out) {
-    		horVoltage = -1.0; // This will need to be finalized and added to the Robot prefs
-    		vertVoltage = -1.0; // This will need to be finalized and added to the Robot prefs
+    		horVoltage = Robot.horizontalConveyorOut;
+    		vertVoltage = Robot.verticalConveyorOut;
     	} else {
     		horVoltage = 0.0;
     		vertVoltage = 0.0;

@@ -270,7 +270,12 @@ public class OI {
 		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
 		    
 		 // Stop Command
-		 SmartDashboard.putData("Drive Stop", new DriveStop());	   	    
+		 SmartDashboard.putData("Drive Stop", new DriveStop());	
+		 
+		 // Conveyor Changes
+		 SmartDashboard.putData("Conveyors In", new ConveyorSetFromRobot(States.in));
+		 SmartDashboard.putData("Conveyors Out", new ConveyorSetFromRobot(States.out));
+		 SmartDashboard.putData("Conveyors Stopped", new ConveyorSetFromRobot(States.stopped));
 	}
 	
 	/**

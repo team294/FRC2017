@@ -20,7 +20,6 @@ public class Shooter extends Subsystem {
 	
 	// Motor Hardware
 	private final CANTalon shooterMotor1 = new CANTalon(RobotMap.shooterMotor1);
-//	private final CANTalon shooterMotor2 = new CANTalon(RobotMap.shooterMotor2);
 	
     //Current Protection
     public final MotorCurrentTrigger shooterMotorCurrentTrigger = new MotorCurrentTrigger(shooterMotor1, 25, 3);
@@ -37,19 +36,14 @@ public class Shooter extends Subsystem {
 		super();
 		robotPrefs = Preferences.getInstance();
 		
-		shooterMotor1.setVoltageRampRate(5.0);
-//		shooterMotor2.setVoltageRampRate(24.0);
-		
+		shooterMotor1.setVoltageRampRate(5.0);		
 		
 		shooterMotor1.reverseSensor(true);    
 		shooterMotor1.reverseOutput(false);
 		
 		shooterMotor1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		shooterMotor1.configEncoderCodesPerRev(100);
-//		shooterMotor2.changeControlMode(TalonControlMode.Follower);
-//		shooterMotor2.set(shooterMotor1.getDeviceID());
 		shooterMotor1.enableBrakeMode(false);
-//		shooterMotor2.enableBrakeMode(false);
 		shooterMotor1.set(0.0);
 		setupSmartDashboard();
 		shooterMotor1.setPID(Robot.shooterP, Robot.shooterI, Robot.shooterD, Robot.shooterFNominal, 500, 500, 0); 
@@ -127,17 +121,6 @@ public class Shooter extends Subsystem {
 	}
 	
 	/**
-	 * Sets the shooter speed based on Vbus
-	 * @param vbus from -1 to +1
-	 */
-	public void setVbus(double vbus) {
-		shooterMotor1.changeControlMode(TalonControlMode.PercentVbus);
-		vbus = (vbus > 1.0) ? 1.0 : vbus;
-		vbus = (vbus < -1.0) ? -1.0 : vbus;
-		shooterMotor1.set(vbus);
-	}
-	
-	/**
 	 * Get the speed of the shooter
 	*/
 	public double getSpeed(){
@@ -207,9 +190,9 @@ public class Shooter extends Subsystem {
 
 	/**
 	 * Stops the shooter motors
-	 * <p> <b>Does not change the control mode</b>
 	 */
 	public void stop() {
+		shooterMotor1.changeControlMode(TalonControlMode.Voltage);
 		shooterMotor1.set(0.0);
 	}
 	
