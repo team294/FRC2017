@@ -1,35 +1,31 @@
 package org.usfirst.frc.team294.robot.commands;
 
-
-
-
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Stops all motors except the drive train
+ */
+public class StopAllMotors extends Command {
 
- 
-public class MoveHopper extends Command {
-
-	private boolean position;
-	
-
-	 /* Set the position of the hopper
-	 * @param position true for deployed, false for stowed
+	/**
+	 * Stops all motors except the drive train
 	 */
-	
-    public MoveHopper(boolean position) {
+    public StopAllMotors() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.shooter);
+    	requires(Robot.ballFeed);
     	requires(Robot.intake);
-    	
-    	this.position = position;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (position) Robot.intake.deployHopper();
-    	else { Robot.intake.stowHopper(); }
+    	Robot.shooter.stop();
+    	Robot.ballFeed.stop();
+    	Robot.intake.stopIntake();
+    	Robot.intake.stopClimber();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -48,6 +44,10 @@ public class MoveHopper extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+       	Robot.shooter.stop();
+    	Robot.ballFeed.stop();
+    	Robot.intake.stopIntake();
+    	Robot.intake.stopClimber();
     }
 }
 

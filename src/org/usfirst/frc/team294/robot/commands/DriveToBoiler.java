@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveToBoiler extends Command {
 
+	/**
+	 * Drives to the boiler according to vision
+	 */
     public DriveToBoiler() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -30,12 +33,7 @@ public class DriveToBoiler extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-       // return false;
-        if (Robot.boilerVision.getBoilerDistance() <= 2) {
-        	return true;
-        } else {
-        	return false;
-        }
+        return (Robot.boilerVision.getBoilerDistance() <= 2);
     }
 
     // Called once after isFinished returns true

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.commands;
 
+import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.DriveMode;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.Units;
 import org.usfirst.frc.team294.robot.commands.GyroTurnToAngle.TurnMode;
@@ -12,11 +13,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutoScoreBoilerFromMiddleRed extends CommandGroup {
 
-    public AutoScoreBoilerFromMiddleRed() {
-    	
-    	//addSequential(new ShooterSetToSpeed(12000)); // Need a new command for rpm. ShooterSetToSpeed uses Vbus
-    	
-    	
+    public AutoScoreBoilerFromMiddleRed() {    	
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -44,6 +41,6 @@ public class AutoScoreBoilerFromMiddleRed extends CommandGroup {
       	addSequential(new WaitSeconds(.2));
        	addSequential(new DriveToBoiler());
        	addSequential(new WaitSeconds(.2));
-       	addSequential(new ConveyorSetToVoltage());
+       	addSequential(new ConveyorSetFromRobot(States.in));
     }
 }
