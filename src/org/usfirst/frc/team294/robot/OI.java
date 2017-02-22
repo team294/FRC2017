@@ -3,11 +3,15 @@ package org.usfirst.frc.team294.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.commands.*;
+import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
+import org.usfirst.frc.team294.robot.triggers.AxisTrigger;
+import org.usfirst.frc.team294.robot.triggers.POVTrigger;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -96,12 +100,9 @@ public class OI {
 	public Joystick leftJoystick = new Joystick(0);
 	public Joystick rightJoystick = new Joystick(1);
 	public Joystick coPanel = new Joystick(2);
+	public Joystick xboxController = new Joystick(3);
 	
-	public Button[] left = new Button[12];
-    public Button[] right = new Button[12];
-    public Button[] coP =  new Button[15];
-    
-    private boolean driveDirection = true; 
+	private boolean driveDirection = true;
 	
 	public OI() {
 		
@@ -109,6 +110,13 @@ public class OI {
 		Button[] left = new Button[12];
 	    Button[] right = new Button[12];
 	    Button[] coP =  new Button[15];
+	    Button[] xbB = new Button[11];
+	    Trigger xbLT = new AxisTrigger(xboxController, 2, 0.9);
+        Trigger xbRT = new AxisTrigger(xboxController, 3, 0.9);
+		Trigger xbPovUp = new POVTrigger(xboxController, 0);
+        Trigger xbPovRight = new POVTrigger(xboxController, 90);
+        Trigger xbPovDown = new POVTrigger(xboxController, 180);
+        Trigger xbPovLeft = new POVTrigger(xboxController, 270);
 	    	    
 	    // Declare left and right joystick buttons
 	    for (int i = 1; i < left.length; i++) {
@@ -128,27 +136,67 @@ public class OI {
 	    	coP[i] = new JoystickButton(coPanel, i);
 		}
 	    
-	    /*
-	     * Commented until we start using the practice bot
+	    // Xbox controller buttons
+	    for (int i = 1; i < xbB.length; i++) {
+	    	xbB[i] = new JoystickButton(xboxController, i);
+	    }
+	    
 	    // Bind commands to the codriver panel switches
-	    coP[1].whenPressed(new ConveyerSetToSpeed(1.0));
-	    coP[1].whenReleased(new ConveyerSetToSpeed(0.0));
-	    coP[2].whenPressed(new ShooterSetToSpeed(1.0)); // This will likely change according to the position of the shooter hood. A new command will be required
-	    coP[3].whenPressed(new ConveyerSetToSpeed(-1.0));
-	    coP[3].whenReleased(new ConveyerSetToSpeed(-1.0));
-	    //coP[4].whenPressed(new PrepareToClimb()); // Command does not yet exist
-	    coP[5].whenPressed(new ClimbSetToSpeed(1.0)); // This will likely change according to measured values on the robot
-	    coP[6].whenPressed(new MoveShooterHood(true));
-	    coP[7].whenPressed(new MoveShooterHood(false));
-	    //coP[8].whenPressed(new stowIntakeAndHopper()); // Command does not yet exist
+	    coP[1].whenPressed(new StopAllMotors());
+	    coP[2].whenPressed(new PrepareToClimb());
+	    //coP[3].whenPressed(new StartManualClimbControl());
+	    //coP[4].whenPressed(); Shooter preset speed
+	    //coP[5].whenPressed(); Shooter preset speed
+	    coP[6].whenPressed(new ConveyorSetFromRobot(States.in));
+	    coP[6].whenReleased(new ConveyorSetFromRobot(States.stopped));
+	    coP[7].whenPressed(new ConveyorSetFromRobot(States.out));
+	    coP[7].whenReleased(new ConveyorSetFromRobot(States.stopped));
+	    coP[8].whenPressed(new MoveGearGate(false));
 	    coP[9].whenPressed(new IntakeSetToSpeed(-1.0));
-	    //coP[10].whenPressed(new deployIntakeAndHopper()); // Command does not yet exist
+	    coP[10].whenPressed(new MoveGearGate(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(1.0));
-	    //coP[12].whenPressed(new StopAllFlywheels()); // Command does not yet exist
-	    coP[13].whenPressed(new MoveGearGate(false));
-	    coP[14].whenPressed(new MoveGearGate(true));
-		*/
-			    
+	    //coP[12].whenPressed(); Shooter preset speed
+	    coP[13].whenPressed(new MoveShooterHood(false));
+	    coP[14].whenPressed(new MoveShooterHood(true));
+	    
+	    // Xbox controller buttons
+	    xbB[1].whenPressed(new MoveShooterHood(false));
+	    xbB[2].whenPressed(new MoveGearGate(true));
+	    xbB[3].whenPressed(new MoveShooterHood(true));
+	    xbB[4].whenPressed(new MoveGearGate(false));
+	    xbB[5].whenPressed(new IntakeSetToSpeed(1.0));
+	    xbB[6].whenPressed(new IntakeSetToSpeed(-1.0));
+	    xbB[9].whenPressed(new StopAllMotors());
+	    //xbB[10].whenPressed(new StartManualClimbControl()); //Command does not yet exist
+	    
+	    /*
+	     * Commands to set the shooter to preset speeds
+	     * Commands do not yet exist
+	     * 
+	     *	xbPovUp.whenActive();
+	     *	xbPovDown.whenActive();
+	     *	xbPovLeft.whenActive();
+	     *	xbPovRight.whenActive();
+	     */
+	    
+	    // Xbox triggers
+	    xbLT.whenActive(new ConveyorSetFromRobot(States.out)); // This runs the conveyors out. The number is subject to change.
+	    xbLT.whenInactive(new ConveyorSetFromRobot(States.stopped));
+	    xbRT.whenActive(new ConveyorSetFromRobot(States.in));
+	    xbRT.whenInactive(new ConveyorSetFromRobot(States.stopped));
+		
+	    // Gyro Testing Commands
+	    SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
+	    SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
+	    SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180));
+	    SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
+	    SmartDashboard.putData("Turn to gear", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+	     
+	    // Subsystem Testing Commands
+	    SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
+	    SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
+	    SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
+	    SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
 	    
 	    // it has become standard practice to comment out all not used commands during testing to make it possible to use the SmartDashboard. 
 	    //If you don't do this then your button will be buried in other buttons making it stupidly hard to find.
@@ -169,6 +217,22 @@ public class OI {
 	     SmartDashboard.putNumber("AngleTolerance", 0);
 	     SmartDashboard.putData("Turn to gear", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
 	    
+<<<<<<< HEAD
+	    //  Shooter controls
+	    SmartDashboard.putData("Set Shooter RPM", new ShooterSetToRPMFromSmartDashboard());
+	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
+	    SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
+	    SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
+	    SmartDashboard.putData("Start BallFeed", new ConveyorSetVoltage(7.5));   //  Pass the voltage to vertical conveyor
+	    SmartDashboard.putData("Stop BallFeed", new ConveyorSetVoltage(0.0)); 
+	    
+	    // Encoders
+	    SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
+	    SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
+	    
+	    // Stop Command
+	    SmartDashboard.putData("Drive Stop", new DriveStop());
+=======
 	     //DriveStraightDistance tests
 	     SmartDashboard.putData("Drive straight distance", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
 	     SmartDashboard.putNumber("DriveSpeed", 0);
@@ -206,9 +270,12 @@ public class OI {
 		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
 		    
 		 // Stop Command
-		 SmartDashboard.putData("Drive Stop", new DriveStop());	   
-		    
-	    
+		 SmartDashboard.putData("Drive Stop", new DriveStop());	
+		 
+		 // Conveyor Changes
+		 SmartDashboard.putData("Conveyors In", new ConveyorSetFromRobot(States.in));
+		 SmartDashboard.putData("Conveyors Out", new ConveyorSetFromRobot(States.out));
+		 SmartDashboard.putData("Conveyors Stopped", new ConveyorSetFromRobot(States.stopped));
 	}
 	
 	/**

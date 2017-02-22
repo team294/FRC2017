@@ -13,7 +13,7 @@ public class ClimbSetToSpeed extends Command {
 	
 	/**
 	 * Set the speed of the climber motors
-	 * @param speed from -1 (down) to +1 (up)
+	 * @param speed from 0 to +1
 	 */
     public ClimbSetToSpeed(double speed) {
         // Use requires() here to declare subsystem dependencies

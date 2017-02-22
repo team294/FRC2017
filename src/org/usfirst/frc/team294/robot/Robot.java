@@ -54,8 +54,8 @@ public class Robot extends IterativeRobot {
 	public static double shootSpeedLow;
 	public static double horizontalConveyor;
 	public static double verticalConveyor;
-
-
+	public static double horizontalConveyorOut;
+	public static double verticalConveyorOut;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -72,7 +72,7 @@ public class Robot extends IterativeRobot {
 		shooterFNominal = robotPrefs.getDouble("shooterFNominal",0);
 		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
 		if (inchesPerRevolution==0) {
-			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches pre Revolution calibration. Distance disabled.", true);
+			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration. Distance disabled.", true);
 			inchesPerRevolutionEnabled = false;
 			inchesPerRevolution = 100000;	//  set to a very large number for a minimum distance.  0 would go forever
 		} else {
@@ -84,6 +84,8 @@ public class Robot extends IterativeRobot {
 		shootSpeedLow = robotPrefs.getDouble("shootSpeedLowRPM",0);
 		horizontalConveyor = robotPrefs.getDouble("horizontalConveyor",0);
 		verticalConveyor = robotPrefs.getDouble("verticalConveyor",0);
+		horizontalConveyorOut = robotPrefs.getDouble("horizontalConveyorOut",0);
+		verticalConveyorOut = robotPrefs.getDouble("verticalConveyorOut",0);
 		
 		log = new FileLog();
 		driveTrain = new DriveTrain();
@@ -124,6 +126,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
 	 */
 	public void disabledInit() {
+		intake.updateConflicts();
 
 	}
 
@@ -152,6 +155,7 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
+		intake.updateConflicts();
 		log.writeLogEcho("Autonomous Mode Started");
 	}
 
@@ -169,6 +173,7 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		intake.updateConflicts();
 		log.writeLogEcho("Teleop Mode Started");
 	}
 
