@@ -10,9 +10,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * The conveyers that move balls from the hopper to the shooter
+<<<<<<< HEAD
+=======
  * 
  * They will both run at the same time, but maybe not at the same voltage
  * 
+>>>>>>> refs/remotes/origin/master
  */
 public class BallFeed extends Subsystem {
 

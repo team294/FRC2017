@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.commands;
 
+import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.DriveMode;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.Units;
 import org.usfirst.frc.team294.robot.commands.GyroTurnToAngle.TurnMode;
@@ -36,6 +37,6 @@ public class AutoScoreBoilerFromLeftBlue extends CommandGroup {
       	addSequential(new WaitSeconds(.2));
        	addSequential(new DriveToBoiler());
        	addSequential(new WaitSeconds(.2));
-       	addSequential(new ConveyorSetToVoltage());
+       	addSequential(new ConveyorSetFromRobot(States.in));
     }
 }
