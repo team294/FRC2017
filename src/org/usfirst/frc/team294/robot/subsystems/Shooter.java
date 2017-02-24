@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.commands.ShooterSetVoltage;
 import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
 
 import com.ctre.CANTalon;
@@ -54,6 +55,13 @@ public class Shooter extends Subsystem {
     	// Stall protection
  //       shooterMotorCurrentTrigger.whenActive(new ShooterSetVoltage(0));
 		
+	}
+	
+	/**
+	 * Adds current protection to the shooter
+	 */
+	public void shooterCurrentProtection(){
+		shooterMotorCurrentTrigger.whenActive(new ShooterSetVoltage(0.0));
 	}
 	
 	/**
