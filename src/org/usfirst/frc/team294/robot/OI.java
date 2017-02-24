@@ -123,8 +123,10 @@ public class OI {
 	    	left[i] = new JoystickButton(leftJoystick, i);
 	    	right[i] = new JoystickButton(rightJoystick, i);
 	    	if (i == 3) {
-	    		right[i].whenPressed(new SwitchDriveDirection());
-	    		left[i].whenPressed(new SwitchDriveDirection());
+//	    		right[i].whenPressed(new SwitchDriveDirection());
+//	    		left[i].whenPressed(new SwitchDriveDirection());
+	    		right[i].whenPressed(new SwitchDriveDirectionToShooter());
+	    		left[i].whenPressed(new SwitchDriveDirectionToGear());
 	    	} else {
 	    		right[i].whenPressed(new ShiftUp());
 	    		left[i].whenPressed(new ShiftDown());
@@ -365,13 +367,17 @@ public class OI {
 	} 
 	
 	/**
-	 * 
-	 * @param direction
+	 * Sets the drive direction
+	 * @param direction true = gear in the front false = shooter in the front
 	 */
 	public void setDriveDirection(boolean direction){
 		this.driveDirection = direction;
 	}
 	
+	/**
+	 * Gets the drive direction
+	 * @return driveDirection
+	 */
 	public boolean getDriveDirection(){
 		return driveDirection;
 	}

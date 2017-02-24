@@ -53,8 +53,10 @@ public class Robot extends IterativeRobot {
 	public static double intakeSpeed; // -1 to 1
 	public static double shootSpeedHigh; //RPM
 	public static double shootSpeedLow; //RPM
-	public static double horizontalConveyor; //Voltage
-	public static double verticalConveyor; //Voltage
+	public static double horizontalConveyorIn; //Voltage
+	public static double verticalConveyor; //Voltage (It wont let me refactor this to verticalConveyorIn -John)
+	public static double horizontalConveyorOut;
+	public static double verticalConveyorOut;
 	public static double gearCam; // Gear vision cam horizontal offset
 
 	/**
@@ -82,8 +84,10 @@ public class Robot extends IterativeRobot {
 		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
 		shootSpeedHigh = robotPrefs.getDouble("shootSpeedHighRPM",0);
 		shootSpeedLow = robotPrefs.getDouble("shootSpeedLowRPM",0);
-		horizontalConveyor = robotPrefs.getDouble("horizontalConveyor",0);
-		verticalConveyor = robotPrefs.getDouble("verticalConveyor",0);
+		horizontalConveyorIn = robotPrefs.getDouble("horizontalConveyorIn",0);
+		verticalConveyor = robotPrefs.getDouble("verticalConveyorIn",0);
+		horizontalConveyorOut = robotPrefs.getDouble("horizontalConveyorOut",0);
+		verticalConveyorOut = robotPrefs.getDouble("verticalConveyorOut",0);
 		gearCam = robotPrefs.getDouble("gearCam",0);
 		
 		log = new FileLog();
