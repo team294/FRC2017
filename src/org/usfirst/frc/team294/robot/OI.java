@@ -227,22 +227,6 @@ public class OI {
 	     SmartDashboard.putNumber("AngleTolerance", 0);
 	     SmartDashboard.putData("Turn to gear", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
 	    
-<<<<<<< HEAD
-	    //  Shooter controls
-	    SmartDashboard.putData("Set Shooter RPM", new ShooterSetToRPMFromSmartDashboard());
-	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
-	    SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
-	    SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-	    SmartDashboard.putData("Start BallFeed", new ConveyorSetVoltage(7.5));   //  Pass the voltage to vertical conveyor
-	    SmartDashboard.putData("Stop BallFeed", new ConveyorSetVoltage(0.0)); 
-	    
-	    // Encoders
-	    SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
-	    SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
-	    
-	    // Stop Command
-	    SmartDashboard.putData("Drive Stop", new DriveStop());
-=======
 	     //DriveStraightDistance tests
 	     SmartDashboard.putData("Drive straight distance", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
 	     SmartDashboard.putNumber("DriveSpeed", 0);
@@ -380,6 +364,10 @@ public class OI {
 		}			
 	} 
 	
+	/**
+	 * 
+	 * @param direction
+	 */
 	public void setDriveDirection(boolean direction){
 		this.driveDirection = direction;
 	}
