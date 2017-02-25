@@ -23,9 +23,7 @@ public class ClimbJoystickControl extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.setClimbSpeed(Robot.oi.rightJoystick.getRawAxis(1));
-    	SmartDashboard.putBoolean("Joystick button 3", Robot.oi.right[3].get());
-	    SmartDashboard.putNumber("Joystick value", Robot.oi.rightJoystick.getRawAxis(1));
+    	Robot.intake.setClimbSpeed(Robot.oi.xboxController.getRawAxis(5));
 		}
 
     // Make this return true when this Command no longer needs to run execute()

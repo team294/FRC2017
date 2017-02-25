@@ -134,7 +134,7 @@ public class OI {
 	    }
 	  
 //	    	right[i].whenPressed(new ClimbJoystickControl());
-	    }
+	   // }
 	    /*
 	    // Declare left joystick buttons and set them to shift down
 	     for (Button i : left) {
@@ -177,6 +177,7 @@ public class OI {
 	     SmartDashboard.putNumber("DriveSpeed", 0);
 	     SmartDashboard.putNumber("Distance", 0);
 	     SmartDashboard.putNumber("BoilerDistance", 0);
+	     xbB[10].whenPressed(new ClimbJoystickControl());
 
 /*
 	     //double speed = SmartDashboard.getDouble("Drive Speed");
@@ -243,7 +244,7 @@ public class OI {
 	    xbB[5].whenPressed(new IntakeSetToSpeed(1.0));
 	    xbB[6].whenPressed(new IntakeSetToSpeed(-1.0));
 	    xbB[9].whenPressed(new StopAllMotors());
-	    //xbB[10].whenPressed(new StartManualClimbControl()); //Command does not yet exist
+	    xbB[10].whenPressed(new ClimbJoystickControl()); //Command does not yet exist
 	    
 	    /*
 	     * Commands to set the shooter to preset speeds
