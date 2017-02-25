@@ -39,8 +39,8 @@ public class RobotMap {
     public static int driveTrainGyro = 0;
     
     // Digital I/O addresses
-    public static int usTx = 8;
-    public static int usRx = 9;
+    public static int usTx = 8;		// Ultrasonic sensor
+    public static int usRx = 9;		// Ultrasonic sensor
         
     // Field Map
     

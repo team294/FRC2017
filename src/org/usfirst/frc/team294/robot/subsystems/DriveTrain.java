@@ -7,7 +7,7 @@ import java.util.List;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
-import org.usfirst.frc.team294.utilities.MotorGroupCurrentTrigger;
+import org.usfirst.frc.team294.robot.triggers.MotorGroupCurrentTrigger;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -87,6 +87,8 @@ public class DriveTrain extends Subsystem {
         rightMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
         leftMotor2.setVoltageRampRate(40);
         rightMotor2.setVoltageRampRate(40);
+
+        //TODO:  Adjust ramp-rate limits so that we don't draw too much current or tip the robot
         
     	try {
             /* Communicate w/navX MXP via the MXP SPI Bus.                                     */

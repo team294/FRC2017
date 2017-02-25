@@ -4,7 +4,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot;
 import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
-import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
+import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
