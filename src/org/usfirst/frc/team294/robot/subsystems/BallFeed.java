@@ -2,8 +2,8 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.ConveyorSetToSpeed;
-import org.usfirst.frc.team294.robot.commands.ConveyorSetToVoltage;
+import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot;
+import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
 import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
 
 import com.ctre.CANTalon;
@@ -12,22 +12,15 @@ import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * The conveyers that move balls from the hopper to the shooter
-<<<<<<< HEAD
-=======
- * 
- * They will both run at the same time, but maybe not at the same voltage
- * 
->>>>>>> refs/remotes/origin/master
- */
+ * The conveyers that move balls from the hopper to the shooter   */
+
 public class BallFeed extends Subsystem {
 
 	// Hardware
 	public static CANTalon horConveyor = new CANTalon(RobotMap.horizontalConveyor);
 	public static CANTalon vertConveyor = new CANTalon(RobotMap.verticalConveyor);
-	private static double hFactor = 0.6;   //  hFactor allows horizontal to run at ratio to vertical voltage
-	public final MotorCurrentTrigger vertCurrentTrigger =  new MotorCurrentTrigger(vertConveyor, 35, 2);
-	public final MotorCurrentTrigger horCurrentTrigger =  new MotorCurrentTrigger(horConveyor, 35, 2);
+	public final MotorCurrentTrigger vertCurrentTrigger =  new MotorCurrentTrigger(vertConveyor, 15, 2);
+	public final MotorCurrentTrigger horCurrentTrigger =  new MotorCurrentTrigger(horConveyor, 15, 2);
 	
 	public BallFeed() {
 		super();
@@ -39,11 +32,11 @@ public class BallFeed extends Subsystem {
 	}
 	
 	/**
-	 * Adds current protection to the conveyor. If either conveyor trips this, both sections will start
+	 * Adds current protection to the conveyor. If either conveyor trips this, both sections will stop
 	 */
 	public void ballFeedCurrentProtection(){
-		vertCurrentTrigger.whenActive(new ConveyorSetToSpeed(0.0));
-		horCurrentTrigger.whenActive(new ConveyorSetToSpeed(0.0));
+		vertCurrentTrigger.whenActive(new ConveyorSetFromRobot(States.stopped));
+		horCurrentTrigger.whenActive(new ConveyorSetFromRobot(States.stopped));
 	}
 	
 	/**
@@ -76,22 +69,25 @@ public class BallFeed extends Subsystem {
 		vertConveyor.set(0.0);
 	}
 	
-	/**
+	/**          The next two sections aren't called anywhere.  The speed is logged in logStatus, but reads Talon directly
+	 * 					It doesn't read actual speed because there isn't an encoder on these motors.  RPC
+	 * 
 	 * Get the speed of the horizontal conveyor
 	 * @return from -1 to +1 (This may depend on the control mode)
-	 */
+	 
 	public double getHorSpeed() {
 		return horConveyor.get();
 	}
+	*/
 	
 	/**
 	 * Get the speed of the vertical conveyor
 	 * @return from -1 to +1 (This may depend on the control mode)
-	 */
+	 
 	public double getVertSpeed() {
 		return vertConveyor.getSpeed();
 	}
-	
+	*/
 	/**
 	 * Logs the speed of both conveyors to the robot log
 	 */
