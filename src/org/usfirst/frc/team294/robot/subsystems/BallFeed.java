@@ -19,8 +19,8 @@ public class BallFeed extends Subsystem {
 	// Hardware
 	public static CANTalon horConveyor = new CANTalon(RobotMap.horizontalConveyor);
 	public static CANTalon vertConveyor = new CANTalon(RobotMap.verticalConveyor);
-	public final MotorCurrentTrigger vertCurrentTrigger =  new MotorCurrentTrigger(vertConveyor, 10, 2);
-	public final MotorCurrentTrigger horCurrentTrigger =  new MotorCurrentTrigger(horConveyor, 10, 2);
+	public final MotorCurrentTrigger vertCurrentTrigger =  new MotorCurrentTrigger(vertConveyor, 5, 2);
+	public final MotorCurrentTrigger horCurrentTrigger =  new MotorCurrentTrigger(horConveyor, 6, 2);
 	
 	public BallFeed() {
 		super();
