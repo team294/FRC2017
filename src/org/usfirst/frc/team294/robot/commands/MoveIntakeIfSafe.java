@@ -52,7 +52,7 @@ public class MoveIntakeIfSafe extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	if (waitForMovement) Robot.intake.setHopperTracker(status ? Status.deployed : Status.stowed);
+    	if (waitForMovement) Robot.intake.setIntakeTracker(status ? Status.deployed : Status.stowed);
     }
 
     // Called when another command which requires one or more of the same

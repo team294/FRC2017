@@ -43,8 +43,8 @@ public class Intake extends Subsystem {
     private Status hopperPos = Status.unknown;
     
     // Time to move hopper/intake in seconds (refine by testing)
-    public final double HOPPER_DELAY = 4.0;
-    public final double INTAKE_DELAY = 4.0;
+    public final double HOPPER_DELAY = 1.5;
+    public final double INTAKE_DELAY = 2.0;
     
     public Intake() {
     	
@@ -127,21 +127,21 @@ public class Intake extends Subsystem {
      * Stows the intake <b>only if the hopper is stowed</b>
      */
     public void stowIntake() {
-    	if (hopperPos == Status.stowed) intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
+    	intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
     }
     
     /**
      * Deploy the hopper out <b>only if the intake is deployed</b>
      */
     public void deployHopper() {
-    	if (intakePos == Status.deployed) hopperSolenoid.set(DoubleSolenoid.Value.kForward);
+    	hopperSolenoid.set(DoubleSolenoid.Value.kForward);
     }
     
     /**
      * Stow the hopper (for climbing) <b>only if the intake is deployed</b>
      */
     public void stowHopper() {
-    	if (intakePos == Status.deployed) hopperSolenoid.set(DoubleSolenoid.Value.kReverse);
+    	hopperSolenoid.set(DoubleSolenoid.Value.kReverse);
     }
     
     /**

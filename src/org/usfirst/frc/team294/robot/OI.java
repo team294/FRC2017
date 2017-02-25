@@ -203,6 +203,7 @@ public class OI {
 	    SmartDashboard.putData("Stow Intake", new MoveIntakeIfSafe(false));
 	    SmartDashboard.putData("Deploy Hopper", new MoveHopperIfSafe(true));
 	    SmartDashboard.putData("Stow Hopper", new MoveHopperIfSafe(false)); 
+	    SmartDashboard.putData("Deploy Intake and Hopper", new DeployIntakeAndHopper());
 	    
 	    // Autonomous Command Testing
 	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
