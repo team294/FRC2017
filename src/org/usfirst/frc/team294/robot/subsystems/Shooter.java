@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.commands.ShooterSetVoltage;
 import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
 
 import com.ctre.CANTalon;
@@ -57,6 +58,13 @@ public class Shooter extends Subsystem {
 	}
 	
 	/**
+	 * Adds current protection to the shooter
+	 */
+	public void shooterCurrentProtection(){
+		shooterMotorCurrentTrigger.whenActive(new ShooterSetVoltage(0.0));
+	}
+	
+	/**
 	 * Sets the shooter motor to speed according to rpm (normal, I kept this is in case it was used somewhere I don't know about -John)
 	 * @param rpm from -1000 to 6000  (18000 if encoder is on motor
 	 * Only run reverse to clear a possible jam
@@ -65,8 +73,9 @@ public class Shooter extends Subsystem {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
 		
 		rpm = (rpm > 6000.0) ? 6000.0 : rpm;
+
 		rpm = (rpm < -600.0) ? -600.0 : rpm;
-		
+
 		setSpeed = rpm;
 		shooterMotor1.set(-rpm);		
 	}
