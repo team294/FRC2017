@@ -7,6 +7,7 @@ import java.util.List;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
+import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
 import org.usfirst.frc.team294.utilities.MotorGroupCurrentTrigger;
 
 import com.ctre.CANTalon;
@@ -137,7 +138,7 @@ public class DriveTrain extends Subsystem {
      * @param rightStick Right joystick
      */
     public void driveWithJoystick(double leftStick, double rightStick) {
-    	robotDrive.tankDrive(leftStick, rightStick, false); //false is so that squared inputs is not used
+    	robotDrive.tankDrive(leftStick, rightStick, false);
     }
 
     /**

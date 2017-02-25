@@ -5,13 +5,8 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
-
-
 /**
- * checks if <b>talon</b> is at or above <b>limit</b> degrees F for <b>duration</b> seconds.
- * @param talon
- * @param limit
- * @param duration
+ * 
  */
 public class MotorTemperatureTrigger extends Trigger {
 	
@@ -20,6 +15,12 @@ public class MotorTemperatureTrigger extends Trigger {
     double duration;
     Timer timer = new Timer();
 
+    /**
+     * checks if <b>talon</b> is at or above <b>limit</b> degrees F for <b>duration</b> seconds.
+     * @param talon
+     * @param limit
+     * @param duration
+     */
 	public MotorTemperatureTrigger (CANTalon talon, double limit, double duration) {
         this.talon = talon;
         this.limit = limit;

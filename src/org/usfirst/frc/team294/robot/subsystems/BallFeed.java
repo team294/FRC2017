@@ -12,8 +12,8 @@ import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * The conveyers that move balls from the hopper to the shooter   */
-
+ * The conveyers that move balls from the hopper to the shooter 
+ */
 public class BallFeed extends Subsystem {
 
 	// Hardware
