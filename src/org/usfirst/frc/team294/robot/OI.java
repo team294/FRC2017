@@ -123,8 +123,10 @@ public class OI {
 	    	left[i] = new JoystickButton(leftJoystick, i);
 	    	right[i] = new JoystickButton(rightJoystick, i);
 	    	if (i == 3) {
-	    		right[i].whenPressed(new SwitchDriveDirection());
-	    		left[i].whenPressed(new SwitchDriveDirection());
+//	    		right[i].whenPressed(new SwitchDriveDirection());
+//	    		left[i].whenPressed(new SwitchDriveDirection());
+	    		right[i].whenPressed(new SwitchDriveDirectionToShooter());
+	    		left[i].whenPressed(new SwitchDriveDirectionToGear());
 	    	} else {
 	    		right[i].whenPressed(new ShiftUp());
 	    		left[i].whenPressed(new ShiftDown());
@@ -229,10 +231,13 @@ public class OI {
 		SmartDashboard.putData("Conveyors Out", new ConveyorSetFromRobot(States.out));
 		SmartDashboard.putData("Conveyors Stopped", new ConveyorSetFromRobot(States.stopped));
 	    
+<<<<<<< HEAD
 	    // it has become standard practice to comment out all not used commands during testing to make it possible to use the SmartDashboard. 
 	    //If you don't do this then your button will be buried in other buttons making it stupidly hard to find.
 	    //I will uncomment them for now but keep this in mind in future testing -John
 	    
+=======
+>>>>>>> refs/remotes/origin/master
 	    // Gyro Testing Commands 
 /*	    SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
 	    SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90, 2.0));
@@ -243,6 +248,7 @@ public class OI {
 	    SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
 		SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
 	    
+<<<<<<< HEAD
 	    // Shooter controls
 	    SmartDashboard.putData("Set Shooter RPM", new ShooterSetToRPMFromSmartDashboard());
 	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
@@ -260,6 +266,49 @@ public class OI {
 	    SmartDashboard.putData("Drive to Ultraonic", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
 	    SmartDashboard.putData("Drive to Ultrasonic_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
 	    */	    
+=======
+	     //DriveStraightDistance tests
+	     SmartDashboard.putData("Drive straight distance", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	     SmartDashboard.putNumber("DriveSpeed", 0);
+	     SmartDashboard.putNumber("Distance", 0);
+	     SmartDashboard.putNumber("BoilerDistance", 0);
+	     SmartDashboard.putNumber("UltrasonicDistance", 0);
+	     SmartDashboard.putData("Drive to Boiler_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.BOILER_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	     SmartDashboard.putData("Drive 12 inches", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
+	     SmartDashboard.putData("Drive to Ultraonic", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
+	     SmartDashboard.putData("Drive to Ultrasonic_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	     */	     	     
+	     // Subsystem Testing Commands
+	     SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
+	     SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
+//	     SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));  //  don't need on dashboard
+//	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.6));
+	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(Robot.intakeSpeed));
+	     
+	     // Autonomous Command Testing
+	     SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
+	     SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGearRight());
+	     SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle()); 
+	     
+	     //  Shooter controls
+		 SmartDashboard.putData("Set Shooter RPM Low", new ShooterSetToRPMFromSmartDashboardLow());
+		 SmartDashboard.putData("Set Shooter RPM High", new ShooterSetToRPMFromSmartDashboardHigh());
+		 SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
+		 SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
+		 SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
+		    
+		 // Encoders (I don't think these work because the command is never called. this should be done in teleopPeriodic -John)
+		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
+		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
+		    
+		 // Stop Command
+		 SmartDashboard.putData("Drive Stop", new DriveStop());	
+		 
+		 // Conveyor Changes
+		 SmartDashboard.putData("Conveyors In", new ConveyorSetFromRobot(States.in));
+		 SmartDashboard.putData("Conveyors Out", new ConveyorSetFromRobot(States.out));
+		 SmartDashboard.putData("Conveyors Stopped", new ConveyorSetFromRobot(States.stopped));
+>>>>>>> refs/remotes/origin/master
 	}
 	
 	/**
@@ -355,16 +404,26 @@ public class OI {
 	} 
 	
 	/**
+<<<<<<< HEAD
 	 * Sets the drive direction of the robot to reverse it
 	 * @param direction true for ? false for ?
+=======
+	 * Sets the drive direction
+	 * @param direction true = gear in the front false = shooter in the front
+>>>>>>> refs/remotes/origin/master
 	 */
 	public void setDriveDirection(boolean direction){
 		this.driveDirection = direction;
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * Gets the drive direction of the robot
 	 * @return true for ? false for ?
+=======
+	 * Gets the drive direction
+	 * @return driveDirection
+>>>>>>> refs/remotes/origin/master
 	 */
 	public boolean getDriveDirection(){
 		return driveDirection;
