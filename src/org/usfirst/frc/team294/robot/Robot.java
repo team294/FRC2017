@@ -84,8 +84,8 @@ public class Robot extends IterativeRobot {
 		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
 		shootSpeedHigh = robotPrefs.getDouble("shootSpeedHighRPM",0);
 		shootSpeedLow = robotPrefs.getDouble("shootSpeedLowRPM",0);
-		horizontalConveyorIn = robotPrefs.getDouble("horizontalConveyorIn",0);
-		verticalConveyor = robotPrefs.getDouble("verticalConveyorIn",0);
+		horizontalConveyorIn = robotPrefs.getDouble("horizontalConveyor",0);
+		verticalConveyor = robotPrefs.getDouble("verticalConveyor",0);
 		horizontalConveyorOut = robotPrefs.getDouble("horizontalConveyorOut",0);
 		verticalConveyorOut = robotPrefs.getDouble("verticalConveyorOut",0);
 		gearCam = robotPrefs.getDouble("gearCam",0);
