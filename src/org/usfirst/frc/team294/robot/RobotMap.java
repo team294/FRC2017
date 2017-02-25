@@ -10,9 +10,7 @@ public class RobotMap {
 	// Hardware addresses
 	
 	// CANbus Addresses
-	/**               IF these change update wiring map at bottom!
-	 * 
-	 **/
+	// If these change update wiring map at bottom!
 	public static int climbMotor1 = 3;
 	public static int climbMotor2 = 4;
 	public static int driveTrainLeftMotor1 = 5;
