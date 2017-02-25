@@ -2,7 +2,6 @@ package org.usfirst.frc.team294.utilities;
 
 import com.ctre.CANTalon;
 
-import java.util.ArrayList;
 import java.util.List;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Trigger;
