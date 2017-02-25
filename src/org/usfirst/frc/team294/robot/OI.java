@@ -113,6 +113,10 @@ public class OI {
 	    Button[] xbB = new Button[11];
 	    Trigger xbLT = new AxisTrigger(xboxController, 2, 0.9);
         Trigger xbRT = new AxisTrigger(xboxController, 3, 0.9);
+
+        //TODO:  Make sure all controllers are set up to the correct commands. 
+
+        //TODO:  Add X-box controller POV controls.
 /*		Trigger xbPovUp = new POVTrigger(xboxController, 0);
         Trigger xbPovRight = new POVTrigger(xboxController, 90);
         Trigger xbPovDown = new POVTrigger(xboxController, 180);
