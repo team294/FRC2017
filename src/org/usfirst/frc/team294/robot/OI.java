@@ -196,7 +196,7 @@ public class OI {
 	    
 	    // Climb Motor Tests
 	    SmartDashboard.putData("Start Climb Motor", new ClimbSetToSpeed(0.4));
-	    SmartDashboard.putData("Stop Climb Motor", new IntakeSetToSpeed(0));
+	    SmartDashboard.putData("Stop Climb Motor", new ClimbSetToSpeed(0.0));
 	    
 	    // Intake and Hopper Tests
 	    SmartDashboard.putData("Deploy Intake", new MoveIntakeIfSafe(true));
