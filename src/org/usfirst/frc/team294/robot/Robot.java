@@ -65,6 +65,9 @@ public class Robot extends IterativeRobot {
 		
 		System.out.println("Robot init");
 		
+		
+		
+		robotPrefs = Preferences.getInstance();
 		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
 		if (inchesPerRevolution==0) {
 			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration. Distance disabled.", true);
@@ -83,19 +86,49 @@ public class Robot extends IterativeRobot {
 			robotPrefs.putDouble("verticalConveyorOut", -2.0);
 			
 		}
-		
-		robotPrefs = Preferences.getInstance();
-		shooterP = robotPrefs.getDouble("shooterP",0);  // This has to be done before Shooter()
+		shooterP = robotPrefs.getDouble("shooterP",0);// This has to be done before Shooter()
 		shooterI = robotPrefs.getDouble("shooterI",0);
 		shooterD = robotPrefs.getDouble("shooterD",0);
 		shooterFNominal = robotPrefs.getDouble("shooterFNominal",0);
+		
 		invertDrive = robotPrefs.getBoolean("invertDrive",false);
+		if(invertDrive == false){
+			robotPrefs.putBoolean("invertDrive",true);
+		}
+		invertDrive = robotPrefs.getBoolean("invertDrive",false);
+		
 		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
+		if(intakeSpeed == 0){
+			robotPrefs.putDouble("intakeSpeed",0.6);
+		}
+		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
+		
 		shootSpeedHigh = robotPrefs.getDouble("shootSpeedHighRPM",0);
 		shootSpeedLow = robotPrefs.getDouble("shootSpeedLowRPM",0);
+		
 		horizontalConveyor = robotPrefs.getDouble("horizontalConveyor",0);
+		if(horizontalConveyor == 0){
+			robotPrefs.putDouble("horizontalConeyor", 4.5);
+		}	
+		horizontalConveyor = robotPrefs.getDouble("horizontalConveyor",0);
+		
 		verticalConveyor = robotPrefs.getDouble("verticalConveyor",0);
+		if(verticalConveyor == 0){
+			robotPrefs.putDouble("verticalConveyor", 7.5);
+		}
+		verticalConveyor = robotPrefs.getDouble("verticalConveyor", 0);
+		
 		horizontalConveyorOut = robotPrefs.getDouble("horizontalConveyorOut",0);
+		if(horizontalConveyorOut == 0){
+			robotPrefs.putDouble("horizontalConveyorOut", -2.0);
+		}
+		horizontalConveyorOut = robotPrefs.getDouble("horizontalConveyorOut", 0);
+		
+		
+		verticalConveyorOut = robotPrefs.getDouble("verticalConveyorOut",0);
+		if(verticalConveyorOut == 0){
+			robotPrefs.putDouble("verticalConveyorOut", -2.0);
+		}
 		verticalConveyorOut = robotPrefs.getDouble("verticalConveyorOut",0);
 		
 		
