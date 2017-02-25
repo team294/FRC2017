@@ -1,75 +1,49 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc.team294.robot.RobotMap.Teams;
+import org.usfirst.frc.team294.robot.RobotMap.StartPositions;
+
+import edu.wpi.first.wpilibj.command.CommandGroup; 
 
 /**
- *
+ * Deliver a gear and shoot based on the start position and team colour given
  */
 public class AutoGearAndScore extends CommandGroup {
-
-	public enum Positions {
-		left, middle, right
-	}
-	
-	public enum Teams {
-		blue, red
-	}
 	
 	/**
 	 * Autonomous Command to deliver gear and shoot
 	 * @param team Teams.red,blue
 	 * @param position Positions.left,middle,right
 	 */
-    public AutoGearAndScore(Teams team, Positions position) {
-        // Add Commands here:
-        // e.g. addSequential(new Command1());
-        //      addSequential(new Command2());
-        // these will run in order.
+    public AutoGearAndScore(Teams team, StartPositions position) {
 
-        // To run multiple commands at the same time,
-        // use addParallel()
-        // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
-        // Command1 and Command2 will run in parallel.
-
-        // A command group will require all of the subsystems that each member
-        // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm,
-        // a CommandGroup containing them would require both the chassis and the
-        // arm.
+    	// Shift down and do a gear sequence according to the position given
     	addSequential(new ShiftDown());
+    	addSequential(new AutoDriveAndGear(position));
+    	addSequential(new WaitSeconds(.2));
+    	
+    	// Move to the boiler according to the team colour and starting position
+    	// This can be consolidated and made more modular in the near future
     	if (team == Teams.red) {
     		switch (position) {
     		case left:
-    	    	addSequential(new AutoDriveAndGearLeft());
-    	    	addSequential(new WaitSeconds(.2));
     	    	addSequential(new AutoScoreBoilerFromLeftRed());
     	    	break;
     		case right:
-    	    	addSequential(new AutoDriveAndGearRight());
-    	    	addSequential(new WaitSeconds(.2));
     	    	addSequential(new AutoScoreBoilerFromRightRed());
     	    	break;
     		case middle:
-    	    	addSequential(new AutoDriveAndGearMiddle());
-    	    	addSequential(new WaitSeconds(.2));
     	    	addSequential(new AutoScoreBoilerFromMiddleRed());
     		}
     	} else {
     		switch (position) {
     		case left:
-    	    	addSequential(new AutoDriveAndGearLeft());
-    	    	addSequential(new WaitSeconds(.2));
     	    	addSequential(new AutoScoreBoilerFromLeftBlue());
     	    	break;
     		case right:
-    	    	addSequential(new AutoDriveAndGearRight());
-    	    	addSequential(new WaitSeconds(.2));
     	    	addSequential(new AutoScoreBoilerFromRightBlue());
     	    	break;
     		case middle:
-    	    	addSequential(new AutoDriveAndGearMiddle());
-    	    	addSequential(new WaitSeconds(.2));
     	    	addSequential(new AutoScoreBoilerFromMiddleBlue());
     		}
     	}

@@ -178,31 +178,29 @@ public class Intake extends Subsystem {
 	}
 
 	/**
-	 * Stows the intake <b>only if the hopper is stowed</b>
+	 * Stows the intake
 	 */
 	public void stowIntake() {
 		intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	/**
-	 * Deploy the hopper out <b>only if the intake is deployed</b>
+	 * Deploy the hopper
 	 */
 	public void deployHopper() {
 		hopperSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
 
 	/**
-	 * Stow the hopper (for climbing) <b>only if the intake is deployed</b>
+	 * Stow the hopper
 	 */
 	public void stowHopper() {
 		hopperSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	/**
-	 * Updates the conflicts between the hopper and the intake
-	 * Call before enabling the robot to avoid mechanical interlock
+	 * Stops the intake motor
 	 */
-
 	public void stopIntake() {
 		intakeMotor.set(0.0);
 	}
