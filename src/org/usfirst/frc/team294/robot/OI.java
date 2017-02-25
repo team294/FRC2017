@@ -123,8 +123,10 @@ public class OI {
 	    	left[i] = new JoystickButton(leftJoystick, i);
 	    	right[i] = new JoystickButton(rightJoystick, i);
 	    	if (i == 3) {
-	    		right[i].whenPressed(new SwitchDriveDirection());
-	    		left[i].whenPressed(new SwitchDriveDirection());
+//	    		right[i].whenPressed(new SwitchDriveDirection());
+//	    		left[i].whenPressed(new SwitchDriveDirection());
+	    		right[i].whenPressed(new SwitchDriveDirectionToShooter());
+	    		left[i].whenPressed(new SwitchDriveDirectionToGear());
 	    	} else {
 	    		right[i].whenPressed(new ShiftUp());
 	    		left[i].whenPressed(new ShiftDown());
@@ -208,9 +210,6 @@ public class OI {
 	    SmartDashboard.putData("Deploy Hopper", new MoveHopperIfSafe(true));
 	    SmartDashboard.putData("Stow Hopper", new MoveHopperIfSafe(false));
 	    
-	    // it has become standard practice to comment out all not used commands during testing to make it possible to use the SmartDashboard. 
-	    //If you don't do this then your button will be buried in other buttons making it stupidly hard to find.
-	    //I will uncomment them for now but keep this in mind in future testing -John
 	    // Gyro Testing Commands 
 /*	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
 	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90, 2.0));
@@ -227,22 +226,6 @@ public class OI {
 	     SmartDashboard.putNumber("AngleTolerance", 0);
 	     SmartDashboard.putData("Turn to gear", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
 	    
-<<<<<<< HEAD
-	    //  Shooter controls
-	    SmartDashboard.putData("Set Shooter RPM", new ShooterSetToRPMFromSmartDashboard());
-	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
-	    SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
-	    SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-	    SmartDashboard.putData("Start BallFeed", new ConveyorSetVoltage(7.5));   //  Pass the voltage to vertical conveyor
-	    SmartDashboard.putData("Stop BallFeed", new ConveyorSetVoltage(0.0)); 
-	    
-	    // Encoders
-	    SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
-	    SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
-	    
-	    // Stop Command
-	    SmartDashboard.putData("Drive Stop", new DriveStop());
-=======
 	     //DriveStraightDistance tests
 	     SmartDashboard.putData("Drive straight distance", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
 	     SmartDashboard.putNumber("DriveSpeed", 0);
@@ -380,10 +363,18 @@ public class OI {
 		}			
 	} 
 	
+	/**
+	 * Sets the drive direction
+	 * @param direction true = gear in the front false = shooter in the front
+	 */
 	public void setDriveDirection(boolean direction){
 		this.driveDirection = direction;
 	}
 	
+	/**
+	 * Gets the drive direction
+	 * @return driveDirection
+	 */
 	public boolean getDriveDirection(){
 		return driveDirection;
 	}
