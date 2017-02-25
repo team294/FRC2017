@@ -25,7 +25,6 @@ public class DeployIntakeAndHopper extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addSequential(new MoveIntakeIfSafe(true));
-    	addParallel(new WaitSeconds(2));
     	addSequential(new MoveHopperIfSafe(true));
     }
 }
