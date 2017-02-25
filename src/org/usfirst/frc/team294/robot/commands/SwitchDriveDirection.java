@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class SwitchDriveDirection extends Command {
 
+	/**
+	 * Toggles the drive direction of the robot
+	 */
     public SwitchDriveDirection() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);

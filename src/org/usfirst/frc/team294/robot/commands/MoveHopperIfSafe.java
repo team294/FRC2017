@@ -1,41 +1,41 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.subsystems.Intake.Positions;
+import org.usfirst.frc.team294.robot.subsystems.Intake.Status;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Moves the hopper if it is safe
  */
 public class MoveHopperIfSafe extends Command {
 
-	private boolean position;
+	private boolean status;
 	private boolean waitForMovement;
 	
 	/**
 	 * Set the position of the hopper if it is safe to do so (e.g. intake is not stowed)
-	 * @param position true for deployed, false for stowed
+	 * @param status true for deployed, false for stowed
 	 */
-    public MoveHopperIfSafe(boolean position) {
+    public MoveHopperIfSafe(boolean status) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
     	
-    	this.position = position;
+    	this.status = status;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if ((position && Robot.intake.getHopperTracker() == Positions.deployed) || 
-    			(!position && Robot.intake.getHopperTracker() == Positions.stowed)) {
+    	if ((status && Robot.intake.getHopperTracker() == Status.deployed) || 
+    			(!status && Robot.intake.getHopperTracker() == Status.stowed)) {
     		waitForMovement = false;
-    	} else if (Robot.intake.getIntakeTracker() != Positions.deployed) {
+    	} else if (status && Robot.intake.getIntakeTracker() != Status.deployed) {
     		waitForMovement = false;
     	} else {
     		waitForMovement = true;
-    		Robot.intake.setHopperTracker(Positions.unknown);
-        	if (position) Robot.intake.deployHopper();
+    		Robot.intake.setHopperTracker(Status.unknown);
+        	if (status) Robot.intake.deployHopper();
         	else { Robot.intake.stowHopper(); }
     	}
     }
@@ -52,7 +52,7 @@ public class MoveHopperIfSafe extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	if (waitForMovement) Robot.intake.setHopperTracker(position ? Positions.deployed : Positions.stowed);
+    	if (waitForMovement) Robot.intake.setHopperTracker(status ? Status.deployed : Status.stowed);
     }
 
     // Called when another command which requires one or more of the same
