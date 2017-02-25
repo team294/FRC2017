@@ -9,8 +9,4 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRLib.jar"/>
 	<classpathentry kind="output" path="bin"/>
-<<<<<<< HEAD
 </classpath>
-=======
-</classpath>
->>>>>>> origin/Sanghelios
