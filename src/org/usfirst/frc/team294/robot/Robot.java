@@ -65,11 +65,6 @@ public class Robot extends IterativeRobot {
 		
 		System.out.println("Robot init");
 		
-		robotPrefs = Preferences.getInstance();
-		shooterP = robotPrefs.getDouble("shooterP",0);  // This has to be done before Shooter()
-		shooterI = robotPrefs.getDouble("shooterI",0);
-		shooterD = robotPrefs.getDouble("shooterD",0);
-		shooterFNominal = robotPrefs.getDouble("shooterFNominal",0);
 		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
 		if (inchesPerRevolution==0) {
 			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration. Distance disabled.", true);
@@ -78,6 +73,22 @@ public class Robot extends IterativeRobot {
 		} else {
 			inchesPerRevolutionEnabled = true;
 		}
+		if(inchesPerRevolutionEnabled == false){
+			robotPrefs.putDouble("inchesPerRevolution", 18.0);
+			robotPrefs.putBoolean("invertDrive",true);
+			robotPrefs.putDouble("intakeSpeed",0.6);
+			robotPrefs.putDouble("horizontalConeyor", 4.5);
+			robotPrefs.putDouble("verticalConveyor", 7.5);
+			robotPrefs.putDouble("horizontalConveyorOut", -2.0);
+			robotPrefs.putDouble("verticalConveyorOut", -2.0);
+			
+		}
+		
+		robotPrefs = Preferences.getInstance();
+		shooterP = robotPrefs.getDouble("shooterP",0);  // This has to be done before Shooter()
+		shooterI = robotPrefs.getDouble("shooterI",0);
+		shooterD = robotPrefs.getDouble("shooterD",0);
+		shooterFNominal = robotPrefs.getDouble("shooterFNominal",0);
 		invertDrive = robotPrefs.getBoolean("invertDrive",false);
 		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
 		shootSpeedHigh = robotPrefs.getDouble("shootSpeedHighRPM",0);
@@ -86,6 +97,7 @@ public class Robot extends IterativeRobot {
 		verticalConveyor = robotPrefs.getDouble("verticalConveyor",0);
 		horizontalConveyorOut = robotPrefs.getDouble("horizontalConveyorOut",0);
 		verticalConveyorOut = robotPrefs.getDouble("verticalConveyorOut",0);
+		
 		
 		log = new FileLog();
 		driveTrain = new DriveTrain();
