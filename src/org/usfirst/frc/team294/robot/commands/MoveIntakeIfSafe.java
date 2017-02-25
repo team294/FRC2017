@@ -1,41 +1,41 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.subsystems.Intake.Positions;
+import org.usfirst.frc.team294.robot.subsystems.Intake.Status;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Moves the intake if it is safe
  */
 public class MoveIntakeIfSafe extends Command {
 
-	private boolean position;
+	private boolean status;
 	private boolean waitForMovement;
 	
 	/**
 	 * Set the position of the intake only if safe to do so
-	 * @param position true for deployed, false for stowed
+	 * @param status true for deployed, false for stowed
 	 */
-	public MoveIntakeIfSafe(boolean position) {
+	public MoveIntakeIfSafe(boolean status) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
 		requires(Robot.intake);
 		
-		this.position = position;
+		this.status = status;
 	}
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if ((position && Robot.intake.getIntakeTracker() == Positions.deployed) || 
-    			(!position && Robot.intake.getIntakeTracker() == Positions.stowed)) {
+    	if ((status && Robot.intake.getIntakeTracker() == Status.deployed) || 
+    			(!status && Robot.intake.getIntakeTracker() == Status.stowed)) {
     		waitForMovement = false;
-    	} else if (Robot.intake.getHopperTracker() != Positions.stowed) {
+    	} else if (!status && Robot.intake.getHopperTracker() != Status.stowed) {
     		waitForMovement = false;
     	} else {
     		waitForMovement = true;
-    		Robot.intake.setIntakeTracker(Positions.unknown);
-        	if (position) Robot.intake.deployIntake();
+    		Robot.intake.setIntakeTracker(Status.unknown);
+        	if (status) Robot.intake.deployIntake();
         	else { Robot.intake.stowIntake(); }
     	}
     }
@@ -52,7 +52,7 @@ public class MoveIntakeIfSafe extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	if (waitForMovement) Robot.intake.setHopperTracker(position ? Positions.deployed : Positions.stowed);
+    	if (waitForMovement) Robot.intake.setHopperTracker(status ? Status.deployed : Status.stowed);
     }
 
     // Called when another command which requires one or more of the same

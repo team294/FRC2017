@@ -35,12 +35,12 @@ public class Intake extends Subsystem {
     public final MotorCurrentTrigger climber2CurrentTrigger = new MotorCurrentTrigger(climbMotor2, 35, 2);
 
     // Control variables for mechanical interlock
-    public static enum Positions {
+    public static enum Status {
     	deployed,stowed,unknown
     }
     
-    private Positions intakePos = Positions.unknown;
-    private Positions hopperPos = Positions.unknown;
+    private Status intakePos = Status.unknown;
+    private Status hopperPos = Status.unknown;
     
     // Time to move hopper/intake in seconds (refine by testing)
     public final double HOPPER_DELAY = 4.0;
@@ -127,21 +127,21 @@ public class Intake extends Subsystem {
      * Stows the intake <b>only if the hopper is stowed</b>
      */
     public void stowIntake() {
-    	if (hopperPos == Positions.stowed) intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
+    	if (hopperPos == Status.stowed) intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
     }
     
     /**
      * Deploy the hopper out <b>only if the intake is deployed</b>
      */
     public void deployHopper() {
-    	if (intakePos == Positions.deployed) hopperSolenoid.set(DoubleSolenoid.Value.kForward);
+    	if (intakePos == Status.deployed) hopperSolenoid.set(DoubleSolenoid.Value.kForward);
     }
     
     /**
      * Stow the hopper (for climbing) <b>only if the intake is deployed</b>
      */
     public void stowHopper() {
-    	if (intakePos == Positions.deployed) hopperSolenoid.set(DoubleSolenoid.Value.kReverse);
+    	if (intakePos == Status.deployed) hopperSolenoid.set(DoubleSolenoid.Value.kReverse);
     }
     
     /**
@@ -149,19 +149,19 @@ public class Intake extends Subsystem {
      * Call before enabling the robot to avoid mechanical interlock
      */
     public void updateConflicts() {
-    	if (intakeSolenoid.get() == DoubleSolenoid.Value.kForward) intakePos = Positions.deployed;
-    	else if (intakeSolenoid.get() == DoubleSolenoid.Value.kReverse) intakePos = Positions.stowed;
-    	else intakePos = Positions.unknown;
-    	if (hopperSolenoid.get() == DoubleSolenoid.Value.kForward) hopperPos = Positions.deployed;
-    	else if (hopperSolenoid.get() == DoubleSolenoid.Value.kReverse) hopperPos = Positions.stowed;
-    	else hopperPos = Positions.unknown;
+    	if (intakeSolenoid.get() == DoubleSolenoid.Value.kForward) intakePos = Status.deployed;
+    	else if (intakeSolenoid.get() == DoubleSolenoid.Value.kReverse) intakePos = Status.stowed;
+    	else intakePos = Status.unknown;
+    	if (hopperSolenoid.get() == DoubleSolenoid.Value.kForward) hopperPos = Status.deployed;
+    	else if (hopperSolenoid.get() == DoubleSolenoid.Value.kReverse) hopperPos = Status.stowed;
+    	else hopperPos = Status.unknown;
     }
     
     /**
      * Set the value of the hopper tracker in the code
      * @param position Intake.Positions.stowed,deployed,unknown
      */
-    public void setHopperTracker(Positions position) {
+    public void setHopperTracker(Status position) {
     	hopperPos = position;
     }
     
@@ -169,7 +169,7 @@ public class Intake extends Subsystem {
      * Set the value of the intake tracker in the code
      * @param position Intake.Positions.stowed,deployed,unknown
      */
-    public void setIntakeTracker(Positions position) {
+    public void setIntakeTracker(Status position) {
     	intakePos = position;
     }
     
@@ -177,7 +177,7 @@ public class Intake extends Subsystem {
      * Read the value of the software hopper tracker
      * @return Intake.Positions.deployed,stowed,unknown
      */
-    public Positions getHopperTracker() {
+    public Status getHopperTracker() {
     	return hopperPos;
     }
     
@@ -185,7 +185,7 @@ public class Intake extends Subsystem {
      * Read the value of the software intake tracker
      * @return Intake.Positions.deployed,stowed,unknown
      */
-    public Positions getIntakeTracker() {
+    public Status getIntakeTracker() {
     	return intakePos;
     }
     

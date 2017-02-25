@@ -46,10 +46,10 @@ public class Robot extends IterativeRobot {
 	public static double shooterI;
 	public static double shooterD;
 	public static double shooterFNominal;
-	public static double inchesPerRevolution;
-	public static boolean inchesPerRevolutionEnabled;
+	public static double inchesPerRevolution; //This will never change. Why is it in the robot preferences instead of just left in DriveStraightDistance?
+	public static boolean inchesPerRevolutionEnabled; //This is set but never called anywhere. I assume it is safety code, but it performs no function currently.
 	public static boolean invertDrive;
-	public static double intakeSpeed; // -1 to 1
+	public static double intakeSpeed; // -1 to 1 //I understand why this in in place for testing, but will we need to change the intake speed that often during comp?
 	public static double shootSpeedHigh;
 	public static double shootSpeedLow;
 	public static double horizontalConveyor;
@@ -71,7 +71,7 @@ public class Robot extends IterativeRobot {
 		shooterD = robotPrefs.getDouble("shooterD",0);
 		shooterFNominal = robotPrefs.getDouble("shooterFNominal",0);
 		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
-		if (inchesPerRevolution==0) {
+		if (inchesPerRevolution == 0) {
 			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration. Distance disabled.", true);
 			inchesPerRevolutionEnabled = false;
 			inchesPerRevolution = 100000;	//  set to a very large number for a minimum distance.  0 would go forever
