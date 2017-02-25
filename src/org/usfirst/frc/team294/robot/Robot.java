@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -50,12 +51,13 @@ public class Robot extends IterativeRobot {
 	public static boolean inchesPerRevolutionEnabled;
 	public static boolean invertDrive;
 	public static double intakeSpeed; // -1 to 1
-	public static double shootSpeedHigh;
-	public static double shootSpeedLow;
-	public static double horizontalConveyor;
-	public static double verticalConveyor;
-
-
+	public static double shootSpeedHigh; //RPM
+	public static double shootSpeedLow; //RPM
+	public static double horizontalConveyorIn; //Voltage
+	public static double verticalConveyor; //Voltage (It wont let me refactor this to verticalConveyorIn -John)
+	public static double horizontalConveyorOut;
+	public static double verticalConveyorOut;
+	public static double gearCam; // Gear vision cam horizontal offset
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -72,7 +74,7 @@ public class Robot extends IterativeRobot {
 		shooterFNominal = robotPrefs.getDouble("shooterFNominal",0);
 		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
 		if (inchesPerRevolution==0) {
-			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches pre Revolution calibration. Distance disabled.", true);
+			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration. Distance disabled.", true);
 			inchesPerRevolutionEnabled = false;
 			inchesPerRevolution = 100000;	//  set to a very large number for a minimum distance.  0 would go forever
 		} else {
@@ -82,8 +84,11 @@ public class Robot extends IterativeRobot {
 		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
 		shootSpeedHigh = robotPrefs.getDouble("shootSpeedHighRPM",0);
 		shootSpeedLow = robotPrefs.getDouble("shootSpeedLowRPM",0);
-		horizontalConveyor = robotPrefs.getDouble("horizontalConveyor",0);
+		horizontalConveyorIn = robotPrefs.getDouble("horizontalConveyor",0);
 		verticalConveyor = robotPrefs.getDouble("verticalConveyor",0);
+		horizontalConveyorOut = robotPrefs.getDouble("horizontalConveyorOut",0);
+		verticalConveyorOut = robotPrefs.getDouble("verticalConveyorOut",0);
+		gearCam = robotPrefs.getDouble("gearCam",0);
 		
 		log = new FileLog();
 		driveTrain = new DriveTrain();
@@ -97,6 +102,13 @@ public class Robot extends IterativeRobot {
 		gearVision = new GearVision();
 		shooterHood = new ShooterHood();
 		ballFeed = new BallFeed();
+		
+		ballFeed.ballFeedCurrentProtection();
+		shooter.shooterCurrentProtection();
+		intake.intakeCurrentProtection();
+		driveTrain.leftCurrentProtection();
+		driveTrain.rightCurrentProtection();
+	
 		robotPrefs = Preferences.getInstance();
 		oi = new OI();
 
@@ -107,6 +119,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(shooter);
 		SmartDashboard.putData(intake);
 		SmartDashboard.putData(gearGate);
+		
+		CameraServer.getInstance().startAutomaticCapture();
+
 
 	}
 
@@ -116,6 +131,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
 	 */
 	public void disabledInit() {
+		intake.updateConflicts();
 
 	}
 
@@ -144,6 +160,7 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
+		intake.updateConflicts();
 		log.writeLogEcho("Autonomous Mode Started");
 	}
 
@@ -161,6 +178,7 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		intake.updateConflicts();
 		log.writeLogEcho("Teleop Mode Started");
 	}
 

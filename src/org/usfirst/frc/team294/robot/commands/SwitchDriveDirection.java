@@ -5,7 +5,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Switches drive direction when toggled
  */
 public class SwitchDriveDirection extends Command {
 

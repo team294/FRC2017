@@ -2,7 +2,6 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.IntakeSetToSpeed;
 import org.usfirst.frc.team294.robot.commands.ShooterSetVoltage;
 import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
 
@@ -11,7 +10,6 @@ import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.ctre.CANTalon.VelocityMeasurementPeriod;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Preferences;
@@ -23,7 +21,6 @@ public class Shooter extends Subsystem {
 
 	// Motor Hardware
 	private final CANTalon shooterMotor1 = new CANTalon(RobotMap.shooterMotor1);
-//	private final CANTalon shooterMotor2 = new CANTalon(RobotMap.shooterMotor2);
 	
     //Current Protection
     public final MotorCurrentTrigger shooterMotorCurrentTrigger = new MotorCurrentTrigger(shooterMotor1, 25, 3);
@@ -38,19 +35,14 @@ public class Shooter extends Subsystem {
 		super();
 		robotPrefs = Preferences.getInstance();
 		
-		shooterMotor1.setVoltageRampRate(5.0);
-//		shooterMotor2.setVoltageRampRate(24.0);
-		
+		shooterMotor1.setVoltageRampRate(5.0);		
 		
 		shooterMotor1.reverseSensor(true);    
 		shooterMotor1.reverseOutput(false);
 		
 		shooterMotor1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		shooterMotor1.configEncoderCodesPerRev(100);
-//		shooterMotor2.changeControlMode(TalonControlMode.Follower);
-//		shooterMotor2.set(shooterMotor1.getDeviceID());
 		shooterMotor1.enableBrakeMode(false);
-//		shooterMotor2.enableBrakeMode(false);
 		shooterMotor1.set(0.0);
 		setupSmartDashboard();
 		shooterMotor1.setPID(Robot.shooterP, Robot.shooterI, Robot.shooterD, Robot.shooterFNominal, 500, 500, 0); 
@@ -64,6 +56,13 @@ public class Shooter extends Subsystem {
 	}
 	
 	/**
+	 * Adds current protection to the shooter
+	 */
+	public void shooterCurrentProtection(){
+		shooterMotorCurrentTrigger.whenActive(new ShooterSetVoltage(0.0));
+	}
+	
+	/**
 	 * Sets the shooter motor to speed according to rpm (normal, I kept this is in case it was used somewhere I don't know about -John)
 	 * @param rpm from -1000 to 6000  (18000 if encoder is on motor
 	 * Only run reverse to clear a possible jam
@@ -72,8 +71,9 @@ public class Shooter extends Subsystem {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
 		
 		rpm = (rpm > 6000.0) ? 6000.0 : rpm;
+
 		rpm = (rpm < -600.0) ? -600.0 : rpm;
-		
+
 		setSpeed = rpm;
 		shooterMotor1.set(-rpm);		
 	}
@@ -120,7 +120,7 @@ public class Shooter extends Subsystem {
 	 * Set the shooter speed according to voltage
 	 * @param voltage from -12.0 to +12.0
 	 */
-	public void setVoltage(double voltage){
+	public void setVoltage(double voltage) {
 		shooterMotor1.changeControlMode(TalonControlMode.Voltage);
 		voltage = (voltage > 12) ? 0.0 : voltage;
 		voltage = (voltage < -12.0) ? -12.0 : voltage;
@@ -195,7 +195,13 @@ public class Shooter extends Subsystem {
 
 	}
 
-	
+	/**
+	 * Stops the shooter motors
+	 */
+	public void stop() {
+		shooterMotor1.changeControlMode(TalonControlMode.Voltage);
+		shooterMotor1.set(0.0);
+	}
 	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.

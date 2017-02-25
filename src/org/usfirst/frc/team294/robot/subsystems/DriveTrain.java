@@ -1,8 +1,13 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
+import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
 import org.usfirst.frc.team294.utilities.MotorGroupCurrentTrigger;
 
 import com.ctre.CANTalon;
@@ -43,8 +48,11 @@ public class DriveTrain extends Subsystem {
     // Track encoder resets in software due to latency (like NavX)
     private double leftEncoderZero = 0, rightEncoderZero = 0;
     
-    public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotor1.getOutputCurrent(), rightMotor2.getOutputCurrent(), rightMotor3.getOutputCurrent());
-    public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotor1.getOutputCurrent(), leftMotor2.getOutputCurrent(), leftMotor3.getOutputCurrent());
+    //Current protection
+    List<CANTalon> rightMotorList = new ArrayList<CANTalon>(Arrays.asList(rightMotor1, rightMotor2, rightMotor3));
+    List<CANTalon> leftMotorList = new ArrayList<CANTalon>(Arrays.asList(leftMotor1, leftMotor2, leftMotor3));
+    public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotorList, 20, 2.0);
+    public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotorList, 20, 2.0);
 
     public DriveTrain() {
     	super();
@@ -95,6 +103,20 @@ public class DriveTrain extends Subsystem {
 		ultrasonicSensor = new Ultrasonic(RobotMap.usTx,RobotMap.usRx);
 		ultrasonicSensor.setAutomaticMode(true);
     }
+    
+    public void leftCurrentProtection(){
+    	if(leftMotorsCurrentTrigger.get()){
+    		leftMotorsCurrentTrigger.printBadMotor();
+    		SmartDashboard.putBoolean("Left motors are screwed", true);
+    	}
+    }
+    
+    public void rightCurrentProtection(){
+    	if(leftMotorsCurrentTrigger.get()){
+    		rightMotorsCurrentTrigger.printBadMotor();
+    		SmartDashboard.putBoolean("Right motors are screwed", true);
+    	}
+    }
 
     /**
    s  * Set the drive controller to use power settings, instead of using the
@@ -116,7 +138,7 @@ public class DriveTrain extends Subsystem {
      * @param rightStick Right joystick
      */
     public void driveWithJoystick(double leftStick, double rightStick) {
-    	robotDrive.tankDrive(leftStick, rightStick, false); //false is so that squared inputs is not used
+    	robotDrive.tankDrive(leftStick, rightStick, false);
     }
 
     /**

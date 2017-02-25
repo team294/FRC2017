@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Testing purposes only. Remove before Competition.
  */
 public class ClimbJoystickControl extends Command {
 	
@@ -26,7 +26,7 @@ public class ClimbJoystickControl extends Command {
     	Robot.intake.setClimbSpeed(Robot.oi.rightJoystick.getRawAxis(1));
     	SmartDashboard.putBoolean("Joystick button 3", Robot.oi.right[3].get());
 	    SmartDashboard.putNumber("Joystick value", Robot.oi.rightJoystick.getRawAxis(1));
-    }
+		}
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

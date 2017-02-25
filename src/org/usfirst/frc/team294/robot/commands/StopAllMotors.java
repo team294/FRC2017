@@ -5,23 +5,27 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *              NOT USED.  SEE ConveyorSetToVoltage()
+ * Stops all motors except the drive train
  */
-public class ConveyorSetToSpeed extends Command {
+public class StopAllMotors extends Command {
 
-	private double speed;
-	
-    public ConveyorSetToSpeed(double speed) {
+	/**
+	 * Stops all motors except the drive train
+	 */
+    public StopAllMotors() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.shooter);
     	requires(Robot.ballFeed);
-    	this.speed = speed;
+    	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.ballFeed.setHorSpeed(speed);
-    	Robot.ballFeed.setVertSpeed(speed);
+    	Robot.shooter.stop();
+    	Robot.ballFeed.stop();
+    	Robot.intake.stopIntake();
+    	Robot.intake.stopClimber();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -40,5 +44,11 @@ public class ConveyorSetToSpeed extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+       	Robot.shooter.stop();
+    	Robot.ballFeed.stop();
+    	Robot.intake.stopIntake();
+    	Robot.intake.stopClimber();
     }
 }
+
+
