@@ -23,7 +23,7 @@ public class Shooter extends Subsystem {
 	private final CANTalon shooterMotor1 = new CANTalon(RobotMap.shooterMotor1);
 	
     //Current Protection
-    public final MotorCurrentTrigger shooterMotorCurrentTrigger = new MotorCurrentTrigger(shooterMotor1, 25, 3);
+    public final MotorCurrentTrigger shooterMotorCurrentTrigger = new MotorCurrentTrigger(shooterMotor1, 10, 2);
 
 	
 	double setSpeed;
