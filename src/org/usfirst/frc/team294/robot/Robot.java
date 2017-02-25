@@ -50,19 +50,11 @@ public class Robot extends IterativeRobot {
 	public static double inchesPerRevolution; //This will never change. Why is it in the robot preferences instead of just left in DriveStraightDistance?
 	public static boolean inchesPerRevolutionEnabled; //This is set but never called anywhere. I assume it is safety code, but it performs no function currently.
 	public static boolean invertDrive;
-<<<<<<< HEAD
 	public static double intakeSpeed; // -1 to 1 //I understand why this in in place for testing, but will we need to change the intake speed that often during comp?
-	public static double shootSpeedHigh;
-	public static double shootSpeedLow;
-	public static double horizontalConveyor;
-	public static double verticalConveyor;
-=======
-	public static double intakeSpeed; // -1 to 1
 	public static double shootSpeedHigh; //RPM
 	public static double shootSpeedLow; //RPM
 	public static double horizontalConveyorIn; //Voltage
-	public static double verticalConveyor; //Voltage (It wont let me refactor this to verticalConveyorIn -John)
->>>>>>> refs/remotes/origin/master
+	public static double verticalConveyorIn; //Voltage
 	public static double horizontalConveyorOut;
 	public static double verticalConveyorOut;
 	public static double gearCam; // Gear vision cam horizontal offset
@@ -93,7 +85,7 @@ public class Robot extends IterativeRobot {
 		shootSpeedHigh = robotPrefs.getDouble("shootSpeedHighRPM",0);
 		shootSpeedLow = robotPrefs.getDouble("shootSpeedLowRPM",0);
 		horizontalConveyorIn = robotPrefs.getDouble("horizontalConveyor",0);
-		verticalConveyor = robotPrefs.getDouble("verticalConveyor",0);
+		verticalConveyorIn = robotPrefs.getDouble("verticalConveyor",0);
 		horizontalConveyorOut = robotPrefs.getDouble("horizontalConveyorOut",0);
 		verticalConveyorOut = robotPrefs.getDouble("verticalConveyorOut",0);
 		gearCam = robotPrefs.getDouble("gearCam",0);
