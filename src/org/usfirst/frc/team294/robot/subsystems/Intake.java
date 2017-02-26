@@ -232,6 +232,16 @@ public class Intake extends Subsystem {
 				);
 	}
 
+	/**
+	 * Gets the average current of both climber motors
+	 * @return the average current in amps
+	 */
+	public double getAverageClimberCurrent(){
+		double aveCurrent;
+		aveCurrent = (this.climbMotor1.getOutputCurrent() + this.climbMotor2.getOutputCurrent())/2;
+		return aveCurrent;
+	}
+	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		//setDefaultCommand(new MySpecialCommand());
