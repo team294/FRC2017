@@ -3,7 +3,7 @@ package org.usfirst.frc.team294.robot.subsystems;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.ShooterSetVoltage;
-import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
+import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -88,7 +88,7 @@ public class Shooter extends Subsystem {
 	public void setRPMLow(double low) {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
 		
-		low = SmartDashboard.getNumber("Shooter Motor Set RPM Low", Robot.shootSpeedLow);
+		low = SmartDashboard.getNumber("Shooter Motor Set RPM Low", Robot.shootSpeedLowRPM);
 	
 //		setSpeed = low;
 //		shooterMotor1.set(-low);
@@ -104,7 +104,7 @@ public class Shooter extends Subsystem {
 	public void setRPMHigh(double high) {
 		shooterMotor1.changeControlMode(TalonControlMode.Speed);
 		
-		high = SmartDashboard.getNumber("Shooter Motor Set RPM High", Robot.shootSpeedHigh);
+		high = SmartDashboard.getNumber("Shooter Motor Set RPM High", Robot.shootSpeedHighRPM);
 		setRPM(high);
 		robotPrefs.putDouble("shootSpeedHighRPM", high);
 	}
@@ -172,8 +172,8 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Shooter Motor Set RPM", 4000);		// this should come from preferences
 		SmartDashboard.putNumber("Shooter Motor Set Voltage", 5); 
 		SmartDashboard.putNumber("Set Nominal 1000* F Value", fNominal*1000);  
-		SmartDashboard.putNumber("Shooter Motor Set RPM High", Robot.shootSpeedHigh);
-		SmartDashboard.putNumber("Shooter Motor Set RPM Low", Robot.shootSpeedLow);
+		SmartDashboard.putNumber("Shooter Motor Set RPM High", Robot.shootSpeedHighRPM);
+		SmartDashboard.putNumber("Shooter Motor Set RPM Low", Robot.shootSpeedLowRPM);
 	}
 
 	/**
