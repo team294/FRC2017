@@ -99,7 +99,7 @@ public class GearVision extends Subsystem {
 		}
 		else { return -500; } //Return -500 if there are no "valid" contours (see numValid assignment)
 		if (camOffset != 0) {
-		gearAngleOffset=gearAngleOffset*Math.PI/180; //convert to radians
+		gearAngleOffset = gearAngleOffset*Math.PI/180; //convert to radians
 		gearAngleOffset = Math.atan(Math.tan(gearAngleOffset) - camOffset/getGearDistance()/Math.cos(gearAngleOffset))*180/Math.PI; //Adjusts angle for when the camera is not centered on the robot
 		}
 		return gearAngleOffset;
