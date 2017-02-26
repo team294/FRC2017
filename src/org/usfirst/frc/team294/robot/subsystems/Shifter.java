@@ -10,8 +10,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Shifter extends Subsystem {
 	
-	private boolean isLowGear = true;
-	//private boolean isHighGear = false;
+	private boolean gear; //Tracks the shifter setting in software. True is high gear, false is low.
+	
+	//This is a legitimate question- Why do we need to track the shifter in the code?
+	//I understand why on the hopper and intake, because of interlock. Is there a reason to
+	//Also do this on the shifter? Is there a situation in which we need to know this?
 
     private final DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterSolenoidFwd, RobotMap.shifterSolenoidRev);
 
@@ -20,8 +23,7 @@ public class Shifter extends Subsystem {
      */
 	public void shiftDown(){
 		shifter.set(DoubleSolenoid.Value.kReverse);
-		isLowGear = true;
-		//isHighGear = false;
+		gear = false;
 	}
 	
 	/**
@@ -29,18 +31,17 @@ public class Shifter extends Subsystem {
 	 */
 	public void shiftUp(){
 		shifter.set(DoubleSolenoid.Value.kForward);
-		isLowGear = false;
-		//isHighGear = true;
+		gear = true;
 	}
+
 	/**
-	 * gets the gear mode
-	 * @return true = low false = high
+	 * Returns the state of the shifter
+	 * @return true for high gear, false for low
 	 */
-	public boolean isLowMode(boolean lowGear){
-		this.isLowGear = lowGear;
-		return lowGear;
+	public boolean get() {
+		return gear;
 	}
-	
+
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());

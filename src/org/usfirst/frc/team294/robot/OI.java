@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap.StartPositions;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
 import org.usfirst.frc.team294.robot.triggers.AxisTrigger;
@@ -46,10 +47,10 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	//Threshold position checker
-	//For top and bottom knobs unless otherwise specified
+	// Threshold position checker
+	// For top and bottom knobs unless otherwise specified
 	double[] knobThreshold=new double[]{-0.911,-0.731,-0.551,-0.367,-0.1835,-0.0035,0.1775,0.3605,0.5455,0.7285,0.91};
-	//For middle knob only
+	// For middle knob only
 	double[] middleKnobThreshold=new double[] {-0.751,-0.25,0.2525,0.7525};
 
 	// Create the positions for the knobs
@@ -113,18 +114,20 @@ public class OI {
 	    Button[] xbB = new Button[11];
 	    Trigger xbLT = new AxisTrigger(xboxController, 2, 0.9);
         Trigger xbRT = new AxisTrigger(xboxController, 3, 0.9);
-		Trigger xbPovUp = new POVTrigger(xboxController, 0);
+/*		Trigger xbPovUp = new POVTrigger(xboxController, 0);
         Trigger xbPovRight = new POVTrigger(xboxController, 90);
         Trigger xbPovDown = new POVTrigger(xboxController, 180);
-        Trigger xbPovLeft = new POVTrigger(xboxController, 270);
+        Trigger xbPovLeft = new POVTrigger(xboxController, 270);*/
 	    	    
 	    // Declare left and right joystick buttons
 	    for (int i = 1; i < left.length; i++) {
 	    	left[i] = new JoystickButton(leftJoystick, i);
 	    	right[i] = new JoystickButton(rightJoystick, i);
 	    	if (i == 3) {
-	    		right[i].whenPressed(new SwitchDriveDirection());
-	    		left[i].whenPressed(new SwitchDriveDirection());
+//	    		right[i].whenPressed(new SwitchDriveDirection());
+//	    		left[i].whenPressed(new SwitchDriveDirection());
+	    		right[i].whenPressed(new SwitchDriveDirection(true));
+	    		left[i].whenPressed(new SwitchDriveDirection(false));
 	    	} else {
 	    		right[i].whenPressed(new ShiftUp());
 	    		left[i].whenPressed(new ShiftDown());
@@ -145,8 +148,8 @@ public class OI {
 	    coP[1].whenPressed(new StopAllMotors());
 	    coP[2].whenPressed(new PrepareToClimb());
 	    //coP[3].whenPressed(new StartManualClimbControl());
-	    //coP[4].whenPressed(); Shooter preset speed
-	    //coP[5].whenPressed(); Shooter preset speed
+	    coP[4].whenPressed(new ShooterSetRPM(Robot.shootSpeedLow));
+	    coP[5].whenPressed(new ShooterSetRPM(Robot.shootSpeedHigh));
 	    coP[6].whenPressed(new ConveyorSetFromRobot(States.in));
 	    coP[6].whenReleased(new ConveyorSetFromRobot(States.stopped));
 	    coP[7].whenPressed(new ConveyorSetFromRobot(States.out));
@@ -184,106 +187,82 @@ public class OI {
 	    xbLT.whenInactive(new ConveyorSetFromRobot(States.stopped));
 	    xbRT.whenActive(new ConveyorSetFromRobot(States.in));
 	    xbRT.whenInactive(new ConveyorSetFromRobot(States.stopped));
-		
-	    // Gyro Testing Commands
-	    SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90));
-	    SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90));
-	    SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180));
-	    SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
-	    SmartDashboard.putData("Turn to gear", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
-	     
+			     
+	    // Smart Dashboard Commands
+	    
 	    // Subsystem Testing Commands
 	    SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
 	    SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
 	    SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
-	    SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
+	    SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(Robot.intakeSpeed));
+
 	    
-	    //climb test
+	    // Climb Motor Tests
 	    SmartDashboard.putData("Start Climb Motor", new ClimbSetToSpeed(0.4));
 	    SmartDashboard.putData("Stop Climb Motor", new ClimbSetToSpeed(0.0));
 	    
-	    //Intake and Hopper Tests
+	    // Intake and Hopper Tests
 	    SmartDashboard.putData("Deploy Intake", new MoveIntakeIfSafe(true));
 	    SmartDashboard.putData("Stow Intake", new MoveIntakeIfSafe(false));
 	    SmartDashboard.putData("Deploy Hopper", new MoveHopperIfSafe(true));
-	    SmartDashboard.putData("Stow Hopper", new MoveHopperIfSafe(false));
+	    SmartDashboard.putData("Stow Hopper", new MoveHopperIfSafe(false)); 
+	    SmartDashboard.putData("Deploy Intake and Hopper", new DeployIntakeAndHopper());
 	    
-	    // it has become standard practice to comment out all not used commands during testing to make it possible to use the SmartDashboard. 
+	    // Autonomous Command Testing
+	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGear(StartPositions.left));
+	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGear(StartPositions.right));
+	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGear(StartPositions.middle)); 
+	    
+	    // Shooter controls
+	    SmartDashboard.putData("Set Shooter RPM Low", new ShooterSetToRPMFromSmartDashboardLow());
+	    SmartDashboard.putData("Set Shooter RPM High", new ShooterSetToRPMFromSmartDashboardHigh());
+	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
+		SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
+		SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
+		    
+		// Encoders
+		SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
+		SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
+		    
+		// Stop Command
+		SmartDashboard.putData("Drive Stop", new DriveStop());	
+		 
+		// Conveyor Changes
+		SmartDashboard.putData("Conveyors In", new ConveyorSetFromRobot(States.in));
+		SmartDashboard.putData("Conveyors Out", new ConveyorSetFromRobot(States.out));
+		SmartDashboard.putData("Conveyors Stopped", new ConveyorSetFromRobot(States.stopped));
+		
+		// it has become standard practice to comment out all not used commands during testing to make it possible to use the SmartDashboard. 
 	    //If you don't do this then your button will be buried in other buttons making it stupidly hard to find.
 	    //I will uncomment them for now but keep this in mind in future testing -John
-	    // Gyro Testing Commands 
-/*	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
-	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90, 2.0));
-	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180, 2.0));
-	     SmartDashboard.putData("Turn to 5", new GyroTurnToAngle(0.4, 5, 2.0));
-	     SmartDashboard.putData("Turn to -5", new GyroTurnToAngle(0.4, -5, 2.0));
-	     SmartDashboard.putData("Turn to 10", new GyroTurnToAngle(0.4, 10, 2.0));
-	     SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
-		 SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
-		     
-	     SmartDashboard.putData("Turn to angle", new GyroTurnToAngle(0.4, 0, 1.0, GyroTurnToAngle.TurnMode.SMARTDASHBOARD));
-	     SmartDashboard.putNumber("TurnSpeed", 0);
-	     SmartDashboard.putNumber("TurnAngle", 0);
-	     SmartDashboard.putNumber("AngleTolerance", 0);
-	     SmartDashboard.putData("Turn to gear", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
 	    
-<<<<<<< HEAD
-	    //  Shooter controls
+	    // Gyro Testing Commands 
+/*	    SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
+	    SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90, 2.0));
+	    SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180, 2.0));
+	    SmartDashboard.putData("Turn to 5", new GyroTurnToAngle(0.4, 5, 2.0));
+	    SmartDashboard.putData("Turn to -5", new GyroTurnToAngle(0.4, -5, 2.0));
+	    SmartDashboard.putData("Turn to 10", new GyroTurnToAngle(0.4, 10, 2.0));
+	    SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
+		SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
+	    
+	    // Shooter controls
 	    SmartDashboard.putData("Set Shooter RPM", new ShooterSetToRPMFromSmartDashboard());
 	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
 	    SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
 	    SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-	    SmartDashboard.putData("Start BallFeed", new ConveyorSetVoltage(7.5));   //  Pass the voltage to vertical conveyor
-	    SmartDashboard.putData("Stop BallFeed", new ConveyorSetVoltage(0.0)); 
-	    
-	    // Encoders
-	    SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
-	    SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
-	    
-	    // Stop Command
-	    SmartDashboard.putData("Drive Stop", new DriveStop());
-=======
-	     //DriveStraightDistance tests
-	     SmartDashboard.putData("Drive straight distance", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
-	     SmartDashboard.putNumber("DriveSpeed", 0);
-	     SmartDashboard.putNumber("Distance", 0);
-	     SmartDashboard.putNumber("BoilerDistance", 0);
-	     SmartDashboard.putNumber("UltrasonicDistance", 0);
-	     SmartDashboard.putData("Drive to Boiler_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.BOILER_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
-	     SmartDashboard.putData("Drive 12 inches", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
-	     SmartDashboard.putData("Drive to Ultraonic", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
-	     SmartDashboard.putData("Drive to Ultrasonic_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
-	     */	     	     
-	     // Subsystem Testing Commands
-	     SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
-	     SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
-//	     SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));  //  don't need on dashboard
-//	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.6));
-	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(Robot.intakeSpeed));
-	     
-	     // Autonomous Command Testing
-	     SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
-	     SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGearRight());
-	     SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle()); 
-	     
-	     //  Shooter controls
-		 SmartDashboard.putData("Set Shooter RPM Low", new ShooterSetToRPMFromSmartDashboardLow());
-		 SmartDashboard.putData("Set Shooter RPM High", new ShooterSetToRPMFromSmartDashboardHigh());
-		 SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
-		 SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
-		 SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-		    
-		 // Encoders (I don't think these work because the command is never called. this should be done in teleopPeriodic -John)
-		 SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
-		 SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
-		    
-		 // Stop Command
-		 SmartDashboard.putData("Drive Stop", new DriveStop());	
-		 
-		 // Conveyor Changes
-		 SmartDashboard.putData("Conveyors In", new ConveyorSetFromRobot(States.in));
-		 SmartDashboard.putData("Conveyors Out", new ConveyorSetFromRobot(States.out));
-		 SmartDashboard.putData("Conveyors Stopped", new ConveyorSetFromRobot(States.stopped));
+
+	    // DriveStraightDistance tests
+	    SmartDashboard.putData("Drive straight distance", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	    SmartDashboard.putNumber("DriveSpeed", 0);
+	    SmartDashboard.putNumber("Distance", 0);
+	    SmartDashboard.putNumber("BoilerDistance", 0);
+	    SmartDashboard.putNumber("UltrasonicDistance", 0);
+	    SmartDashboard.putData("Drive to Boiler_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.BOILER_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	    SmartDashboard.putData("Drive 12 inches", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
+	    SmartDashboard.putData("Drive to Ultraonic", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
+	    SmartDashboard.putData("Drive to Ultrasonic_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	    */
 	}
 	
 	/**
@@ -336,8 +315,6 @@ public class OI {
 	public MiddleKnob readMiddleKnob(){
 		return MiddleKnobPositions[readMiddleKnobRaw()];
 	}		 
-
-
 	     
 	/**
 	 * Reads the bottom knob.
@@ -380,10 +357,18 @@ public class OI {
 		}			
 	} 
 	
+	/**
+	 * Sets the drive direction
+	 * @param direction true = gear in the front false = shooter in the front
+	 */
 	public void setDriveDirection(boolean direction){
 		this.driveDirection = direction;
 	}
 	
+	/**
+	 * Gets the drive direction of the robot
+	 * @return true for ? false for ?
+	 */
 	public boolean getDriveDirection(){
 		return driveDirection;
 	}

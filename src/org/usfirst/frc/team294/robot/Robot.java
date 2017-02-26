@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -46,16 +47,17 @@ public class Robot extends IterativeRobot {
 	public static double shooterI;
 	public static double shooterD;
 	public static double shooterFNominal;
-	public static double inchesPerRevolution;
-	public static boolean inchesPerRevolutionEnabled;
+	public static double inchesPerRevolution; //This will never change. Why is it in the robot preferences instead of just left in DriveStraightDistance?
+	public static boolean inchesPerRevolutionEnabled; //This is set but never called anywhere. I assume it is safety code, but it performs no function currently.
 	public static boolean invertDrive;
-	public static double intakeSpeed; // -1 to 1
-	public static double shootSpeedHigh;
-	public static double shootSpeedLow;
-	public static double horizontalConveyor;
-	public static double verticalConveyor;
+	public static double intakeSpeed; // -1 to 1 //I understand why this in in place for testing, but will we need to change the intake speed that often during comp?
+	public static double shootSpeedHigh; //RPM
+	public static double shootSpeedLow; //RPM
+	public static double horizontalConveyorIn; //Voltage
+	public static double verticalConveyorIn; //Voltage
 	public static double horizontalConveyorOut;
 	public static double verticalConveyorOut;
+	public static double gearCam; // Gear vision cam horizontal offset
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -69,7 +71,7 @@ public class Robot extends IterativeRobot {
 		
 		robotPrefs = Preferences.getInstance();
 		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
-		if (inchesPerRevolution==0) {
+		if (inchesPerRevolution == 0) {
 			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration. Distance disabled.", true);
 			inchesPerRevolutionEnabled = false;
 			inchesPerRevolution = 100000;	//  set to a very large number for a minimum distance.  0 would go forever
@@ -78,13 +80,6 @@ public class Robot extends IterativeRobot {
 		}
 		if(inchesPerRevolutionEnabled == false){
 			robotPrefs.putDouble("inchesPerRevolution", 18.0);
-			robotPrefs.putBoolean("invertDrive",true);
-			robotPrefs.putDouble("intakeSpeed",0.6);
-			robotPrefs.putDouble("horizontalConeyor", 4.5);
-			robotPrefs.putDouble("verticalConveyor", 7.5);
-			robotPrefs.putDouble("horizontalConveyorOut", -2.0);
-			robotPrefs.putDouble("verticalConveyorOut", -2.0);
-			
 		}
 		shooterP = robotPrefs.getDouble("shooterP",0);// This has to be done before Shooter()
 		shooterI = robotPrefs.getDouble("shooterI",0);
@@ -105,19 +100,21 @@ public class Robot extends IterativeRobot {
 		
 		shootSpeedHigh = robotPrefs.getDouble("shootSpeedHighRPM",0);
 		shootSpeedLow = robotPrefs.getDouble("shootSpeedLowRPM",0);
+
 		
-		horizontalConveyor = robotPrefs.getDouble("horizontalConveyor",0);
-		if(horizontalConveyor == 0){
-			robotPrefs.putDouble("horizontalConeyor", 4.5);
-		}	
-		horizontalConveyor = robotPrefs.getDouble("horizontalConveyor",0);
-		
-		verticalConveyor = robotPrefs.getDouble("verticalConveyor",0);
-		if(verticalConveyor == 0){
-			robotPrefs.putDouble("verticalConveyor", 7.5);
+		horizontalConveyorIn = robotPrefs.getDouble("horizontalConveyor",0);	
+		if(horizontalConveyorIn == 0){
+				robotPrefs.putDouble("horizontalConeyorIn", 4.5);
+			}	
+		horizontalConveyorIn = robotPrefs.getDouble("horizontalConveyorIn",0);
+
+		verticalConveyorIn = robotPrefs.getDouble("verticalConveyorIn",0);
+		if(verticalConveyorIn == 0){
+			robotPrefs.putDouble("verticalConveyorIn", 7.5);
 		}
-		verticalConveyor = robotPrefs.getDouble("verticalConveyor", 0);
+		verticalConveyorIn = robotPrefs.getDouble("verticalConveyorIn",0);
 		
+
 		horizontalConveyorOut = robotPrefs.getDouble("horizontalConveyorOut",0);
 		if(horizontalConveyorOut == 0){
 			robotPrefs.putDouble("horizontalConveyorOut", -2.0);
@@ -126,11 +123,14 @@ public class Robot extends IterativeRobot {
 		
 		
 		verticalConveyorOut = robotPrefs.getDouble("verticalConveyorOut",0);
+
 		if(verticalConveyorOut == 0){
 			robotPrefs.putDouble("verticalConveyorOut", -2.0);
 		}
 		verticalConveyorOut = robotPrefs.getDouble("verticalConveyorOut",0);
 		
+
+		gearCam = robotPrefs.getDouble("gearCam",0);
 		
 		log = new FileLog();
 		driveTrain = new DriveTrain();
@@ -162,6 +162,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(shooter);
 		SmartDashboard.putData(intake);
 		SmartDashboard.putData(gearGate);
+		
+		CameraServer.getInstance().startAutomaticCapture();
+
 
 	}
 

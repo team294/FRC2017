@@ -22,14 +22,10 @@ public class DriveStraightDistance extends Command {
 	private DriveMode driveMode;
 	private double distance;
 	private double speed;
-	private Units units;
-	//private double
-
 	
     // Encoder and distance settings, copied from 2016 code and robot
 	private double distErr, distSpeedControl;
 	private double kPdist = 3;
-	//private double inchesPerRevolution = 19; //will need to be changed for wheel size on 2017 robot
 	private double minSpeed = 0.1;
 	
     // Steering settings, also copied from 2016 code. May need to be changed
@@ -71,7 +67,6 @@ public class DriveStraightDistance extends Command {
         this.speed = Math.abs(speed);
         this.distance = (units == Units.rotations) ? distance : distance / Robot.inchesPerRevolution;
     	this.driveMode = driveMode;
-    	this.units = units;
     	//this.tolerance = tolerance;
     }
 

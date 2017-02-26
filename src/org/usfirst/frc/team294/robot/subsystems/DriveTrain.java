@@ -15,7 +15,6 @@ import com.ctre.CANTalon.TalonControlMode;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -137,7 +136,7 @@ public class DriveTrain extends Subsystem {
      * @param rightStick Right joystick
      */
     public void driveWithJoystick(double leftStick, double rightStick) {
-    	robotDrive.tankDrive(leftStick, rightStick, false); //false is so that squared inputs is not used
+    	robotDrive.tankDrive(leftStick, rightStick, false);
     }
 
     /**
