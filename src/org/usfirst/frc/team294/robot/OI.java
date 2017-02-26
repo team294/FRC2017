@@ -190,6 +190,9 @@ public class OI {
 			     
 	    // Smart Dashboard Commands
 	    
+	    //Debug mode
+		SmartDashboard.putData("Debug dashboard", new SmartDashboardDebug());
+	    
 	    // Subsystem Testing Commands
 	    SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
 	    SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
@@ -200,6 +203,7 @@ public class OI {
 	    // Climb Motor Tests
 	    SmartDashboard.putData("Start Climb Motor", new ClimbSetToSpeed(0.4));
 	    SmartDashboard.putData("Stop Climb Motor", new ClimbSetToSpeed(0.0));
+	    SmartDashboard.putData("Start Climb Sequence WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", new StartClimbSequence()); //remove "W"s after testing -Johns
 	    
 	    // Intake and Hopper Tests
 	    SmartDashboard.putData("Deploy Intake", new MoveIntakeIfSafe(true));
@@ -259,6 +263,9 @@ public class OI {
 //	    SmartDashboard.putData("Drive to Ultraonic", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
 //	    SmartDashboard.putData("Drive to Ultrasonic_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
 	    
+	    if (Robot.smartDashboardDebug) {
+        	setupSmartDashboardDebug();
+        }
 	}
 	
 	/**
@@ -367,5 +374,8 @@ public class OI {
 	 */
 	public boolean getDriveDirection(){
 		return driveDirection;
+	}
+	public void setupSmartDashboardDebug() {
+		//TODO: PUT STUFF IN HERE
 	}
 }
