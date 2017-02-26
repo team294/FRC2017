@@ -114,10 +114,10 @@ public class OI {
 	    Button[] xbB = new Button[11];
 	    Trigger xbLT = new AxisTrigger(xboxController, 2, 0.9);
         Trigger xbRT = new AxisTrigger(xboxController, 3, 0.9);
-/*		Trigger xbPovUp = new POVTrigger(xboxController, 0);
+		Trigger xbPovUp = new POVTrigger(xboxController, 0);
         Trigger xbPovRight = new POVTrigger(xboxController, 90);
         Trigger xbPovDown = new POVTrigger(xboxController, 180);
-        Trigger xbPovLeft = new POVTrigger(xboxController, 270);*/
+        Trigger xbPovLeft = new POVTrigger(xboxController, 270);
 	    	    
 	    // Declare left and right joystick buttons
 	    for (int i = 1; i < left.length; i++) {
@@ -158,7 +158,7 @@ public class OI {
 	    coP[9].whenPressed(new IntakeSetToSpeed(-1.0));
 	    coP[10].whenPressed(new MoveGearGate(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(1.0));
-	    //coP[12].whenPressed(); Shooter preset speed
+	    coP[12].whenPressed(new DeployIntakeAndHopper());
 	    coP[13].whenPressed(new MoveShooterHood(false));
 	    coP[14].whenPressed(new MoveShooterHood(true));
 	    
@@ -169,18 +169,15 @@ public class OI {
 	    xbB[4].whenPressed(new MoveGearGate(false));
 	    xbB[5].whenPressed(new IntakeSetToSpeed(1.0));
 	    xbB[6].whenPressed(new IntakeSetToSpeed(-1.0));
+	    xbB[7].whenPressed(new PrepareToClimb());
+	    xbB[8].whenPressed(new DeployIntakeAndHopper());
 	    xbB[9].whenPressed(new StopAllMotors());
 	    //xbB[10].whenPressed(new StartManualClimbControl()); //Command does not yet exist
 	    
-	    /*
-	     * Commands to set the shooter to preset speeds
-	     * Commands do not yet exist
-	     * 
-	     *	xbPovUp.whenActive();
-	     *	xbPovDown.whenActive();
-	     *	xbPovLeft.whenActive();
-	     *	xbPovRight.whenActive();
-	     */
+	    xbPovUp.whenActive(new ShooterSetRPM(Robot.shootSpeedHigh));
+	    xbPovDown.whenActive(new ShooterSetRPM(Robot.shootSpeedLow));
+	    xbPovLeft.whenActive(new ShooterSetRPM(Robot.shootSpeedLow));
+	    xbPovRight.whenActive(new ShooterSetRPM(Robot.shootSpeedHigh));
 	    
 	    // Xbox triggers
 	    xbLT.whenActive(new ConveyorSetFromRobot(States.out)); // This runs the conveyors out. The number is subject to change.
