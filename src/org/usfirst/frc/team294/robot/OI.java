@@ -231,10 +231,6 @@ public class OI {
 		SmartDashboard.putData("Conveyors In", new ConveyorSetFromRobot(States.in));
 		SmartDashboard.putData("Conveyors Out", new ConveyorSetFromRobot(States.out));
 		SmartDashboard.putData("Conveyors Stopped", new ConveyorSetFromRobot(States.stopped));
-		
-		// it has become standard practice to comment out all not used commands during testing to make it possible to use the SmartDashboard. 
-	    //If you don't do this then your button will be buried in other buttons making it stupidly hard to find.
-	    //I will uncomment them for now but keep this in mind in future testing -John
 	    
 	    // Gyro Testing Commands 
 /*	    SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
