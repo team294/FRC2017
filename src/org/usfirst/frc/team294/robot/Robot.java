@@ -38,6 +38,9 @@ public class Robot extends IterativeRobot {
 	// The OI
 	public static OI oi;
 	
+	// Turn on/off SmartDashboard debugging
+	public static boolean smartDashboardDebug = false;		// true to print lots of stuff on the SmartDashboard
+	
 	// File logger
 	public static FileLog log;
 	
