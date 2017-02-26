@@ -14,13 +14,14 @@ public class StartClimbSequence extends CommandGroup {
     	addSequential(new MoveIntakeIfSafe(true));
     	addSequential(new MoveHopperIfSafe(false));
     	addSequential(new ClimbSetToSpeed(0.4));
-    	addSequential(new CheckClimberCurrent(highCurrent, .4));
     	addSequential(new WaitSeconds(1));
-    	addSequential(new ClimbSetToSpeed(0.5));
+    	addSequential(new CheckClimberCurrent(10));
+    	addSequential(new WaitSeconds(1));
+    	addSequential(new ClimbSetToSpeed(0.7));
     	addSequential(new WaitSeconds(2));
-    	addSequential(new CheckClimberCurrent(highCurrent, .8));
-    	addSequential(new ClimbSetToSpeed(0.8));
-    	addSequential(new CheckClimberCurrent(highCurrent, 1.3));
+    	addSequential(new CheckClimberCurrent(16));
+    	addSequential(new ClimbSetToSpeed(1));
+    	addSequential(new CheckClimberCurrent(20));
     	addSequential(new ClimbSetToSpeed(0));
     }
 }

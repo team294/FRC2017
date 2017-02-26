@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class CheckClimberCurrent extends Command {
 
-	double percentage;
-	double maxCurrent;
+//	double percentage;
+//	double maxCurrent;
 	double current;
 	
 	/**
@@ -18,17 +18,18 @@ public class CheckClimberCurrent extends Command {
 	 * @param maxCurrent
 	 * @param currentPercentage
 	 */
-    public CheckClimberCurrent(double maxCurrent, double currentPercentage) {
+    public CheckClimberCurrent(double current) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
-    	this.maxCurrent = maxCurrent;
-    	this.percentage = currentPercentage;
+//    	this.maxCurrent = maxCurrent;
+//    	this.percentage = currentPercentage;
+    	this.current = current;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	current = maxCurrent * percentage;
+//    	current = maxCurrent * percentage;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -37,6 +38,7 @@ public class CheckClimberCurrent extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+		Robot.log.writeLogEcho("Climber current ," + Robot.intake.getAverageClimberCurrent() + ", amps." + "climber current set current ," + current + ",");
         return Robot.intake.getAverageClimberCurrent() >= current;
     }
 
