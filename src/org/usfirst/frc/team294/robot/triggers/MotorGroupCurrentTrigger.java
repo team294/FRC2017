@@ -7,9 +7,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * 
- */
 public class MotorGroupCurrentTrigger extends Trigger {
 	List<CANTalon> motorList; 
 	double duration;
@@ -29,20 +26,22 @@ public class MotorGroupCurrentTrigger extends Trigger {
 		this.limit = limit;
 	}
 
-
-	public boolean get() {		for(int i = 0; i < motorList.size(); i++){
-		for(int j = 0; j < motorList.size(); j++){
-			if((motorList.get(j).getOutputCurrent() > 0.1) && (motorList.get(i).getOutputCurrent()/motorList.get(j).getOutputCurrent() < 0.67)){
-				badMotor = i;
-			}
-			else{
-				timer.reset();
+	//TODO:  Fix and test MotorGroupCurrentTrigger.  Don:  I think the logic in this function may not achieve the intended purpose, so please check. 
+	public boolean get() {		
+		for(int i = 0; i < motorList.size(); i++){
+			for(int j = 0; j < motorList.size(); j++){
+				if((motorList.get(j).getOutputCurrent() > 0.1) && (motorList.get(i).getOutputCurrent()/motorList.get(j).getOutputCurrent() < 0.67)){
+					badMotor = i;
+				}
+				else{
+					timer.reset();
+				}
 			}
 		}
+		//SmartDashboard.putNumber("Bad motor", motorList.get(badMotor).getDeviceID());
+		return timer.get() >= duration;
 	}
-	//SmartDashboard.putNumber("Bad motor", motorList.get(badMotor).getDeviceID());
-	return timer.get() >= duration;
-	}
+	
 	public void printBadMotor(){
 		SmartDashboard.putNumber("Bad motor" , badMotor);
 	}

@@ -224,8 +224,7 @@ public class OI {
 		SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
 		    
 		// Encoders
-		SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
-		SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
+		Robot.driveTrain.updateSmartDashboardEncoders();
 		    
 		// Stop Command
 		SmartDashboard.putData("Drive Stop", new DriveStop());	
