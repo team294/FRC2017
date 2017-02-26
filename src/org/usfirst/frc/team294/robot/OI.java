@@ -169,7 +169,7 @@ public class OI {
 	    xbB[5].whenPressed(new IntakeSetToSpeed(1.0));
 	    xbB[6].whenPressed(new IntakeSetToSpeed(-1.0));
 	    xbB[9].whenPressed(new StopAllMotors());
-	    //xbB[10].whenPressed(new StartManualClimbControl()); //Command does not yet exist
+	    xbB[10].whenPressed(new ClimbJoystickControl()); //Command does not yet exist
 	    
 	    /*
 	     * Commands to set the shooter to preset speeds
