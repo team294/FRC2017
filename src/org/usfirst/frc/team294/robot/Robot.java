@@ -195,6 +195,7 @@ public class Robot extends IterativeRobot {
 		driveTrain.updateSmartDashboardEncoders();
 		boilerVision.updateSmartDashboard();
 		//driveTrain.logTalonStatus();
+		intake.updateSmartDashboardClimbMotorCurrent();
 
 		shooter.updateSmartDashboard(); 
 		shooter.periodicSetF();

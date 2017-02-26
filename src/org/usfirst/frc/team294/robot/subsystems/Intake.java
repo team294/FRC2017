@@ -242,6 +242,13 @@ public class Intake extends Subsystem {
 		return aveCurrent;
 	}
 	
+	/**
+	 * Updates SmartDashboard with climber current
+	 */
+    public void updateSmartDashboardClimbMotorCurrent() {
+    	SmartDashboard.putNumber("Climber Motor Current", getAverageClimberCurrent());
+    }
+	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		//setDefaultCommand(new MySpecialCommand());
