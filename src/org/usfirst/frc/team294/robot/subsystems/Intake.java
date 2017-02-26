@@ -8,9 +8,8 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.ClimbSetToSpeed;
 import org.usfirst.frc.team294.robot.commands.IntakeSetToSpeed;
-//import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
-import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
-import org.usfirst.frc.team294.utilities.MotorGroupCurrentTrigger;
+import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
+import org.usfirst.frc.team294.robot.triggers.MotorGroupCurrentTrigger;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;

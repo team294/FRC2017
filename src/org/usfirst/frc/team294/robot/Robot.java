@@ -26,14 +26,13 @@ public class Robot extends IterativeRobot {
 	public static Shifter shifter;
 	public static BallFeed ballFeed;
 	public static GearGate gearGate;
-	public static GearVision gearVision;
 	public static Intake intake;
 	public static Shooter shooter;
 	public static ShooterHood shooterHood;
 	
-	
 	// Vision subsystems
 	public static BoilerVision boilerVision;
+	public static GearVision gearVision;
 	
 	// The OI
 	public static OI oi;
@@ -48,16 +47,15 @@ public class Robot extends IterativeRobot {
 	public static double shooterD;
 	public static double shooterFNominal;
 	public static double inchesPerRevolution; //This will never change. Why is it in the robot preferences instead of just left in DriveStraightDistance?
-	public static boolean inchesPerRevolutionEnabled; //This is set but never called anywhere. I assume it is safety code, but it performs no function currently.
 	public static boolean invertDrive;
 	public static double intakeSpeed; // -1 to 1 //I understand why this in in place for testing, but will we need to change the intake speed that often during comp?
-	public static double shootSpeedHigh; //RPM
-	public static double shootSpeedLow; //RPM
-	public static double horizontalConveyorIn; //Voltage
-	public static double verticalConveyorIn; //Voltage
-	public static double horizontalConveyorOut;
-	public static double verticalConveyorOut;
-	public static double gearCam; // Gear vision cam horizontal offset
+	public static double shootSpeedHighRPM; //RPM
+	public static double shootSpeedLowRPM; //RPM
+	public static double horizontalConveyorInVolts; //Voltage
+	public static double verticalConveyorInVolts; //Voltage
+	public static double horizontalConveyorOutVolts;
+	public static double verticalConveyorOutVolts;
+	public static double gearCamHorizOffsetInches; // Gear vision cam horizontal offset
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -66,31 +64,27 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		
 		System.out.println("Robot init");
+		log = new FileLog();	// Create log file first, so other code can use it
 		
+		//TODO:  For each robot preference:  If missing, then set pref and variable to default value. 
+		//TODO:  For each robot preference:  Use more descriptive names?
 		robotPrefs = Preferences.getInstance();
 		shooterP = robotPrefs.getDouble("shooterP",0);  // This has to be done before Shooter()
 		shooterI = robotPrefs.getDouble("shooterI",0);
 		shooterD = robotPrefs.getDouble("shooterD",0);
 		shooterFNominal = robotPrefs.getDouble("shooterFNominal",0);
-		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
-		if (inchesPerRevolution == 0) {
-			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration. Distance disabled.", true);
-			inchesPerRevolutionEnabled = false;
-			inchesPerRevolution = 100000;	//  set to a very large number for a minimum distance.  0 would go forever
-		} else {
-			inchesPerRevolutionEnabled = true;
-		}
+		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 100000);
 		invertDrive = robotPrefs.getBoolean("invertDrive",false);
 		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
-		shootSpeedHigh = robotPrefs.getDouble("shootSpeedHighRPM",0);
-		shootSpeedLow = robotPrefs.getDouble("shootSpeedLowRPM",0);
-		horizontalConveyorIn = robotPrefs.getDouble("horizontalConveyor",0);
-		verticalConveyorIn = robotPrefs.getDouble("verticalConveyor",0);
-		horizontalConveyorOut = robotPrefs.getDouble("horizontalConveyorOut",0);
-		verticalConveyorOut = robotPrefs.getDouble("verticalConveyorOut",0);
-		gearCam = robotPrefs.getDouble("gearCam",0);
-		
-		log = new FileLog();
+		shootSpeedHighRPM = robotPrefs.getDouble("shootSpeedHighRPM",0);
+		shootSpeedLowRPM = robotPrefs.getDouble("shootSpeedLowRPM",0);
+		horizontalConveyorInVolts = robotPrefs.getDouble("horizontalConveyor",0);
+		verticalConveyorInVolts = robotPrefs.getDouble("verticalConveyor",0);
+		horizontalConveyorOutVolts = robotPrefs.getDouble("horizontalConveyorOut",0);
+		verticalConveyorOutVolts = robotPrefs.getDouble("verticalConveyorOut",0);
+		gearCamHorizOffsetInches = robotPrefs.getDouble("gearCam",0);
+
+		// Create subsystems
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
 		shooter = new Shooter();
@@ -98,18 +92,22 @@ public class Robot extends IterativeRobot {
 		gearGate = new GearGate();
 		gearVision = new GearVision();
 		boilerVision = new BoilerVision();
-		log = new FileLog();
-		gearVision = new GearVision();
 		shooterHood = new ShooterHood();
 		ballFeed = new BallFeed();
-		
+
+		// Turn on current protection for motors
 		ballFeed.ballFeedCurrentProtection();
 		shooter.shooterCurrentProtection();
 		intake.intakeCurrentProtection();
 		driveTrain.leftCurrentProtection();
 		driveTrain.rightCurrentProtection();
-	
+		
 		robotPrefs = Preferences.getInstance();
+
+		// Turn on drive camera
+		CameraServer.getInstance().startAutomaticCapture();
+
+		// Create OI
 		oi = new OI();
 
 		// Put scheduler and subsystems on SmartDashboard
@@ -119,10 +117,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(shooter);
 		SmartDashboard.putData(intake);
 		SmartDashboard.putData(gearGate);
-		
-		CameraServer.getInstance().startAutomaticCapture();
-
-
+		SmartDashboard.putData(shooterHood);
+		SmartDashboard.putData(ballFeed);
+//		SmartDashboard.putData(gearVision);
+//		SmartDashboard.putData(boilerVision);
 	}
 
 	/**
@@ -170,7 +168,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		
-		driveTrain.logTalonStatus();
+//		driveTrain.logTalonStatus();
 	}
 
 	public void teleopInit() {
