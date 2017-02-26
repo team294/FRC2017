@@ -132,86 +132,11 @@ public class OI {
 	    		left[i].whenPressed(new ShiftDown());
 	    	}
 	    }
-	  
-//	    	right[i].whenPressed(new ClimbJoystickControl());
-	   // }
-	    /*
-	    // Declare left joystick buttons and set them to shift down
-	     for (Button i : left) {
-	    	 i =  new JoystickButton(leftJoystick, j++);
-	    	 if (j == 3) i.whenPressed(new GyroTurnToAngle(0.3, 180));
-	    	 else if (j == 4) i.whenPressed(new GyroTurnToAngle(0.3, 0));
-	    	 else if (j == 5) i.whenPressed(new GyroTurnToAngle(0.3, -90));
-	    	 else if (j == 6) i.whenPressed(new GyroTurnToAngle(0.3, 90.0));
-	    	 else i.whenPressed(new ShiftDown());
-	     }
-	     
-	     // Declare right joystick buttons and set them to shift up
-	     for (Button i : right) {
-	    	 i = new JoystickButton(rightJoystick, k++);
-	    	 if (k > 2 && k < 7) i.whenPressed(new DriveWithJoysticks()); 
-	    	 else i.whenPressed(new ShiftUp());
-	     }*/
-/*
-	    // Gyro Testing Commands
-	     SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
-	     SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90, 2.0));
-	     SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180, 2.0));
-	     SmartDashboard.putData("Turn to 5", new GyroTurnToAngle(0.4, 5, 2.0));
-	     SmartDashboard.putData("Turn to -5", new GyroTurnToAngle(0.4, -5, 2.0));
-	     SmartDashboard.putData("Turn to 10", new GyroTurnToAngle(0.4, 10, 2.0));
-	     SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
-	     */
-	    
-	    System.out.println("Getting joystick button");
-	    
-	     SmartDashboard.putData("Climb with Joystick", new ClimbJoystickControl() );
-	     SmartDashboard.putData("Turn YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", new GyroTurnToAngle(0.4, 0, 1.0, GyroTurnToAngle.TurnMode.SMARTDASHBOARD));
-	     SmartDashboard.putNumber("Speed", 0);
-	     SmartDashboard.putNumber("Angle", 0);
-	     SmartDashboard.putNumber("Err", 0);
-	     SmartDashboard.putData("Turn to gear test test test test test test test test test", new GyroTurnToAngle(0.4, 0, 3.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
-	    
-	     //DriveStraightDistance tests
-	     SmartDashboard.putData("drive drive drive drive drive drive drive drive drive drive drive", new DriveStraightDistance(0.4, 0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
-	     SmartDashboard.putNumber("DriveSpeed", 0);
-	     SmartDashboard.putNumber("Distance", 0);
-	     SmartDashboard.putNumber("BoilerDistance", 0);
-	     xbB[10].whenPressed(new ClimbJoystickControl());
 
-/*
-	     //double speed = SmartDashboard.getDouble("Drive Speed");
-	     //double curve = SmartDashboard.getDouble("Drive Curve");
-	     SmartDashboard.putNumber("Drive Speed", 0.0);
-	     SmartDashboard.putNumber("Drive Curve", 0.0);
-
-	     SmartDashboard.putData("Drive at Angle", new DriveAtAngleFromSmartDashboard());
-	     SmartDashboard.putData("Start Vision Alignment", new TurnToAngle(0));
-	     
-	     //SmartDashboard.putData("Drive 10 feet", new DriveWithEncoders(10));
-	     
-	     SmartDashboard.putNumber("Drive Forward Speed", 0.0);
-	     SmartDashboard.putData("Drive Stop", new DriveStop());
-	     
-	     // Subsystem Testing Commands
-	     SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
-	     SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
-	     SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
-	     SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(0.5));
-	     SmartDashboard.putData("Stop Shooter Motor", new ShooterSetToSpeed(0.0));
-	     SmartDashboard.putData("Start Shooter Motor", new ShooterSetToSpeed(0.3));
-	     
-	     // Autonomous Command Testing
-	     SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
-	     SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGearRight());
-	     SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle());
-	    // Declare codriver panel switches
+	     // Declare codriver panel switches
 	    for (int i = 1; i < coP.length; i++) {
 	    	coP[i] = new JoystickButton(coPanel, i);
 		}
-
-	SmartDashboard.putBoolean("Joystick button 3", right[3].get());
-	SmartDashboard.putNumber("Joystick value", rightJoystick.getRawAxis(1));
 	    
 	    // Xbox controller buttons
 	    for (int i = 1; i < xbB.length; i++) {
@@ -244,7 +169,7 @@ public class OI {
 	    xbB[5].whenPressed(new IntakeSetToSpeed(1.0));
 	    xbB[6].whenPressed(new IntakeSetToSpeed(-1.0));
 	    xbB[9].whenPressed(new StopAllMotors());
-	    xbB[10].whenPressed(new ClimbJoystickControl()); //Command does not yet exist
+	    //xbB[10].whenPressed(new StartManualClimbControl()); //Command does not yet exist
 	    
 	    /*
 	     * Commands to set the shooter to preset speeds
