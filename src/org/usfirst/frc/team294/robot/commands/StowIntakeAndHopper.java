@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoRedGearLeftScore extends CommandGroup {
+public class StowIntakeAndHopper extends CommandGroup {
 
-    public AutoRedGearLeftScore() {
+    public StowIntakeAndHopper() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -24,9 +24,7 @@ public class AutoRedGearLeftScore extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ShiftDown());
-    	addSequential(new AutoDriveAndGearRight());
-    	addSequential(new WaitSeconds(.2));
-    	addSequential(new AutoScoreBoilerFromLeftRed());
+    	addSequential(new MoveHopperIfSafe(false));
+    	addSequential(new MoveIntakeIfSafe(false));
     }
 }

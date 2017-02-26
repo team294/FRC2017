@@ -10,9 +10,7 @@ public class RobotMap {
 	// Hardware addresses
 	
 	// CANbus Addresses
-	/**               IF these change update wiring map at bottom!
-	 * 
-	 **/
+	// If these change update wiring map at bottom!
 	public static int climbMotor1 = 3;
 	public static int climbMotor2 = 4;
 	public static int driveTrainLeftMotor1 = 5;
@@ -35,7 +33,7 @@ public class RobotMap {
     public static int hopperSolenoidFwd = 4;
     public static int hopperSolenoidRev = 5;
     public static int shooterHoodSolenoid = 6;
-    public static int gearSolenoidIn = 7;
+    public static int gearSolenoid = 7;
 
     // Analog I/O addresses
     public static int driveTrainGyro = 0;
@@ -61,6 +59,14 @@ public class RobotMap {
     public enum AutoAngles {
     	leftGear, rightGear
     }
+    
+	public enum StartPositions {
+		left, middle, right
+	}
+	
+	public enum Teams {
+		blue, red
+	}
     
     public static double getDistance(AutoDistances distance) {
     	if (distance == AutoDistances.toBaseLine) return distanceToBaseline;
