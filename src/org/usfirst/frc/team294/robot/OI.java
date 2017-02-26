@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap.StartPositions;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
 import org.usfirst.frc.team294.robot.triggers.AxisTrigger;
@@ -125,8 +126,8 @@ public class OI {
 	    	if (i == 3) {
 //	    		right[i].whenPressed(new SwitchDriveDirection());
 //	    		left[i].whenPressed(new SwitchDriveDirection());
-	    		right[i].whenPressed(new SwitchDriveDirectionToShooter());
-	    		left[i].whenPressed(new SwitchDriveDirectionToGear());
+	    		right[i].whenPressed(new SwitchDriveDirection(true));
+	    		left[i].whenPressed(new SwitchDriveDirection(false));
 	    	} else {
 	    		right[i].whenPressed(new ShiftUp());
 	    		left[i].whenPressed(new ShiftDown());
@@ -147,8 +148,8 @@ public class OI {
 	    coP[1].whenPressed(new StopAllMotors());
 	    coP[2].whenPressed(new PrepareToClimb());
 	    //coP[3].whenPressed(new StartManualClimbControl());
-	    //coP[4].whenPressed(); Shooter preset speed
-	    //coP[5].whenPressed(); Shooter preset speed
+	    coP[4].whenPressed(new ShooterSetRPM(Robot.shootSpeedLow));
+	    coP[5].whenPressed(new ShooterSetRPM(Robot.shootSpeedHigh));
 	    coP[6].whenPressed(new ConveyorSetFromRobot(States.in));
 	    coP[6].whenReleased(new ConveyorSetFromRobot(States.stopped));
 	    coP[7].whenPressed(new ConveyorSetFromRobot(States.out));
@@ -208,9 +209,9 @@ public class OI {
 	    SmartDashboard.putData("Deploy Intake and Hopper", new DeployIntakeAndHopper());
 	    
 	    // Autonomous Command Testing
-	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGearLeft());
-	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGearRight());
-	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGearMiddle()); 
+	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGear(StartPositions.left));
+	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGear(StartPositions.right));
+	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGear(StartPositions.middle)); 
 	    
 	    // Shooter controls
 	    SmartDashboard.putData("Set Shooter RPM Low", new ShooterSetToRPMFromSmartDashboardLow());
