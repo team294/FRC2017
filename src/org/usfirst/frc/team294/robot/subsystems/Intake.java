@@ -103,7 +103,7 @@ public class Intake extends Subsystem {
     public void setClimbSpeed(double speed) {
     	climbMotor1.changeControlMode(TalonControlMode.PercentVbus);
     	// Need to check if hopper and intake are stowed first
-    	if (speed < 0) speed = 0;
+    	//if (speed < 0) speed = 0;
     	if (speed > 1.0) speed = 1.0;
     	climbMotor1.set(speed);
     }
