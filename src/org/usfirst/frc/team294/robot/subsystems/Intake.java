@@ -34,7 +34,7 @@ public class Intake extends Subsystem {
     private final DoubleSolenoid hopperSolenoid = new DoubleSolenoid(RobotMap.hopperSolenoidFwd, RobotMap.hopperSolenoidRev);
     
 	//Current Protection
-	public final MotorCurrentTrigger intakeCurrentTrigger = new MotorCurrentTrigger(intakeMotor, 7, 3);
+	public final MotorCurrentTrigger intakeCurrentTrigger = new MotorCurrentTrigger(intakeMotor, 22, 3);
 	List<CANTalon> climbMotors = new ArrayList<CANTalon>(Arrays.asList(climbMotor1, climbMotor2));
 	public final MotorGroupCurrentTrigger climbCurrentTrigger = new MotorGroupCurrentTrigger(climbMotors, 35, 2);
 
@@ -55,9 +55,6 @@ public class Intake extends Subsystem {
     	// Call the Subsystem constructor
     	super();
     	
-    	// Set up subsystem components
-    	intakeMotor.setVoltageRampRate(50);
-
 		// Set up subsystem components
 		intakeMotor.setVoltageRampRate(50);
 		climbMotor2.changeControlMode(TalonControlMode.Follower);
@@ -78,7 +75,7 @@ public class Intake extends Subsystem {
 		intakeCurrentTrigger.whenActive(new IntakeSetToSpeed(0.0));
 		climbCurrentTrigger.whenActive(new ClimbSetToSpeed(0.0));
 	}
-
+	
 	/**
 	 * Set the speed of the intake motor
 	 * @param speed of the motor, between -1 (outtake) and +1 (intake), 0 = stopped
@@ -121,7 +118,6 @@ public class Intake extends Subsystem {
     public void updateSmartDashboard() {
  		SmartDashboard.putNumber("Intake motor setpoint", -intakeMotor.get());
  		SmartDashboard.putNumber("Intake motor current", intakeMotor.getOutputCurrent());
-// 		SmartDashboard.putString("Intake position", intakeIsUp() ? "Up" : "Down");
     }
     
     /**
@@ -143,6 +139,9 @@ public class Intake extends Subsystem {
      */
     public void setHopperTracker(Status position) {
     	hopperPos = position;
+    	SmartDashboard.putString("Hopper status", 
+    			(position == Status.stowed) ? "Stowed" :
+    				((position == Status.deployed) ? "Deployed" : "Unknown") );
     }
     
     /**
@@ -151,7 +150,14 @@ public class Intake extends Subsystem {
      */
     public void setIntakeTracker(Status position) {
     	intakePos = position;
+    	SmartDashboard.putString("Intake status", 
+    			(position == Status.stowed) ? "Stowed" :
+    				((position == Status.deployed) ? "Deployed" : "Unknown") );
     }
+    
+    //TODO:  Fix hopper/intake interlock.  If user runs hopper and intake commands
+    //back-to-back, then they interrupt each other and tracking code doesn't work.
+    //Maybe make the commands not interruptible?
     
     /**
      * Read the value of the software hopper tracker
@@ -217,7 +223,8 @@ public class Intake extends Subsystem {
 	 */
 	public void logIntakeStatus() {
 		Robot.log.writeLog(
-				"Intake: Intake Motor-- Speed: " + intakeMotor.get()
+				"Intake: Intake Motor-- Speed: " + intakeMotor.get() + 
+				", Current: " + intakeMotor.getOutputCurrent()
 				);
 	}
 
