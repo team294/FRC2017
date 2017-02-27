@@ -90,7 +90,7 @@ public class Robot extends IterativeRobot {
 		
 		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
 		if(intakeSpeed == 0){
-			robotPrefs.putDouble("intakeSpeed",0.6);
+			robotPrefs.putDouble("intakeSpeed",1.0);
 		}
 		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
 
