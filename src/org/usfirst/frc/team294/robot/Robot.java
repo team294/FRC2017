@@ -191,6 +191,9 @@ public class Robot extends IterativeRobot {
 		shooter.updateSmartDashboard(); 
 		shooter.periodicSetF();
 		
+		intake.updateSmartDashboard();
+//		intake.logIntakeStatus();
+		
     	// Stall protection
 //		Robot.intake.intakeCurrentTrigger.whenActive(new IntakeSetToSpeed(0));
 //		Robot.shooter.shooterMotorCurrentTrigger.whenActive(new ShooterSetVoltage(0));
