@@ -70,12 +70,12 @@ public class Robot extends IterativeRobot {
 		
 		//TODO:  For each robot preference:  Use more descriptive names?
 		robotPrefs = Preferences.getInstance();
-		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
-		if (inchesPerRevolution == 0) {
+		if (robotPrefs.getDouble("inchesPerRev", 0) == 0) {
 			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration. Distance disabled.", true);
 			robotPrefs.putDouble("inchesPerRevolution", 18.0);
 		}
 		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
+		
 		shooterP = robotPrefs.getDouble("shooterP",0.15);// This has to be done before Shooter()
 		shooterI = robotPrefs.getDouble("shooterI",0);
 		shooterD = robotPrefs.getDouble("shooterD",0);
@@ -97,28 +97,22 @@ public class Robot extends IterativeRobot {
 		shootSpeedLowRPM = robotPrefs.getDouble("shootSpeedLowRPM",3800);
 
 		
-		horizontalConveyorInVolts = robotPrefs.getDouble("horizontalConveyor",0);	
-		if(horizontalConveyorInVolts == 0){
+		if(robotPrefs.getDouble("horizontalConveyor",0) == 0){
 				robotPrefs.putDouble("horizontalConeyorInVolts", 4.5);
 			}	
 		horizontalConveyorInVolts = robotPrefs.getDouble("horizontalConveyorInVolts",0);
 
-		verticalConveyorInVolts = robotPrefs.getDouble("verticalConveyorInVolts",0);
-		if(verticalConveyorInVolts == 0){
+		if(robotPrefs.getDouble("verticalConveyorInVolts",0) == 0){
 			robotPrefs.putDouble("verticalConveyorInVolts", 7.5);
 		}
 		verticalConveyorInVolts = robotPrefs.getDouble("verticalConveyorInVolts",0);
 		
-
-		horizontalConveyorOutVolts = robotPrefs.getDouble("horizontalConveyorOut",0);
-		if(horizontalConveyorOutVolts == 0){
+		if(robotPrefs.getDouble("horizontalConveyorOut",0) == 0){
 			robotPrefs.putDouble("horizontalConveyorOutVolts", -2.0);
 		}
 		horizontalConveyorOutVolts = robotPrefs.getDouble("horizontalConveyorOut", 0);
 		
-		
-		verticalConveyorOutVolts = robotPrefs.getDouble("verticalConveyorOut",0);
-		if(verticalConveyorOutVolts == 0){
+		if(robotPrefs.getDouble("verticalConveyorOut",0) == 0){
 			robotPrefs.putDouble("verticalConveyorOutVolts", -2.0);
 		}
 		verticalConveyorOutVolts = robotPrefs.getDouble("verticalConveyorOutVolts",0);
