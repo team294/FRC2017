@@ -76,27 +76,25 @@ public class Robot extends IterativeRobot {
 			robotPrefs.putDouble("inchesPerRevolution", 18.0);
 		}
 		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
-		shooterP = robotPrefs.getDouble("shooterP",0);// This has to be done before Shooter()
+		shooterP = robotPrefs.getDouble("shooterP",0.15);// This has to be done before Shooter()
 		shooterI = robotPrefs.getDouble("shooterI",0);
 		shooterD = robotPrefs.getDouble("shooterD",0);
-		shooterFNominal = robotPrefs.getDouble("shooterFNominal",0);
+		shooterFNominal = robotPrefs.getDouble("shooterFNominal",.024);
 		
-		invertDrive = robotPrefs.getBoolean("invertDrive",false);
-		if(invertDrive == false){
+		invertDrive = robotPrefs.getBoolean("invertDrive",true);
+/**		if(invertDrive == false){
 			robotPrefs.putBoolean("invertDrive",true);
 		}
-
-		invertDrive = robotPrefs.getBoolean("invertDrive",false);
+**/
 		
-		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
-		if(intakeSpeed == 0){
+		if(robotPrefs.getDouble("intakeSpeed",0) == 0){
 			robotPrefs.putDouble("intakeSpeed",1.0);
 		}
 		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
 
 		
-		shootSpeedHighRPM = robotPrefs.getDouble("shootSpeedHighRPM",0);
-		shootSpeedLowRPM = robotPrefs.getDouble("shootSpeedLowRPM",0);
+		shootSpeedHighRPM = robotPrefs.getDouble("shootSpeedHighRPM",4200);
+		shootSpeedLowRPM = robotPrefs.getDouble("shootSpeedLowRPM",3800);
 
 		
 		horizontalConveyorInVolts = robotPrefs.getDouble("horizontalConveyor",0);	
