@@ -147,7 +147,7 @@ public class BoilerVision extends Subsystem {
 	/**
 	 * Likely does not work for boiler at this point
 	 * Slightly slower but more accurate (gives distance from center of robot instead of from camera)
-	 * @return distance of center of robot from the boiler
+	 * @return distance of center of robot from the boiler in inches
 	 */
 	public double getBetterDistance() { 
 		Contour[] targets = filterContours(); //Gets best two best contours

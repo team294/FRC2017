@@ -126,6 +126,10 @@ public class GearVision extends Subsystem {
 		return Math.sqrt(d * d + camOffset * camOffset - 2 * d * camOffset * Math.cos(Math.PI/2 - rawAngle * .0174533));
 	}
 	
+	/**
+	 * Calculates distance from camera to gear target
+	 * @return distance in inches
+	 */
 	public double getGearDistance() {
 		//Gives the distance of the robot from the gear target if our camera's center is at the same elevation as the center of the gear tape
 		int heightOfTape = 5; //Height of the tape on the gear lift
