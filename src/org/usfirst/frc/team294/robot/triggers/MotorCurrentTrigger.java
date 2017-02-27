@@ -1,4 +1,4 @@
-package org.usfirst.frc.team294.utilities;
+package org.usfirst.frc.team294.robot.triggers;
 
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.Timer;
