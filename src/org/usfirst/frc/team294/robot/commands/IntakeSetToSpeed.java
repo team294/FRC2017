@@ -26,6 +26,8 @@ public class IntakeSetToSpeed extends Command {
 		if (speed < -1.0) speed = -1.0;
 		if (speed > 1.0) speed = 1.0;
 		Robot.intake.setSpeed(speed);
+		
+		Robot.log.writeLog("Command IntakeSetToSpeed(" + speed + ")");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
