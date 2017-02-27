@@ -229,7 +229,7 @@ public class Intake extends Subsystem {
 	}
 
 	/**
-	 * Logs the speed of both c to the robot log
+	 * Logs the speed of both climbers to the robot log
 	 */
 	public void logClimbStatus() {
 		Robot.log.writeLog(
@@ -247,7 +247,7 @@ public class Intake extends Subsystem {
 		aveCurrent = (this.climbMotor1.getOutputCurrent() + this.climbMotor2.getOutputCurrent())/2;
 		return aveCurrent;
 	}
-	
+	//TODO: move to update SmartDashboard before pulling to master
 	/**
 	 * Updates SmartDashboard with climber current
 	 */
