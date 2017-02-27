@@ -59,7 +59,7 @@ public class Intake extends Subsystem {
     	intakeMotor.setVoltageRampRate(50);
 
 		// Set up subsystem components
-		intakeMotor.setVoltageRampRate(50);
+		climbMotor1.setVoltageRampRate(20);
 		climbMotor2.changeControlMode(TalonControlMode.Follower);
 		climbMotor2.set(climbMotor1.getDeviceID());
 
@@ -222,7 +222,7 @@ public class Intake extends Subsystem {
 	}
 
 	/**
-	 * Logs the speed of both conveyors to the robot log
+	 * Logs the speed of both c to the robot log
 	 */
 	public void logClimbStatus() {
 		Robot.log.writeLog(
