@@ -21,8 +21,8 @@ public class StartClimbSequence extends CommandGroup {
     	addSequential(new ClimbSetToSpeed(0.7));
     	addSequential(new WaitSeconds(2));
     	addSequential(new CheckClimberCurrent(16));
-    	addSequential(new ClimbSetToSpeed(1));
-    	addSequential(new CheckClimberCurrent(20));
+    	addSequential(new ClimbSetToSpeed(.8));
+    	addSequential(new CheckClimberCurrent(38));
     	addSequential(new ClimbSetToSpeed(0));
     }
 }

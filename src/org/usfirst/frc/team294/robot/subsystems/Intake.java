@@ -36,7 +36,7 @@ public class Intake extends Subsystem {
 	//Current Protection
 	public final MotorCurrentTrigger intakeCurrentTrigger = new MotorCurrentTrigger(intakeMotor, 9, 3);
 	List<CANTalon> climbMotors = new ArrayList<CANTalon>(Arrays.asList(climbMotor1, climbMotor2));
-	public final MotorGroupCurrentTrigger climbCurrentTrigger = new MotorGroupCurrentTrigger(climbMotors, 35, 2);
+	public final MotorGroupCurrentTrigger climbCurrentTrigger = new MotorGroupCurrentTrigger(climbMotors, 40, 2);
 
     // Control variables for mechanical interlock
     public static enum Status {
