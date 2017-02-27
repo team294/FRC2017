@@ -123,7 +123,7 @@ public class BoilerVision extends Subsystem {
 		}
 		else { return -500; } //Return -500 if there are no "valid" contours (see numValid assignment)
 		if (camOffset != 0) {
-			boilerAngleOffset = boilerAngleOffset*Math.PI/180; //convert to radians
+			boilerAngleOffset = boilerAngleOffset*.0174533; //convert to radians
 			boilerAngleOffset = Math.atan(Math.tan(boilerAngleOffset) - camOffset/getBoilerDistance()/Math.cos(boilerAngleOffset))*180/Math.PI; //Adjusts angle for when the camera is not centered on the robot
 		}
 			return boilerAngleOffset;
@@ -142,6 +142,23 @@ public class BoilerVision extends Subsystem {
 		}
 		//this.boilerAngleOffset = (this.boilerAngleOffset > 0) ? lastBoilerDistance : negNum;
 		return lastBoilerDistance;
+	}
+	
+	public double getBetterDistance() { //Slightly slower but more accurate (gives distance from center of robot instead of from camera)
+		Contour[] targets = filterContours(); //Gets best two best contours
+		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
+		if (targets[0].getArea() > 10) {numValid++; }
+		if (targets[1].getArea() > 10) {numValid++; }
+		double rawAngle;
+		if (numValid == 2) {
+			rawAngle = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
+		}
+		else if (numValid == 1) {
+			rawAngle = (camPXWidth/2 - targets[0].getXPos())/camPXWidth * camHorizAngle; //in degrees
+		}
+		else { return -500; }
+		double d = getBoilerDistance();
+		return Math.sqrt(d * d + camOffset * camOffset - 2 * d * camOffset * Math.cos(Math.PI/2 - rawAngle * .0174533));
 	}
 	
 	/**
