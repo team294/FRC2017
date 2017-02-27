@@ -106,10 +106,10 @@ public class GearVision extends Subsystem {
 	}
 
 	/**
-	 * Gets the distance of the robot from the gear target 
+	 * Slightly slower but more accurate (gives distance from center of robot instead of from camera)
 	 * @return distance in inches
 	 */
-	public double getBetterDistance() { //Slightly slower but more accurate (gives distance from center of robot instead of from camera)
+	public double getBetterDistance() { 
 		Contour[] targets = filterContours(); //Gets best two best contours
 		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
 		if (targets[0].getArea() > 10) {numValid++; }
