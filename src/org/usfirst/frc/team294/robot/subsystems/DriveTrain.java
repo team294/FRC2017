@@ -55,7 +55,7 @@ public class DriveTrain extends Subsystem {
     public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotorList, 20, 2.0);
     
     //Teleop Timer | I didn't know where to put this so its here for now and can be moved -John
-    public final TeleopTimer shutdownTimer = new TeleopTimer(3*60);
+//    public final TeleopTimer shutdownTimer = new TeleopTimer(3*60);
     
     public DriveTrain() {
     	super();

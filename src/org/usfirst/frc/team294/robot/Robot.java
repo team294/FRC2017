@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
+import org.usfirst.frc.team294.robot.triggers.TeleopTimer;
 import org.usfirst.frc.team294.utilities.FileLog;
 
 /**
@@ -63,6 +64,9 @@ public class Robot extends IterativeRobot {
 	public static double horizontalConveyorOutVolts;
 	public static double verticalConveyorOutVolts;
 	public static double gearCamHorizOffsetInches; // Gear vision cam horizontal offset
+	
+    //Teleop Timer | This may not work before robotInit -John
+    public final TeleopTimer shutdownTimer = new TeleopTimer(3*60);
 	
 
 	/**
@@ -147,8 +151,8 @@ public class Robot extends IterativeRobot {
 		driveTrain.rightCurrentProtection();
 		
 		//Automatic shutdown
-		Robot.driveTrain.shutdownTimer.whenActive(new StopAllMotors());
-		
+//		Robot.driveTrain.shutdownTimer.whenActive(new StopAllMotors());
+		shutdownTimer.whenActive(new StopAllMotors());		
 		// Turn on drive camera
 		CameraServer.getInstance().startAutomaticCapture();
 
