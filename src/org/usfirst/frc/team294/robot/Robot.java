@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
@@ -40,6 +41,9 @@ public class Robot extends IterativeRobot {
 	// Turn on/off SmartDashboard debugging
 	public static boolean smartDashboardDebug = false;		// true to print lots of stuff on the SmartDashboard
 	
+	//Timer
+	public static Timer teleopTime;
+	
 	// File logger
 	public static FileLog log;
 	
@@ -59,6 +63,7 @@ public class Robot extends IterativeRobot {
 	public static double horizontalConveyorOutVolts;
 	public static double verticalConveyorOutVolts;
 	public static double gearCamHorizOffsetInches; // Gear vision cam horizontal offset
+	
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -140,7 +145,10 @@ public class Robot extends IterativeRobot {
 		intake.intakeCurrentProtection();
 		driveTrain.leftCurrentProtection();
 		driveTrain.rightCurrentProtection();
-
+		
+		//Automatic shutdown
+		Robot.driveTrain.shutdownTimer.whenActive(new StopAllMotors());
+		
 		// Turn on drive camera
 		CameraServer.getInstance().startAutomaticCapture();
 
@@ -172,6 +180,8 @@ public class Robot extends IterativeRobot {
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		
+		teleopTime.reset();
 	}
 
 	/**
@@ -215,6 +225,7 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		intake.updateConflicts();
 		log.writeLogEcho("Teleop Mode Started");
+		teleopTime.start();
 	}
 
 	/**
@@ -234,9 +245,7 @@ public class Robot extends IterativeRobot {
 		intake.updateSmartDashboard();
 //		intake.logIntakeStatus();
 		
-    	// Stall protection
-//		Robot.intake.intakeCurrentTrigger.whenActive(new IntakeSetToSpeed(0));
-//		Robot.shooter.shooterMotorCurrentTrigger.whenActive(new ShooterSetVoltage(0));
+		teleopTime.get();
 	}
 
 	/**

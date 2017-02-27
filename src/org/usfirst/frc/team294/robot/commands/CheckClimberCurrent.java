@@ -14,9 +14,8 @@ public class CheckClimberCurrent extends Command {
 	double current;
 	
 	/**
-	 * 
-	 * @param maxCurrent
-	 * @param currentPercentage
+	 * checks average climber current
+	 * @param current
 	 */
     public CheckClimberCurrent(double current) {
         // Use requires() here to declare subsystem dependencies

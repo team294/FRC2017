@@ -8,6 +8,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
 import org.usfirst.frc.team294.robot.triggers.MotorGroupCurrentTrigger;
+import org.usfirst.frc.team294.robot.triggers.TeleopTimer;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -52,7 +53,10 @@ public class DriveTrain extends Subsystem {
     List<CANTalon> leftMotorList = new ArrayList<CANTalon>(Arrays.asList(leftMotor1, leftMotor2, leftMotor3));
     public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotorList, 20, 2.0);
     public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotorList, 20, 2.0);
-
+    
+    //Teleop Timer | I didn't know where to put this so its here for now and can be moved -John
+    public final TeleopTimer shutdownTimer = new TeleopTimer(3*60);
+    
     public DriveTrain() {
     	super();
     	
