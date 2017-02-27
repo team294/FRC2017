@@ -58,21 +58,19 @@ public class Robot extends IterativeRobot {
 	public static double gearCamHorizOffsetInches; // Gear vision cam horizontal offset
 
 	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
+	 * Read the preferences from the RoboRio flash memory.
+	 * For any missing preferences, set the preference to default values.
 	 */
-	public void robotInit() {
-		
-		System.out.println("Robot init");
-		log = new FileLog();	// Create log file first, so other code can use it
-		
-
+	public void readPreferences() {
+		//TODO:  Create function to read and set defaults for one number preference, then move most prefs
+		//  to calling this function.  This will eliminate much of the duplicate code below.
 		
 		//TODO:  For each robot preference:  Use more descriptive names?
 		robotPrefs = Preferences.getInstance();
+		
 		if (robotPrefs.getDouble("inchesPerRev", 0) == 0) {
-			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration. Distance disabled.", true);
-			robotPrefs.putDouble("inchesPerRevolution", 18.0);
+			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration.", true);
+			robotPrefs.putDouble("inchesPerRev", 18.0);
 		}
 		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
 		
@@ -97,7 +95,7 @@ public class Robot extends IterativeRobot {
 		shootSpeedLowRPM = robotPrefs.getDouble("shootSpeedLowRPM",3800);
 
 		
-		if(robotPrefs.getDouble("horizontalConveyor",0) == 0){
+		if(robotPrefs.getDouble("horizontalConveyorInVolts",0) == 0){
 				robotPrefs.putDouble("horizontalConeyorInVolts", 4.5);
 			}	
 		horizontalConveyorInVolts = robotPrefs.getDouble("horizontalConveyorInVolts",0);
@@ -107,20 +105,32 @@ public class Robot extends IterativeRobot {
 		}
 		verticalConveyorInVolts = robotPrefs.getDouble("verticalConveyorInVolts",0);
 		
-		if(robotPrefs.getDouble("horizontalConveyorOut",0) == 0){
+		if(robotPrefs.getDouble("horizontalConveyorOutVolts",0) == 0){
 			robotPrefs.putDouble("horizontalConveyorOutVolts", -2.0);
 		}
-		horizontalConveyorOutVolts = robotPrefs.getDouble("horizontalConveyorOut", 0);
+		horizontalConveyorOutVolts = robotPrefs.getDouble("horizontalConveyorOutVolts", 0);
 		
-		if(robotPrefs.getDouble("verticalConveyorOut",0) == 0){
+		if(robotPrefs.getDouble("verticalConveyorOutVolts",0) == 0){
 			robotPrefs.putDouble("verticalConveyorOutVolts", -2.0);
 		}
 		verticalConveyorOutVolts = robotPrefs.getDouble("verticalConveyorOutVolts",0);
 		
 
 		gearCamHorizOffsetInches = robotPrefs.getDouble("gearCam",0);
+
+	}	
+	
+	/**
+	 * This function is run when the robot is first started up and should be
+	 * used for any initialization code.
+	 */
+	public void robotInit() {
 		
-		log = new FileLog();
+		System.out.println("Robot init");
+		log = new FileLog();	// Create log file first, so other code can use it
+		readPreferences();		// Read preferences next, so that subsystems can use the preference values.
+				
+		// Create the subsytems
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
 		shooter = new Shooter();
