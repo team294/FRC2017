@@ -116,6 +116,7 @@ public class OI {
         Trigger xbRT = new AxisTrigger(xboxController, 3, 0.9);
 
         //TODO:  Make sure all controllers are set up to the correct commands. 
+        // What does this mean? Test if the buttons call the commands indicated?
 
 		Trigger xbPovUp = new POVTrigger(xboxController, 0);
         Trigger xbPovRight = new POVTrigger(xboxController, 90);
@@ -146,6 +147,9 @@ public class OI {
 	    }
 	    
 	    //TODO:  Need control panel buttons for hopper and intake solenoid movements
+	    // We need to determine whether the "emergency" commands will be on the panel or the SmartDashboard
+	    // Which is dependent on the primary control the codriver uses (Xbox or panel), so we can't yet
+	    // Determine whether we need to add individual solenoid movements to the panel.
 	    
 	    // Bind commands to the codriver panel switches
 	    coP[1].whenPressed(new StopAllMotors());
@@ -160,32 +164,20 @@ public class OI {
 	    coP[8].whenPressed(new MoveGearGate(false));
 	    coP[9].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
 	    coP[10].whenPressed(new MoveGearGate(true));
-<<<<<<< HEAD
-	    coP[11].whenPressed(new IntakeSetToSpeed(1.0));
-	    coP[12].whenPressed(new DeployIntakeAndHopper());
-=======
 	    coP[11].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
-	    //coP[12].whenPressed(); Shooter preset speed
->>>>>>> refs/remotes/origin/master
+	    coP[12].whenPressed(new DeployIntakeAndHopper());
 	    coP[13].whenPressed(new MoveShooterHood(false));
 	    coP[14].whenPressed(new MoveShooterHood(true));
 	    
 	    // Xbox controller buttons
 	    xbB[1].whenPressed(new MoveShooterHood(false));
 	    xbB[2].whenPressed(new MoveGearGate(true));
-<<<<<<< HEAD
-	    xbB[3].whenPressed(new MoveShooterHood(true));
-	    xbB[4].whenPressed(new MoveGearGate(false));
-	    xbB[5].whenPressed(new IntakeSetToSpeed(1.0));
-	    xbB[6].whenPressed(new IntakeSetToSpeed(-1.0));
-	    xbB[7].whenPressed(new PrepareToClimb());
-	    xbB[8].whenPressed(new DeployIntakeAndHopper());
-=======
 	    xbB[3].whenPressed(new MoveGearGate(false));
 	    xbB[4].whenPressed(new MoveShooterHood(true));
 	    xbB[5].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
 	    xbB[6].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
->>>>>>> refs/remotes/origin/master
+	    xbB[7].whenPressed(new PrepareToClimb());
+	    xbB[8].whenPressed(new DeployIntakeAndHopper());
 	    xbB[9].whenPressed(new StopAllMotors());
 	    //xbB[10].whenPressed(new StartManualClimbControl()); //Command does not yet exist
 	    
