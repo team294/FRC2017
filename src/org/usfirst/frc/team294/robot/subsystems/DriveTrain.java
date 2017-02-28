@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.commands.DriveStop;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
 import org.usfirst.frc.team294.robot.triggers.MotorGroupCurrentTrigger;
 
@@ -113,9 +114,10 @@ public class DriveTrain extends Subsystem {
     	//The code probably should be something like "leftMotorsCurrentTrigger.whenActive(new commandToRun());"
     	//See the POV code in OI.java for trigger examples.
     	if(leftMotorsCurrentTrigger.get()){
-    		leftMotorsCurrentTrigger.printBadMotor();
+    		leftMotorsCurrentTrigger.printBadMotors();
     		SmartDashboard.putBoolean("Left motors are screwed", true);
     	}
+    	leftMotorsCurrentTrigger.whileActive(new DriveStop());//Diagnostic use only, we need to figure out what to do if a motor burns out in the drivetrain
     }
     
     public void rightCurrentProtection(){
@@ -123,9 +125,10 @@ public class DriveTrain extends Subsystem {
     	//The code probably should be something like "leftMotorsCurrentTrigger.whenActive(new commandToRun());"
     	//See the POV code in OI.java for trigger examples.
     	if(leftMotorsCurrentTrigger.get()){
-    		rightMotorsCurrentTrigger.printBadMotor();
+    		rightMotorsCurrentTrigger.printBadMotors();
     		SmartDashboard.putBoolean("Right motors are screwed", true);
     	}
+    	rightMotorsCurrentTrigger.whileActive(new DriveStop()); //Diagnostic use only, we need to figure out what to do if a motor burns out in the drivetrain
     }
 
     /**
