@@ -247,7 +247,7 @@ public class Robot extends IterativeRobot {
 
 				
 				if(robotPrefs.getDouble("horizontalConveyorInVolts",0) == 0){
-						robotPrefs.putDouble("horizontalConeyorInVolts", 4.5);
+						robotPrefs.putDouble("horizontalConveyorInVolts", 4.5);
 					}	
 				horizontalConveyorInVolts = robotPrefs.getDouble("horizontalConveyorInVolts",0);
 
