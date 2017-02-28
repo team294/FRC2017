@@ -7,8 +7,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class StartClimbSequence extends CommandGroup {
 
-	private double highCurrent = 30;
-
     public StartClimbSequence() {
 
     	addSequential(new MoveIntakeIfSafe(true));
