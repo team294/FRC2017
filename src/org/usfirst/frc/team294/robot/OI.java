@@ -114,7 +114,15 @@ public class OI {
 	    Button[] xbB = new Button[11];
 	    Trigger xbLT = new AxisTrigger(xboxController, 2, 0.9);
         Trigger xbRT = new AxisTrigger(xboxController, 3, 0.9);
+<<<<<<< HEAD
 		Trigger xbPovUp = new POVTrigger(xboxController, 0);
+=======
+
+        //TODO:  Make sure all controllers are set up to the correct commands. 
+
+        //TODO:  Add X-box controller POV controls.
+/*		Trigger xbPovUp = new POVTrigger(xboxController, 0);
+>>>>>>> refs/remotes/origin/master
         Trigger xbPovRight = new POVTrigger(xboxController, 90);
         Trigger xbPovDown = new POVTrigger(xboxController, 180);
         Trigger xbPovLeft = new POVTrigger(xboxController, 270);
@@ -148,8 +156,8 @@ public class OI {
 	    coP[1].whenPressed(new StopAllMotors());
 	    coP[2].whenPressed(new PrepareToClimb());
 	    //coP[3].whenPressed(new StartManualClimbControl());
-	    coP[4].whenPressed(new ShooterSetRPM(Robot.shootSpeedLow));
-	    coP[5].whenPressed(new ShooterSetRPM(Robot.shootSpeedHigh));
+	    coP[4].whenPressed(new ShooterSetRPM(Robot.shootSpeedLowRPM));
+	    coP[5].whenPressed(new ShooterSetRPM(Robot.shootSpeedHighRPM));
 	    coP[6].whenPressed(new ConveyorSetFromRobot(States.in));
 	    coP[6].whenReleased(new ConveyorSetFromRobot(States.stopped));
 	    coP[7].whenPressed(new ConveyorSetFromRobot(States.out));
@@ -218,8 +226,7 @@ public class OI {
 		SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
 		    
 		// Encoders
-		SmartDashboard.putNumber("Left Encoder Raw", Robot.driveTrain.getLeftEncoderRaw());
-		SmartDashboard.putNumber("Right Encoder Raw", Robot.driveTrain.getRightEncoderRaw());
+		Robot.driveTrain.updateSmartDashboardEncoders();
 		    
 		// Stop Command
 		SmartDashboard.putData("Drive Stop", new DriveStop());	

@@ -13,8 +13,9 @@ public class DriveStraightDistance extends Command {
 
 	// Available drive modes
 	public enum DriveMode {
-		ABSOLUTE, RELATIVE, GEAR_VISION, BOILER_VISION, ULTRASONIC, SMARTDASHBOARD, BOILER_SMARTDASHBOARD, ULTRASONIC_SMARTDASHBOARD
+		ABSOLUTE, RELATIVE, GEAR_VISION, BOILER_VISION, SMARTDASHBOARD, BOILER_SMARTDASHBOARD 
 	}
+	// Commented-out drive modes:  ULTRASONIC, ULTRASONIC_SMARTDASHBOARD
 	
 	public enum Units {rotations, inches};
 	
@@ -40,6 +41,10 @@ public class DriveStraightDistance extends Command {
 	
 	private ToleranceChecker tolerance = new ToleranceChecker(DIST_TOL, 5);
 	
+	// Commented-out drive modes.
+//    * <p> <b>ULTRASONIC</b> = Reset encoders, drive per ultrasonic sensor (ignore <b>distance</b>)
+//    * <p> <b>ULTRASONIC_SMARTDASHBOARD</b> = Reset encoders, drive until <b>distance</b> away from boiler (ignore <b>distance</b>)
+	
 	/**
 	 * Drive the robot forward, using the NavX to adjust angle
 	 * @param speed from 0 to +1.0, minimum 0.25
@@ -50,10 +55,8 @@ public class DriveStraightDistance extends Command {
      * <p> <b>ABSOLUTE</b> = (NOT SET UP YET) Drive <b>distance</b> <b>units</b> from prior location zero (don't reset encoders)
      * <p> <b>GEAR_VISION</b> = Reset encoders, drive per gear camera (ignore <b>distance</b>)
      * <p> <b>BOILER_VISION</b> = Reset encoders, drive per boiler camera (ignore <b>distance</b>)
-     * <p> <b>ULTRASONIC</b> = Reset encoders, drive per ultrasonic sensor (ignore <b>distance</b>)
      * <p> <b>SMARTDASHBOARD</b> = Reset encoders, drive per smartdashboard data (ignore <b>distance</b>)
      * <p> <b>BOILER_SMARTDASHBOARD</b> = Reset encoders, drive until <b>distance</b> away from boiler (ignore <b>distance</b>)
-     * <p> <b>ULTRASONIC_SMARTDASHBOARD</b> = Reset encoders, drive until <b>distance</b> away from boiler (ignore <b>distance</b>)
      */
     public DriveStraightDistance(double speed, double distance, DriveMode driveMode, Units units/*, ToleranceChecker tolerance*/) {
         requires(Robot.driveTrain);
@@ -113,13 +116,13 @@ public class DriveStraightDistance extends Command {
         	distance = distance / Robot.inchesPerRevolution;  // Convert inches to rotations
     		Robot.log.writeLogEcho("Drive to target BOILER " + distance + " inches away.");
     		break;
-    	case ULTRASONIC:
-    		Robot.driveTrain.resetEncoders();
-    		//TODO: make this like boiler john
-    		SmartDashboard.putNumber("Ultrasonic Distance", Robot.driveTrain.getUltrasonicDistance());
-    		distance = -Robot.driveTrain.getUltrasonicDistance() / Robot.inchesPerRevolution;
-    		Robot.log.writeLogEcho("Drive to target ULTRASONIC " + distance + " inches away.");
-    		break;
+//    	case ULTRASONIC:
+//    		Robot.driveTrain.resetEncoders();
+//    		//TODO: make this like boiler john
+//    		SmartDashboard.putNumber("Ultrasonic Distance", Robot.driveTrain.getUltrasonicDistance());
+//    		distance = -Robot.driveTrain.getUltrasonicDistance() / Robot.inchesPerRevolution;
+//    		Robot.log.writeLogEcho("Drive to target ULTRASONIC " + distance + " inches away.");
+//    		break;
     	case SMARTDASHBOARD:
     		Robot.driveTrain.resetEncoders();
     		distance = SmartDashboard.getNumber("Distance", 0) / Robot.inchesPerRevolution;
@@ -135,13 +138,13 @@ public class DriveStraightDistance extends Command {
     		speed = SmartDashboard.getNumber("DriveSpeed", 0);
     		Robot.log.writeLogEcho("Drive towards target BOILER " + distance + " inches.");
     		break;
-    	case ULTRASONIC_SMARTDASHBOARD:
-    		Robot.driveTrain.resetEncoders();
-    		distance = -((Robot.driveTrain.getUltrasonicDistance()/ Robot.inchesPerRevolution) - SmartDashboard.getNumber("UltrasonicDistance", 0)); 
-        	//distance = distance / Robot.inchesPerRevolution;   // Convert inches to rotations
-    		speed = SmartDashboard.getNumber("DriveSpeed", 0);
-    		Robot.log.writeLogEcho("Drive towards target BOILER " + distance + " inches.");
-    		break;
+//    	case ULTRASONIC_SMARTDASHBOARD:
+//    		Robot.driveTrain.resetEncoders();
+//    		distance = -((Robot.driveTrain.getUltrasonicDistance()/ Robot.inchesPerRevolution) - SmartDashboard.getNumber("UltrasonicDistance", 0)); 
+//        	//distance = distance / Robot.inchesPerRevolution;   // Convert inches to rotations
+//    		speed = SmartDashboard.getNumber("DriveSpeed", 0);
+//    		Robot.log.writeLogEcho("Drive towards target BOILER " + distance + " inches.");
+//    		break;
     	}    
     
     	angleErr = 0;
