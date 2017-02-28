@@ -114,15 +114,10 @@ public class OI {
 	    Button[] xbB = new Button[11];
 	    Trigger xbLT = new AxisTrigger(xboxController, 2, 0.9);
         Trigger xbRT = new AxisTrigger(xboxController, 3, 0.9);
-<<<<<<< HEAD
-		Trigger xbPovUp = new POVTrigger(xboxController, 0);
-=======
 
         //TODO:  Make sure all controllers are set up to the correct commands. 
 
-        //TODO:  Add X-box controller POV controls.
-/*		Trigger xbPovUp = new POVTrigger(xboxController, 0);
->>>>>>> refs/remotes/origin/master
+		Trigger xbPovUp = new POVTrigger(xboxController, 0);
         Trigger xbPovRight = new POVTrigger(xboxController, 90);
         Trigger xbPovDown = new POVTrigger(xboxController, 180);
         Trigger xbPovLeft = new POVTrigger(xboxController, 270);
@@ -132,8 +127,6 @@ public class OI {
 	    	left[i] = new JoystickButton(leftJoystick, i);
 	    	right[i] = new JoystickButton(rightJoystick, i);
 	    	if (i == 3) {
-//	    		right[i].whenPressed(new SwitchDriveDirection());
-//	    		left[i].whenPressed(new SwitchDriveDirection());
 	    		right[i].whenPressed(new SwitchDriveDirection(true));
 	    		left[i].whenPressed(new SwitchDriveDirection(false));
 	    	} else {
@@ -182,10 +175,10 @@ public class OI {
 	    xbB[9].whenPressed(new StopAllMotors());
 	    //xbB[10].whenPressed(new StartManualClimbControl()); //Command does not yet exist
 	    
-	    xbPovUp.whenActive(new ShooterSetRPM(Robot.shootSpeedHigh));
-	    xbPovDown.whenActive(new ShooterSetRPM(Robot.shootSpeedLow));
-	    xbPovLeft.whenActive(new ShooterSetRPM(Robot.shootSpeedLow));
-	    xbPovRight.whenActive(new ShooterSetRPM(Robot.shootSpeedHigh));
+	    xbPovUp.whenActive(new ShooterSetRPM(Robot.shootSpeedHighRPM));
+	    xbPovDown.whenActive(new ShooterSetRPM(Robot.shootSpeedLowRPM));
+	    xbPovLeft.whenActive(new ShooterSetRPM(Robot.shootSpeedLowRPM));
+	    xbPovRight.whenActive(new ShooterSetRPM(Robot.shootSpeedHighRPM));
 	    
 	    // Xbox triggers
 	    xbLT.whenActive(new ConveyorSetFromRobot(States.out)); // This runs the conveyors out. The number is subject to change.
