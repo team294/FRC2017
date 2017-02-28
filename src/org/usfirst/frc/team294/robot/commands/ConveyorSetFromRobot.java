@@ -26,7 +26,7 @@ public class ConveyorSetFromRobot extends Command {
         // eg. requires(chassis);
     	requires(Robot.ballFeed);
 
-    	if (state == States.in) {
+    	if (state == States.in) {   
     		horVoltage = Robot.horizontalConveyorInVolts;
     		vertVoltage = Robot.verticalConveyorInVolts;
     	} else if (state == States.out) {

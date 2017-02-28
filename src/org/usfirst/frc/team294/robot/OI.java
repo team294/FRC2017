@@ -196,6 +196,9 @@ public class OI {
 			     
 	    // Smart Dashboard Commands
 	    
+	    //Debug mode
+		SmartDashboard.putData("Debug dashboard", new SmartDashboardDebug());
+	    
 	    // Subsystem Testing Commands
 	    SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
 	    SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
@@ -206,6 +209,7 @@ public class OI {
 	    // Climb Motor Tests
 	    SmartDashboard.putData("Start Climb Motor", new ClimbSetToSpeed(0.4));
 	    SmartDashboard.putData("Stop Climb Motor", new ClimbSetToSpeed(0.0));
+	    SmartDashboard.putData("Start Climb Sequence WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", new StartClimbSequence()); //remove "W"s after testing -Johns
 	    
 	    // Intake and Hopper Tests
 	    SmartDashboard.putData("Deploy Intake", new MoveIntakeIfSafe(true));
@@ -236,10 +240,6 @@ public class OI {
 		SmartDashboard.putData("Conveyors In", new ConveyorSetFromRobot(States.in));
 		SmartDashboard.putData("Conveyors Out", new ConveyorSetFromRobot(States.out));
 		SmartDashboard.putData("Conveyors Stopped", new ConveyorSetFromRobot(States.stopped));
-		
-		// it has become standard practice to comment out all not used commands during testing to make it possible to use the SmartDashboard. 
-	    //If you don't do this then your button will be buried in other buttons making it stupidly hard to find.
-	    //I will uncomment them for now but keep this in mind in future testing -John
 	    
 	    // Gyro Testing Commands 
 /*	    SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
@@ -256,18 +256,21 @@ public class OI {
 	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
 	    SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
 	    SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-
+*/
 	    // DriveStraightDistance tests
 	    SmartDashboard.putData("Drive straight distance", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
 	    SmartDashboard.putNumber("DriveSpeed", 0);
 	    SmartDashboard.putNumber("Distance", 0);
-	    SmartDashboard.putNumber("BoilerDistance", 0);
-	    SmartDashboard.putNumber("UltrasonicDistance", 0);
-	    SmartDashboard.putData("Drive to Boiler_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.BOILER_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
-	    SmartDashboard.putData("Drive 12 inches", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
-	    SmartDashboard.putData("Drive to Ultraonic", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
-	    SmartDashboard.putData("Drive to Ultrasonic_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
-	    */
+//	    SmartDashboard.putNumber("BoilerDistance", 0);
+//	    SmartDashboard.putNumber("UltrasonicDistance", 0);
+//	    SmartDashboard.putData("Drive to Boiler_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.BOILER_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+//	    SmartDashboard.putData("Drive 12 inches", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
+//	    SmartDashboard.putData("Drive to Ultraonic", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
+//	    SmartDashboard.putData("Drive to Ultrasonic_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	    
+	    if (Robot.smartDashboardDebug) {
+        	setupSmartDashboardDebug();
+        }
 	}
 	
 	/**
@@ -376,5 +379,8 @@ public class OI {
 	 */
 	public boolean getDriveDirection(){
 		return driveDirection;
+	}
+	public void setupSmartDashboardDebug() {
+		//TODO: PUT STUFF IN HERE
 	}
 }

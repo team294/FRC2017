@@ -26,6 +26,6 @@ public class PrepareToClimb extends CommandGroup {
         // arm.
     	addSequential(new MoveIntakeIfSafe(true));
     	addSequential(new MoveHopperIfSafe(false));
-    	//addSequential(new ClimbSetToSpeed(0.35));
+    	//addSequential(new ClimbSetToSpeed(0.3.5));
     }
 }
