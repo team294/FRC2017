@@ -65,72 +65,24 @@ public class Robot extends IterativeRobot {
 	public static double verticalConveyorOutVolts;
 	public static double gearCamHorizOffsetInches; // Gear vision cam horizontal offset	
 
+	
+		
+		
+
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
 		
-		teleopTime = new Timer();
-		
 		System.out.println("Robot init");
 		log = new FileLog();	// Create log file first, so other code can use it
+		readPreferences();		// Read preferences next, so that subsystems can use the preference values.
 		
-
-		
-		//TODO:  For each robot preference:  Use more descriptive names?
-		robotPrefs = Preferences.getInstance();
-		if (robotPrefs.getDouble("inchesPerRev", 0) == 0) {
-			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration. Distance disabled.", true);
-			robotPrefs.putDouble("inchesPerRevolution", 18.0);
-		}
-		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
-		
-		shooterP = robotPrefs.getDouble("shooterP",0.15);// This has to be done before Shooter()
-		shooterI = robotPrefs.getDouble("shooterI",0);
-		shooterD = robotPrefs.getDouble("shooterD",0);
-		shooterFNominal = robotPrefs.getDouble("shooterFNominal",.024);
-		
-		invertDrive = robotPrefs.getBoolean("invertDrive",true);
-/**		if(invertDrive == false){
-			robotPrefs.putBoolean("invertDrive",true);
-		}
-**/
-		
-		if(robotPrefs.getDouble("intakeSpeed",0) == 0){
-			robotPrefs.putDouble("intakeSpeed",1.0);
-		}
-		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
-
-		
-		shootSpeedHighRPM = robotPrefs.getDouble("shootSpeedHighRPM",4200);
-		shootSpeedLowRPM = robotPrefs.getDouble("shootSpeedLowRPM",3800);
-
-		
-		if(robotPrefs.getDouble("horizontalConveyor",0) == 0){
-				robotPrefs.putDouble("horizontalConeyorInVolts", 4.5);
-			}	
-		horizontalConveyorInVolts = robotPrefs.getDouble("horizontalConveyorInVolts",0);
-
-		if(robotPrefs.getDouble("verticalConveyorInVolts",0) == 0){
-			robotPrefs.putDouble("verticalConveyorInVolts", 7.5);
-		}
-		verticalConveyorInVolts = robotPrefs.getDouble("verticalConveyorInVolts",0);
-		
-		if(robotPrefs.getDouble("horizontalConveyorOut",0) == 0){
-			robotPrefs.putDouble("horizontalConveyorOutVolts", -2.0);
-		}
-		horizontalConveyorOutVolts = robotPrefs.getDouble("horizontalConveyorOut", 0);
-		
-		if(robotPrefs.getDouble("verticalConveyorOut",0) == 0){
-			robotPrefs.putDouble("verticalConveyorOutVolts", -2.0);
-		}
-		verticalConveyorOutVolts = robotPrefs.getDouble("verticalConveyorOutVolts",0);
-		
-
-		gearCamHorizOffsetInches = robotPrefs.getDouble("gearCam",0);
-		
-		log = new FileLog();
+		teleopTime = new Timer();
+						
+		// Create the subsytems
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
 		shooter = new Shooter();
@@ -258,4 +210,65 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
+	
+	/**
+	 * Read the preferences from the RoboRio flash memory.
+	 * For any missing preferences, set the preference to default values.
+	 */
+	
+	public void readPreferences() {
+				//TODO:  Create function to read and set defaults for one number preference, then move most prefs
+				//  to calling this function.  This will eliminate much of the duplicate code below.
+				
+				//TODO:  For each robot preference:  Use more descriptive names?
+				robotPrefs = Preferences.getInstance();
+				
+				if (robotPrefs.getDouble("inchesPerRev", 0) == 0) {
+					DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration.", true);
+					robotPrefs.putDouble("inchesPerRev", 18.0);
+				}
+				inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
+				
+				shooterP = robotPrefs.getDouble("shooterP",0.15);// This has to be done before Shooter()
+				shooterI = robotPrefs.getDouble("shooterI",0);
+				shooterD = robotPrefs.getDouble("shooterD",0);
+				shooterFNominal = robotPrefs.getDouble("shooterFNominal",.024);
+				
+				invertDrive = robotPrefs.getBoolean("invertDrive",true);
+				
+				if(robotPrefs.getDouble("intakeSpeed",0) == 0){
+					robotPrefs.putDouble("intakeSpeed",1.0);
+				}
+				intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
+
+				
+				shootSpeedHighRPM = robotPrefs.getDouble("shootSpeedHighRPM",4200);
+				shootSpeedLowRPM = robotPrefs.getDouble("shootSpeedLowRPM",3800);
+
+				
+				if(robotPrefs.getDouble("horizontalConveyorInVolts",0) == 0){
+						robotPrefs.putDouble("horizontalConeyorInVolts", 4.5);
+					}	
+				horizontalConveyorInVolts = robotPrefs.getDouble("horizontalConveyorInVolts",0);
+
+				if(robotPrefs.getDouble("verticalConveyorInVolts",0) == 0){
+					robotPrefs.putDouble("verticalConveyorInVolts", 7.5);
+				}
+				verticalConveyorInVolts = robotPrefs.getDouble("verticalConveyorInVolts",0);
+				
+				if(robotPrefs.getDouble("horizontalConveyorOutVolts",0) == 0){
+					robotPrefs.putDouble("horizontalConveyorOutVolts", -2.0);
+				}
+				horizontalConveyorOutVolts = robotPrefs.getDouble("horizontalConveyorOutVolts", 0);
+				
+				if(robotPrefs.getDouble("verticalConveyorOutVolts",0) == 0){
+					robotPrefs.putDouble("verticalConveyorOutVolts", -2.0);
+				}
+				verticalConveyorOutVolts = robotPrefs.getDouble("verticalConveyorOutVolts",0);
+				
+
+				gearCamHorizOffsetInches = robotPrefs.getDouble("gearCam",0);
+
+			}	
+
 }
