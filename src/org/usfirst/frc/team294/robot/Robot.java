@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
-import org.usfirst.frc.team294.robot.triggers.TeleopTimer;
 import org.usfirst.frc.team294.utilities.FileLog;
 
 /**
@@ -44,6 +43,7 @@ public class Robot extends IterativeRobot {
 	
 	//Timer
 	public static Timer teleopTime;
+	public static double startTime;
 	
 	// File logger
 	public static FileLog log;
@@ -70,6 +70,8 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+		
+		teleopTime = new Timer();
 		
 		System.out.println("Robot init");
 		log = new FileLog();	// Create log file first, so other code can use it
@@ -146,9 +148,6 @@ public class Robot extends IterativeRobot {
 		driveTrain.leftCurrentProtection();
 		driveTrain.rightCurrentProtection();
 		
-		//Automatic shutdown
-//		Robot.driveTrain.shutdownTimer.whenActive(new StopAllMotors());
-//		shutdownTimer.whenActive(new StopAllMotors());		
 		// Turn on drive camera
 		CameraServer.getInstance().startAutomaticCapture();
 
@@ -181,6 +180,7 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		
+		teleopTime.reset();
 	}
 
 	/**
@@ -224,7 +224,8 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		intake.updateConflicts();
 		log.writeLogEcho("Teleop Mode Started");
-//		teleopTime.start();
+		teleopTime.start();
+		startTime = teleopTime.get();
 	}
 
 	/**
@@ -244,7 +245,7 @@ public class Robot extends IterativeRobot {
 		intake.updateSmartDashboard();
 //		intake.logIntakeStatus();
 
-		if (teleopTime.getMatchTime() >= 200) {
+		if ((teleopTime.get() - startTime) >= 300) {
 			Robot.shooter.stop();
 	    	Robot.ballFeed.stop();
 	    	Robot.intake.stopIntake();

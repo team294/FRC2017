@@ -8,7 +8,6 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
 import org.usfirst.frc.team294.robot.triggers.MotorGroupCurrentTrigger;
-import org.usfirst.frc.team294.robot.triggers.TeleopTimer;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
