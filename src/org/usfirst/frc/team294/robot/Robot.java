@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot {
 	public static boolean smartDashboardDebug = false;		// true to print lots of stuff on the SmartDashboard
 	
 	//Timer
-//	public static Timer teleopTime;
+	public static Timer teleopTime;
 	
 	// File logger
 	public static FileLog log;
@@ -63,11 +63,7 @@ public class Robot extends IterativeRobot {
 	public static double verticalConveyorInVolts; //Voltage
 	public static double horizontalConveyorOutVolts;
 	public static double verticalConveyorOutVolts;
-	public static double gearCamHorizOffsetInches; // Gear vision cam horizontal offset
-	
-    //Teleop Timer | This may not work before robotInit -John
-//    public final TeleopTimer shutdownTimer = new TeleopTimer(3*60);
-	
+	public static double gearCamHorizOffsetInches; // Gear vision cam horizontal offset	
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -185,7 +181,6 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		
-//		teleopTime.reset();
 	}
 
 	/**
@@ -248,8 +243,12 @@ public class Robot extends IterativeRobot {
 		
 		intake.updateSmartDashboard();
 //		intake.logIntakeStatus();
-		
-//		teleopTime.get();
+
+		if (teleopTime.getMatchTime() >= 200) {
+			Robot.shooter.stop();
+	    	Robot.ballFeed.stop();
+	    	Robot.intake.stopIntake();
+	    	Robot.intake.stopClimber();		}
 	}
 
 	/**
