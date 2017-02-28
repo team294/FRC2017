@@ -20,6 +20,6 @@ public class TeleopTimer extends Trigger {
 
     public boolean get() {
     	
-        return Robot.teleopTime.get() >= timeLimit;
+        return false;//Robot.teleopTime.get() >= timeLimit;
     }
 }

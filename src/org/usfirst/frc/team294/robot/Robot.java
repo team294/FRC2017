@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot {
 	public static boolean smartDashboardDebug = false;		// true to print lots of stuff on the SmartDashboard
 	
 	//Timer
-	public static Timer teleopTime;
+//	public static Timer teleopTime;
 	
 	// File logger
 	public static FileLog log;
@@ -66,7 +66,7 @@ public class Robot extends IterativeRobot {
 	public static double gearCamHorizOffsetInches; // Gear vision cam horizontal offset
 	
     //Teleop Timer | This may not work before robotInit -John
-    public final TeleopTimer shutdownTimer = new TeleopTimer(3*60);
+//    public final TeleopTimer shutdownTimer = new TeleopTimer(3*60);
 	
 
 	/**
@@ -152,7 +152,7 @@ public class Robot extends IterativeRobot {
 		
 		//Automatic shutdown
 //		Robot.driveTrain.shutdownTimer.whenActive(new StopAllMotors());
-		shutdownTimer.whenActive(new StopAllMotors());		
+//		shutdownTimer.whenActive(new StopAllMotors());		
 		// Turn on drive camera
 		CameraServer.getInstance().startAutomaticCapture();
 
@@ -185,7 +185,7 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		
-		teleopTime.reset();
+//		teleopTime.reset();
 	}
 
 	/**
@@ -229,7 +229,7 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		intake.updateConflicts();
 		log.writeLogEcho("Teleop Mode Started");
-		teleopTime.start();
+//		teleopTime.start();
 	}
 
 	/**
@@ -249,7 +249,7 @@ public class Robot extends IterativeRobot {
 		intake.updateSmartDashboard();
 //		intake.logIntakeStatus();
 		
-		teleopTime.get();
+//		teleopTime.get();
 	}
 
 	/**
