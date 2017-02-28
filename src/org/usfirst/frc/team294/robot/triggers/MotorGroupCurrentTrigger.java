@@ -13,7 +13,7 @@ public class MotorGroupCurrentTrigger extends Trigger {
 	double duration; //Time that motors must be running at bad current level
 	double limit; //Current limit
 	Timer timer = new Timer(); //Timer to measure duration
-	List<Integer> badMotor; //List of bad motors. If a value is -1, that means that there's no bad motor
+	List<Boolean> badMotor; //List of bad motors. If a value is -1, that means that there's no bad motor
 
 	/**
 	 * test to see if a motor is dead
@@ -25,6 +25,9 @@ public class MotorGroupCurrentTrigger extends Trigger {
 		motorList = inputMotors;
 		this.duration = duration;
 		this.limit = limit;
+		for(int i=0; i<motorList.size(); i++){
+			badMotor.add(false); //Assume that no  motors are bad, thus badMotor = false
+		}
 	}
 
 	//TODO:  Fix and test MotorGroupCurrentTrigger.  Don:  I think the logic in this function may not achieve the intended purpose, so please check. 
@@ -32,16 +35,14 @@ public class MotorGroupCurrentTrigger extends Trigger {
 		for(int i = 0; i < motorList.size(); i++){
 			for(int j = 0; j < motorList.size(); j++){//These 2 for loops will go through every motor value and compare it to ever other motor value
 				if((motorList.get(j).getOutputCurrent() > 0.1) && (motorList.get(i).getOutputCurrent()/motorList.get(j).getOutputCurrent() <= 0.67)){//If a motor is bad
-					if(!badMotor.contains(i)) badMotor.add(i);//We add the value of the bad motor to our list of bad motors if it's not already there
+					badMotor.set(i, true);//Set the index corresponding to the bad motor to true
 				}
-				else if((motorList.get(j).getOutputCurrent() > 0.1) && (motorList.get(i).getOutputCurrent()/motorList.get(j).getOutputCurrent() > 0.67) && (badMotor.get(i) == i)){
+				else if((motorList.get(j).getOutputCurrent() > 0.1) && (motorList.get(i).getOutputCurrent()/motorList.get(j).getOutputCurrent() > 0.67) && (badMotor.contains(i))){
 					//Else if the motor is no longer bad
-					int replaceMotor = badMotor.indexOf(motorList.get(i));//Computes the index of the motor we will be replacing the value of
-					badMotor.set(replaceMotor, -1);//Set that index to be -1
-					//badMotor.remove(i); //I don't know if we want to remove the motors, I don't think it makes a difference
+					badMotor.set(i, false);
 					timer.reset();//Resets the timer because our motor is fine
 				}
-				else if (badMotor.get(i) != -1){
+				else if (badMotor.get(i) != false){
 					timer.reset();//If no motors are bad, reset the timer
 				}
 			}
@@ -52,7 +53,7 @@ public class MotorGroupCurrentTrigger extends Trigger {
 
 	public void printBadMotors(){
 		for(int i =0; i<badMotor.size();i++){
-			if(badMotor.get(i) != -1) SmartDashboard.putNumber("Bad motor" , badMotor.get(i));//Prints bad motor(s) to Smartdashboard
+			if(badMotor.get(i)) SmartDashboard.putNumber("Bad motor" , i+1);//Prints bad motor(s) to Smartdashboard
 		}
 	}
 }
