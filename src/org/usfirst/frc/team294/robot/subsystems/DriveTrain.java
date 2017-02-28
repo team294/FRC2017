@@ -101,6 +101,7 @@ public class DriveTrain extends Subsystem {
     			ahrs = new AHRS(SerialPort.Port.kUSB); 
         	} catch (RuntimeException ex ) {
         		DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+        		Robot.log.writeLog("Error instantiating navX MXP:  " + ex.getMessage());
         	}
         ahrs.zeroYaw();
         
