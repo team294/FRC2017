@@ -151,7 +151,7 @@ public class OI {
 	    // Bind commands to the codriver panel switches
 	    coP[1].whenPressed(new StopAllMotors());
 //	    coP[2].whenPressed(new PrepareToClimb());
-	    coP[2].whenPressed(new StartClimbSequence());
+	    coP[2].whenPressed(new ClimbSequenceStart());
 	    //coP[3].whenPressed(new StartManualClimbControl());
 	    coP[4].whenPressed(new ShooterSetRPM(Robot.shootSpeedLowRPM));
 	    coP[5].whenPressed(new ShooterSetRPM(Robot.shootSpeedHighRPM));
@@ -164,10 +164,10 @@ public class OI {
 	    coP[10].whenPressed(new MoveGearGate(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
 	    coP[12].whenPressed(new MoveHopperIfSafe(false)); //for testing can be reset when we get whatever is supposed to go here
-//	    coP[13].whenPressed(new MoveShooterHood(false));
-//	    coP[14].whenPressed(new MoveShooterHood(true));
-	    coP[13].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
-	    coP[14].whenPressed(new StowIntakeAndHopper()); //for testing can be reset when we get a shooter hood
+	    coP[13].whenPressed(new MoveShooterHood(false));
+	    coP[14].whenPressed(new MoveShooterHood(true));
+//	    coP[13].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
+//	    coP[14].whenPressed(new StowIntakeAndHopper()); //for testing can be reset when we get a shooter hood
 	    
 	    // Xbox controller buttons
 	    xbB[1].whenPressed(new MoveShooterHood(false));
@@ -210,7 +210,7 @@ public class OI {
 	    // Climb Motor Tests
 	    SmartDashboard.putData("Start Climb Motor", new ClimbSetToSpeed(0.4));
 	    SmartDashboard.putData("Stop Climb Motor", new ClimbSetToSpeed(0.0));
-	    SmartDashboard.putData("Start Climb Sequence WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", new StartClimbSequence()); //remove "W"s after testing -Johns
+	    SmartDashboard.putData("Start Climb Sequence", new ClimbSequenceStart());
 	    
 	    // Intake and Hopper Tests
 	    SmartDashboard.putData("Deploy Intake", new MoveIntakeIfSafe(true));

@@ -130,6 +130,12 @@ public class Robot extends IterativeRobot {
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		//stops all motors
+		Robot.shooter.stop();
+    	Robot.ballFeed.stop();
+    	Robot.intake.stopIntake();
+    	Robot.intake.stopClimber();
+    	Robot.driveTrain.stop();
 		
 		teleopTime.reset();
 	}
@@ -200,7 +206,10 @@ public class Robot extends IterativeRobot {
 			Robot.shooter.stop();
 	    	Robot.ballFeed.stop();
 	    	Robot.intake.stopIntake();
-	    	Robot.intake.stopClimber();		}
+	    	Robot.intake.stopClimber();	
+			Robot.log.writeLogEcho("All Motors Timedout Renable to Reset");
+	    	
+	    }
 	}
 
 	/**
