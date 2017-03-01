@@ -166,11 +166,7 @@ public class OI {
 	    coP[9].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
 	    coP[10].whenPressed(new MoveGearGate(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
-<<<<<<< HEAD
 	    coP[12].whenPressed(new DeployIntakeAndHopper());
-=======
-	    coP[12].whenPressed(new MoveHopperIfSafe(false)); //for testing can be reset when we get whatever is supposed to go here
->>>>>>> refs/remotes/origin/master
 	    coP[13].whenPressed(new MoveShooterHood(false));
 	    coP[14].whenPressed(new MoveShooterHood(true));
 //	    coP[13].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
@@ -183,7 +179,7 @@ public class OI {
 	    xbB[4].whenPressed(new MoveShooterHood(true));
 	    xbB[5].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
 	    xbB[6].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
-	    xbB[7].whenPressed(new PrepareToClimb());
+	    xbB[7].whenPressed(new ClimbSequenceStart());
 	    xbB[8].whenPressed(new DeployIntakeAndHopper());
 	    xbB[9].whenPressed(new StopAllMotors());
 	    //xbB[10].whenPressed(new StartManualClimbControl()); //Command does not yet exist
