@@ -52,7 +52,7 @@ public class DriveTrain extends Subsystem {
     List<CANTalon> leftMotorList = new ArrayList<CANTalon>(Arrays.asList(leftMotor1, leftMotor2, leftMotor3));
     public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotorList, 20, 2.0);
     public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotorList, 20, 2.0);
-
+        
     public DriveTrain() {
     	super();
     	
@@ -101,6 +101,7 @@ public class DriveTrain extends Subsystem {
     			ahrs = new AHRS(SerialPort.Port.kUSB); 
         	} catch (RuntimeException ex ) {
         		DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+        		Robot.log.writeLog("Error instantiating navX MXP:  " + ex.getMessage());
         	}
         ahrs.zeroYaw();
         

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team294.robot.triggers;
 
+import org.usfirst.frc.team294.robot.Robot;
+
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Trigger;
@@ -27,8 +29,14 @@ public class MotorCurrentTrigger extends Trigger {
     }
 
     public boolean get() {
+        boolean disableNow;
+        
         if (talon.getOutputCurrent() < limit)
             timer.reset();
-        return timer.get() >= duration;
+
+        //Immediately reset timer after stopping the motor, so that the motor can be turned back on
+    	disableNow = timer.get() >= duration;
+    	if (disableNow) timer.reset();  
+    	return disableNow;
     }
 }
