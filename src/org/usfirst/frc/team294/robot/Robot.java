@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 
-import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
 import org.usfirst.frc.team294.utilities.FileLog;
 
@@ -131,6 +130,12 @@ public class Robot extends IterativeRobot {
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		//stops all motors
+		Robot.shooter.stop();
+    	Robot.ballFeed.stop();
+    	Robot.intake.stopIntake();
+    	Robot.intake.stopClimber();
+    	Robot.driveTrain.stop();
 		
 		teleopTime.reset();
 	}
@@ -197,11 +202,14 @@ public class Robot extends IterativeRobot {
 		intake.updateSmartDashboard();
 //		intake.logIntakeStatus();
 
-		if ((teleopTime.get() - startTime) >= 300) {
+		if ((teleopTime.get() - startTime) >= 300) { //auto stops all non drive train motors after set time
 			Robot.shooter.stop();
 	    	Robot.ballFeed.stop();
 	    	Robot.intake.stopIntake();
-	    	Robot.intake.stopClimber();		}
+	    	Robot.intake.stopClimber();	
+			Robot.log.writeLogEcho("All Motors Timedout Renable to Reset");
+	    	
+	    }
 	}
 
 	/**
@@ -225,7 +233,7 @@ public class Robot extends IterativeRobot {
 				
 				if (robotPrefs.getDouble("inchesPerRev", 0) == 0) {
 					DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration.", true);
-					robotPrefs.putDouble("inchesPerRev", 18.0);
+					robotPrefs.putDouble("inchesPerRev", 18.0); //this needs to be changed when we find the new value
 				}
 				inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
 				

@@ -128,8 +128,6 @@ public class OI {
 	    	left[i] = new JoystickButton(leftJoystick, i);
 	    	right[i] = new JoystickButton(rightJoystick, i);
 	    	if (i == 3) {
-//	    		right[i].whenPressed(new SwitchDriveDirection());
-//	    		left[i].whenPressed(new SwitchDriveDirection());
 	    		right[i].whenPressed(new SwitchDriveDirection(true));
 	    		left[i].whenPressed(new SwitchDriveDirection(false));
 	    	} else {
@@ -152,7 +150,8 @@ public class OI {
 	    
 	    // Bind commands to the codriver panel switches
 	    coP[1].whenPressed(new StopAllMotors());
-	    coP[2].whenPressed(new PrepareToClimb());
+//	    coP[2].whenPressed(new PrepareToClimb());
+	    coP[2].whenPressed(new ClimbSequenceStart());
 	    //coP[3].whenPressed(new StartManualClimbControl());
 	    coP[4].whenPressed(new ShooterSetRPM(Robot.shootSpeedLowRPM));
 	    coP[5].whenPressed(new ShooterSetRPM(Robot.shootSpeedHighRPM));
@@ -164,9 +163,11 @@ public class OI {
 	    coP[9].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
 	    coP[10].whenPressed(new MoveGearGate(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
-	    //coP[12].whenPressed(); Shooter preset speed
+	    coP[12].whenPressed(new MoveHopperIfSafe(false)); //for testing can be reset when we get whatever is supposed to go here
 	    coP[13].whenPressed(new MoveShooterHood(false));
 	    coP[14].whenPressed(new MoveShooterHood(true));
+//	    coP[13].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
+//	    coP[14].whenPressed(new StowIntakeAndHopper()); //for testing can be reset when we get a shooter hood
 	    
 	    // Xbox controller buttons
 	    xbB[1].whenPressed(new MoveShooterHood(false));
@@ -197,7 +198,7 @@ public class OI {
 	    // Smart Dashboard Commands
 	    
 	    //Debug mode
-		SmartDashboard.putData("Debug dashboard", new SmartDashboardDebug());
+		SmartDashboard.putData("Debug Dashboard", new SmartDashboardDebug());
 	    
 	    // Subsystem Testing Commands
 	    SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
@@ -209,7 +210,7 @@ public class OI {
 	    // Climb Motor Tests
 	    SmartDashboard.putData("Start Climb Motor", new ClimbSetToSpeed(0.4));
 	    SmartDashboard.putData("Stop Climb Motor", new ClimbSetToSpeed(0.0));
-	    SmartDashboard.putData("Start Climb Sequence WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", new StartClimbSequence()); //remove "W"s after testing -Johns
+	    SmartDashboard.putData("Start Climb Sequence", new ClimbSequenceStart());
 	    
 	    // Intake and Hopper Tests
 	    SmartDashboard.putData("Deploy Intake", new MoveIntakeIfSafe(true));
@@ -250,15 +251,9 @@ public class OI {
 	    SmartDashboard.putData("Turn to 10", new GyroTurnToAngle(0.4, 10, 2.0));
 	    SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
 		SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
-	    
-	    // Shooter controls
-	    SmartDashboard.putData("Set Shooter RPM", new ShooterSetToRPMFromSmartDashboard());
-	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
-	    SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
-	    SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-*/
+*/	    
 	    // DriveStraightDistance tests
-	    SmartDashboard.putData("Drive straight distance", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	    SmartDashboard.putData("Drive Straight Distance", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
 	    SmartDashboard.putNumber("DriveSpeed", 0);
 	    SmartDashboard.putNumber("Distance", 0);
 //	    SmartDashboard.putNumber("BoilerDistance", 0);
