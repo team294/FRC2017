@@ -3,31 +3,33 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * I'm not completely sure why a command needs to exist to display to the Smart Dashboard... just call it when you need it
- * Testing purposes only (useless and can be done cleaner in teleopPeriodic -John)
+ * Turn on SmartDashboardDebugging
  */
-public class DisplayBoilerDistance extends Command {
+public class SmartDashboardDebug extends Command {
 
-    public DisplayBoilerDistance() {
-    	requires(Robot.boilerVision);
+	/**
+	 * Turn on SmartDashboardDebugging
+	 */
+    public SmartDashboardDebug() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.smartDashboardDebug = true;
+    	Robot.oi.setupSmartDashboardDebug();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double distance = Robot.boilerVision.getBoilerDistance();
-    	SmartDashboard.putNumber("Boiler Distance", distance);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

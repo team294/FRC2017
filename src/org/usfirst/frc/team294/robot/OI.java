@@ -116,20 +116,18 @@ public class OI {
         Trigger xbRT = new AxisTrigger(xboxController, 3, 0.9);
 
         //TODO:  Make sure all controllers are set up to the correct commands. 
+        // What does this mean? Test if the buttons call the commands indicated?
 
-        //TODO:  Add X-box controller POV controls.
-/*		Trigger xbPovUp = new POVTrigger(xboxController, 0);
+		Trigger xbPovUp = new POVTrigger(xboxController, 0);
         Trigger xbPovRight = new POVTrigger(xboxController, 90);
         Trigger xbPovDown = new POVTrigger(xboxController, 180);
-        Trigger xbPovLeft = new POVTrigger(xboxController, 270);*/
+        Trigger xbPovLeft = new POVTrigger(xboxController, 270);
 	    	    
 	    // Declare left and right joystick buttons
 	    for (int i = 1; i < left.length; i++) {
 	    	left[i] = new JoystickButton(leftJoystick, i);
 	    	right[i] = new JoystickButton(rightJoystick, i);
 	    	if (i == 3) {
-//	    		right[i].whenPressed(new SwitchDriveDirection());
-//	    		left[i].whenPressed(new SwitchDriveDirection());
 	    		right[i].whenPressed(new SwitchDriveDirection(true));
 	    		left[i].whenPressed(new SwitchDriveDirection(false));
 	    	} else {
@@ -149,10 +147,14 @@ public class OI {
 	    }
 	    
 	    //TODO:  Need control panel buttons for hopper and intake solenoid movements
+	    // We need to determine whether the "emergency" commands will be on the panel or the SmartDashboard
+	    // Which is dependent on the primary control the codriver uses (Xbox or panel), so we can't yet
+	    // Determine whether we need to add individual solenoid movements to the panel.
 	    
 	    // Bind commands to the codriver panel switches
 	    coP[1].whenPressed(new StopAllMotors());
-	    coP[2].whenPressed(new PrepareToClimb());
+//	    coP[2].whenPressed(new PrepareToClimb());
+	    coP[2].whenPressed(new ClimbSequenceStart());
 	    //coP[3].whenPressed(new StartManualClimbControl());
 	    coP[4].whenPressed(new ShooterSetRPM(Robot.shootSpeedLowRPM));
 	    coP[5].whenPressed(new ShooterSetRPM(Robot.shootSpeedHighRPM));
@@ -164,9 +166,11 @@ public class OI {
 	    coP[9].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
 	    coP[10].whenPressed(new MoveGearGate(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
-	    //coP[12].whenPressed(); Shooter preset speed
+	    coP[12].whenPressed(new DeployIntakeAndHopper());
 	    coP[13].whenPressed(new MoveShooterHood(false));
 	    coP[14].whenPressed(new MoveShooterHood(true));
+//	    coP[13].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
+//	    coP[14].whenPressed(new StowIntakeAndHopper()); //for testing can be reset when we get a shooter hood
 	    
 	    // Xbox controller buttons
 	    xbB[1].whenPressed(new MoveShooterHood(false));
@@ -175,18 +179,15 @@ public class OI {
 	    xbB[4].whenPressed(new MoveShooterHood(true));
 	    xbB[5].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
 	    xbB[6].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
+	    xbB[7].whenPressed(new ClimbSequenceStart());
+	    xbB[8].whenPressed(new DeployIntakeAndHopper());
 	    xbB[9].whenPressed(new StopAllMotors());
 	    xbB[10].whenPressed(new ClimbJoystickControl()); //Command does not yet exist
 	    
-	    /*
-	     * Commands to set the shooter to preset speeds
-	     * Commands do not yet exist
-	     * 
-	     *	xbPovUp.whenActive();
-	     *	xbPovDown.whenActive();
-	     *	xbPovLeft.whenActive();
-	     *	xbPovRight.whenActive();
-	     */
+	    xbPovUp.whenActive(new ShooterSetRPM(Robot.shootSpeedHighRPM));
+	    xbPovDown.whenActive(new ShooterSetRPM(Robot.shootSpeedLowRPM));
+	    xbPovLeft.whenActive(new ShooterSetRPM(Robot.shootSpeedLowRPM));
+	    xbPovRight.whenActive(new ShooterSetRPM(Robot.shootSpeedHighRPM));
 	    
 	    // Xbox triggers
 	    xbLT.whenActive(new ConveyorSetFromRobot(States.out)); // This runs the conveyors out. The number is subject to change.
@@ -195,6 +196,9 @@ public class OI {
 	    xbRT.whenInactive(new ConveyorSetFromRobot(States.stopped));
 			     
 	    // Smart Dashboard Commands
+	    
+	    //Debug mode
+		SmartDashboard.putData("Debug Dashboard", new SmartDashboardDebug());
 	    
 	    // Subsystem Testing Commands
 	    SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
@@ -207,6 +211,7 @@ public class OI {
 	    SmartDashboard.putData("Start Climb Motor", new ClimbSetToSpeed(0.4));
 	    SmartDashboard.putData("Reverse Climb Motor", new ClimbSetToSpeed(-0.4));
 	    SmartDashboard.putData("Stop Climb Motor", new ClimbSetToSpeed(0.0));
+	    SmartDashboard.putData("Start Climb Sequence", new ClimbSequenceStart());
 	    
 	    // Intake and Hopper Tests
 	    SmartDashboard.putData("Deploy Intake", new MoveIntakeIfSafe(true));
@@ -237,10 +242,6 @@ public class OI {
 		SmartDashboard.putData("Conveyors In", new ConveyorSetFromRobot(States.in));
 		SmartDashboard.putData("Conveyors Out", new ConveyorSetFromRobot(States.out));
 		SmartDashboard.putData("Conveyors Stopped", new ConveyorSetFromRobot(States.stopped));
-		
-		// it has become standard practice to comment out all not used commands during testing to make it possible to use the SmartDashboard. 
-	    //If you don't do this then your button will be buried in other buttons making it stupidly hard to find.
-	    //I will uncomment them for now but keep this in mind in future testing -John
 	    
 	    // Gyro Testing Commands 
 /*	    SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
@@ -251,24 +252,21 @@ public class OI {
 	    SmartDashboard.putData("Turn to 10", new GyroTurnToAngle(0.4, 10, 2.0));
 	    SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
 		SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
-	    
-	    // Shooter controls
-	    SmartDashboard.putData("Set Shooter RPM", new ShooterSetToRPMFromSmartDashboard());
-	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
-	    SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
-	    SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-
+*/	    
 	    // DriveStraightDistance tests
-	    SmartDashboard.putData("Drive straight distance", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	    SmartDashboard.putData("Drive Straight Distance", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
 	    SmartDashboard.putNumber("DriveSpeed", 0);
 	    SmartDashboard.putNumber("Distance", 0);
-	    SmartDashboard.putNumber("BoilerDistance", 0);
-	    SmartDashboard.putNumber("UltrasonicDistance", 0);
-	    SmartDashboard.putData("Drive to Boiler_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.BOILER_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
-	    SmartDashboard.putData("Drive 12 inches", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
-	    SmartDashboard.putData("Drive to Ultraonic", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
-	    SmartDashboard.putData("Drive to Ultrasonic_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
-	    */
+//	    SmartDashboard.putNumber("BoilerDistance", 0);
+//	    SmartDashboard.putNumber("UltrasonicDistance", 0);
+//	    SmartDashboard.putData("Drive to Boiler_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.BOILER_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+//	    SmartDashboard.putData("Drive 12 inches", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
+//	    SmartDashboard.putData("Drive to Ultraonic", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
+//	    SmartDashboard.putData("Drive to Ultrasonic_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+	    
+	    if (Robot.smartDashboardDebug) {
+        	setupSmartDashboardDebug();
+        }
 	}
 	
 	/**
@@ -377,5 +375,8 @@ public class OI {
 	 */
 	public boolean getDriveDirection(){
 		return driveDirection;
+	}
+	public void setupSmartDashboardDebug() {
+		//TODO: PUT STUFF IN HERE
 	}
 }

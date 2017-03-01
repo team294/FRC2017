@@ -18,7 +18,7 @@ public class DriveStop extends Command {
     protected void initialize() {
     	Robot.driveTrain.stop();
 
-    	SmartDashboard.putNumber("Drive Forward Speed", 0);
+    	SmartDashboard.putNumber("Drive Forward Speed", 0); //What is the purpose of this write to the Smart Dashboard?
     
     	Robot.log.writeLogEcho("DriveTrain: Drivetrain stopped by software");
     }
