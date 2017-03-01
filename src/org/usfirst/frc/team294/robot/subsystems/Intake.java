@@ -36,7 +36,7 @@ public class Intake extends Subsystem {
 	//Current Protection
 	public final MotorCurrentTrigger intakeCurrentTrigger = new MotorCurrentTrigger(intakeMotor, 22, 3);
 	List<CANTalon> climbMotors = new ArrayList<CANTalon>(Arrays.asList(climbMotor1, climbMotor2));
-	public final MotorGroupCurrentTrigger climbCurrentTrigger = new MotorGroupCurrentTrigger(climbMotors, 35, 2);
+	public final MotorGroupCurrentTrigger climbCurrentTrigger = new MotorGroupCurrentTrigger(climbMotors, 40, 2);
 
     // Control variables for mechanical interlock
     public static enum Status {
@@ -47,7 +47,7 @@ public class Intake extends Subsystem {
     private Status hopperPos = Status.unknown;
     
     // Time to move hopper/intake in seconds (refine by testing)
-    public final double HOPPER_DELAY = 1.5;
+    public final double HOPPER_DELAY = 1.0;
     public final double INTAKE_DELAY = 2.0;
     
     public Intake() {
@@ -56,7 +56,7 @@ public class Intake extends Subsystem {
     	super();
     	
 		// Set up subsystem components
-		intakeMotor.setVoltageRampRate(50);
+		climbMotor1.setVoltageRampRate(20);
 		climbMotor2.changeControlMode(TalonControlMode.Follower);
 		climbMotor2.set(climbMotor1.getDeviceID());
 
@@ -101,7 +101,7 @@ public class Intake extends Subsystem {
     	// Need to check if hopper and intake are stowed first
     	if (speed < 0) speed = 0;
     	if (speed > 1.0) speed = 1.0;
-    	climbMotor1.set(speed);
+    	climbMotor1.set(-speed); //Reversed motor direction --  It seems to be faster
     }
 
 	/**
@@ -229,7 +229,7 @@ public class Intake extends Subsystem {
 	}
 
 	/**
-	 * Logs the speed of both conveyors to the robot log
+	 * Logs the speed of both climbers to the robot log
 	 */
 	public void logClimbStatus() {
 		Robot.log.writeLog(
@@ -238,6 +238,23 @@ public class Intake extends Subsystem {
 				);
 	}
 
+	/**
+	 * Gets the average current of both climber motors
+	 * @return the average current in amps
+	 */
+	public double getAverageClimberCurrent(){
+		double aveCurrent;
+		aveCurrent = (this.climbMotor1.getOutputCurrent() + this.climbMotor2.getOutputCurrent())/2;
+		return aveCurrent;
+	}
+	//TODO: move to update SmartDashboard before pulling to master
+	/**
+	 * Updates SmartDashboard with climber current
+	 */
+    public void updateSmartDashboardClimbMotorCurrent() {
+    	SmartDashboard.putNumber("Climber Motor Current", getAverageClimberCurrent());
+    }
+	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		//setDefaultCommand(new MySpecialCommand());
