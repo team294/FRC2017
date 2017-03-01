@@ -133,6 +133,7 @@ public class Intake extends Subsystem {
     public void updateSmartDashboard() {
  		SmartDashboard.putNumber("Intake motor setpoint", -intakeMotor.get());
  		SmartDashboard.putNumber("Intake motor current", intakeMotor.getOutputCurrent());
+ 		SmartDashboard.putNumber("Climber Motor Current", getAverageClimberCurrent()); // TODO: ADDRESSED Added this to updateSmartDashboard
     }
     
     /**
@@ -262,13 +263,6 @@ public class Intake extends Subsystem {
 		aveCurrent = (this.climbMotor1.getOutputCurrent() + this.climbMotor2.getOutputCurrent())/2;
 		return aveCurrent;
 	}
-	//TODO: move to update SmartDashboard before pulling to master
-	/**
-	 * Updates SmartDashboard with climber current
-	 */
-    public void updateSmartDashboardClimbMotorCurrent() {
-    	SmartDashboard.putNumber("Climber Motor Current", getAverageClimberCurrent());
-    }
 	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.

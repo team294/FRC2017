@@ -28,6 +28,7 @@ public class MotorGroupCurrentTrigger extends Trigger {
 		for(int i=0; i<motorList.size(); i++){
 			badMotor.add(false); //Assume that no  motors are bad, thus badMotor = false
 		}
+		timer.start();
 	}
 
 	//TODO:  Fix and test MotorGroupCurrentTrigger.  Don:  I think the logic in this function may not achieve the intended purpose, so please check. 
