@@ -20,9 +20,9 @@ public class BoilerVision extends Subsystem {
 	double shooterThreshold = 60; //In inches //Temporary value, real value should be input at some point
 	int lastVal = 0;
 	
-	double camHeight = 1.792; //Height of center of camera off of the ground (in feet)
-	double camAngle  = 40; //Upward angle offset of camera (in degrees)
-	double camOffset = 0; //Camera horizontal offset from center of robot
+	double camHeight = 1.55 * 12; //Height of center of camera off of the ground (in inches)
+	double camAngle  = 35; //Upward angle offset of camera (in degrees)
+	double camOffset = 10; //Camera horizontal offset from center of robot (in inches)
 	
 	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
 	double camPXDiagonal = Math.hypot(camPXWidth, camPXHeight); //Diagonal camera pixel length
@@ -95,13 +95,13 @@ public class BoilerVision extends Subsystem {
 			//double phi = targets[0].getHeight()/camPXHeight*camVertAngle + (camAngle - camVertAngle/2); //Angle from horizontal to center of the top contour
 			double height = camPXHeight - Math.abs(targets[0].getYPos() + targets[1].getYPos())/2;
 			double phi = height/camPXHeight*camVertAngle + (camAngle - camVertAngle/2);
-			distance = (6.875 - camHeight)/Math.tan(phi*Math.PI/180); //6.875 is the height in feet to the center of the two contours
+			distance = (6.875 * 12 - camHeight * 12)/Math.tan(phi*Math.PI/180); //6.875 is the height in feet to the center of the two contours
 		}
 		else { distance = -1; }
 		System.out.println(""+targets[0].getArea());
 		System.out.println(""+targets[1].getArea());
 
-		return distance * 12; //Returns distance in inches
+		return distance; //Returns distance in inches
 	}
 	/**
 	 * Gets the robot's angle of offset from the boiler
