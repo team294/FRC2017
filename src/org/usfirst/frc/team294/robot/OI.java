@@ -116,12 +116,12 @@ public class OI {
         Trigger xbRT = new AxisTrigger(xboxController, 3, 0.9);
 
         //TODO:  Make sure all controllers are set up to the correct commands. 
+        // What does this mean? Test if the buttons call the commands indicated?
 
-        //TODO:  Add X-box controller POV controls.
-/*		Trigger xbPovUp = new POVTrigger(xboxController, 0);
+		Trigger xbPovUp = new POVTrigger(xboxController, 0);
         Trigger xbPovRight = new POVTrigger(xboxController, 90);
         Trigger xbPovDown = new POVTrigger(xboxController, 180);
-        Trigger xbPovLeft = new POVTrigger(xboxController, 270);*/
+        Trigger xbPovLeft = new POVTrigger(xboxController, 270);
 	    	    
 	    // Declare left and right joystick buttons
 	    for (int i = 1; i < left.length; i++) {
@@ -147,6 +147,9 @@ public class OI {
 	    }
 	    
 	    //TODO:  Need control panel buttons for hopper and intake solenoid movements
+	    // We need to determine whether the "emergency" commands will be on the panel or the SmartDashboard
+	    // Which is dependent on the primary control the codriver uses (Xbox or panel), so we can't yet
+	    // Determine whether we need to add individual solenoid movements to the panel.
 	    
 	    // Bind commands to the codriver panel switches
 	    coP[1].whenPressed(new StopAllMotors());
@@ -163,7 +166,7 @@ public class OI {
 	    coP[9].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
 	    coP[10].whenPressed(new MoveGearGate(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
-	    coP[12].whenPressed(new MoveHopperIfSafe(false)); //for testing can be reset when we get whatever is supposed to go here
+	    coP[12].whenPressed(new DeployIntakeAndHopper());
 	    coP[13].whenPressed(new MoveShooterHood(false));
 	    coP[14].whenPressed(new MoveShooterHood(true));
 //	    coP[13].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
@@ -176,18 +179,15 @@ public class OI {
 	    xbB[4].whenPressed(new MoveShooterHood(true));
 	    xbB[5].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
 	    xbB[6].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
+	    xbB[7].whenPressed(new ClimbSequenceStart());
+	    xbB[8].whenPressed(new DeployIntakeAndHopper());
 	    xbB[9].whenPressed(new StopAllMotors());
 	    //xbB[10].whenPressed(new StartManualClimbControl()); //Command does not yet exist
 	    
-	    /*
-	     * Commands to set the shooter to preset speeds
-	     * Commands do not yet exist
-	     * 
-	     *	xbPovUp.whenActive();
-	     *	xbPovDown.whenActive();
-	     *	xbPovLeft.whenActive();
-	     *	xbPovRight.whenActive();
-	     */
+	    xbPovUp.whenActive(new ShooterSetRPM(Robot.shootSpeedHighRPM));
+	    xbPovDown.whenActive(new ShooterSetRPM(Robot.shootSpeedLowRPM));
+	    xbPovLeft.whenActive(new ShooterSetRPM(Robot.shootSpeedLowRPM));
+	    xbPovRight.whenActive(new ShooterSetRPM(Robot.shootSpeedHighRPM));
 	    
 	    // Xbox triggers
 	    xbLT.whenActive(new ConveyorSetFromRobot(States.out)); // This runs the conveyors out. The number is subject to change.
