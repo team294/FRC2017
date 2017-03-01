@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.RobotMap.Teams;
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap.StartPositions;
 
 import edu.wpi.first.wpilibj.command.CommandGroup; 
@@ -17,35 +18,14 @@ public class AutoGearAndScore extends CommandGroup {
 	 */
     public AutoGearAndScore(Teams team, StartPositions position) {
 
+    	Robot.log.writeLog("Autonomous: Starting Gear and Score Command for " + team + " and " + position);
+    	
     	// Shift down and do a gear sequence according to the position given
     	addSequential(new ShiftDown());
     	addSequential(new AutoDriveAndGear(position));
     	addSequential(new WaitSeconds(.2));
     	
-    	// Move to the boiler according to the team colour and starting position
-    	// This can be consolidated and made more modular in the near future
-    	if (team == Teams.red) {
-    		switch (position) {
-    		case left:
-    	    	addSequential(new AutoScoreBoilerFromLeftRed());
-    	    	break;
-    		case right:
-    	    	addSequential(new AutoScoreBoilerFromRightRed());
-    	    	break;
-    		case middle:
-    	    	addSequential(new AutoScoreBoilerFromMiddleRed());
-    		}
-    	} else {
-    		switch (position) {
-    		case left:
-    	    	addSequential(new AutoScoreBoilerFromLeftBlue());
-    	    	break;
-    		case right:
-    	    	addSequential(new AutoScoreBoilerFromRightBlue());
-    	    	break;
-    		case middle:
-    	    	addSequential(new AutoScoreBoilerFromMiddleBlue());
-    		}
-    	}
+    	// Score on the boiler according to team and position
+    	addSequential(new AutoScoreBoiler(team, position));
     }
 }

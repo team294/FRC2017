@@ -50,9 +50,9 @@ public class DriveStraightDistance extends Command {
 	 * @param speed from 0 to +1.0, minimum 0.25
  	 * @param distance
 	 * @param units either inches or revolutions of the encoder
-     * @param drivMode :
+     * @param driveMode :
      * <p> <b>RELATIVE</b> = Reset encoders, drive <b>distance</b> <b>units</b> from current location
-     * <p> <b>ABSOLUTE</b> = (NOT SET UP YET) Drive <b>distance</b> <b>units</b> from prior location zero (don't reset encoders)
+     * <p> <b>ABSOLUTE</b> = Drive <b>distance</b> <b>units</b> from prior location zero (don't reset encoders)
      * <p> <b>GEAR_VISION</b> = Reset encoders, drive per gear camera (ignore <b>distance</b>)
      * <p> <b>BOILER_VISION</b> = Reset encoders, drive per boiler camera (ignore <b>distance</b>)
      * <p> <b>SMARTDASHBOARD</b> = Reset encoders, drive per smartdashboard data (ignore <b>distance</b>)
@@ -98,8 +98,7 @@ public class DriveStraightDistance extends Command {
     	
     switch (driveMode) {
     	case ABSOLUTE:
-//    		Robot.log.writeLogEcho("Gyro: Start turn to angle absolute " + angle  + " degrees, current heading " +
-//    				Robot.driveTrain.getGyroAngle() + " degrees.");
+    		Robot.log.writeLogEcho("Drive to target ABSOLUTE " + distance + " inches away.");
     		break;
     	case RELATIVE:
     		Robot.driveTrain.resetEncoders();
