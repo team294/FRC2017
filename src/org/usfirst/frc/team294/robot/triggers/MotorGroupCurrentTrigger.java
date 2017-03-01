@@ -31,7 +31,7 @@ public class MotorGroupCurrentTrigger extends Trigger {
 		timer.start();
 	}
 
-	//TODO:  Fix and test MotorGroupCurrentTrigger.  Don:  I think the logic in this function may not achieve the intended purpose, so please check. 
+	//TODO: ADDRESSED Fix and test MotorGroupCurrentTrigger.  Don:  I think the logic in this function may not achieve the intended purpose, so please check. 
 	public boolean get() {
 		for(int i = 0; i < motorList.size(); i++){
 			for(int j = 0; j < motorList.size(); j++){//These 2 for loops will go through every motor value and compare it to ever other motor value
