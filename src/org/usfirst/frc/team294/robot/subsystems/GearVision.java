@@ -26,7 +26,7 @@ public class GearVision extends Subsystem {
 		//setDefaultCommand(new MySpecialCommand());
 	}
 	public GearVision(){
-		table = NetworkTable.getTable("GRIP/myContoursReport");
+		table = NetworkTable.getTable("GRIP/myGearReport");
 		grip_table = NetworkTable.getTable("GRIP");
 	}
 	public Contour[] filterContours() {

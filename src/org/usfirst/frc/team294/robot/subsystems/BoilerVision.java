@@ -30,7 +30,7 @@ public class BoilerVision extends Subsystem {
 		//setDefaultCommand(new MySpecialCommand());
 	}
 	public BoilerVision(){
-		table = NetworkTable.getTable("GRIP/myContoursReport");
+		table = NetworkTable.getTable("GRIP/myBoilerReport");
 		grip_table = NetworkTable.getTable("GRIP");
 	}
 	public Contour[] filterContours() {
