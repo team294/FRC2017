@@ -11,6 +11,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap.StartPositions;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
+import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.Units;
 import org.usfirst.frc.team294.robot.triggers.AxisTrigger;
 import org.usfirst.frc.team294.robot.triggers.POVTrigger;
 
@@ -223,6 +224,7 @@ public class OI {
 	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGear(StartPositions.left));
 	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGear(StartPositions.right));
 	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGear(StartPositions.middle)); 
+	    SmartDashboard.putData("Drive forwards testtesttesttest", new DriveStraightDistance(0.4, 93.0, Units.inches, false, true));
 	    
 	    // Shooter controls
 	    SmartDashboard.putData("Set Shooter RPM Low", new ShooterSetToRPMFromSmartDashboardLow());

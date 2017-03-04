@@ -64,11 +64,6 @@ public class Robot extends IterativeRobot {
 	public static double verticalConveyorOutVolts;
 	public static double gearCamHorizOffsetInches; // Gear vision cam horizontal offset	
 
-	
-		
-		
-
-	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -136,7 +131,11 @@ public class Robot extends IterativeRobot {
     	Robot.intake.stopIntake();
     	Robot.intake.stopClimber();
     	Robot.driveTrain.stop();
-		
+    	
+    	//SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub2", driveTrain.getGyroAngle());
+		SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
+		SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
+
 		teleopTime.reset();
 	}
 
@@ -183,6 +182,7 @@ public class Robot extends IterativeRobot {
 		log.writeLogEcho("Teleop Mode Started");
 		teleopTime.start();
 		startTime = teleopTime.get();
+		//SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub", driveTrain.getGyroAngle());
 	}
 
 	/**

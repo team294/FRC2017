@@ -19,8 +19,8 @@ public class GearVision extends Subsystem {
 	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera pixel length
 	double camVertAngle = (camPXHeight / camPXDiagonal) * camDiagonalAngle; //Vertical camera aperture angle
 	double camHorizAngle = (camPXWidth / camPXDiagonal) * camDiagonalAngle; //Horizontal camera aperture angle
-	double camOffset = 0; //Camera horizontal offset from center of robot
-
+	double camOffset = 5.75; //Camera horizontal offset from center of robot
+    double camAngleOffsetDegrees = -3.8;
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		//setDefaultCommand(new MySpecialCommand());
@@ -89,17 +89,17 @@ public class GearVision extends Subsystem {
 		//Gives the robot's angle of offset from the gear target in degrees
 		Contour[] targets = filterContours(); //Gets best two best contours
 		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
-		if (targets[0].getArea() > 10) {numValid++; }
-		if (targets[1].getArea() > 10) {numValid++; }
+		if (targets.length > 0 && targets[0].getArea() > 10) {numValid++; }
+		if (targets.length > 1 && targets[1].getArea() > 10) {numValid++; }
 		if (numValid == 2) {
 			gearAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
 		}
 		else if (numValid == 1) {
 			gearAngleOffset = (camPXWidth/2 - targets[0].getXPos())/camPXWidth * camHorizAngle; //in degrees
 		}
-		else { return -500; } //Return -500 if there are no "valid" contours (see numValid assignment)
-		gearAngleOffset = Math.atan(camOffset/getGearDistance()*12 + Math.tan(gearAngleOffset*Math.PI/180))*180/Math.PI; //Adjusts angle for when the camera is not centered on the robot
-		return gearAngleOffset;
+		else { return 0; } //Return -500 if there are no "valid" contours (see numValid assignment)
+		gearAngleOffset = Math.atan(camOffset/getGearDistance() + Math.tan(gearAngleOffset*Math.PI/180))*180/Math.PI; //Adjusts angle for when the camera is not centered on the robot
+		return gearAngleOffset + camAngleOffsetDegrees;
 	}
 
 	/**
@@ -109,11 +109,13 @@ public class GearVision extends Subsystem {
 	public double getGearDistance() {
 		//Gives the distance of the robot from the gear target if our camera's center is at the same elevation as the center of the gear tape
 		int heightOfTape = 5; //Height of the tape on the gear lift
-		double tACC = .5; //Proportion of the tape that is at or above our camera's center (if the camera is straight on)
+		double tACC = 1; //Proportion of the tape that is at or above our camera's center (if the camera is straight on)
 		Contour[] targets = filterContours(); //Gets best two best contours
-		distance = heightOfTape*tACC/Math.tan((camVertAngle/2*(targets[0].getHeight() + targets[1].getHeight())/2/camPXHeight)*Math.PI/180); //in inches (faster)
+		
+		// Note: line below will seg fault if there is only 1 contour found.
+		distance = heightOfTape*tACC/Math.tan((camVertAngle*(targets[0].getHeight() + targets[1].getHeight())/2/camPXHeight)*Math.PI/180); //in inches (faster)
 		SmartDashboard.putNumber("Gear Distance", distance);
-		return distance*12;
+		return distance;
 	}
 }
 

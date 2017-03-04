@@ -31,7 +31,11 @@ public class DriveStraightDistance extends Command {
 	
     // Steering settings, also copied from 2016 code. May need to be changed
     private double angleErr, curve;
-    private double kPangle = 0.018;
+    private double kPangle = 0.025;
+    private double kIangle = 0.0;
+    private double kDangle = 0.05;
+    private double intErr = 0.0;
+    private double prevErr = 0.0;
     
     // Expanded settings
     private boolean preciseDistance = true;
@@ -98,11 +102,11 @@ public class DriveStraightDistance extends Command {
     	
     switch (driveMode) {
     	case ABSOLUTE:
-    		Robot.log.writeLogEcho("Drive to target ABSOLUTE " + distance + " inches away.");
+    		Robot.log.writeLogEcho("Drive to target ABSOLUTE " + distance * Robot.inchesPerRevolution + " inches away.");
     		break;
     	case RELATIVE:
     		Robot.driveTrain.resetEncoders();
-    		Robot.log.writeLogEcho("Drive to target RELATIVE " + distance + " inches away.");
+    		Robot.log.writeLogEcho("Drive to target RELATIVE " + distance * Robot.inchesPerRevolution + " inches away.");
     		break; 
     	case GEAR_VISION:
     		Robot.driveTrain.resetEncoders();
@@ -113,7 +117,7 @@ public class DriveStraightDistance extends Command {
     		Robot.driveTrain.resetEncoders();
     		distance = Robot.boilerVision.getBoilerDistance();
         	distance = distance / Robot.inchesPerRevolution;  // Convert inches to rotations
-    		Robot.log.writeLogEcho("Drive to target BOILER " + distance + " inches away.");
+    		Robot.log.writeLogEcho("Drive to target BOILER " + distance * Robot.inchesPerRevolution + " inches away.");
     		break;
 //    	case ULTRASONIC:
 //    		Robot.driveTrain.resetEncoders();
@@ -178,11 +182,17 @@ public class DriveStraightDistance extends Command {
         	angleErr = Robot.driveTrain.getGyroAngle();
         	angleErr = (angleErr>180) ? angleErr-360 : angleErr;
         	angleErr = (Math.abs(angleErr) <= 10.0) ? angleErr : 0.0;		// Assume if we are more than 10 deg off then we have a NavX failure
+        	intErr = intErr + angleErr*0.02;
+        	double dErr = angleErr - prevErr;
+        	prevErr = angleErr;
+        	SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub", angleErr);
         	
-            curve = angleErr*kPangle;
+        	SmartDashboard.putNumber("Integrated Error: ", intErr);
+            curve = angleErr*kPangle + intErr*kIangle + dErr*kDangle;
         	curve = (curve>0.5) ? 0.5 : curve;
         	curve = (curve<-0.5) ? -0.5 : curve;
         	curve = (distErr>=0) ? -curve : curve; // Flip sign if we are going forwards
+        	SmartDashboard.putNumber("drive curve wwwwwwwwwwwwwwwwww", curve);
         	
         	Robot.driveTrain.driveAtAngle(distSpeedControl, curve);
     	}
