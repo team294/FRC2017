@@ -122,7 +122,10 @@ public class Intake extends Subsystem {
         climbMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
 	}
 
-    public void updateSmartDashboard() {
+	/**
+-	 * Send intake status to SmartDashboard
+	 */
+  	public void updateSmartDashboard() {
  		SmartDashboard.putNumber("Intake motor setpoint", -intakeMotor.get());
  		SmartDashboard.putNumber("Intake motor current", intakeMotor.getOutputCurrent());
  		SmartDashboard.putNumber("Climber Motor Current", getAverageClimberCurrent()); // TODO: ADDRESSED Added this to updateSmartDashboard
