@@ -113,14 +113,6 @@ public class Intake extends Subsystem {
 	}
 	
 	/**
-	 * Returns the average current of the climb motors
-	 */
-	public double getClimberCurrent() {
-		double motor1Current = climbMotor1.getOutputCurrent();
-		double motor2Current = climbMotor2.getOutputCurrent();
-		return (motor1Current + motor2Current)/2;
-	}
-	/**
 	 * Sets climber to be driven with joysticks
 	 */
 	public void driveClimberWithJoystick(){
