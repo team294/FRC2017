@@ -223,7 +223,6 @@ public class Robot extends IterativeRobot {
 	 * Read the preferences from the RoboRio flash memory.
 	 * For any missing preferences, set the preference to default values.
 	 */
-	
 	public void readPreferences() {
 				//TODO:  Create function to read and set defaults for one number preference, then move most prefs
 				//  to calling this function.  This will eliminate much of the duplicate code below.
