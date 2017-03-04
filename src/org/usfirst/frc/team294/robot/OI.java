@@ -146,8 +146,7 @@ public class OI {
 	    	xbB[i] = new JoystickButton(xboxController, i);
 	    }
 	    
-	    //TODO:  Need control panel buttons for hopper and intake solenoid movements
-	    // We need to determine whether the "emergency" commands will be on the panel or the SmartDashboard
+	    //TODO: We need to determine whether the "emergency" commands will be on the panel or the SmartDashboard
 	    // Which is dependent on the primary control the codriver uses (Xbox or panel), so we can't yet
 	    // Determine whether we need to add individual solenoid movements to the panel.
 	    
