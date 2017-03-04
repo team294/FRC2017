@@ -71,7 +71,7 @@ public class Intake extends Subsystem {
 	/**
 	 * Adds current protection to intake and climber motors
 	 */
-	public void intakeCurrentProtection(){
+	public void intakeCurrentProtection() {
 		intakeCurrentTrigger.whenActive(new IntakeSetToSpeed(0.0));
 		climbCurrentTrigger.whenActive(new ClimbSetToSpeed(0.0));
 	}
@@ -108,8 +108,10 @@ public class Intake extends Subsystem {
 	 * Set up the intake controls on the SmartDashboard.  Call this once when the robot is 
 	 * initialized (after the Intake subsystem is initialized).
 	 */
-	public void setupSmartDashboard(boolean bPIDF){
+	public void setupSmartDashboard(){
 		updateSmartDashboard();
+		setHopperTracker(hopperPos);
+		setIntakeTracker(intakePos);
 	}
 
 	/**
@@ -118,6 +120,8 @@ public class Intake extends Subsystem {
     public void updateSmartDashboard() {
  		SmartDashboard.putNumber("Intake motor setpoint", -intakeMotor.get());
  		SmartDashboard.putNumber("Intake motor current", intakeMotor.getOutputCurrent());
+    	SmartDashboard.putNumber("Climber Motor setpoint", climbMotor1.get());
+    	SmartDashboard.putNumber("Climber Motor Current", getAverageClimberCurrent());
     }
     
     /**
@@ -242,16 +246,9 @@ public class Intake extends Subsystem {
 	 */
 	public double getAverageClimberCurrent(){
 		double aveCurrent;
-		aveCurrent = (this.climbMotor1.getOutputCurrent() + this.climbMotor2.getOutputCurrent())/2;
+		aveCurrent = (climbMotor1.getOutputCurrent() + climbMotor2.getOutputCurrent())/2;
 		return aveCurrent;
 	}
-	//TODO: move to update SmartDashboard before pulling to master
-	/**
-	 * Updates SmartDashboard with climber current
-	 */
-    public void updateSmartDashboardClimbMotorCurrent() {
-    	SmartDashboard.putNumber("Climber Motor Current", getAverageClimberCurrent());
-    }
 	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
