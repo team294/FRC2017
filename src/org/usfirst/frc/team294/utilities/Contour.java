@@ -26,7 +26,9 @@ public class Contour {
 	
 	//Setters
 	public void eliminate() {this.eliminated = true; } //"Eliminates" this variable, by setting eliminated to true
-	
+	public void setXPos(double x) {this.xPos = x; }
+	public void setYPos(double y) {this.yPos = y; }
+
 	//Special Methods
 	public double getDistance(Contour c) { //Gets pixel distance between two contours
 		return Math.hypot(c.getXPos() - this.getXPos(), c.getYPos() - this.getYPos()); //  = Math.sqrt(xDist * xDist + yDist * yDist);

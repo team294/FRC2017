@@ -22,6 +22,7 @@ public class BoilerVision extends Subsystem {
 	
 	double camHeight = 1.55 * 12; //Height of center of camera off of the ground (in inches)
 	double camAngle  = 35; //Upward angle offset of camera (in degrees)
+	double camRotationAngle = 7.5; //Angle of rotation about axis coming out of camera.
 	double camOffset = 10; //Camera horizontal offset from center of robot (in inches)
 	
 	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
@@ -81,6 +82,13 @@ public class BoilerVision extends Subsystem {
 				bestContours[0] = contours[i];
 				}
 			else if (contours[i].getArea() > bestContours[1].getArea()) {bestContours[1] = contours[i]; }
+		}
+		if (camRotationAngle != 0) {
+			double a = camRotationAngle * Math.PI / 180;
+			for (int i = 0; i < 2; i++) { //Perform coordinate transformation to account for rotation about axis coming out of camera.
+				bestContours[i].setXPos(bestContours[i].getXPos() * Math.cos(a) - bestContours[i].getYPos() * Math.sin(a));
+				bestContours[i].setYPos(bestContours[i].getXPos() * Math.sin(a) + bestContours[i].getYPos() * Math.cos(a));
+			}
 		}
 		return bestContours;
 	}
