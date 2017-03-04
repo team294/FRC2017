@@ -155,9 +155,7 @@ public class Intake extends Subsystem {
     				((position == Status.deployed) ? "Deployed" : "Unknown") );
     }
     
-    //TODO:  Fix hopper/intake interlock.  If user runs hopper and intake commands
-    //back-to-back, then they interrupt each other and tracking code doesn't work.
-    //Maybe make the commands not interruptible?
+    //TODO:  Validate hopper/intake interlock.  If user runs hopper and intake commands immediately while they are moving, what happens?
     
     /**
      * Read the value of the software hopper tracker
