@@ -10,32 +10,39 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class MoveIntakeIfSafe extends Command {
 
-	private boolean status;
+	private boolean deploy;
 	private boolean waitForMovement;
 	
 	/**
 	 * Set the position of the intake only if safe to do so
-	 * @param status true for deployed, false for stowed
+	 * @param deploy true to deploy intake, false to stow intake
 	 */
-	public MoveIntakeIfSafe(boolean status) {
+	public MoveIntakeIfSafe(boolean deploy) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
 		requires(Robot.intake);
 		
-		this.status = status;
+    	// To ensure intake movement tracking, don't allow this command to be interrupted
+    	this.setInterruptible(false);
+
+		this.deploy = deploy;
 	}
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if ((status && Robot.intake.getIntakeTracker() == Status.deployed) || 
-    			(!status && Robot.intake.getIntakeTracker() == Status.stowed)) {
+    	if ((deploy && Robot.intake.getIntakeTracker() == Status.deployed) || 
+    			(!deploy && Robot.intake.getIntakeTracker() == Status.stowed)) {
+    		// Intake is already in desired position, so do nothing
     		waitForMovement = false;
-    	} else if (!status && Robot.intake.getHopperTracker() != Status.stowed) {
+    	} else if (!deploy && Robot.intake.getHopperTracker() != Status.stowed) {
+    		// Can't stow intake if hopper is not stowed (ie., if deployed or unknown or moving)
+    		// Note that we can *always* deploy the intake, even if all states are unknown 
     		waitForMovement = false;
     	} else {
+    		// OK, we can move the intake
     		waitForMovement = true;
-    		Robot.intake.setIntakeTracker(Status.unknown);
-        	if (status) Robot.intake.deployIntake();
+    		Robot.intake.setIntakeTracker(Status.unknown);	// put in unknown state while intake is moving
+        	if (deploy) Robot.intake.deployIntake();
         	else { Robot.intake.stowIntake(); }
     	}
     }
@@ -52,7 +59,7 @@ public class MoveIntakeIfSafe extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	if (waitForMovement) Robot.intake.setIntakeTracker(status ? Status.deployed : Status.stowed);
+    	if (waitForMovement) Robot.intake.setIntakeTracker(deploy ? Status.deployed : Status.stowed);
     }
 
     // Called when another command which requires one or more of the same
