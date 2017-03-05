@@ -20,7 +20,15 @@ public class GearVision extends Subsystem {
 	double camVertAngle = (camPXHeight / camPXDiagonal) * camDiagonalAngle; //Vertical camera aperture angle
 	double camHorizAngle = (camPXWidth / camPXDiagonal) * camDiagonalAngle; //Horizontal camera aperture angle
 	double camOffset = 5.75; //Camera horizontal offset from center of robot
-    double camAngleOffsetDegrees = -3.8;
+	double camHeight = 0; //Camera height off of the ground
+    double camHorizAngleOffsetDegrees = -3.8; //Horizontal angle offset of camera
+    double camVertAngleOffsetDegrees = -3.8;  //Vertical angle offset of camera
+    
+    //Calibration Variables [start]
+    double calibrationDistance = 0;
+    double calibrationHeight = 0;
+    //Calibration Variables [end]
+    
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		//setDefaultCommand(new MySpecialCommand());
@@ -102,7 +110,7 @@ public class GearVision extends Subsystem {
 		}
 		else { return 0; } //Return -500 if there are no "valid" contours (see numValid assignment)
 		gearAngleOffset = Math.atan(camOffset/getGearDistance() + Math.tan(gearAngleOffset*Math.PI/180))*180/Math.PI; //Adjusts angle for when the camera is not centered on the robot
-		return gearAngleOffset + camAngleOffsetDegrees;
+		return gearAngleOffset + camHorizAngleOffsetDegrees;
 	}
 
 	/**
@@ -127,7 +135,9 @@ public class GearVision extends Subsystem {
 	}
 	
 	public void callibrate() {
-		
+		Contour[] targets = filterContours();
+		camHorizAngleOffsetDegrees = 90 - Math.atan(calibrationDistance/camOffset)*180/Math.PI - camHorizAngle*(targets[0].getXPos()/camPXWidth);
+		camHorizAngleOffsetDegrees = 90 - Math.atan(calibrationDistance/(calibrationHeight - camHeight))*180/Math.PI - camVertAngle*(targets[0].getYPos()/camPXHeight);
 	}
 }
 
