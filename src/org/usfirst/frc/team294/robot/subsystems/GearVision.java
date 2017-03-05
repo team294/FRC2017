@@ -50,7 +50,7 @@ public class GearVision extends Subsystem {
 			tempWidthLength = tempWidth.length;
 			tempHeightLength = tempArea.length;
 			contours = new Contour[tempXLength];//Gives your contour array a length equal to the number of centerXs present in the Network Table
-			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength){
+			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength && tempHeightLength == tempWidthLength){
 				for (int i = 0; i < tempXLength; i++) {
 					contours[i] = new Contour(tempXPos[i], tempYPos[i], tempArea[i], tempHeight[i], tempWidth[i]);
 				}
@@ -97,6 +97,7 @@ public class GearVision extends Subsystem {
 			gearAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
 		}
 		else if (numValid == 1) {
+			//targets[0].getWidth()*5.25/2 adds theoretical number of pixels to center of gear target
 			gearAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[0].getWidth()*5.25/2))/camPXWidth * camHorizAngle; //in degrees
 		}
 		else { return 0; } //Return -500 if there are no "valid" contours (see numValid assignment)
