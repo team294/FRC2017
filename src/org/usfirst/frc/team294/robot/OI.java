@@ -172,14 +172,14 @@ public class OI {
 //	    coP[14].whenPressed(new StowIntakeAndHopper()); //for testing can be reset when we get a shooter hood
 	    
 	    // Xbox controller buttons
-	    xbB[1].whenPressed(new MoveShooterHood(false));
-	    xbB[2].whenPressed(new MoveGearGate(true));
-	    xbB[3].whenPressed(new MoveGearGate(false));
-	    xbB[4].whenPressed(new MoveShooterHood(true));
-	    xbB[5].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
-	    xbB[6].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
-	    xbB[7].whenPressed(new ClimbSequenceStart());
-	    xbB[8].whenPressed(new DeployIntakeAndHopper());
+	    xbB[1].whenPressed(new MoveGearGate(true));
+	    xbB[2].whenPressed(new MoveGearGate(false));
+	    xbB[3].whenPressed(new MoveShooterHood(true));
+	    xbB[4].whenPressed(new MoveShooterHood(false));
+	    xbB[5].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
+	    xbB[6].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
+	    xbB[7].whenPressed(new DeployIntakeAndHopper());
+	    xbB[8].whenPressed(new ClimbSequenceStart());
 	    xbB[9].whenPressed(new StopAllMotors());
 	    xbB[10].whenPressed(new ClimbJoystickControl()); //Command does not yet exist
 	    
