@@ -40,20 +40,22 @@ public class BoilerVision extends Subsystem {
 		}
 		Contour[] contours;
 		//Instantiate array of contours to be filtered
-		int tempXLength, tempYLength, tempAreaLength, tempHeightLength;
+		int tempXLength, tempYLength, tempAreaLength, tempWidthLength, tempHeightLength;
 		while (true) { 
 			double[] tempXPos = table.getNumberArray("centerX",   networkTableDefault);
 			double[] tempYPos =  table.getNumberArray("centerY",   networkTableDefault);
 			double[] tempArea = table.getNumberArray("area",   networkTableDefault);
 			double[] tempHeight = table.getNumberArray("height", networkTableDefault);
+			double[] tempWidth = table.getNumberArray("width", networkTableDefault);
 			tempXLength = tempXPos.length;
 			tempYLength = tempYPos.length;
 			tempAreaLength = tempArea.length;
+			tempWidthLength = tempWidth.length;
 			tempHeightLength = tempHeight.length;
 			contours = new Contour[tempXLength];
-			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength){
+			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength && tempHeightLength == tempWidthLength){
 				for (int i = 0; i < tempXLength; i++) {
-					contours[i] = new Contour(tempXPos[i], tempYPos[i], tempArea[i], tempHeight[i]);
+					contours[i] = new Contour(tempXPos[i], tempYPos[i], tempArea[i], tempHeight[i], tempWidth[i]);
 				}
 				break;
 			}
