@@ -235,7 +235,7 @@ public class Robot extends IterativeRobot {
 				
 				if (robotPrefs.getDouble("inchesPerRev", 0) == 0) {
 					DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration.", true);
-					robotPrefs.putDouble("inchesPerRev", 18.0); //this needs to be changed when we find the new value
+					robotPrefs.putDouble("inchesPerRev", 12.5); //this needs to be changed when we find the new value
 				}
 				inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
 				

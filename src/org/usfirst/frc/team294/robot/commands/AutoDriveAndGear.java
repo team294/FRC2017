@@ -22,7 +22,8 @@ public class AutoDriveAndGear extends CommandGroup {
     	
     	// Shift down and drive to the baseline
     	addSequential(new ShiftDown());
-        addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toBaseLine), Units.inches, false, true));
+    	addSequential(new DriveStraightDistance(0.4, -35, Units.inches, false, true));
+//    	addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toBaseLine), Units.inches, false, true));
         addSequential(new WaitSeconds(0.2));
 
         // Add turn and additional drive commands for left and right
@@ -50,13 +51,17 @@ public class AutoDriveAndGear extends CommandGroup {
         case middle:
         	// Turn using gear vision and then advance the final segment
         	addSequential(new GyroTurnToAngle(0.4, 0.0, 4.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
-            addSequential(new WaitSeconds(0.2));
-            addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearMiddle)*0.65, Units.inches, false, true));
-            addSequential(new WaitSeconds(0.2));
-            addSequential(new GyroTurnToAngle(0.4, 0.0, 0.2, GyroTurnToAngle.TurnMode.GEAR_VISION));
-            addSequential(new WaitSeconds(0.2));
-            addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearMiddle)*0.35, Units.inches, false, true));
-            addSequential(new MoveGearGate(true));
+        	addSequential(new WaitSeconds(0.2));
+        	addSequential(new DriveStraightDistance(0.4, -70, Units.inches, true, false));
+        	
+
+//            addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearMiddle)*0.65, Units.inches, false, true));
+//            addSequential(new WaitSeconds(0.2));
+//            addSequential(new GyroTurnToAngle(0.4, 0.0, 0.2, GyroTurnToAngle.TurnMode.GEAR_VISION));
+//            addSequential(new WaitSeconds(0.2));
+//            addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearMiddle)*0.35, Units.inches, false, true));
+
+        	addSequential(new MoveGearGate(true));
             break;
         case baselineOnly:
         	break;
