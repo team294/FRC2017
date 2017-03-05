@@ -7,7 +7,7 @@ import java.util.List;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
-import org.usfirst.frc.team294.utilities.MotorGroupCurrentTrigger;
+import org.usfirst.frc.team294.robot.triggers.MotorGroupCurrentTrigger;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -17,6 +17,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,7 +36,7 @@ public class DriveTrain extends Subsystem {
     private final CANTalon rightMotor3 = new CANTalon(RobotMap.driveTrainRightMotor3);
     private final RobotDrive robotDrive = new RobotDrive(leftMotor2, rightMotor2);
     
-    private final Ultrasonic ultrasonicSensor;
+//    private final Ultrasonic ultrasonicSensor;
     
     // NavX.  Create the object in the DriveTrain() constructor, so that we can catch errors.
     private AHRS ahrs;
@@ -43,7 +44,7 @@ public class DriveTrain extends Subsystem {
     // Gyro resets are tracked in software, due to latency in resets. This holds the value of the NavX's "zero" degrees
     private double yawZero = 0;
     
-    // Track encoder resets in software due to latency (like NavX)
+    // Track encoder resets in software due to latency in the Talon/CANbus
     private double leftEncoderZero = 0, rightEncoderZero = 0;
     
     //Current protection
@@ -51,7 +52,7 @@ public class DriveTrain extends Subsystem {
     List<CANTalon> leftMotorList = new ArrayList<CANTalon>(Arrays.asList(leftMotor1, leftMotor2, leftMotor3));
     public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotorList, 20, 2.0);
     public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotorList, 20, 2.0);
-
+        
     public DriveTrain() {
     	super();
     	
@@ -87,22 +88,31 @@ public class DriveTrain extends Subsystem {
         rightMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
         leftMotor2.setVoltageRampRate(40);
         rightMotor2.setVoltageRampRate(40);
+
+        //TODO:  Adjust ramp-rate limits so that we don't draw too much current or tip the robot
         
     	try {
             /* Communicate w/navX MXP via the MXP SPI Bus.                                     */
             /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
             /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
-        		ahrs = new AHRS(SPI.Port.kMXP); 
+
+    			//TODO:  Verify navX comms works using 2017 robot configuration (via USB?) 
+    			//ahrs = new AHRS(SPI.Port.kMXP);		// Code from 2016 robot (navX plugged directly into RoboRio SPI port) 
+    			ahrs = new AHRS(SerialPort.Port.kUSB); 
         	} catch (RuntimeException ex ) {
         		DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+        		Robot.log.writeLog("Error instantiating navX MXP:  " + ex.getMessage());
         	}
         ahrs.zeroYaw();
         
-		ultrasonicSensor = new Ultrasonic(RobotMap.usTx,RobotMap.usRx);
-		ultrasonicSensor.setAutomaticMode(true);
+//		ultrasonicSensor = new Ultrasonic(RobotMap.usTx,RobotMap.usRx);
+//		ultrasonicSensor.setAutomaticMode(true);
     }
     
     public void leftCurrentProtection(){
+    	//TODO:  Fix trigger code for current protection.
+    	//The code probably should be something like "leftMotorsCurrentTrigger.whenActive(new commandToRun());"
+    	//See the POV code in OI.java for trigger examples.
     	if(leftMotorsCurrentTrigger.get()){
     		leftMotorsCurrentTrigger.printBadMotor();
     		SmartDashboard.putBoolean("Left motors are screwed", true);
@@ -110,6 +120,9 @@ public class DriveTrain extends Subsystem {
     }
     
     public void rightCurrentProtection(){
+    	//TODO:  Fix trigger code for current protection.
+    	//The code probably should be something like "leftMotorsCurrentTrigger.whenActive(new commandToRun());"
+    	//See the POV code in OI.java for trigger examples.
     	if(leftMotorsCurrentTrigger.get()){
     		rightMotorsCurrentTrigger.printBadMotor();
     		SmartDashboard.putBoolean("Right motors are screwed", true);
@@ -117,7 +130,7 @@ public class DriveTrain extends Subsystem {
     }
 
     /**
-   s  * Set the drive controller to use power settings, instead of using the
+     * Set the drive controller to use power settings, instead of using the
      * encoder PID controller.
      */
     public void setDriveControlByPower() {
@@ -202,7 +215,8 @@ public class DriveTrain extends Subsystem {
      * @return
      */
     public double getLeftEncoder() {
-    	SmartDashboard.putNumber("LeftMotor", 0);
+    	SmartDashboard.putNumber("Left Position", leftMotor2.getPosition() - leftEncoderZero);
+    	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
     	return leftMotor2.getPosition() - leftEncoderZero;
     }
     
@@ -212,7 +226,8 @@ public class DriveTrain extends Subsystem {
      */
 
     public double getRightEncoder() {
-    	SmartDashboard.putNumber("RightMotor", 0);
+    	SmartDashboard.putNumber("Right Position", rightMotor2.getPosition() - rightEncoderZero);
+    	SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
     	return rightMotor2.getPosition() - rightEncoderZero;
     }
     
@@ -239,89 +254,59 @@ public class DriveTrain extends Subsystem {
      */
 	public void logTalonStatus() {
 		Robot.log.writeLog(
-				"Motors:  Left Motor 2 (Main)-- TempC " + leftMotor2.getTemperature() +
-				" Set " + leftMotor2.getSetpoint() + 
-				" BusVolt " + leftMotor2.getBusVoltage() + 
-				" OutVolt " + leftMotor2.getOutputVoltage() + 
-				" OutCur " + leftMotor2.getOutputCurrent() + 
-				" PulsePos " + leftMotor2.getPulseWidthPosition() + 
-				" PulseVel " + leftMotor2.getPulseWidthVelocity() + 
-				" PulseRF " + leftMotor2.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + leftMotor2.getPulseWidthRiseToRiseUs() + 
-				" Get " + leftMotor2.get() +
+				"Motors:  Left Motor 2 (Main)-- TempC, " + leftMotor2.getTemperature() +
+				", Set, " + leftMotor2.getSetpoint() + 
+				", BusVolt, " + leftMotor2.getBusVoltage() + 
+				", OutVolt, " + leftMotor2.getOutputVoltage() + 
+				", OutCur, " + leftMotor2.getOutputCurrent() + 
+				", Get, " + leftMotor2.get() +
 				
-				" Left Motor 1 (Follower)-- TempC " + leftMotor1.getTemperature() + 
-				" Set " + leftMotor1.getSetpoint() + 
-				" BusVolt " + leftMotor1.getBusVoltage() + 
-				" OutVolt " + leftMotor1.getOutputVoltage() + 
-				" OutCur " + leftMotor1.getOutputCurrent() + 
-				" PulsePos " + leftMotor1.getPulseWidthPosition() + 
-				" PulseVel " + leftMotor1.getPulseWidthVelocity() + 
-				" PulseRF " + leftMotor1.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + leftMotor1.getPulseWidthRiseToRiseUs() + 
-				" Get " + leftMotor1.get() +
+				", Left Motor 1 (Follower)-- TempC, " + leftMotor1.getTemperature() + 
+				", Set, " + leftMotor1.getSetpoint() + 
+				", BusVolt, " + leftMotor1.getBusVoltage() + 
+				", OutVolt, " + leftMotor1.getOutputVoltage() + 
+				", OutCur, " + leftMotor1.getOutputCurrent() + 
+				", Get, " + leftMotor1.get() +
 				
-				" Left Motor 3 (Follower)-- TempC " + leftMotor1.getTemperature() + 
-				" Set " + leftMotor3.getSetpoint() + 
-				" BusVolt " + leftMotor3.getBusVoltage() + 
-				" OutVolt " + leftMotor3.getOutputVoltage() + 
-				" OutCur " + leftMotor3.getOutputCurrent() + 
-				" PulsePos " + leftMotor3.getPulseWidthPosition() + 
-				" PulseVel " + leftMotor3.getPulseWidthVelocity() + 
-				" PulseRF " + leftMotor3.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + leftMotor3.getPulseWidthRiseToRiseUs() + 
-				" Get " + leftMotor3.get() +
+				", Left Motor 3 (Follower)-- TempC, " + leftMotor1.getTemperature() + 
+				", Set, " + leftMotor3.getSetpoint() + 
+				", BusVolt, " + leftMotor3.getBusVoltage() + 
+				", OutVolt, " + leftMotor3.getOutputVoltage() + 
+				", OutCur, " + leftMotor3.getOutputCurrent() + 
+				", Get, " + leftMotor3.get() +
 				
-				" Right Motor 2 (Main)-- TempC " + rightMotor2.getTemperature() + 
-				" Set " + rightMotor2.getSetpoint() + 
-				" BusVolt " + rightMotor2.getBusVoltage() + 
-				" OutVolt " + rightMotor2.getOutputVoltage() + 
-				" OutCur " + rightMotor2.getOutputCurrent() + 
-				" PulsePos " + rightMotor2.getPulseWidthPosition() + 
-				" PulseVel " + rightMotor2.getPulseWidthVelocity() + 
-				" PulseRF " + rightMotor2.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + rightMotor2.getPulseWidthRiseToRiseUs() + 
-				" Get " + rightMotor2.get() +
+				", Right Motor 2 (Main)-- TempC, " + rightMotor2.getTemperature() + 
+				", Set, " + rightMotor2.getSetpoint() + 
+				", BusVolt, " + rightMotor2.getBusVoltage() + 
+				", OutVolt, " + rightMotor2.getOutputVoltage() + 
+				", OutCur, " + rightMotor2.getOutputCurrent() + 
+				", Get, " + rightMotor2.get() +
 				
-				" Right Motor 1 (Follower)-- TempC " + rightMotor1.getTemperature() + 
-				" Set " + rightMotor1.getSetpoint() + 
-				" BusVolt " + rightMotor1.getBusVoltage() + 
-				" OutVolt " + rightMotor1.getOutputVoltage() + 
-				" OutCur " + rightMotor1.getOutputCurrent() + 
-				" PulsePos " + rightMotor1.getPulseWidthPosition() + 
-				" PulseVel " + rightMotor1.getPulseWidthVelocity() + 
-				" PulseRF " + rightMotor1.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + rightMotor1.getPulseWidthRiseToRiseUs() + 
-				" Get " + rightMotor1.get() +
+				", Right Motor 1 (Follower)-- TempC, " + rightMotor1.getTemperature() + 
+				", Set, " + rightMotor1.getSetpoint() + 
+				", BusVolt, " + rightMotor1.getBusVoltage() + 
+				", OutVolt, " + rightMotor1.getOutputVoltage() + 
+				", OutCur, " + rightMotor1.getOutputCurrent() + 
+				", Get, " + rightMotor1.get() +
 				
-				" Right Motor 3 (Follower)-- TempC " + rightMotor3.getTemperature() + 
-				" Set " + rightMotor3.getSetpoint() + 
-				" BusVolt " + rightMotor3.getBusVoltage() + 
-				" OutVolt " + rightMotor3.getOutputVoltage() + 
-				" OutCur " + rightMotor3.getOutputCurrent() + 
-				" PulsePos " + rightMotor3.getPulseWidthPosition() + 
-				" PulseVel " + rightMotor3.getPulseWidthVelocity() + 
-				" PulseRF " + rightMotor3.getPulseWidthRiseToFallUs() + 
-				" PulseRR " + rightMotor3.getPulseWidthRiseToRiseUs() + 
-				" Get " + rightMotor3.get()
+				", Right Motor 3 (Follower)-- TempC, " + rightMotor3.getTemperature() + 
+				", Set, " + rightMotor3.getSetpoint() + 
+				", BusVolt, " + rightMotor3.getBusVoltage() + 
+				", OutVolt, " + rightMotor3.getOutputVoltage() + 
+				", OutCur, " + rightMotor3.getOutputCurrent() + 
+				", Get, " + rightMotor3.get()
 				);
 	}
 	
 	/** 
-	 * Reset the angle of the NavX in the software
+	 * Reset the angle of the NavX in the software to 0.
 	 */
 	public void resetDegrees() {
+		// Note:  Do NOT use ahrs.reset(), since it can have occasional latency issues.
+		
 		yawZero = ahrs.getAngle();
 		Robot.log.writeLogEcho("Gyro angle reset");
 	}
-    
-    /**
-     * DO NOT USE! USE resetDegrees() INSTEAD!
-     * Reset the gyro completely
-     */
-    public void resetGyro() {
-    	ahrs.reset();
-    }
     
     /**
      * Return the current angle of the gyro
@@ -353,9 +338,9 @@ public class DriveTrain extends Subsystem {
      * Get the distance range of the ultrasonic sensor in inches
      * @return
      */
-    public double getUltrasonicDistance() {
-    	return ultrasonicSensor.getRangeInches();
-    }
+//    public double getUltrasonicDistance() {
+//    	return ultrasonicSensor.getRangeInches();
+//    }
 
     /**
      * Update the SmartDashboard with NavX readings.
@@ -363,6 +348,7 @@ public class DriveTrain extends Subsystem {
     public void updateGyroSmartDashboard() {
         SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
         SmartDashboard.putBoolean(  "IMU_IsCalibrating",    ahrs.isCalibrating());
+        SmartDashboard.putNumber(   "IMU_FusedHeading",              ahrs.getFusedHeading());
         SmartDashboard.putNumber(   "IMU_Yaw",              ahrs.getYaw());
         SmartDashboard.putNumber(   "IMU_Pitch",            ahrs.getPitch());
         SmartDashboard.putNumber(   "IMU_Roll",             ahrs.getRoll());

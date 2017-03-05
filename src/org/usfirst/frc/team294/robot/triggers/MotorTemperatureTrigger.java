@@ -1,4 +1,4 @@
-package org.usfirst.frc.team294.utilities;
+package org.usfirst.frc.team294.robot.triggers;
 
 import com.ctre.CANTalon;
 
@@ -30,8 +30,14 @@ public class MotorTemperatureTrigger extends Trigger {
 
 	
     public boolean get() {
-        if (talon.getTemperature() < limit)
+        boolean disableNow;
+        
+    	if (talon.getTemperature() < limit)
             timer.reset();
-        return timer.get() >= duration;
+
+        //Immediately reset timer after stopping the motor, so that the motor can be turned back on
+    	disableNow = timer.get() >= duration;
+    	if (disableNow) timer.reset();  
+    	return disableNow;
     }
 }

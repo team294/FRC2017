@@ -4,18 +4,16 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Sets the shooter according to Voltage
-**/
-
+ */
 public class ShooterSetVoltageFromSmartDashboard  extends Command{
 	
 	public ShooterSetVoltageFromSmartDashboard() {	
 		 	requires(Robot.shooter);
 	}    	
 		   
-
-
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		    Robot.shooter.setVoltage(SmartDashboard.getNumber("Shooter Motor Set Voltage", 0.0));  		

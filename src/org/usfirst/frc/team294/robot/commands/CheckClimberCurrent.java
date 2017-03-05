@@ -5,45 +5,48 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Testing purposes only (replaced by DriveStraightDistance -John)
+ *
  */
-public class DriveToBoiler extends Command {
+public class CheckClimberCurrent extends Command {
 
+//	double percentage;
+//	double maxCurrent;
+	double current;
+	
 	/**
-	 * Drives to the boiler according to vision
+	 * checks average climber current
+	 * @param current
 	 */
-    public DriveToBoiler() {
+    public CheckClimberCurrent(double current) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.driveTrain);
-    	requires(Robot.boilerVision);
+    	requires(Robot.intake);
+//    	this.maxCurrent = maxCurrent;
+//    	this.percentage = currentPercentage;
+    	this.current = current;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+//    	current = maxCurrent * percentage;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double distance = Robot.boilerVision.getBoilerDistance();
-    	if (distance > 2) {
-    		Robot.driveTrain.driveForward(.25);
-    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (Robot.boilerVision.getBoilerDistance() <= 2);
+		Robot.log.writeLogEcho("Climber current ," + Robot.intake.getAverageClimberCurrent() + ", amps." + "climber current set current ," + current + ",");
+        return Robot.intake.getAverageClimberCurrent() >= current;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.driveTrain.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.driveTrain.stop();
     }
 }

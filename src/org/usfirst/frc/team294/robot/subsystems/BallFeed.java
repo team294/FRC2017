@@ -4,7 +4,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot;
 import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
-import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
+import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
@@ -20,7 +20,7 @@ public class BallFeed extends Subsystem {
 	public static CANTalon horConveyor = new CANTalon(RobotMap.horizontalConveyor);
 	public static CANTalon vertConveyor = new CANTalon(RobotMap.verticalConveyor);
 	public final MotorCurrentTrigger vertCurrentTrigger =  new MotorCurrentTrigger(vertConveyor, 5, 2);
-	public final MotorCurrentTrigger horCurrentTrigger =  new MotorCurrentTrigger(horConveyor, 6, 2);
+	public final MotorCurrentTrigger horCurrentTrigger =  new MotorCurrentTrigger(horConveyor, 20, 2);
 	
 	public BallFeed() {
 		super();

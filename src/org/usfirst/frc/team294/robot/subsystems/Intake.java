@@ -8,9 +8,8 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.ClimbSetToSpeed;
 import org.usfirst.frc.team294.robot.commands.IntakeSetToSpeed;
-//import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
-import org.usfirst.frc.team294.utilities.MotorCurrentTrigger;
-import org.usfirst.frc.team294.utilities.MotorGroupCurrentTrigger;
+import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
+import org.usfirst.frc.team294.robot.triggers.MotorGroupCurrentTrigger;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
@@ -35,9 +34,9 @@ public class Intake extends Subsystem {
     private final DoubleSolenoid hopperSolenoid = new DoubleSolenoid(RobotMap.hopperSolenoidFwd, RobotMap.hopperSolenoidRev);
     
 	//Current Protection
-	public final MotorCurrentTrigger intakeCurrentTrigger = new MotorCurrentTrigger(intakeMotor, 7, 3);
+	public final MotorCurrentTrigger intakeCurrentTrigger = new MotorCurrentTrigger(intakeMotor, 22, 3);
 	List<CANTalon> climbMotors = new ArrayList<CANTalon>(Arrays.asList(climbMotor1, climbMotor2));
-	public final MotorGroupCurrentTrigger climbCurrentTrigger = new MotorGroupCurrentTrigger(climbMotors, 35, 2);
+	public final MotorGroupCurrentTrigger climbCurrentTrigger = new MotorGroupCurrentTrigger(climbMotors, 40, 2);
 
     // Control variables for mechanical interlock
     public static enum Status {
@@ -48,7 +47,7 @@ public class Intake extends Subsystem {
     private Status hopperPos = Status.unknown;
     
     // Time to move hopper/intake in seconds (refine by testing)
-    public final double HOPPER_DELAY = 1.5;
+    public final double HOPPER_DELAY = 1.0;
     public final double INTAKE_DELAY = 2.0;
     
     public Intake() {
@@ -56,11 +55,8 @@ public class Intake extends Subsystem {
     	// Call the Subsystem constructor
     	super();
     	
-    	// Set up subsystem components
-    	intakeMotor.setVoltageRampRate(50);
-
 		// Set up subsystem components
-		intakeMotor.setVoltageRampRate(50);
+		climbMotor1.setVoltageRampRate(20);
 		climbMotor2.changeControlMode(TalonControlMode.Follower);
 		climbMotor2.set(climbMotor1.getDeviceID());
 
@@ -75,11 +71,11 @@ public class Intake extends Subsystem {
 	/**
 	 * Adds current protection to intake and climber motors
 	 */
-	public void intakeCurrentProtection(){
+	public void intakeCurrentProtection() {
 		intakeCurrentTrigger.whenActive(new IntakeSetToSpeed(0.0));
 		climbCurrentTrigger.whenActive(new ClimbSetToSpeed(0.0));
 	}
-
+	
 	/**
 	 * Set the speed of the intake motor
 	 * @param speed of the motor, between -1 (outtake) and +1 (intake), 0 = stopped
@@ -105,15 +101,17 @@ public class Intake extends Subsystem {
     	// Need to check if hopper and intake are stowed first
     	if (speed < 0) speed = 0;
     	if (speed > 1.0) speed = 1.0;
-    	climbMotor1.set(speed);
+    	climbMotor1.set(-speed); //Reversed motor direction --  It seems to be faster
     }
 
 	/**
 	 * Set up the intake controls on the SmartDashboard.  Call this once when the robot is 
 	 * initialized (after the Intake subsystem is initialized).
 	 */
-	public void setupSmartDashboard(boolean bPIDF){
+	public void setupSmartDashboard(){
 		updateSmartDashboard();
+		setHopperTracker(hopperPos);
+		setIntakeTracker(intakePos);
 	}
 
 	/**
@@ -122,7 +120,8 @@ public class Intake extends Subsystem {
     public void updateSmartDashboard() {
  		SmartDashboard.putNumber("Intake motor setpoint", -intakeMotor.get());
  		SmartDashboard.putNumber("Intake motor current", intakeMotor.getOutputCurrent());
-// 		SmartDashboard.putString("Intake position", intakeIsUp() ? "Up" : "Down");
+    	SmartDashboard.putNumber("Climber Motor setpoint", climbMotor1.get());
+    	SmartDashboard.putNumber("Climber Motor Current", getAverageClimberCurrent());
     }
     
     /**
@@ -144,6 +143,9 @@ public class Intake extends Subsystem {
      */
     public void setHopperTracker(Status position) {
     	hopperPos = position;
+    	SmartDashboard.putString("Hopper status", 
+    			(position == Status.stowed) ? "Stowed" :
+    				((position == Status.deployed) ? "Deployed" : "Unknown") );
     }
     
     /**
@@ -152,7 +154,12 @@ public class Intake extends Subsystem {
      */
     public void setIntakeTracker(Status position) {
     	intakePos = position;
+    	SmartDashboard.putString("Intake status", 
+    			(position == Status.stowed) ? "Stowed" :
+    				((position == Status.deployed) ? "Deployed" : "Unknown") );
     }
+    
+    //TODO:  Validate hopper/intake interlock.  If user runs hopper and intake commands immediately while they are moving, what happens?
     
     /**
      * Read the value of the software hopper tracker
@@ -178,31 +185,29 @@ public class Intake extends Subsystem {
 	}
 
 	/**
-	 * Stows the intake <b>only if the hopper is stowed</b>
+	 * Stows the intake
 	 */
 	public void stowIntake() {
 		intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	/**
-	 * Deploy the hopper out <b>only if the intake is deployed</b>
+	 * Deploy the hopper
 	 */
 	public void deployHopper() {
 		hopperSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
 
 	/**
-	 * Stow the hopper (for climbing) <b>only if the intake is deployed</b>
+	 * Stow the hopper
 	 */
 	public void stowHopper() {
 		hopperSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	/**
-	 * Updates the conflicts between the hopper and the intake
-	 * Call before enabling the robot to avoid mechanical interlock
+	 * Stops the intake motor
 	 */
-
 	public void stopIntake() {
 		intakeMotor.set(0.0);
 	}
@@ -220,12 +225,13 @@ public class Intake extends Subsystem {
 	 */
 	public void logIntakeStatus() {
 		Robot.log.writeLog(
-				"Intake: Intake Motor-- Speed: " + intakeMotor.get()
+				"Intake: Intake Motor-- Speed: " + intakeMotor.get() + 
+				", Current: " + intakeMotor.getOutputCurrent()
 				);
 	}
 
 	/**
-	 * Logs the speed of both conveyors to the robot log
+	 * Logs the speed of both climbers to the robot log
 	 */
 	public void logClimbStatus() {
 		Robot.log.writeLog(
@@ -234,6 +240,16 @@ public class Intake extends Subsystem {
 				);
 	}
 
+	/**
+	 * Gets the average current of both climber motors
+	 * @return the average current in amps
+	 */
+	public double getAverageClimberCurrent(){
+		double aveCurrent;
+		aveCurrent = (climbMotor1.getOutputCurrent() + climbMotor2.getOutputCurrent())/2;
+		return aveCurrent;
+	}
+	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		//setDefaultCommand(new MySpecialCommand());
