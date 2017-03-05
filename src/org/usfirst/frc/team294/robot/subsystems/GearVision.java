@@ -126,5 +126,9 @@ public class GearVision extends Subsystem {
 		SmartDashboard.putNumber("Gear Distance", distance);
 		return distance;
 	}
+	
+	public void callibrate() {
+		
+	}
 }
 
