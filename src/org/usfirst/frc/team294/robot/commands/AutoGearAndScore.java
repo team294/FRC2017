@@ -18,7 +18,7 @@ public class AutoGearAndScore extends CommandGroup {
 	 */
     public AutoGearAndScore(Teams team, StartPositions position) {
 
-    	Robot.log.writeLog("Autonomous: Starting Gear and Score Command for " + team + " and " + position);
+    	Robot.log.writeLogEcho("Autonomous: Starting Gear and Score Command for " + team + " and " + position);
     	
     	// Shift down and do a gear sequence according to the position given
     	addSequential(new ShiftDown());

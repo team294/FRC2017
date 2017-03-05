@@ -35,6 +35,7 @@ public class AutoDriveAndGear extends CommandGroup {
             //addSequential(new GyroTurnToAngle(0.4, 0.0, 4.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
             addSequential(new WaitSeconds(0.2));
             addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearSide), Units.inches, false, true));
+            addSequential(new MoveGearGate(true));
             break;
         case right:
             addSequential(new GyroTurnToAngle(0.7, RobotMap.getAngle(AutoAngles.rightGear)));        	
@@ -44,7 +45,9 @@ public class AutoDriveAndGear extends CommandGroup {
         	addSequential(new GyroTurnToAngle(0.4, 0.0, 4.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
             addSequential(new WaitSeconds(0.2));
             addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearSide), Units.inches, false, true));
-        default:
+            addSequential(new MoveGearGate(true));
+            break;
+        case middle:
         	// Turn using gear vision and then advance the final segment
         	addSequential(new GyroTurnToAngle(0.4, 0.0, 4.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
             addSequential(new WaitSeconds(0.2));
@@ -53,9 +56,14 @@ public class AutoDriveAndGear extends CommandGroup {
             addSequential(new GyroTurnToAngle(0.4, 0.0, 0.2, GyroTurnToAngle.TurnMode.GEAR_VISION));
             addSequential(new WaitSeconds(0.2));
             addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearMiddle)*0.35, Units.inches, false, true));
+            addSequential(new MoveGearGate(true));
             break;
+        case baselineOnly:
+        	break;
         }
-        addSequential(new MoveGearGate(true));
+        
+        // Wait for human player to raise the gear/peg
+        addSequential(new WaitSeconds(2.5));
     }
     
     // This should write to the file log when the command is called instead of when the robot powers up	

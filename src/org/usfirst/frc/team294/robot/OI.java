@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap.StartPositions;
+import org.usfirst.frc.team294.robot.RobotMap.*;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.Units;
@@ -90,12 +90,15 @@ public class OI {
 			// Declare commands for the top knob here
 	};
 	
-	Command[] MiddleKnobCommands = new Command[] {
-			// Declare commands for the middle knob here
+	Teams[] middleKnobTeam = {
+			Teams.blue, Teams.red, Teams.noBoilerShooting, Teams.noBoilerShooting, Teams.noBoilerShooting
 	};
 	
-	Command[] BottomKnobCommands = new Command[] {
-			// Declare commands for the bottom knob here
+	StartPositions[] bottomKnobStartPosition = {
+			StartPositions.left, StartPositions.middle, StartPositions.right,
+			StartPositions.baselineOnly, StartPositions.baselineOnly, StartPositions.baselineOnly,
+			StartPositions.baselineOnly, StartPositions.baselineOnly, StartPositions.baselineOnly,
+			StartPositions.baselineOnly, StartPositions.baselineOnly, StartPositions.baselineOnly
 	};
 	
 	// Joysticks
@@ -220,9 +223,10 @@ public class OI {
 	    SmartDashboard.putData("Deploy Intake and Hopper", new DeployIntakeAndHopper());
 	    
 	    // Autonomous Command Testing
-	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGear(StartPositions.left));
-	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGear(StartPositions.right));
-	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGear(StartPositions.middle)); 
+//	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGear(StartPositions.left));
+//	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGear(StartPositions.right));
+//	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGear(StartPositions.middle)); 
+	    SmartDashboard.putData("Autonomous from Knobs", new AutoCommandFromKnobs());
 	    SmartDashboard.putData("Drive forwards testtesttesttest", new DriveStraightDistance(0.4, 93.0, Units.inches, false, true));
 	    
 	    // Shooter controls
@@ -315,14 +319,18 @@ public class OI {
 		return i;
 	}
 	
-	/**
-	 * Reads the middle knob.
-	 * @return OI.MiddleKnobPositions
-	 */
 	public MiddleKnob readMiddleKnob(){
 		return MiddleKnobPositions[readMiddleKnobRaw()];
 	}		 
 	     
+	/**
+	 * Reads the middle knob and returns the selected team (RobotMap.Teams).
+	 * @return Selected RobotMap.Team
+	 */
+	public Teams readMiddleKnobTeam() {
+		return middleKnobTeam[ readMiddleKnobRaw() ];
+	}
+
 	/**
 	 * Reads the bottom knob.
 	 * @return Raw position 0 (full ccw) to 11 (full cw)
@@ -349,13 +357,21 @@ public class OI {
 		return BottomKnobPositions[readBottomKnobRaw()];
 	}
 	
+	/**
+	 * Reads the bottom knob.
+	 * @return RobotMap.StartPosition
+	 */
+	public StartPositions readBottomKnobStartPosition() {
+		return bottomKnobStartPosition[readBottomKnobRaw()];
+	}
+	
 	// The getMiddleKnobCommand() can be replicated for other knobs that need to be read for commands
 	
 	/**
 	 * Get the command based on the position of the middle knob 
 	 * @return Command
 	 */
-	public Command getMiddleKnobCommand() {
+/*	public Command getMiddleKnobCommand() {
 		int i = readMiddleKnobRaw();
 		if (i < MiddleKnobCommands.length) {
 			return MiddleKnobCommands[i];
@@ -363,6 +379,7 @@ public class OI {
 			return null;
 		}			
 	} 
+*/
 	
 	/**
 	 * Sets the drive direction

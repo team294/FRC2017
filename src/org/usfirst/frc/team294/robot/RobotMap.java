@@ -62,11 +62,11 @@ public class RobotMap {
     }
     
 	public enum StartPositions {
-		left, middle, right
+		left, middle, right, baselineOnly
 	}
 	
 	public enum Teams {
-		blue, red
+		noBoilerShooting, blue, red
 	}
     
     public static double getDistance(AutoDistances distance) {

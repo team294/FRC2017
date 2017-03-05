@@ -3,6 +3,7 @@ package org.usfirst.frc.team294.robot;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,6 +11,8 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team294.robot.subsystems.*;
+import org.usfirst.frc.team294.robot.RobotMap.*;
+import org.usfirst.frc.team294.robot.commands.AutoGearAndScore;
 import org.usfirst.frc.team294.utilities.FileLog;
 
 /**
@@ -63,6 +66,9 @@ public class Robot extends IterativeRobot {
 	public static double horizontalConveyorOutVolts;
 	public static double verticalConveyorOutVolts;
 	public static double gearCamHorizOffsetInches; // Gear vision cam horizontal offset	
+
+	// Variable for auto command
+	Command autonomousCommand;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -152,16 +158,14 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void autonomousInit() {
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
 		// schedule the autonomous command (example)
 		intake.updateConflicts();
 		log.writeLogEcho("Autonomous Mode Started");
+		
+		autonomousCommand = new AutoGearAndScore(oi.readMiddleKnobTeam(), oi.readBottomKnobStartPosition());
+
+		if (autonomousCommand != null)
+			autonomousCommand.start();
 	}
 
 	/**
