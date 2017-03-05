@@ -199,6 +199,9 @@ public class Robot extends IterativeRobot {
 		boilerVision.updateSmartDashboard();
 		//driveTrain.logTalonStatus();
 
+		SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
+		SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
+		
 		shooter.updateSmartDashboard(); 
 		shooter.periodicSetF();
 		

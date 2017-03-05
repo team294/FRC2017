@@ -123,7 +123,6 @@ public class GearVision extends Subsystem {
 		else if (numValid  ==  1) {
 			distance = heightOfTape*tACC/Math.tan((camVertAngle*targets[0].getHeight()/camPXHeight)*Math.PI/180); //in inches (faster)
 		}
-		SmartDashboard.putNumber("Gear Distance", distance);
 		return distance;
 	}
 	
