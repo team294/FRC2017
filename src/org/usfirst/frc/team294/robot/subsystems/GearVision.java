@@ -37,20 +37,22 @@ public class GearVision extends Subsystem {
 		}
 		Contour[] contours;
 		//Instantiate array of contours to be filtered
-		int tempXLength, tempYLength, tempAreaLength, tempHeightLength;
+		int tempXLength, tempYLength, tempAreaLength, tempWidthLength, tempHeightLength;
 		while (true) { // Start of continuous loop to make the contour array
 			double[] tempXPos = table.getNumberArray("centerX",   networkTableDefault);
 			double[] tempYPos =  table.getNumberArray("centerY",   networkTableDefault);
 			double[] tempArea = table.getNumberArray("area",   networkTableDefault);
 			double[] tempHeight = table.getNumberArray("height", networkTableDefault);
+			double[] tempWidth = table.getNumberArray("width", networkTableDefault);
 			tempXLength = tempXPos.length;
 			tempYLength = tempYPos.length;
 			tempAreaLength = tempXPos.length;
+			tempWidthLength = tempXPos.length;
 			tempHeightLength = tempArea.length;
 			contours = new Contour[tempXLength];//Gives your contour array a length equal to the number of centerXs present in the Network Table
 			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength){
 				for (int i = 0; i < tempXLength; i++) {
-					contours[i] = new Contour(tempXPos[i], tempYPos[i], tempArea[i], tempHeight[i]);
+					contours[i] = new Contour(tempXPos[i], tempYPos[i], tempArea[i], tempHeight[i], tempWidth[i]);
 				}
 				break;
 			}
@@ -95,7 +97,7 @@ public class GearVision extends Subsystem {
 			gearAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
 		}
 		else if (numValid == 1) {
-			gearAngleOffset = (camPXWidth/2 - targets[0].getXPos())/camPXWidth * camHorizAngle; //in degrees
+			gearAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[0].getWidth()*5.25/2))/camPXWidth * camHorizAngle; //in degrees
 		}
 		else { return 0; } //Return -500 if there are no "valid" contours (see numValid assignment)
 		gearAngleOffset = Math.atan(camOffset/getGearDistance() + Math.tan(gearAngleOffset*Math.PI/180))*180/Math.PI; //Adjusts angle for when the camera is not centered on the robot
