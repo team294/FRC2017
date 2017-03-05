@@ -146,8 +146,7 @@ public class OI {
 	    	xbB[i] = new JoystickButton(xboxController, i);
 	    }
 	    
-	    //TODO:  Need control panel buttons for hopper and intake solenoid movements
-	    // We need to determine whether the "emergency" commands will be on the panel or the SmartDashboard
+	    //TODO: We need to determine whether the "emergency" commands will be on the panel or the SmartDashboard
 	    // Which is dependent on the primary control the codriver uses (Xbox or panel), so we can't yet
 	    // Determine whether we need to add individual solenoid movements to the panel.
 	    
@@ -263,6 +262,9 @@ public class OI {
 //	    SmartDashboard.putData("Drive 12 inches", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
 //	    SmartDashboard.putData("Drive to Ultraonic", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
 //	    SmartDashboard.putData("Drive to Ultrasonic_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+
+	    // Readouts for intake
+	    Robot.intake.setupSmartDashboard();
 	    
 	    if (Robot.smartDashboardDebug) {
         	setupSmartDashboardDebug();

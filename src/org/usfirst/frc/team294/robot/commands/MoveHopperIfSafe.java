@@ -10,32 +10,38 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class MoveHopperIfSafe extends Command {
 
-	private boolean status;
+	private boolean deploy;
 	private boolean waitForMovement;
 	
 	/**
 	 * Set the position of the hopper if it is safe to do so (e.g. intake is not stowed)
-	 * @param status true for deployed, false for stowed
+	 * @param deploy true to deploy hopper, false to stow hopper
 	 */
-    public MoveHopperIfSafe(boolean status) {
+    public MoveHopperIfSafe(boolean deploy) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
     	
-    	this.status = status;
+    	// To ensure hopper movement tracking, don't allow this command to be interrupted
+    	this.setInterruptible(false);
+
+    	this.deploy = deploy;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if ((status && Robot.intake.getHopperTracker() == Status.deployed) || 
-    			(!status && Robot.intake.getHopperTracker() == Status.stowed)) {
+    	if ((deploy && Robot.intake.getHopperTracker() == Status.deployed) || 
+    			(!deploy && Robot.intake.getHopperTracker() == Status.stowed)) {
+    		// Hopper is already in desired position, so do nothing
     		waitForMovement = false;
-    	} else if (status && Robot.intake.getIntakeTracker() != Status.deployed) {
+    	} else if (Robot.intake.getIntakeTracker() != Status.deployed) {
+    		// Can't move hopper if intake is not deployed (ie., if stowed or unknown or moving)
     		waitForMovement = false;
     	} else {
+    		// OK, we can move the hopper
     		waitForMovement = true;
-    		Robot.intake.setHopperTracker(Status.unknown);
-        	if (status) Robot.intake.deployHopper();
+    		Robot.intake.setHopperTracker(Status.unknown);	// put in unknown state while hopper is moving
+        	if (deploy) Robot.intake.deployHopper();
         	else { Robot.intake.stowHopper(); }
     	}
     }
@@ -52,7 +58,7 @@ public class MoveHopperIfSafe extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	if (waitForMovement) Robot.intake.setHopperTracker(status ? Status.deployed : Status.stowed);
+    	if (waitForMovement) Robot.intake.setHopperTracker(deploy ? Status.deployed : Status.stowed);
     }
 
     // Called when another command which requires one or more of the same
