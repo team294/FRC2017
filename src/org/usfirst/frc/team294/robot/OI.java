@@ -316,6 +316,7 @@ public class OI {
 			if (knobReading2 < middleKnobThreshold[i]) break;
 		}
 		
+		SmartDashboard.putNumber("Middle knob", i);
 		return i;
 	}
 	
@@ -345,6 +346,7 @@ public class OI {
 			if (knobReading < knobThreshold[i]) break;
 		}
         
+		SmartDashboard.putNumber("Bottom knob", i);
 		if (i == len) return len - 1;
 		return i;
 	}

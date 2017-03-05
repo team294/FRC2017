@@ -204,6 +204,9 @@ public class Robot extends IterativeRobot {
 		
 		intake.updateSmartDashboard();
 //		intake.logIntakeStatus();
+		
+		oi.readBottomKnobRaw();
+		oi.readMiddleKnobRaw();
 
 		if ((teleopTime.get() - startTime) >= 300) { //auto stops all non drive train motors after set time
 			Robot.shooter.stop();
