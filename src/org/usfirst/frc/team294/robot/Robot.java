@@ -100,7 +100,7 @@ public class Robot extends IterativeRobot {
 		driveTrain.rightCurrentProtection();
 		
 		// Turn on drive camera
-		CameraServer.getInstance().startAutomaticCapture();
+//		CameraServer.getInstance().startAutomaticCapture();
 
 		// Create OI
 		oi = new OI();
@@ -202,7 +202,7 @@ public class Robot extends IterativeRobot {
 		intake.updateSmartDashboard();
 //		intake.logIntakeStatus();
 
-		if ((teleopTime.get() - startTime) >= 300) { //auto stops all non drive train motors after set time
+		if (false) {//(teleopTime.get() - startTime) >= 300) { //auto stops all non drive train motors after set time
 			Robot.shooter.stop();
 	    	Robot.ballFeed.stop();
 	    	Robot.intake.stopIntake();
@@ -255,7 +255,7 @@ public class Robot extends IterativeRobot {
 
 				
 				if(robotPrefs.getDouble("horizontalConveyorInVolts",0) == 0){
-						robotPrefs.putDouble("horizontalConveyorInVolts", 4.5);
+						robotPrefs.putDouble("horizontalConveyorInVolts", 9.0);
 					}	
 				horizontalConveyorInVolts = robotPrefs.getDouble("horizontalConveyorInVolts",0);
 
