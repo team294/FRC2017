@@ -181,7 +181,7 @@ public class OI {
 	    xbB[7].whenPressed(new DeployIntakeAndHopper());
 	    xbB[8].whenPressed(new ClimbSequenceStart());
 	    xbB[9].whenPressed(new StopAllMotors());
-	    //xbB[10].whenPressed(new StartManualClimbControl()); //Command does not yet exist
+	    xbB[10].whenPressed(new ClimbJoystickControl()); //Command does not yet exist
 	    
 	    xbPovUp.whenActive(new ShooterSetRPM(Robot.shootSpeedHighRPM));
 	    xbPovDown.whenActive(new ShooterSetRPM(Robot.shootSpeedLowRPM));
@@ -208,6 +208,7 @@ public class OI {
 	    
 	    // Climb Motor Tests
 	    SmartDashboard.putData("Start Climb Motor", new ClimbSetToSpeed(0.4));
+//	    SmartDashboard.putData("Reverse Climb Motor", new ClimbSetToSpeed(-0.4));
 	    SmartDashboard.putData("Stop Climb Motor", new ClimbSetToSpeed(0.0));
 	    SmartDashboard.putData("Start Climb Sequence", new ClimbSequenceStart());
 	    

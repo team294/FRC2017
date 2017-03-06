@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.Preferences;
  * The shooter
  */
 public class Shooter extends Subsystem {
-	
+
 	// Motor Hardware
 	private final CANTalon shooterMotor1 = new CANTalon(RobotMap.shooterMotor1);
 	
@@ -30,8 +30,6 @@ public class Shooter extends Subsystem {
 	boolean error = false;
 	private double fNominal, fLast;
 	public static Preferences robotPrefs;
-
-	
 
 	public Shooter() {
 		super();
