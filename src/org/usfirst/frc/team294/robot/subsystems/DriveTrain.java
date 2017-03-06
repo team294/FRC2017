@@ -52,8 +52,9 @@ public class DriveTrain extends Subsystem {
     //Current protection
     List<CANTalon> rightMotorList = new ArrayList<CANTalon>(Arrays.asList(rightMotor1, rightMotor2, rightMotor3));
     List<CANTalon> leftMotorList = new ArrayList<CANTalon>(Arrays.asList(leftMotor1, leftMotor2, leftMotor3));
-    public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotorList, 2.0, "right drive");
-    public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotorList, 2.0, "left drive");
+	//TODO:  Fix MotorGroupCurrentTrigger
+//    public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotorList, 2.0, "right drive");
+//    public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotorList, 2.0, "left drive");
         
     public DriveTrain() {
     	super();
@@ -113,12 +114,14 @@ public class DriveTrain extends Subsystem {
     
     public void leftCurrentProtection(){
     	//TODO: Verify that messages are printed when there is a motor error
-    	leftMotorsCurrentTrigger.whenActive(new LogMotorGroupOverCurrent(leftMotorsCurrentTrigger));
+    	//TODO:  Fix MotorGroupCurrentTrigger
+//    	leftMotorsCurrentTrigger.whenActive(new LogMotorGroupOverCurrent(leftMotorsCurrentTrigger));
     }
     
     public void rightCurrentProtection(){
     	//TODO: Verify that messages are printed when there is a motor error
-    	rightMotorsCurrentTrigger.whenActive(new LogMotorGroupOverCurrent(rightMotorsCurrentTrigger));
+    	//TODO:  Fix MotorGroupCurrentTrigger
+//    	rightMotorsCurrentTrigger.whenActive(new LogMotorGroupOverCurrent(rightMotorsCurrentTrigger));
     }
 
     /**
