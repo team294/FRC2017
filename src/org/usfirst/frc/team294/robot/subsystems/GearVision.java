@@ -54,9 +54,9 @@ public class GearVision extends Subsystem {
 			double[] tempWidth = table.getNumberArray("width", networkTableDefault);
 			tempXLength = tempXPos.length;
 			tempYLength = tempYPos.length;
-			tempAreaLength = tempXPos.length;
+			tempAreaLength = tempArea.length;
 			tempWidthLength = tempWidth.length;
-			tempHeightLength = tempArea.length;
+			tempHeightLength = tempHeight.length;
 			contours = new Contour[tempXLength];//Gives your contour array a length equal to the number of centerXs present in the Network Table
 			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength && tempHeightLength == tempWidthLength){
 				for (int i = 0; i < tempXLength; i++) {
