@@ -137,7 +137,7 @@ public class GearVision extends Subsystem {
 	public void callibrate() {
 		Contour[] targets = filterContours();
 		camHorizAngleOffsetDegrees = 90 - Math.atan(calibrationDistance/camOffset)*180/Math.PI - camHorizAngle*(targets[0].getXPos()/camPXWidth);
-		camHorizAngleOffsetDegrees = 90 - Math.atan(calibrationDistance/(calibrationHeight - camHeight))*180/Math.PI - camVertAngle*(targets[0].getYPos()/camPXHeight);
+		camVertAngleOffsetDegrees = 90 - Math.atan(calibrationDistance/(calibrationHeight - camHeight))*180/Math.PI - camVertAngle*(targets[0].getYPos()/camPXHeight);
 	}
 }
 
