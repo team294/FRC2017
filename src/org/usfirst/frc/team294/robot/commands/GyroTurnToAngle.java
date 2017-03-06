@@ -25,8 +25,8 @@ public class GyroTurnToAngle extends Command {
 	private ToleranceChecker tolCheck;
 	
 	// Turning parameters
-	private double kPangle = 0.025;
-	private double kIangle = 0.0;
+	private double kPangle = 0.015;
+	private double kIangle = 0.001;
 	private double kDangle = 0.05;
 	private double minSpeed = 0.25;
 
@@ -107,7 +107,7 @@ public class GyroTurnToAngle extends Command {
     		break;
     	case GEAR_VISION:
     		Robot.driveTrain.resetDegrees();
-    		angle = Robot.gearVision.getGearAngleOffset();
+    		angle = -Robot.gearVision.getGearAngleOffset();
         	if (angle == -500) SmartDashboard.putBoolean("Contours Found", false);
         		else SmartDashboard.putBoolean("Contours Found", true);
     		Robot.log.writeLogEcho("Gyro: Start turn to angle GEAR" + angle + " degrees.");
@@ -163,7 +163,7 @@ public class GyroTurnToAngle extends Command {
         	speedControl = (speedControl<-maxSpeed) ? -maxSpeed : speedControl;
         	SmartDashboard.putNumber("Turn Command", speedControl);
         	SmartDashboard.putNumber("Gear error", angleErr);
-        	//Robot.driveTrain.driveAtAngle(speedControl, 1);
+        	Robot.driveTrain.driveAtAngle(speedControl, 1);
         	
         	priorAngleErr = angleErr;
     	}

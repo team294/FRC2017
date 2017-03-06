@@ -50,9 +50,9 @@ public class AutoDriveAndGear extends CommandGroup {
             break;
         case middle:
         	// Turn using gear vision and then advance the final segment
-        	addSequential(new GyroTurnToAngle(0.4, 0.0, 4.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+        	addSequential(new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
         	addSequential(new WaitSeconds(0.2));
-        	addSequential(new DriveStraightDistance(0.4, -72, Units.inches, true, false));
+        	addSequential(new DriveStraightDistance(0.4, -38, Units.inches, true, true));
         	
 
 //            addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearMiddle)*0.65, Units.inches, false, true));

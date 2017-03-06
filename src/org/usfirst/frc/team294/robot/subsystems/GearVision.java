@@ -99,8 +99,8 @@ public class GearVision extends Subsystem {
 		//Gives the robot's angle of offset from the gear target in degrees
 		Contour[] targets = filterContours(); //Gets best two best contours
 		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
-		if (targets.length > 0 && targets[0].getArea() > 10) {numValid++; }
-		if (targets.length > 1 && targets[1].getArea() > 10) {numValid++; }
+		if (targets.length > 0 && targets[0].getArea() > 50) {numValid++; }
+		if (targets.length > 1 && targets[1].getArea() > 50) {numValid++; }
 		if (numValid == 2) {
 			gearAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
 		}
@@ -123,8 +123,8 @@ public class GearVision extends Subsystem {
 		double tACC = 1; //Proportion of the tape that is at or above our camera's center (if the camera is straight on)
 		Contour[] targets = filterContours(); //Gets best two best contours
 		int numValid = 0;
-		if (targets.length > 0 && targets[0].getArea() > 10) {numValid++; }
-		if (targets.length > 1 && targets[1].getArea() > 10) {numValid++; }
+		if (targets.length > 0 && targets[0].getArea() > 50) {numValid++; }
+		if (targets.length > 1 && targets[1].getArea() > 50) {numValid++; }
 		if (numValid == 2) {
 		distance = heightOfTape*tACC/Math.tan((camVertAngle*(targets[0].getHeight() + targets[1].getHeight())/2/camPXHeight)*Math.PI/180); //in inches (faster)
 		}
