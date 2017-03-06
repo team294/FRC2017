@@ -8,6 +8,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.ClimbSetToSpeed;
 import org.usfirst.frc.team294.robot.commands.IntakeSetToSpeed;
+import org.usfirst.frc.team294.robot.commands.LogMotorGroupOverCurrent;
 import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 import org.usfirst.frc.team294.robot.triggers.MotorGroupCurrentTrigger;
 
@@ -35,8 +36,11 @@ public class Intake extends Subsystem {
     
 	//Current Protection
 	public final MotorCurrentTrigger intakeCurrentTrigger = new MotorCurrentTrigger(intakeMotor, 22, 3);
+	//TODO:  Decide on current limits for climb motors
+	public final MotorCurrentTrigger climb1CurrentTrigger = new MotorCurrentTrigger(climbMotor1, 40, 3);
+	public final MotorCurrentTrigger climb2CurrentTrigger = new MotorCurrentTrigger(climbMotor1, 40, 3);
 	List<CANTalon> climbMotors = new ArrayList<CANTalon>(Arrays.asList(climbMotor1, climbMotor2));
-	public final MotorGroupCurrentTrigger climbCurrentTrigger = new MotorGroupCurrentTrigger(climbMotors, 40, 2);
+	public final MotorGroupCurrentTrigger climbGroupCurrentTrigger = new MotorGroupCurrentTrigger(climbMotors, 2, "climb");
 
     // Control variables for mechanical interlock
     public static enum Status {
@@ -73,7 +77,9 @@ public class Intake extends Subsystem {
 	 */
 	public void intakeCurrentProtection() {
 		intakeCurrentTrigger.whenActive(new IntakeSetToSpeed(0.0));
-		climbCurrentTrigger.whenActive(new ClimbSetToSpeed(0.0));
+		climb1CurrentTrigger.whenActive(new ClimbSetToSpeed(0.0));
+		climb2CurrentTrigger.whenActive(new ClimbSetToSpeed(0.0));
+		climbGroupCurrentTrigger.whenActive(new LogMotorGroupOverCurrent(climbGroupCurrentTrigger));
 	}
 	
 	/**

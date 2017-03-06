@@ -8,6 +8,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.DriveStop;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
+import org.usfirst.frc.team294.robot.commands.LogMotorGroupOverCurrent;
 import org.usfirst.frc.team294.robot.triggers.MotorGroupCurrentTrigger;
 
 import com.ctre.CANTalon;
@@ -51,8 +52,8 @@ public class DriveTrain extends Subsystem {
     //Current protection
     List<CANTalon> rightMotorList = new ArrayList<CANTalon>(Arrays.asList(rightMotor1, rightMotor2, rightMotor3));
     List<CANTalon> leftMotorList = new ArrayList<CANTalon>(Arrays.asList(leftMotor1, leftMotor2, leftMotor3));
-    public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotorList, 20, 2.0);
-    public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotorList, 20, 2.0);
+    public final MotorGroupCurrentTrigger rightMotorsCurrentTrigger = new MotorGroupCurrentTrigger(rightMotorList, 2.0, "right drive");
+    public final MotorGroupCurrentTrigger leftMotorsCurrentTrigger = new MotorGroupCurrentTrigger(leftMotorList, 2.0, "left drive");
         
     public DriveTrain() {
     	super();
@@ -111,25 +112,13 @@ public class DriveTrain extends Subsystem {
     }
     
     public void leftCurrentProtection(){
-    	//TODO: ADDRESSED. Fix trigger code for current protection.
-    	//The code probably should be something like "leftMotorsCurrentTrigger.whenActive(new commandToRun());"
-    	//See the POV code in OI.java for trigger examples.
-    	if(leftMotorsCurrentTrigger.get()){
-    		leftMotorsCurrentTrigger.printBadMotors();
-    		SmartDashboard.putBoolean("Left motors are screwed", true);
-    	}
-    	leftMotorsCurrentTrigger.whileActive(new DriveStop());//TODO Diagnostic use only, we need to figure out what to do if a motor burns out in the drivetrain
+    	//TODO: Verify that messages are printed when there is a motor error
+    	leftMotorsCurrentTrigger.whenActive(new LogMotorGroupOverCurrent(leftMotorsCurrentTrigger));
     }
     
     public void rightCurrentProtection(){
-    	//TODO: ADDRESSED. Fix trigger code for current protection.
-    	//The code probably should be something like "leftMotorsCurrentTrigger.whenActive(new commandToRun());"
-    	//See the POV code in OI.java for trigger examples.
-    	if(leftMotorsCurrentTrigger.get()){
-    		rightMotorsCurrentTrigger.printBadMotors();
-    		SmartDashboard.putBoolean("Right motors are screwed", true);
-    	}
-    	rightMotorsCurrentTrigger.whileActive(new DriveStop()); //TODO Diagnostic use only, we need to figure out what to do if a motor burns out in the drivetrain
+    	//TODO: Verify that messages are printed when there is a motor error
+    	rightMotorsCurrentTrigger.whenActive(new LogMotorGroupOverCurrent(rightMotorsCurrentTrigger));
     }
 
     /**
