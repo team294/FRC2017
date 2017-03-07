@@ -131,7 +131,10 @@ public class OI {
 	    for (int i = 1; i < left.length; i++) {
 	    	left[i] = new JoystickButton(leftJoystick, i);
 	    	right[i] = new JoystickButton(rightJoystick, i);
-	    	if (i == 3) {
+	    	if (i == 10) {
+	    		right[i].whenPressed(new GyroTurnToAngle(0.8, 0.0, 1.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+	    		left[i].whenPressed(new GyroTurnToAngle(0.8, 0.0, 1.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+	    	} else if (i == 3) {
 	    		right[i].whenPressed(new SwitchDriveDirection(true));
 	    		left[i].whenPressed(new SwitchDriveDirection(false));
 	    	} else {
@@ -224,9 +227,9 @@ public class OI {
 	    SmartDashboard.putData("Deploy Intake and Hopper", new DeployIntakeAndHopper());
 	    
 	    // Autonomous Command Testing
-//	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGear(StartPositions.left));
-//	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGear(StartPositions.right));
-//	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGear(StartPositions.middle)); 
+	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGear(StartPositions.left));
+	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGear(StartPositions.right));
+	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGear(StartPositions.middle)); 
 	    SmartDashboard.putData("Autonomous from Knobs", new AutoCommandFromKnobs());
 	    SmartDashboard.putData("Drive forwards testtesttesttest", new DriveStraightDistance(0.4, 93.0, Units.inches, false, true));
 	    

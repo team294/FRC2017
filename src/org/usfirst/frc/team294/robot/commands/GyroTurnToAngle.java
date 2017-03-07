@@ -25,9 +25,9 @@ public class GyroTurnToAngle extends Command {
 	private ToleranceChecker tolCheck;
 	
 	// Turning parameters
-	private double kPangle = 0.015;
-	private double kIangle = 0.001;
-	private double kDangle = 0.05;
+	private double kPangle = 0.04;
+	private double kIangle = 0.002;
+	private double kDangle = 0.25;
 	private double minSpeed = 0.25;
 
 	// Local variables
@@ -108,8 +108,10 @@ public class GyroTurnToAngle extends Command {
     	case GEAR_VISION:
     		Robot.driveTrain.resetDegrees();
     		angle = -Robot.gearVision.getGearAngleOffset();
-        	if (angle == -500) SmartDashboard.putBoolean("Contours Found", false);
-        		else SmartDashboard.putBoolean("Contours Found", true);
+        	if (!Robot.gearVision.isGearAngleValid())
+        		SmartDashboard.putBoolean("Contours Found", false);
+        	else
+        		SmartDashboard.putBoolean("Contours Found", true);
     		Robot.log.writeLogEcho("Gyro: Start turn to angle GEAR" + angle + " degrees.");
     		break;
     	case BOILER_VISION:

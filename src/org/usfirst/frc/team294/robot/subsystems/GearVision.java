@@ -14,6 +14,7 @@ public class GearVision extends Subsystem {
 	double[] networkTableDefault = new double[] { -1.0 };
 
 	double gearAngleOffset, distance;
+    boolean foundContours = false;
 
 	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
 	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera pixel length
@@ -21,7 +22,7 @@ public class GearVision extends Subsystem {
 	double camHorizAngle = (camPXWidth / camPXDiagonal) * camDiagonalAngle; //Horizontal camera aperture angle
 	double camOffset = 5.75; //Camera horizontal offset from center of robot
 	double camHeight = 0; //Camera height off of the ground
-    double camHorizAngleOffsetDegrees = -3.8; //Horizontal angle offset of camera
+    double camHorizAngleOffsetDegrees = -2.3; //Horizontal angle offset of camera
     double camVertAngleOffsetDegrees = -3.8;  //Vertical angle offset of camera
     
     //Calibration Variables [start]
@@ -64,7 +65,7 @@ public class GearVision extends Subsystem {
 				}
 				break;
 			}
-		}//End of the continuous loop to make the contour array
+		}// End of the continuous loop to make the contour array
 
 		for (int a = 0; a < contours.length; a++) {
 			//if (contours[a].isEliminated()) {continue; } // If the contour at a is already eliminated, skip it
@@ -76,7 +77,7 @@ public class GearVision extends Subsystem {
 				}
 			}
 		}
-		//Find two largest remaining contours and return them
+		// Find two largest remaining contours and return them
 		Contour[] bestContours = {new Contour(), new Contour()};
 		for (int i = 0; i < contours.length; i++) {
 			if (contours[i].isEliminated()) {continue; } //If the contour is already eliminated, skip it
@@ -101,16 +102,21 @@ public class GearVision extends Subsystem {
 		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
 		if (targets.length > 0 && targets[0].getArea() > 50) {numValid++; }
 		if (targets.length > 1 && targets[1].getArea() > 50) {numValid++; }
+		foundContours = numValid > 0;
 		if (numValid == 2) {
 			gearAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
-		}
-		else if (numValid == 1) {
+		} else if (numValid == 1) {
 			//targets[0].getWidth()*5.25/2 adds theoretical number of pixels to center of gear target
 			gearAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[0].getWidth()*5.25/2))/camPXWidth * camHorizAngle; //in degrees
-		}
-		else { return 0; } //Return -500 if there are no "valid" contours (see numValid assignment)
-		gearAngleOffset = Math.atan(camOffset/getGearDistance() + Math.tan(gearAngleOffset*Math.PI/180))*180/Math.PI; //Adjusts angle for when the camera is not centered on the robot
+		} else {
+		    return 0;
+		} 
+		gearAngleOffset = Math.atan(camOffset/getGearDistance(targets) + Math.tan(gearAngleOffset*Math.PI/180))*180/Math.PI; //Adjusts angle for when the camera is not centered on the robot
 		return gearAngleOffset + camHorizAngleOffsetDegrees;
+	}
+	
+	public boolean isGearAngleValid() {
+		return foundContours;
 	}
 
 	/**
@@ -118,17 +124,26 @@ public class GearVision extends Subsystem {
 	 * @return distance in inches
 	 */
 	public double getGearDistance() {
+		return getGearDistance(filterContours());
+	}
+	
+	/**
+	 * Gets the distance of the robot from the gear target
+	 * targets - array of at most two contours representing the two targets to
+	 *           use in distance computation.
+	 * @return distance in inches
+	 */
+	public double getGearDistance(Contour[] targets) {
 		//Gives the distance of the robot from the gear target if our camera's center is at the same elevation as the center of the gear tape
 		int heightOfTape = 5; //Height of the tape on the gear lift
 		double tACC = 1; //Proportion of the tape that is at or above our camera's center (if the camera is straight on)
-		Contour[] targets = filterContours(); //Gets best two best contours
 		int numValid = 0;
 		if (targets.length > 0 && targets[0].getArea() > 50) {numValid++; }
 		if (targets.length > 1 && targets[1].getArea() > 50) {numValid++; }
+		foundContours = numValid > 0;
 		if (numValid == 2) {
-		distance = heightOfTape*tACC/Math.tan((camVertAngle*(targets[0].getHeight() + targets[1].getHeight())/2/camPXHeight)*Math.PI/180); //in inches (faster)
-		}
-		else if (numValid  ==  1) {
+		    distance = heightOfTape*tACC/Math.tan((camVertAngle*(targets[0].getHeight() + targets[1].getHeight())/2/camPXHeight)*Math.PI/180); //in inches (faster)
+		} else if (numValid  ==  1) {
 			distance = heightOfTape*tACC/Math.tan((camVertAngle*targets[0].getHeight()/camPXHeight)*Math.PI/180); //in inches (faster)
 		}
 		return distance;
