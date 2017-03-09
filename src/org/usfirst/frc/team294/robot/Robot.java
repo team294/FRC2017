@@ -213,14 +213,14 @@ public class Robot extends IterativeRobot {
 		oi.readBottomKnobRaw();
 		oi.readMiddleKnobRaw();
 
-		if (false) {//(teleopTime.get() - startTime) >= 300) { //auto stops all non drive train motors after set time
+/*		if (false) {//(teleopTime.get() - startTime) >= 300) { //auto stops all non drive train motors after set time
 			Robot.shooter.stop();
 	    	Robot.ballFeed.stop();
 	    	Robot.intake.stopIntake();
 	    	Robot.intake.stopClimber();	
 			Robot.log.writeLogEcho("All Motors Timedout Renable to Reset");
 	    	
-	    }
+	    }*/
 	}
 
 	/**
