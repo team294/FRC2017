@@ -137,9 +137,11 @@ public class Robot extends IterativeRobot {
     	Robot.intake.stopClimber();
     	Robot.driveTrain.stop();
     	
-    	//SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub2", driveTrain.getGyroAngle());
-		SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
-		SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
+	    if (Robot.smartDashboardDebug) {
+	    	//SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub2", driveTrain.getGyroAngle());
+			SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
+			SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
+	    }
 
 		teleopTime.reset();
 	}
@@ -196,20 +198,23 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();	
-		//for testing purposes 
-		driveTrain.updateSmartDashboardEncoders();
-		boilerVision.updateSmartDashboard();
-		//driveTrain.logTalonStatus();
+		
+	    if (Robot.smartDashboardDebug) {
+		    //for testing purposes 
+			driveTrain.updateSmartDashboardEncoders();
+			boilerVision.updateSmartDashboard();
+			//driveTrain.logTalonStatus();
 
-		SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
-		SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
-		
-		shooter.updateSmartDashboard(); 
+			SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
+			SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
+			
+			shooter.updateSmartDashboard(); 
+			intake.updateSmartDashboard();
+//			intake.logIntakeStatus();
+        }
+
 		shooter.periodicSetF();
-		
-		intake.updateSmartDashboard();
-//		intake.logIntakeStatus();
-		
+
 		oi.readBottomKnobRaw();
 		oi.readMiddleKnobRaw();
 
