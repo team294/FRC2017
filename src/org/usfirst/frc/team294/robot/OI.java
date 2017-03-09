@@ -8,9 +8,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap.StartPositions;
+import org.usfirst.frc.team294.robot.RobotMap.*;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
+import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.Units;
 import org.usfirst.frc.team294.robot.triggers.AxisTrigger;
 import org.usfirst.frc.team294.robot.triggers.POVTrigger;
 
@@ -89,12 +90,15 @@ public class OI {
 			// Declare commands for the top knob here
 	};
 	
-	Command[] MiddleKnobCommands = new Command[] {
-			// Declare commands for the middle knob here
+	Teams[] middleKnobTeam = {
+			Teams.blue, Teams.red, Teams.noBoilerShooting, Teams.noBoilerShooting, Teams.noBoilerShooting
 	};
 	
-	Command[] BottomKnobCommands = new Command[] {
-			// Declare commands for the bottom knob here
+	StartPositions[] bottomKnobStartPosition = {
+			StartPositions.left, StartPositions.middle, StartPositions.right,
+			StartPositions.baselineOnly, StartPositions.baselineOnly, StartPositions.baselineOnly,
+			StartPositions.baselineOnly, StartPositions.baselineOnly, StartPositions.baselineOnly,
+			StartPositions.baselineOnly, StartPositions.baselineOnly, StartPositions.baselineOnly
 	};
 	
 	// Joysticks
@@ -127,9 +131,18 @@ public class OI {
 	    for (int i = 1; i < left.length; i++) {
 	    	left[i] = new JoystickButton(leftJoystick, i);
 	    	right[i] = new JoystickButton(rightJoystick, i);
-	    	if (i == 3) {
+	    	if (i == 1) {
+	    		right[i].whenPressed(new GyroTurnToAngle(0.8, 0.0, 1.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+	    		left[i].whenPressed(new GyroTurnToAngle(0.8, 0.0, 1.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+	    	} else if (i == 3) {
 	    		right[i].whenPressed(new SwitchDriveDirection(true));
 	    		left[i].whenPressed(new SwitchDriveDirection(false));
+	    	} else if (i == 2) {
+	    		right[i].whenPressed(new DriveStraightDistance(.4, -32, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
+	    		left[i].whenPressed(new DriveStraightDistance(.4, -32, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
+	    	} else if (i == 4 || i == 5) {
+	    		right[i].whenPressed(new DriveWithJoysticks());
+	    		left[i].whenPressed(new DriveWithJoysticks());
 	    	} else {
 	    		right[i].whenPressed(new ShiftUp());
 	    		left[i].whenPressed(new ShiftDown());
@@ -152,7 +165,6 @@ public class OI {
 	    
 	    // Bind commands to the codriver panel switches
 	    coP[1].whenPressed(new StopAllMotors());
-//	    coP[2].whenPressed(new PrepareToClimb());
 	    coP[2].whenPressed(new ClimbSequenceStart());
 	    //coP[3].whenPressed(new StartManualClimbControl());
 	    coP[4].whenPressed(new ShooterSetRPM(Robot.shootSpeedLowRPM));
@@ -165,11 +177,9 @@ public class OI {
 	    coP[9].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
 	    coP[10].whenPressed(new MoveGearGate(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
-	    coP[12].whenPressed(new DeployIntakeAndHopper());
-	    coP[13].whenPressed(new MoveShooterHood(false));
-	    coP[14].whenPressed(new MoveShooterHood(true));
-//	    coP[13].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
-//	    coP[14].whenPressed(new StowIntakeAndHopper()); //for testing can be reset when we get a shooter hood
+	    coP[12].whenPressed(new MoveHopperIfSafe(false));
+	    coP[13].whenPressed(new StowIntakeAndHopper()); //for testing can be reset when we get a shooter hood
+	    coP[14].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
 	    
 	    // Xbox controller buttons
 	    xbB[1].whenPressed(new MoveGearGate(true));
@@ -223,6 +233,8 @@ public class OI {
 	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGear(StartPositions.left));
 	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGear(StartPositions.right));
 	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGear(StartPositions.middle)); 
+	    SmartDashboard.putData("Autonomous from Knobs", new AutoCommandFromKnobs());
+	    SmartDashboard.putData("Drive forwards testtesttesttest", new DriveStraightDistance(0.4, 93.0, Units.inches, false, true));
 	    
 	    // Shooter controls
 	    SmartDashboard.putData("Set Shooter RPM Low", new ShooterSetToRPMFromSmartDashboardLow());
@@ -311,17 +323,22 @@ public class OI {
 			if (knobReading2 < middleKnobThreshold[i]) break;
 		}
 		
+		SmartDashboard.putNumber("Middle knob", i);
 		return i;
 	}
 	
-	/**
-	 * Reads the middle knob.
-	 * @return OI.MiddleKnobPositions
-	 */
 	public MiddleKnob readMiddleKnob(){
 		return MiddleKnobPositions[readMiddleKnobRaw()];
 	}		 
 	     
+	/**
+	 * Reads the middle knob and returns the selected team (RobotMap.Teams).
+	 * @return Selected RobotMap.Team
+	 */
+	public Teams readMiddleKnobTeam() {
+		return middleKnobTeam[ readMiddleKnobRaw() ];
+	}
+
 	/**
 	 * Reads the bottom knob.
 	 * @return Raw position 0 (full ccw) to 11 (full cw)
@@ -336,6 +353,7 @@ public class OI {
 			if (knobReading < knobThreshold[i]) break;
 		}
         
+		SmartDashboard.putNumber("Bottom knob", i);
 		if (i == len) return len - 1;
 		return i;
 	}
@@ -348,13 +366,21 @@ public class OI {
 		return BottomKnobPositions[readBottomKnobRaw()];
 	}
 	
+	/**
+	 * Reads the bottom knob.
+	 * @return RobotMap.StartPosition
+	 */
+	public StartPositions readBottomKnobStartPosition() {
+		return bottomKnobStartPosition[readBottomKnobRaw()];
+	}
+	
 	// The getMiddleKnobCommand() can be replicated for other knobs that need to be read for commands
 	
 	/**
 	 * Get the command based on the position of the middle knob 
 	 * @return Command
 	 */
-	public Command getMiddleKnobCommand() {
+/*	public Command getMiddleKnobCommand() {
 		int i = readMiddleKnobRaw();
 		if (i < MiddleKnobCommands.length) {
 			return MiddleKnobCommands[i];
@@ -362,6 +388,7 @@ public class OI {
 			return null;
 		}			
 	} 
+*/
 	
 	/**
 	 * Sets the drive direction

@@ -24,6 +24,8 @@ public class AutoScoreBoiler extends CommandGroup {
 
     	Robot.log.writeLog("Auonomous: Starting Score Command for " + team + "and" + position);
     	
+    	if (team == Teams.noBoilerShooting) return;
+    	
     	// Rev up the shooter and back off of the gear peg
     	addSequential(new ShooterSetRPM(11000));
     	addSequential(new DriveStraightDistance(1.0, 26.0, DriveMode.RELATIVE, Units.inches));
@@ -45,6 +47,8 @@ public class AutoScoreBoiler extends CommandGroup {
     		case right:
     			// Nothing is done on red right
     	      	break;
+			default:
+				break;
     		}
     	} else {
     		switch(position) {
@@ -61,6 +65,8 @@ public class AutoScoreBoiler extends CommandGroup {
     	      	addSequential(new GyroTurnToAngle(1, 130, 0, TurnMode.RELATIVE));
     	      	addSequential(new WaitSeconds(.2));
     	      	break;
+			default:
+				break;
     		}
     	}
     	

@@ -5,11 +5,11 @@ import org.usfirst.frc.team294.utilities.ToleranceChecker;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.Units;
 /**
  *
  */
-public class DriveStraightDistance extends Command {
+public class DriveNotStraightDistance extends Command {
 
 	// Available drive modes
 	public enum DriveMode {
@@ -17,7 +17,7 @@ public class DriveStraightDistance extends Command {
 	}
 	// Commented-out drive modes:  ULTRASONIC, ULTRASONIC_SMARTDASHBOARD
 	
-	public enum Units {rotations, inches};
+	//public enum Units {rotations, inches};
 	
 	// Settings from command initialization
 	private DriveMode driveMode;
@@ -31,7 +31,7 @@ public class DriveStraightDistance extends Command {
 	
     // Steering settings, also copied from 2016 code. May need to be changed
     private double angleErr, curve;
-    private double kPangle = 0.025;
+    private double kPangle = 25.0;
     private double kIangle = 0.0;
     private double kDangle = 0.05;
     private double intErr = 0.0;
@@ -53,17 +53,17 @@ public class DriveStraightDistance extends Command {
 	 * Drive the robot forward, using the NavX to adjust angle, using default tolerance (0.5")
 	 * @param speed from 0 to +1.0, minimum 0.25
  	 * @param distance in units per the "units" parameter, + = forward, - = reverse
-     * @param driveMode : (DriveStraightDistance.DriveMode)
+     * @param driveMode : (DriveNotStraightDistance.DriveMode)
      * <li><b>RELATIVE</b> = Reset encoders, drive <b>distance</b> <b>units</b> from current location</li>
      * <li><b>ABSOLUTE</b> = Drive <b>distance</b> <b>units</b> from prior location zero (don't reset encoders)</li>
      * <li><b>GEAR_VISION</b> = Reset encoders, drive per gear camera (ignore <b>distance</b>)</li>
      * <li><b>BOILER_VISION</b> = Reset encoders, drive per boiler camera (ignore <b>distance</b>)</li>
      * <li><b>SMARTDASHBOARD</b> = Reset encoders, drive per smartdashboard data (ignore <b>distance</b> and <b>speed</b>)</li>
      * <li><b>BOILER_SMARTDASHBOARD</b> = Reset encoders, drive until <b>distance</b> away from boiler (ignore <b>distance</b> and <b>speed</b>)</li></ul>
-	 * @param units either inches or revolutions of the encoder (DriveStraightDistance.Units)
+	 * @param units either inches or revolutions of the encoder (DriveNotStraightDistance.Units)
  	 * @param precise true = drive to within "distance  +/- tolerance", false = drive at least to "distance - tolerance" but OK to overshoot (less accurate but faster)  
      */
-    public DriveStraightDistance(double speed, double distance, DriveMode driveMode, Units units, boolean precise) {
+    public DriveNotStraightDistance(double speed, double distance, DriveMode driveMode, Units units, boolean precise) {
         requires(Robot.driveTrain);
         if (driveMode == DriveMode.GEAR_VISION) {
     		requires(Robot.gearVision);
@@ -82,18 +82,18 @@ public class DriveStraightDistance extends Command {
 	 * Drive the robot forward, using the NavX to adjust angle
 	 * @param speed from 0 to +1.0, minimum 0.25
  	 * @param distance in units per the "units" parameter, + = forward, - = reverse
-     * @param driveMode : (DriveStraightDistance.DriveMode)
+     * @param driveMode : (DriveNotStraightDistance.DriveMode)
      * <li><b>RELATIVE</b> = Reset encoders, drive <b>distance</b> <b>units</b> from current location</li>
      * <li><b>ABSOLUTE</b> = Drive <b>distance</b> <b>units</b> from prior location zero (don't reset encoders)</li>
      * <li><b>GEAR_VISION</b> = Reset encoders, drive per gear camera (ignore <b>distance</b>)</li>
      * <li><b>BOILER_VISION</b> = Reset encoders, drive per boiler camera (ignore <b>distance</b>)</li>
      * <li><b>SMARTDASHBOARD</b> = Reset encoders, drive per smartdashboard data (ignore <b>distance</b> and <b>speed</b>)</li>
      * <li><b>BOILER_SMARTDASHBOARD</b> = Reset encoders, drive until <b>distance</b> away from boiler (ignore <b>distance</b> and <b>speed</b>)</li></ul>
-	 * @param units either inches or revolutions of the encoder (DriveStraightDistance.Units)
+	 * @param units either inches or revolutions of the encoder (DriveNotStraightDistance.Units)
  	 * @param precise true = drive to within "distance  +/- tolerance", false = drive at least to "distance - tolerance" but OK to overshoot (less accurate but faster)  
  	 * @param tolerance in units per the "units" parameter
      */
-    public DriveStraightDistance(double speed, double distance, DriveMode driveMode, Units units, boolean precise, double tolerance) {
+    public DriveNotStraightDistance(double speed, double distance, DriveMode driveMode, Units units, boolean precise, double tolerance) {
     	this(speed, distance, driveMode, units, precise);
 
     	distTol = (units == Units.rotations) ? Math.abs(tolerance) : Math.abs(tolerance) / Robot.inchesPerRevolution;
@@ -104,16 +104,16 @@ public class DriveStraightDistance extends Command {
 	 * Drive the robot forward, using the NavX to adjust angle, using default tolerance and precisely achieved distance within the tolerance (0.5")
 	 * @param speed from 0 to +1.0, minimum 0.25
  	 * @param distance in units per the "units" parameter, + = forward, - = reverse
-     * @param driveMode : (DriveStraightDistance.DriveMode) <ul>
+     * @param driveMode : (DriveNotStraightDistance.DriveMode) <ul>
      * <li><b>RELATIVE</b> = Reset encoders, drive <b>distance</b> <b>units</b> from current location</li>
      * <li><b>ABSOLUTE</b> = Drive <b>distance</b> <b>units</b> from prior location zero (don't reset encoders)</li>
      * <li><b>GEAR_VISION</b> = Reset encoders, drive per gear camera (ignore <b>distance</b>)</li>
      * <li><b>BOILER_VISION</b> = Reset encoders, drive per boiler camera (ignore <b>distance</b>)</li>
      * <li><b>SMARTDASHBOARD</b> = Reset encoders, drive per smartdashboard data (ignore <b>distance</b> and <b>speed</b>)</li>
      * <li><b>BOILER_SMARTDASHBOARD</b> = Reset encoders, drive until <b>distance</b> away from boiler (ignore <b>distance</b> and <b>speed</b>)</li></ul>
-	 * @param units either inches or revolutions of the encoder (DriveStraightDistance.Units)
+	 * @param units either inches or revolutions of the encoder (DriveNotStraightDistance.Units)
      */
-    public DriveStraightDistance(double speed, double distance, DriveMode driveMode, Units units) {
+    public DriveNotStraightDistance(double speed, double distance, DriveMode driveMode, Units units) {
     	this(speed, distance, driveMode, units, true);
     }
 
@@ -121,11 +121,11 @@ public class DriveStraightDistance extends Command {
      * Drive the robot forward, using the NavX to adjust angle, using default tolerance (0.5")
      * @param speed from 0 to +1, minimum 0.25
  	 * @param distance in units per the "units" parameter, + = forward, - = reverse
-	 * @param units either inches or revolutions of the encoder (DriveStraightDistance.Units)
+	 * @param units either inches or revolutions of the encoder (DriveNotStraightDistance.Units)
  	 * @param precise true = drive to within "distance  +/- tolerance", false = drive at least to "distance - tolerance" but OK to overshoot (less accurate but faster)  
      * @param resetEncoders true to reset encoders on start, false to leave encoders alone. False means cumulative distance.
      */
-    public DriveStraightDistance(double speed, double distance, Units units, boolean precise, boolean resetEncoders) {
+    public DriveNotStraightDistance(double speed, double distance, Units units, boolean precise, boolean resetEncoders) {
     	this(speed, distance, resetEncoders ? DriveMode.RELATIVE : DriveMode.ABSOLUTE, units, precise);
     }
     
