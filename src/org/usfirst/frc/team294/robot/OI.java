@@ -131,7 +131,7 @@ public class OI {
 	    for (int i = 1; i < left.length; i++) {
 	    	left[i] = new JoystickButton(leftJoystick, i);
 	    	right[i] = new JoystickButton(rightJoystick, i);
-	    	if (i == 10) {
+	    	if (i == 1) {
 	    		right[i].whenPressed(new GyroTurnToAngle(0.8, 0.0, 1.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
 	    		left[i].whenPressed(new GyroTurnToAngle(0.8, 0.0, 1.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
 	    	} else if (i == 3) {
@@ -140,6 +140,9 @@ public class OI {
 	    	} else if (i == 2) {
 	    		right[i].whenPressed(new DriveStraightDistance(.4, -32, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
 	    		left[i].whenPressed(new DriveStraightDistance(.4, -32, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
+	    	} else if (i == 4 || i == 5) {
+	    		right[i].whenPressed(new DriveWithJoysticks());
+	    		left[i].whenPressed(new DriveWithJoysticks());
 	    	} else {
 	    		right[i].whenPressed(new ShiftUp());
 	    		left[i].whenPressed(new ShiftDown());
@@ -162,7 +165,6 @@ public class OI {
 	    
 	    // Bind commands to the codriver panel switches
 	    coP[1].whenPressed(new StopAllMotors());
-//	    coP[2].whenPressed(new PrepareToClimb());
 	    coP[2].whenPressed(new ClimbSequenceStart());
 	    //coP[3].whenPressed(new StartManualClimbControl());
 	    coP[4].whenPressed(new ShooterSetRPM(Robot.shootSpeedLowRPM));
@@ -175,11 +177,9 @@ public class OI {
 	    coP[9].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
 	    coP[10].whenPressed(new MoveGearGate(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
-	    coP[12].whenPressed(new DeployIntakeAndHopper());
-	    coP[13].whenPressed(new MoveShooterHood(false));
-	    coP[14].whenPressed(new MoveShooterHood(true));
-//	    coP[13].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
-//	    coP[14].whenPressed(new StowIntakeAndHopper()); //for testing can be reset when we get a shooter hood
+	    coP[12].whenPressed(new MoveHopperIfSafe(false));
+	    coP[13].whenPressed(new StowIntakeAndHopper()); //for testing can be reset when we get a shooter hood
+	    coP[14].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
 	    
 	    // Xbox controller buttons
 	    xbB[1].whenPressed(new MoveGearGate(true));

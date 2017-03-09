@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.DriveStop;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
 import org.usfirst.frc.team294.robot.commands.LogMotorGroupOverCurrent;
 import org.usfirst.frc.team294.robot.triggers.MotorGroupCurrentTrigger;

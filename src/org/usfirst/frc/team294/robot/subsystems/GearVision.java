@@ -5,7 +5,6 @@ import org.usfirst.frc.team294.utilities.Contour;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class GearVision extends Subsystem {
