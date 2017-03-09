@@ -25,13 +25,15 @@ public class GyroTurnToAngle extends Command {
 	private ToleranceChecker tolCheck;
 	
 	// Turning parameters
-	private double kPangle = 0.025;
-	private double kDangle = 0.05;
+	private double kPangle = 0.04;
+	private double kIangle = 0.002;
+	private double kDangle = 0.25;
 	private double minSpeed = 0.25;
 
 	// Local variables
 	private double angleErr;
-	private double priorAngleErr;
+	private double priorAngleErr = 0.0;
+	private double intErr = 0.0;
 	private double speedControl;
 
     /**
@@ -59,7 +61,7 @@ public class GyroTurnToAngle extends Command {
 		angle = angle - Math.floor(angle/360)*360;  // Normalize to 0 to 360 degrees
         angle = (angle > 180) ? angle - 360 : angle;  // Normalize to -180 to +180 degrees
     	this.angle = angle;
-
+    	
     	// Limit speed range
     	speed = Math.abs(speed);
     	speed = (speed > 1) ? 1 : speed;
@@ -105,9 +107,11 @@ public class GyroTurnToAngle extends Command {
     		break;
     	case GEAR_VISION:
     		Robot.driveTrain.resetDegrees();
-    		angle = Robot.gearVision.getGearAngleOffset();
-        	if (angle == -500) SmartDashboard.putBoolean("Contours Found", false);
-        		else SmartDashboard.putBoolean("Contours Found", true);
+    		angle = -Robot.gearVision.getGearAngleOffset();
+        	if (!Robot.gearVision.isGearAngleValid())
+        		SmartDashboard.putBoolean("Contours Found", false);
+        	else
+        		SmartDashboard.putBoolean("Contours Found", true);
     		Robot.log.writeLogEcho("Gyro: Start turn to angle GEAR" + angle + " degrees.");
     		break;
     	case BOILER_VISION:
@@ -141,14 +145,14 @@ public class GyroTurnToAngle extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	angleErr = getAngleErr();
-    	
+    	intErr = intErr + angleErr*0.02;
     	tolCheck.check(Math.abs(angleErr));
     	
     	if (tolCheck.success()) {
     		Robot.driveTrain.stop();
     		Robot.log.writeLogEcho("Gyro: Turned to angle goal " + angle + ", final angle " + Robot.driveTrain.getGyroAngle());
     	} else {
-    		speedControl = angleErr*kPangle;
+    		speedControl = angleErr*kPangle + intErr*kIangle;
         	
         	if (speedControl>0) {
         		speedControl = (speedControl<minSpeed) ? minSpeed : speedControl;
@@ -159,7 +163,8 @@ public class GyroTurnToAngle extends Command {
         	speedControl += kDangle*(angleErr-priorAngleErr);
         	speedControl = (speedControl>maxSpeed) ? maxSpeed : speedControl;
         	speedControl = (speedControl<-maxSpeed) ? -maxSpeed : speedControl;
-
+        	SmartDashboard.putNumber("Turn Command", speedControl);
+        	SmartDashboard.putNumber("Gear error", angleErr);
         	Robot.driveTrain.driveAtAngle(speedControl, 1);
         	
         	priorAngleErr = angleErr;

@@ -3,6 +3,7 @@ package org.usfirst.frc.team294.robot;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team294.robot.subsystems.*;
+import org.usfirst.frc.team294.robot.commands.AutoGearAndScore;
 import org.usfirst.frc.team294.utilities.FileLog;
 
 /**
@@ -64,11 +66,9 @@ public class Robot extends IterativeRobot {
 	public static double verticalConveyorOutVolts;
 	public static double gearCamHorizOffsetInches; // Gear vision cam horizontal offset	
 
-	
-		
-		
+	// Variable for auto command
+	Command autonomousCommand;
 
-	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -136,7 +136,11 @@ public class Robot extends IterativeRobot {
     	Robot.intake.stopIntake();
     	Robot.intake.stopClimber();
     	Robot.driveTrain.stop();
-		
+    	
+    	//SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub2", driveTrain.getGyroAngle());
+		SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
+		SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
+
 		teleopTime.reset();
 	}
 
@@ -153,16 +157,14 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void autonomousInit() {
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
 		// schedule the autonomous command (example)
 		intake.updateConflicts();
 		log.writeLogEcho("Autonomous Mode Started");
+		
+		autonomousCommand = new AutoGearAndScore(oi.readMiddleKnobTeam(), oi.readBottomKnobStartPosition());
+
+		if (autonomousCommand != null)
+			autonomousCommand.start();
 	}
 
 	/**
@@ -183,6 +185,10 @@ public class Robot extends IterativeRobot {
 		log.writeLogEcho("Teleop Mode Started");
 		teleopTime.start();
 		startTime = teleopTime.get();
+		//SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub", driveTrain.getGyroAngle());
+		
+		//DeployIntakeAndHopper();
+		//ShooterSetRPM(Robot.shootHighSpeed);
 	}
 
 	/**
@@ -194,13 +200,18 @@ public class Robot extends IterativeRobot {
 		driveTrain.updateSmartDashboardEncoders();
 		boilerVision.updateSmartDashboard();
 		//driveTrain.logTalonStatus();
-		intake.updateSmartDashboardClimbMotorCurrent();
 
+		SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
+		SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
+		
 		shooter.updateSmartDashboard(); 
 		shooter.periodicSetF();
 		
 		intake.updateSmartDashboard();
 //		intake.logIntakeStatus();
+		
+		oi.readBottomKnobRaw();
+		oi.readMiddleKnobRaw();
 
 		if (false) {//(teleopTime.get() - startTime) >= 300) { //auto stops all non drive train motors after set time
 			Robot.shooter.stop();
@@ -223,7 +234,6 @@ public class Robot extends IterativeRobot {
 	 * Read the preferences from the RoboRio flash memory.
 	 * For any missing preferences, set the preference to default values.
 	 */
-	
 	public void readPreferences() {
 				//TODO:  Create function to read and set defaults for one number preference, then move most prefs
 				//  to calling this function.  This will eliminate much of the duplicate code below.
@@ -233,7 +243,7 @@ public class Robot extends IterativeRobot {
 				
 				if (robotPrefs.getDouble("inchesPerRev", 0) == 0) {
 					DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration.", true);
-					robotPrefs.putDouble("inchesPerRev", 18.0); //this needs to be changed when we find the new value
+					robotPrefs.putDouble("inchesPerRev", 12.5); //this needs to be changed when we find the new value
 				}
 				inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
 				
