@@ -115,12 +115,14 @@ public class AutoDriveAndGear extends CommandGroup {
         	addSequential(new MoveGearGate(true));
             break;
         case baselineOnly:
+        	addSequential(new DriveStraightDistance(0.4, -90, Units.inches, true, true));
         	break;
         }
         
         // Wait for human player to raise the gear/peg
         addSequential(new MoveGearGate(true));
-        addSequential(new WaitSeconds(2.5));
+        addSequential(new DeployIntakeAndHopper());
+        //addSequential(new ShooterSetRPM(Robot.shootHighSpeed));
     }
     
     // This should write to the file log when the command is called instead of when the robot powers up	

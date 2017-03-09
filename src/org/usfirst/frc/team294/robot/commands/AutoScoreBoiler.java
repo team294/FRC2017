@@ -47,6 +47,8 @@ public class AutoScoreBoiler extends CommandGroup {
     		case right:
     			// Nothing is done on red right
     	      	break;
+			default:
+				break;
     		}
     	} else {
     		switch(position) {
@@ -63,6 +65,8 @@ public class AutoScoreBoiler extends CommandGroup {
     	      	addSequential(new GyroTurnToAngle(1, 130, 0, TurnMode.RELATIVE));
     	      	addSequential(new WaitSeconds(.2));
     	      	break;
+			default:
+				break;
     		}
     	}
     	

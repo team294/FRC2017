@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team294.robot.subsystems.*;
-import org.usfirst.frc.team294.robot.RobotMap.*;
 import org.usfirst.frc.team294.robot.commands.AutoGearAndScore;
 import org.usfirst.frc.team294.utilities.FileLog;
 
@@ -187,6 +186,9 @@ public class Robot extends IterativeRobot {
 		teleopTime.start();
 		startTime = teleopTime.get();
 		//SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub", driveTrain.getGyroAngle());
+		
+		//DeployIntakeAndHopper();
+		//ShooterSetRPM(Robot.shootHighSpeed);
 	}
 
 	/**
