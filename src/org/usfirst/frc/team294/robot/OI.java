@@ -177,17 +177,9 @@ public class OI {
 	    coP[9].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
 	    coP[10].whenPressed(new MoveGearGate(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
-<<<<<<< HEAD
-	    coP[12].whenPressed(new DeployIntakeAndHopper());
-//	    coP[13].whenPressed(new MoveShooterHood(false));
-//	    coP[14].whenPressed(new MoveShooterHood(true));
-	    coP[13].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
-	    coP[14].whenPressed(new StowIntakeAndHopper()); //for testing can be reset when we get a shooter hood
-=======
 	    coP[12].whenPressed(new MoveHopperIfSafe(false));
 	    coP[13].whenPressed(new StowIntakeAndHopper()); //for testing can be reset when we get a shooter hood
 	    coP[14].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
->>>>>>> master
 	    
 	    // Xbox controller buttons
 	    xbB[1].whenPressed(new MoveGearGate(true));
