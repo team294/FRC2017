@@ -218,8 +218,8 @@ public class Robot extends IterativeRobot {
 	    	Robot.ballFeed.stop();
 	    	Robot.intake.stopIntake();
 	    	Robot.intake.stopClimber();	
-			Robot.log.writeLogEcho("All Motors Timedout Renable to Reset");
-	    	
+	    	System.out.println("All Motors Timed Out Reenable to Reset");
+
 	    }*/
 	}
 
