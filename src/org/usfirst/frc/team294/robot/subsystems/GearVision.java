@@ -14,6 +14,8 @@ public class GearVision extends Subsystem {
 
 	double gearAngleOffset, distance;
     boolean foundContours = false;
+    
+    double hardnessTol = .6; //Minimum allowed hardness for contour
 
 	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
 	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera pixel length
@@ -45,22 +47,25 @@ public class GearVision extends Subsystem {
 		}
 		Contour[] contours;
 		//Instantiate array of contours to be filtered
-		int tempXLength, tempYLength, tempAreaLength, tempWidthLength, tempHeightLength;
+		int tempXLength, tempYLength, tempAreaLength, tempWidthLength, tempHeightLength, tempHardnessLength;
 		while (true) { // Start of continuous loop to make the contour array
 			double[] tempXPos = table.getNumberArray("centerX",   networkTableDefault);
 			double[] tempYPos =  table.getNumberArray("centerY",   networkTableDefault);
 			double[] tempArea = table.getNumberArray("area",   networkTableDefault);
 			double[] tempHeight = table.getNumberArray("height", networkTableDefault);
 			double[] tempWidth = table.getNumberArray("width", networkTableDefault);
+			double[] tempHardness = table.getNumberArray("solidity", networkTableDefault);
 			tempXLength = tempXPos.length;
 			tempYLength = tempYPos.length;
 			tempAreaLength = tempArea.length;
 			tempWidthLength = tempWidth.length;
 			tempHeightLength = tempHeight.length;
+			tempHardnessLength= tempHardness.length;
 			contours = new Contour[tempXLength];//Gives your contour array a length equal to the number of centerXs present in the Network Table
-			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength && tempHeightLength == tempWidthLength){
+			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength &&
+			tempHeightLength == tempWidthLength && tempWidthLength == tempHardnessLength){
 				for (int i = 0; i < tempXLength; i++) {
-					contours[i] = new Contour(tempXPos[i], tempYPos[i], tempArea[i], tempHeight[i], tempWidth[i]);
+					contours[i] = new Contour(tempXPos[i], tempYPos[i], tempArea[i], tempHeight[i], tempWidth[i], tempHardness[i]);
 				}
 				break;
 			}
@@ -74,6 +79,11 @@ public class GearVision extends Subsystem {
 					if (contours[a].getArea() < contours[b].getArea()) {contours[a].eliminate();} //If the area of a < area of b, delete a
 					else {contours[b].eliminate();} //If the area of b <= the area of a, delete b
 				}
+			}
+		}
+		for (int i = 0; i < contours.length; i++) { //Filter for hardness
+			if (!contours[i].isEliminated() && contours[i].getHardness() < hardnessTol) {
+				contours[i].eliminate();
 			}
 		}
 		// Find two largest remaining contours and return them

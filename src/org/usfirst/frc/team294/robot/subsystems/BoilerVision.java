@@ -42,22 +42,25 @@ public class BoilerVision extends Subsystem {
 		}
 		Contour[] contours;
 		//Instantiate array of contours to be filtered
-		int tempXLength, tempYLength, tempAreaLength, tempWidthLength, tempHeightLength;
+		int tempXLength, tempYLength, tempAreaLength, tempWidthLength, tempHeightLength, tempHardnessLength;
 		while (true) { 
 			double[] tempXPos = table.getNumberArray("centerX",   networkTableDefault);
 			double[] tempYPos =  table.getNumberArray("centerY",   networkTableDefault);
 			double[] tempArea = table.getNumberArray("area",   networkTableDefault);
 			double[] tempHeight = table.getNumberArray("height", networkTableDefault);
 			double[] tempWidth = table.getNumberArray("width", networkTableDefault);
+			double[] tempHardness = table.getNumberArray("solidity", networkTableDefault);
 			tempXLength = tempXPos.length;
 			tempYLength = tempYPos.length;
 			tempAreaLength = tempArea.length;
 			tempWidthLength = tempWidth.length;
 			tempHeightLength = tempHeight.length;
+			tempHardnessLength = tempHardness.length;
 			contours = new Contour[tempXLength];
-			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength && tempHeightLength == tempWidthLength){
+			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength &&
+					tempHeightLength == tempWidthLength && tempWidthLength == tempHardnessLength){
 				for (int i = 0; i < tempXLength; i++) {
-					contours[i] = new Contour(tempXPos[i], tempYPos[i], tempArea[i], tempHeight[i], tempWidth[i]);
+					contours[i] = new Contour(tempXPos[i], tempYPos[i], tempArea[i], tempHeight[i], tempWidth[i], tempHardness[i]);
 				}
 				break;
 			}
