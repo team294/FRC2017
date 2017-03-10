@@ -34,7 +34,7 @@ public class AutoScoreBoiler extends CommandGroup {
     	// Turn according to the team colour and position
     	if (team == Teams.red) {
     		switch(position) {
-    		case left:
+    		case right:
     	    	addSequential(new DriveStraightDistance(1.0, 26.0, DriveMode.RELATIVE, Units.inches));
     	    	addSequential(new WaitSeconds(.2));
     	      	addSequential(new GyroTurnToAngle(1, -130, 0, TurnMode.RELATIVE));
@@ -44,7 +44,7 @@ public class AutoScoreBoiler extends CommandGroup {
     			addSequential(new GyroTurnToAngle(1, -75, 0, TurnMode.RELATIVE));
     	      	addSequential(new WaitSeconds(.2));
     	      	break;
-    		case right:
+    		case left:
     			// Nothing is done on red right
     	      	break;
 			default:
@@ -52,14 +52,14 @@ public class AutoScoreBoiler extends CommandGroup {
     		}
     	} else {
     		switch(position) {
-    		case left:
+    		case right:
     			// Nothing is done on blue left
     			break;
     		case middle:
     			addSequential(new GyroTurnToAngle(1, 75, 0, TurnMode.RELATIVE));
     	      	addSequential(new WaitSeconds(.2));
     	      	break;
-    		case right:
+    		case left:
     	    	addSequential(new DriveStraightDistance(1.0, 26.0, DriveMode.RELATIVE, Units.inches));
     	    	addSequential(new WaitSeconds(.2));
     	      	addSequential(new GyroTurnToAngle(1, 130, 0, TurnMode.RELATIVE));
