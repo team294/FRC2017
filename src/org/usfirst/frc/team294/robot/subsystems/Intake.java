@@ -159,7 +159,7 @@ public class Intake extends Subsystem {
      * Set the value of the hopper tracker in the code
      * @param position Intake.Positions.stowed,deployed,unknown
      */
-    public void setHopperTracker(Status position) {
+    public void setHopperTracker(Status position) {//TODO
     	hopperPos = position;
     	SmartDashboard.putString("Hopper status", 
     			(position == Status.stowed) ? "Stowed" :

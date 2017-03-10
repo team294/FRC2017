@@ -209,7 +209,7 @@ public class DriveTrain extends Subsystem {
      * Reads the value of the encoder on left motor 2
      * @return
      */
-    public double getLeftEncoder() {
+    public double getLeftEncoder() { //TODO 
     	SmartDashboard.putNumber("Left Position", leftMotor2.getPosition() - leftEncoderZero);
     	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
     	return leftMotor2.getPosition() - leftEncoderZero;
@@ -314,7 +314,7 @@ public class DriveTrain extends Subsystem {
 		
 		// Normalize to 0 to 360 degrees
 		angle = (angle + 360) % 360;
-		
+		//TODO
 		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
 		//Robot.log.writeLog("Gyro: Current Angle: " + angle);
 		

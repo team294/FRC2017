@@ -148,7 +148,7 @@ public class Shooter extends Subsystem {
 	 * Update the Smart Dashboard
 	 */
 	public void updateSmartDashboard() {
-		SmartDashboard.putNumber("Shooter Motor Speed", -shooterMotor1.getSpeed());
+//		SmartDashboard.putNumber("Shooter Motor Speed", -shooterMotor1.getSpeed());
 		SmartDashboard.putNumber("VBus - Voltage", (shooterMotor1.getBusVoltage() - Math.abs(shooterMotor1.getOutputVoltage())));
 		SmartDashboard.putNumber("Closed Loop Error", shooterMotor1.getSpeed() + setSpeed);  // actually difference
 		SmartDashboard.putNumber("VBus", shooterMotor1.getBusVoltage());
@@ -156,6 +156,14 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Shooter Motor voltage", shooterMotor1.getOutputVoltage());
 		SmartDashboard.putBoolean("Connection Error", error);
 		SmartDashboard.putNumber("Shooter Motor 1000*F", shooterMotor1.getF() * 1000);
+	}
+	
+	/**
+	 * updates the SmartDashboard with the Shooter Speed
+	 */
+	public void updateSmartDashboardShooterSpeed() {
+		SmartDashboard.putNumber("Shooter Motor Speed", -shooterMotor1.getSpeed());
+
 	}
 
 	/**

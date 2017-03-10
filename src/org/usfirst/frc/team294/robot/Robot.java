@@ -199,6 +199,8 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();	
 		
+		Robot.shooter.updateSmartDashboardShooterSpeed();
+		
 	    if (Robot.smartDashboardDebug) {
 		    //for testing purposes 
 			driveTrain.updateSmartDashboardEncoders();

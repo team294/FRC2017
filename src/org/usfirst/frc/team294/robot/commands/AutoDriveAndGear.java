@@ -30,7 +30,9 @@ public class AutoDriveAndGear extends CommandGroup {
         
 
         // Add turn and additional drive commands for left and right
-    	SmartDashboard.putNumber("Autonomous Position", position.ordinal());
+	    if (Robot.smartDashboardDebug) {
+		    SmartDashboard.putNumber("Autonomous Position", position.ordinal());
+        }    	
         switch(position) {
         case left: //close edge of the frame perimeter (not bumper) is 77" from center
         	addSequential(new DriveStraightDistance(0.4, -78, Units.inches, true, true));

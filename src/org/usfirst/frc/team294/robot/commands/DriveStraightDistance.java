@@ -141,6 +141,7 @@ public class DriveStraightDistance extends Command {
     		break;
     	case RELATIVE:
     		Robot.driveTrain.resetEncoders();
+//    		Robot.log.writeLogEcho("Drive to target RELATIVE " + distance * Robot.inchesPerRevolution + " inches away.");
     		Robot.log.writeLogEcho("Drive to target RELATIVE " + distance * Robot.inchesPerRevolution + " inches away.");
     		break; 
     	case GEAR_VISION:
@@ -233,6 +234,9 @@ public class DriveStraightDistance extends Command {
         	
         	Robot.driveTrain.driveAtAngle(distSpeedControl, curve);
     	}
+	    if (Robot.smartDashboardDebug) {
+    		Robot.log.writeLog("DriveStraightDistance-Distance-DistanceError-Speed-SpeedControl-AngleError-Curve" + "\t" + distance * Robot.inchesPerRevolution + "\t" + distErr + "\t" + speed + "\t" + distSpeedControl + "\t" + angleErr + "\t" + curve);
+        }
     } 
 
     // Make this return true when this Command no longer needs to run execute()

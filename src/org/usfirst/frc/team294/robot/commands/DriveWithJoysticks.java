@@ -27,11 +27,11 @@ public class DriveWithJoysticks extends Command {
     	
     	if (Robot.oi.getDriveDirection() == true){
     		Robot.driveTrain.driveWithJoystick(leftVal, rightVal);
-    		SmartDashboard.putBoolean("Forward", true);
+//    		SmartDashboard.putBoolean("Forward", true);
     	}
     	else {
     		Robot.driveTrain.driveWithJoystick(-rightVal, -leftVal);
-    		SmartDashboard.putBoolean("Forward", false);
+//    		SmartDashboard.putBoolean("Forward", false);
     	}
     }
 
