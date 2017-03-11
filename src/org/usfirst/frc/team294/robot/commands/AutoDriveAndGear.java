@@ -8,7 +8,6 @@ import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.RobotMap.AutoAngles;
 import org.usfirst.frc.team294.robot.RobotMap.AutoDistances;
 import org.usfirst.frc.team294.robot.RobotMap.StartPositions;
-import org.usfirst.frc.team294.robot.RobotMap.Teams;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.Units;
 
 /**
@@ -20,13 +19,13 @@ public class AutoDriveAndGear extends CommandGroup {
 	 * Drives backwards and delivers a gear based on starting position
 	 * @param position StartPositions.left,middle,right
 	 */
-    public AutoDriveAndGear(Teams team, StartPositions position) {
+    public AutoDriveAndGear(StartPositions position) {
     	
     	// Shift down and drive to the baseline
     	addSequential(new ShiftDown());
     	addSequential(new MoveGearGate(false));
     	
-    	double extraDistance = (team == Teams.red) ? 5.0 : 2.0;
+    	
 //    	addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toBaseLine), Units.inches, false, true));
         
 
@@ -40,15 +39,15 @@ public class AutoDriveAndGear extends CommandGroup {
         	addSequential(new WaitSeconds(0.2));
         	addSequential(new GyroTurnToAngle(0.7, -63));
             //addSequential(new GyroTurnToAngle(0.7, RobotMap.getAngle(AutoAngles.leftGear)));
-            addSequential(new WaitSeconds(0.2));
+            addSequential(new WaitSeconds(0.4));
             addSequential(new MoveGearGate(true));
             // Turn using gear vision and then advance the final segment
             addSequential(new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
-            addSequential(new WaitSeconds(0.2));
+            addSequential(new WaitSeconds(0.4));
             addSequential(new DriveStraightDistance(0.4, -30, Units.inches, true, true));
             addSequential(new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
-            addSequential(new WaitSeconds(0.2));
-            addSequential(new DriveNotStraightDistance(0.4, -22 - extraDistance, Units.inches, true, true));
+            addSequential(new WaitSeconds(0.4));
+            addSequential(new DriveNotStraightDistance(0.4, -22, Units.inches, true, true));
             //addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearSide), Units.inches, false, true));
             addSequential(new MoveGearGate(true));
             break;
@@ -66,19 +65,19 @@ public class AutoDriveAndGear extends CommandGroup {
         	addSequential(new WaitSeconds(0.2));
         	addSequential(new GyroTurnToAngle(0.7, 65));//over turn on right side for camera fov
             //addSequential(new GyroTurnToAngle(0.7, RobotMap.getAngle(AutoAngles.leftGear)));
-            addSequential(new WaitSeconds(0.2));
+            addSequential(new WaitSeconds(0.4));
             
             // Turn using gear vision and then advance the final segment
             addSequential(new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
-            addSequential(new WaitSeconds(0.2));
+            addSequential(new WaitSeconds(0.4));
             addSequential(new DriveStraightDistance(0.4, -30, Units.inches, true, true));
-            addSequential(new WaitSeconds(0.2));
+            addSequential(new WaitSeconds(0.4));
             addSequential(new MoveGearGate(true));
             // Turn using gear vision and then advance the final segment
             addSequential(new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
-            addSequential(new WaitSeconds(0.2));
-            addSequential(new DriveStraightDistance(0.4, -20 - extraDistance, Units.inches, true, true));
-            addSequential(new DriveNotStraightDistance(0.25, -13.0, Units.inches, true, true));
+            addSequential(new WaitSeconds(0.4));
+            addSequential(new DriveStraightDistance(0.4, -20, Units.inches, true, true));
+            addSequential(new DriveNotStraightDistance(0.2, -13.0, Units.inches, true, true));
             //addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearSide), Units.inches, false, true));
             addSequential(new MoveGearGate(true));
             break;
@@ -104,9 +103,9 @@ public class AutoDriveAndGear extends CommandGroup {
         	addSequential(new GyroTurnToAngle(0.4, -angleOffset, 2.0, GyroTurnToAngle.TurnMode.RELATIVE));
         	addSequential(new WaitSeconds(0.2));
         	addSequential(new MoveGearGate(true));
-        	addSequential(new WaitSeconds(0.2));
-        	addSequential(new DriveStraightDistance(0.4, -extraDistance -20/Math.cos(angleOffset*Math.PI/180), Units.inches, true, true));
-        	addSequential(new DriveNotStraightDistance(0.25, -18/Math.cos(angleOffset*Math.PI/180), Units.inches, true, true));
+        	addSequential(new WaitSeconds(0.8));
+        	addSequential(new DriveStraightDistance(0.4, -20/Math.cos(angleOffset*Math.PI/180), Units.inches, true, true));
+        	addSequential(new DriveStraightDistance(0.25, -18/Math.cos(angleOffset*Math.PI/180), Units.inches, true, true));
         	
 
 //            addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearMiddle)*0.65, Units.inches, false, true));

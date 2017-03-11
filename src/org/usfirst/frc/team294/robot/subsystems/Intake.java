@@ -89,7 +89,7 @@ public class Intake extends Subsystem {
 	 * @param speed of the motor, between -1 (outtake) and +1 (intake), 0 = stopped
 	 */
 	public void setSpeed(double speed) {
-		intakeMotor.set(-speed);
+		intakeMotor.set(speed);
 	}
 
 	/**

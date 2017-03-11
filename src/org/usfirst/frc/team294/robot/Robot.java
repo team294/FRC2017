@@ -277,17 +277,17 @@ public class Robot extends IterativeRobot {
 				horizontalConveyorInVolts = robotPrefs.getDouble("horizontalConveyorInVolts",0);
 
 				if(robotPrefs.getDouble("verticalConveyorInVolts",0) == 0){
-					robotPrefs.putDouble("verticalConveyorInVolts", 12.0);
+					robotPrefs.putDouble("verticalConveyorInVolts", 7.5);
 				}
 				verticalConveyorInVolts = robotPrefs.getDouble("verticalConveyorInVolts",0);
 				
 				if(robotPrefs.getDouble("horizontalConveyorOutVolts",0) == 0){
-					robotPrefs.putDouble("horizontalConveyorOutVolts", -9.0);
+					robotPrefs.putDouble("horizontalConveyorOutVolts", -2.0);
 				}
 				horizontalConveyorOutVolts = robotPrefs.getDouble("horizontalConveyorOutVolts", 0);
 				
 				if(robotPrefs.getDouble("verticalConveyorOutVolts",0) == 0){
-					robotPrefs.putDouble("verticalConveyorOutVolts", -9.0);
+					robotPrefs.putDouble("verticalConveyorOutVolts", -2.0);
 				}
 				verticalConveyorOutVolts = robotPrefs.getDouble("verticalConveyorOutVolts",0);
 				

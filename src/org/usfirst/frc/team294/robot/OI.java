@@ -380,9 +380,9 @@ public class OI {
 	    SmartDashboard.putData("Stop Climb Motor", new ClimbSetToSpeed(0.0));
 	    
 	    // Autonomous Command Testing
-	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGear(Teams.blue, StartPositions.left));
-	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGear(Teams.blue, StartPositions.right));
-	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGear(Teams.blue, StartPositions.middle)); 
+	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGear(StartPositions.left));
+	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGear(StartPositions.right));
+	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGear(StartPositions.middle)); 
 	    SmartDashboard.putData("Autonomous from Knobs", new AutoCommandFromKnobs());
 	    
 	    // Shooter controls
