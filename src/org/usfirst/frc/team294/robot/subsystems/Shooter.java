@@ -44,12 +44,15 @@ public class Shooter extends Subsystem {
 		shooterMotor1.configEncoderCodesPerRev(100);
 		shooterMotor1.enableBrakeMode(false);
 		shooterMotor1.set(0.0);
-		setupSmartDashboard();
 		shooterMotor1.setPID(Robot.shooterP, Robot.shooterI, Robot.shooterD, Robot.shooterFNominal, 500, 500, 0); 
 		periodicSetF();
 		shooterMotor1.SetVelocityMeasurementWindow(10);		//These need to be tuned
 		shooterMotor1.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_100Ms);
 		
+	    if (Robot.smartDashboardDebug) {
+			setupSmartDashboard();
+        }
+
     	// Stall protection
  //       shooterMotorCurrentTrigger.whenActive(new ShooterSetVoltage(0));
 		
@@ -175,7 +178,7 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Shooter Motor 1000*P", shooterMotor1.getP() * 1000);
 		SmartDashboard.putNumber("Shooter Motor 1000*I", shooterMotor1.getI() * 1000);
 		SmartDashboard.putNumber("Shooter Motor 1000*D", shooterMotor1.getD() * 1000);
-		SmartDashboard.putNumber("Shooter Motor Set RPM", 4000);		// this should come from preferences
+//		SmartDashboard.putNumber("Shooter Motor Set RPM", 4000);		// this should come from preferences
 		SmartDashboard.putNumber("Shooter Motor Set Voltage", 5); 
 		SmartDashboard.putNumber("Set Nominal 1000* F Value", fNominal*1000);  
 		SmartDashboard.putNumber("Shooter Motor Set RPM High", Robot.shootSpeedHighRPM);
