@@ -366,6 +366,7 @@ public class OI {
 	public boolean getDriveDirection(){
 		return driveDirection;
 	}
+	
 	public void setupSmartDashboardDebug() {
 		//TODO: PUT STUFF IN HERE
 		// Encoders
