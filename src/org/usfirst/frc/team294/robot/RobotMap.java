@@ -45,11 +45,12 @@ public class RobotMap {
     // Field Map
     
     // Measurements in Inches
-    public static double distanceToBaseline = -93.25;
-    public static double distanceToGear = -35.25;
+    public static double distanceToBaseline = -63.25;
+    public static double distanceToGearSide = -35.25;
+    public static double distanceToGearMiddle = -5.0;
     
     public enum AutoDistances {
-    	toBaseLine, toGear
+    	toBaseLine, toGearSide, toGearMiddle
     }
     	
     // Measurements in Degrees
@@ -61,16 +62,17 @@ public class RobotMap {
     }
     
 	public enum StartPositions {
-		left, middle, right
+		left, middle, right, baselineOnly
 	}
 	
 	public enum Teams {
-		blue, red
+		noBoilerShooting, blue, red
 	}
     
     public static double getDistance(AutoDistances distance) {
     	if (distance == AutoDistances.toBaseLine) return distanceToBaseline;
-    	if (distance == AutoDistances.toGear) return distanceToGear;
+    	if (distance == AutoDistances.toGearSide) return distanceToGearSide;
+    	if (distance == AutoDistances.toGearMiddle) return distanceToGearMiddle;
     	return 0.0;
     }
     

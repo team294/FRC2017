@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.DriveStop;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
 import org.usfirst.frc.team294.robot.commands.LogMotorGroupOverCurrent;
 import org.usfirst.frc.team294.robot.triggers.MotorGroupCurrentTrigger;
@@ -203,6 +202,7 @@ public class DriveTrain extends Subsystem {
     	SmartDashboard.putNumber("Right Position", rightMotor2.getPosition() - rightEncoderZero);
     	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
     	SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
+    	getGyroAngle();
     }
 
     /**
