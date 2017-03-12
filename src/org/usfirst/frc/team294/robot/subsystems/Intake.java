@@ -37,8 +37,8 @@ public class Intake extends Subsystem {
 	//Current Protection
 	public final MotorCurrentTrigger intakeCurrentTrigger = new MotorCurrentTrigger(intakeMotor, 22, 3);
 	//TODO:  Decide on current limits for climb motors
-	public final MotorCurrentTrigger climb1CurrentTrigger = new MotorCurrentTrigger(climbMotor1, 40, 3);
-	public final MotorCurrentTrigger climb2CurrentTrigger = new MotorCurrentTrigger(climbMotor1, 40, 3);
+	public final MotorCurrentTrigger climb1CurrentTrigger = new MotorCurrentTrigger(climbMotor1, 70, 2);
+	public final MotorCurrentTrigger climb2CurrentTrigger = new MotorCurrentTrigger(climbMotor2, 70, 2);
 	List<CANTalon> climbMotors = new ArrayList<CANTalon>(Arrays.asList(climbMotor1, climbMotor2));
 	//TODO:  Fix MotorGroupCurrentTrigger
 	//	public final MotorGroupCurrentTrigger climbGroupCurrentTrigger = new MotorGroupCurrentTrigger(climbMotors, 2, "climb");
@@ -167,6 +167,7 @@ public class Intake extends Subsystem {
     }
     
     /**
+     * 
      * Set the value of the intake tracker in the code
      * @param position Intake.Positions.stowed,deployed,unknown
      */
@@ -256,6 +257,7 @@ public class Intake extends Subsystem {
 				"Climber: Climb Motor 1 (Main)-- Speed: " + climbMotor1.get() +
 				" Climb Motor 2 (Follower)-- Speed: " + climbMotor2.get()
 				);
+		Robot.log.writeLog("Climber Moter Current" + "\t" + climbMotor1.getOutputCurrent() + "\t" + climbMotor2.getOutputCurrent());
 	}
 
 	/**

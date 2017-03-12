@@ -174,9 +174,9 @@ public class OI {
 	    coP[7].whenPressed(new ConveyorSetFromRobot(States.out));
 	    coP[7].whenReleased(new ConveyorSetFromRobot(States.stopped));
 	    coP[8].whenPressed(new MoveGearGate(false));
-	    coP[9].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
+	    coP[9].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
 	    coP[10].whenPressed(new MoveGearGate(true));
-	    coP[11].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
+	    coP[11].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
 	    coP[12].whenPressed(new MoveHopperIfSafe(false));
 	    coP[13].whenPressed(new StowIntakeAndHopper()); //for testing can be reset when we get a shooter hood
 	    coP[14].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
@@ -186,8 +186,8 @@ public class OI {
 	    xbB[2].whenPressed(new MoveGearGate(false));
 	    xbB[3].whenPressed(new MoveHopperIfSafe(false));
 	    xbB[4].whenPressed(new StowIntakeAndHopper());
-	    xbB[5].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
-	    xbB[6].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
+	    xbB[5].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
+	    xbB[6].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
 	    xbB[7].whenPressed(new DeployIntakeAndHopper());
 	    xbB[8].whenPressed(new ClimbSequenceStart());
 	    xbB[9].whenPressed(new StopAllMotors());
@@ -380,9 +380,9 @@ public class OI {
 	    SmartDashboard.putData("Stop Climb Motor", new ClimbSetToSpeed(0.0));
 	    
 	    // Autonomous Command Testing
-	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGear(StartPositions.left));
-	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGear(StartPositions.right));
-	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGear(StartPositions.middle)); 
+	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGear(Teams.blue, StartPositions.left));
+	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGear(Teams.blue, StartPositions.right));
+	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGear(Teams.blue, StartPositions.middle)); 
 	    SmartDashboard.putData("Autonomous from Knobs", new AutoCommandFromKnobs());
 	    
 	    // Shooter controls

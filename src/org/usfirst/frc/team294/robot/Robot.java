@@ -1,5 +1,8 @@
 package org.usfirst.frc.team294.robot;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -11,6 +14,7 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team294.robot.subsystems.*;
+import org.opencv.core.Mat;
 import org.usfirst.frc.team294.robot.commands.AutoGearAndScore;
 import org.usfirst.frc.team294.utilities.FileLog;
 
@@ -31,24 +35,24 @@ public class Robot extends IterativeRobot {
 	public static Intake intake;
 	public static Shooter shooter;
 	public static ShooterHood shooterHood;
-	
+
 	// Vision subsystems
 	public static BoilerVision boilerVision;
 	public static GearVision gearVision;
-	
+
 	// The OI
 	public static OI oi;
-	
+
 	// Turn on/off SmartDashboard debugging
 	public static boolean smartDashboardDebug = false;		// true to print lots of stuff on the SmartDashboard
-	
+
 	//Timer
 	public static Timer teleopTime;
 	public static double startTime;
-	
+
 	// File logger
 	public static FileLog log;
-	
+
 	// set up preferences (robot specific calibrations flash memory in roborio)
 	public static Preferences robotPrefs;
 	public static double shooterP;
@@ -74,13 +78,13 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		
+
 		System.out.println("Robot init");
 		log = new FileLog();	// Create log file first, so other code can use it
 		readPreferences();		// Read preferences next, so that subsystems can use the preference values.
-		
+
 		teleopTime = new Timer();
-						
+
 		// Create the subsytems
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
@@ -98,9 +102,9 @@ public class Robot extends IterativeRobot {
 		intake.intakeCurrentProtection();
 		driveTrain.leftCurrentProtection();
 		driveTrain.rightCurrentProtection();
-		
+
 		// Turn on drive camera
-//		CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture().setResolution(320, 240);
 
 		// Create OI
 		oi = new OI();
@@ -114,8 +118,24 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(gearGate);
 		SmartDashboard.putData(shooterHood);
 		SmartDashboard.putData(ballFeed);
-//		SmartDashboard.putData(gearVision);
-//		SmartDashboard.putData(boilerVision);
+		//		SmartDashboard.putData(gearVision);
+		//		SmartDashboard.putData(boilerVision);
+
+		//new Thread(() -> {
+		//	UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		//	camera.setResolution(320, 240);
+
+		//	CvSink cvSink = CameraServer.getInstance().getVideo();
+		// outputStream = CameraServer.getInstance().putVideo("Blur", 320, 240);
+
+//			Mat source = new Mat();
+	//		Mat output = new Mat();
+
+		//	while(!Thread.interrupted()) {
+			//	cvSink.grabFrame(source);
+			//	outputStream.putFrame(output);
+		//	}
+		//}).start();
 	}
 
 	/**
@@ -132,16 +152,16 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		//stops all motors
 		Robot.shooter.stop();
-    	Robot.ballFeed.stop();
-    	Robot.intake.stopIntake();
-    	Robot.intake.stopClimber();
-    	Robot.driveTrain.stop();
-    	
-	    if (Robot.smartDashboardDebug) {
-	    	//SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub2", driveTrain.getGyroAngle());
+		Robot.ballFeed.stop();
+		Robot.intake.stopIntake();
+		Robot.intake.stopClimber();
+		Robot.driveTrain.stop();
+
+		if (Robot.smartDashboardDebug) {
+			//SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub2", driveTrain.getGyroAngle());
 			SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
 			SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
-	    }
+		}
 
 		teleopTime.reset();
 	}
@@ -162,7 +182,7 @@ public class Robot extends IterativeRobot {
 		// schedule the autonomous command (example)
 		intake.updateConflicts();
 		log.writeLogEcho("Autonomous Mode Started");
-		
+
 		autonomousCommand = new AutoGearAndScore(oi.readMiddleKnobTeam(), oi.readBottomKnobStartPosition());
 
 		if (autonomousCommand != null)
@@ -174,8 +194,8 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		
-//		driveTrain.logTalonStatus();
+
+		//		driveTrain.logTalonStatus();
 	}
 
 	public void teleopInit() {
@@ -188,7 +208,7 @@ public class Robot extends IterativeRobot {
 		teleopTime.start();
 		startTime = teleopTime.get();
 		//SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub", driveTrain.getGyroAngle());
-		
+
 		//DeployIntakeAndHopper();
 		//ShooterSetRPM(Robot.shootHighSpeed);
 	}
@@ -198,29 +218,30 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();	
-		
+
 		Robot.shooter.updateSmartDashboardShooterSpeed();
-		
-	    if (Robot.smartDashboardDebug) {
-		    //for testing purposes 
+
+		if (Robot.smartDashboardDebug) {
+			//for testing purposes 
 			driveTrain.updateSmartDashboardEncoders();
 			boilerVision.updateSmartDashboard();
 			//driveTrain.logTalonStatus();
+			intake.logClimbStatus();
 
 			SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
 			SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
-			
+
 			shooter.updateSmartDashboard(); 
 			intake.updateSmartDashboard();
-//			intake.logIntakeStatus();
-        }
+			//			intake.logIntakeStatus();
+		}
 
 		shooter.periodicSetF();
 
 		oi.readBottomKnobRaw();
 		oi.readMiddleKnobRaw();
 
-/*		if (false) {//(teleopTime.get() - startTime) >= 300) { //auto stops all non drive train motors after set time
+		/*		if (false) {//(teleopTime.get() - startTime) >= 300) { //auto stops all non drive train motors after set time
 			Robot.shooter.stop();
 	    	Robot.ballFeed.stop();
 	    	Robot.intake.stopIntake();
@@ -236,64 +257,64 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
-	
+
 	/**
 	 * Read the preferences from the RoboRio flash memory.
 	 * For any missing preferences, set the preference to default values.
 	 */
 	public void readPreferences() {
-				//TODO:  Create function to read and set defaults for one number preference, then move most prefs
-				//  to calling this function.  This will eliminate much of the duplicate code below.
-				
-				//TODO:  For each robot preference:  Use more descriptive names?
-				robotPrefs = Preferences.getInstance();
-				
-				if (robotPrefs.getDouble("inchesPerRev", 0) == 0) {
-					DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration.", true);
-					robotPrefs.putDouble("inchesPerRev", 12.5); //this needs to be changed when we find the new value
-				}
-				inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
-				
-				shooterP = robotPrefs.getDouble("shooterP",0.15);// This has to be done before Shooter()
-				shooterI = robotPrefs.getDouble("shooterI",0);
-				shooterD = robotPrefs.getDouble("shooterD",0);
-				shooterFNominal = robotPrefs.getDouble("shooterFNominal",.024);
-				
-				invertDrive = robotPrefs.getBoolean("invertDrive",true);
-				
-				if(robotPrefs.getDouble("intakeSpeed",0) == 0){
-					robotPrefs.putDouble("intakeSpeed",1.0);
-				}
-				intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
+		//TODO:  Create function to read and set defaults for one number preference, then move most prefs
+		//  to calling this function.  This will eliminate much of the duplicate code below.
 
-				
-				shootSpeedHighRPM = robotPrefs.getDouble("shootSpeedHighRPM",4200);
-				shootSpeedLowRPM = robotPrefs.getDouble("shootSpeedLowRPM",3800);
+		//TODO:  For each robot preference:  Use more descriptive names?
+		robotPrefs = Preferences.getInstance();
 
-				
-				if(robotPrefs.getDouble("horizontalConveyorInVolts",0) == 0){
-						robotPrefs.putDouble("horizontalConveyorInVolts", 9.0);
-					}	
-				horizontalConveyorInVolts = robotPrefs.getDouble("horizontalConveyorInVolts",0);
+		if (robotPrefs.getDouble("inchesPerRev", 0) == 0) {
+			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration.", true);
+			robotPrefs.putDouble("inchesPerRev", 12.5); //this needs to be changed when we find the new value
+		}
+		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
 
-				if(robotPrefs.getDouble("verticalConveyorInVolts",0) == 0){
-					robotPrefs.putDouble("verticalConveyorInVolts", 7.5);
-				}
-				verticalConveyorInVolts = robotPrefs.getDouble("verticalConveyorInVolts",0);
-				
-				if(robotPrefs.getDouble("horizontalConveyorOutVolts",0) == 0){
-					robotPrefs.putDouble("horizontalConveyorOutVolts", -2.0);
-				}
-				horizontalConveyorOutVolts = robotPrefs.getDouble("horizontalConveyorOutVolts", 0);
-				
-				if(robotPrefs.getDouble("verticalConveyorOutVolts",0) == 0){
-					robotPrefs.putDouble("verticalConveyorOutVolts", -2.0);
-				}
-				verticalConveyorOutVolts = robotPrefs.getDouble("verticalConveyorOutVolts",0);
-				
+		shooterP = robotPrefs.getDouble("shooterP",0.15);// This has to be done before Shooter()
+		shooterI = robotPrefs.getDouble("shooterI",0);
+		shooterD = robotPrefs.getDouble("shooterD",0);
+		shooterFNominal = robotPrefs.getDouble("shooterFNominal",.024);
 
-				gearCamHorizOffsetInches = robotPrefs.getDouble("gearCam",0);
+		invertDrive = robotPrefs.getBoolean("invertDrive",true);
 
-			}	
+		if(robotPrefs.getDouble("intakeSpeed",0) == 0){
+			robotPrefs.putDouble("intakeSpeed",1.0);
+		}
+		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
+
+
+		shootSpeedHighRPM = robotPrefs.getDouble("shootSpeedHighRPM",4200);
+		shootSpeedLowRPM = robotPrefs.getDouble("shootSpeedLowRPM",3800);
+
+
+		if(robotPrefs.getDouble("horizontalConveyorInVolts",0) == 0){
+			robotPrefs.putDouble("horizontalConveyorInVolts", 9.0);
+		}	
+		horizontalConveyorInVolts = robotPrefs.getDouble("horizontalConveyorInVolts",0);
+
+		if(robotPrefs.getDouble("verticalConveyorInVolts",0) == 0){
+			robotPrefs.putDouble("verticalConveyorInVolts", 7.5);
+		}
+		verticalConveyorInVolts = robotPrefs.getDouble("verticalConveyorInVolts",0);
+
+		if(robotPrefs.getDouble("horizontalConveyorOutVolts",0) == 0){
+			robotPrefs.putDouble("horizontalConveyorOutVolts", -2.0);
+		}
+		horizontalConveyorOutVolts = robotPrefs.getDouble("horizontalConveyorOutVolts", 0);
+
+		if(robotPrefs.getDouble("verticalConveyorOutVolts",0) == 0){
+			robotPrefs.putDouble("verticalConveyorOutVolts", -2.0);
+		}
+		verticalConveyorOutVolts = robotPrefs.getDouble("verticalConveyorOutVolts",0);
+
+
+		gearCamHorizOffsetInches = robotPrefs.getDouble("gearCam",0);
+
+	}	
 
 }
