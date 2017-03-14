@@ -109,7 +109,9 @@ public class GyroTurnToAngle extends Command {
     		Robot.driveTrain.resetDegrees();
     		angle = -Robot.gearVision.getGearAngleOffset();
         	if (!Robot.gearVision.isGearAngleValid())
-        		SmartDashboard.putBoolean("Contours Found", false);
+        	    if (Robot.smartDashboardDebug) {
+            		SmartDashboard.putBoolean("Contours Found", false);
+                }
         	else
         		SmartDashboard.putBoolean("Contours Found", true);
     		Robot.log.writeLogEcho("Gyro: Start turn to angle GEAR" + angle + " degrees.");
@@ -169,6 +171,9 @@ public class GyroTurnToAngle extends Command {
         	
         	priorAngleErr = angleErr;
     	}
+	    if (Robot.smartDashboardDebug) {
+    		Robot.log.writeLog("GyroTurnToAngle-Speed-SpeedControl-Angle-Angle-Error" + "\t" + maxSpeed + "\t" + speedControl + "\t" + angle + "\t" + angleErr + "\t");
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()

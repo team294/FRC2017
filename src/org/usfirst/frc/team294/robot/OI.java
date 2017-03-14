@@ -174,9 +174,9 @@ public class OI {
 	    coP[7].whenPressed(new ConveyorSetFromRobot(States.out));
 	    coP[7].whenReleased(new ConveyorSetFromRobot(States.stopped));
 	    coP[8].whenPressed(new MoveGearGate(false));
-	    coP[9].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
+	    coP[9].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
 	    coP[10].whenPressed(new MoveGearGate(true));
-	    coP[11].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
+	    coP[11].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
 	    coP[12].whenPressed(new MoveHopperIfSafe(false));
 	    coP[13].whenPressed(new StowIntakeAndHopper()); //for testing can be reset when we get a shooter hood
 	    coP[14].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
@@ -184,10 +184,10 @@ public class OI {
 	    // Xbox controller buttons
 	    xbB[1].whenPressed(new MoveGearGate(true));
 	    xbB[2].whenPressed(new MoveGearGate(false));
-	    xbB[3].whenPressed(new MoveShooterHood(true));
-	    xbB[4].whenPressed(new MoveShooterHood(false));
-	    xbB[5].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
-	    xbB[6].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
+	    xbB[3].whenPressed(new MoveHopperIfSafe(false));
+	    xbB[4].whenPressed(new StowIntakeAndHopper());
+	    xbB[5].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
+	    xbB[6].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
 	    xbB[7].whenPressed(new DeployIntakeAndHopper());
 	    xbB[8].whenPressed(new ClimbSequenceStart());
 	    xbB[9].whenPressed(new StopAllMotors());
@@ -214,12 +214,9 @@ public class OI {
 	    SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
 	    SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
 	    SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(Robot.intakeSpeed));
+	    SmartDashboard.putData("Start Outtake", new IntakeSetToSpeed(-Robot.intakeSpeed));
 
-	    
 	    // Climb Motor Tests
-	    SmartDashboard.putData("Start Climb Motor", new ClimbSetToSpeed(0.4));
-//	    SmartDashboard.putData("Reverse Climb Motor", new ClimbSetToSpeed(-0.4));
-	    SmartDashboard.putData("Stop Climb Motor", new ClimbSetToSpeed(0.0));
 	    SmartDashboard.putData("Start Climb Sequence", new ClimbSequenceStart());
 	    
 	    // Intake and Hopper Tests
@@ -228,56 +225,20 @@ public class OI {
 	    SmartDashboard.putData("Deploy Hopper", new MoveHopperIfSafe(true));
 	    SmartDashboard.putData("Stow Hopper", new MoveHopperIfSafe(false)); 
 	    SmartDashboard.putData("Deploy Intake and Hopper", new DeployIntakeAndHopper());
-	    
-	    // Autonomous Command Testing
-	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGear(StartPositions.left));
-	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGear(StartPositions.right));
-	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGear(StartPositions.middle)); 
-	    SmartDashboard.putData("Autonomous from Knobs", new AutoCommandFromKnobs());
-	    SmartDashboard.putData("Drive forwards testtesttesttest", new DriveStraightDistance(0.4, 93.0, Units.inches, false, true));
-	    
+	    SmartDashboard.putData("Stow Intake and Hopper", new StowIntakeAndHopper());
+
 	    // Shooter controls
-	    SmartDashboard.putData("Set Shooter RPM Low", new ShooterSetToRPMFromSmartDashboardLow());
-	    SmartDashboard.putData("Set Shooter RPM High", new ShooterSetToRPMFromSmartDashboardHigh());
-	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
-		SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
+	    SmartDashboard.putData("Set Shooter RPM Low", new ShooterSetRPM(Robot.shootSpeedLowRPM));
+	    SmartDashboard.putData("Set Shooter RPM High", new ShooterSetRPM(Robot.shootSpeedHighRPM));
 		SmartDashboard.putData("Stop Shooter Motor", new ShooterSetVoltage(0.0));
-		    
-		// Encoders
-		Robot.driveTrain.updateSmartDashboardEncoders();
-		    
-		// Stop Command
-		SmartDashboard.putData("Drive Stop", new DriveStop());	
 		 
 		// Conveyor Changes
 		SmartDashboard.putData("Conveyors In", new ConveyorSetFromRobot(States.in));
 		SmartDashboard.putData("Conveyors Out", new ConveyorSetFromRobot(States.out));
 		SmartDashboard.putData("Conveyors Stopped", new ConveyorSetFromRobot(States.stopped));
-	    
-	    // Gyro Testing Commands 
-/*	    SmartDashboard.putData("Turn to 90", new GyroTurnToAngle(0.4, 90, 2.0));
-	    SmartDashboard.putData("Turn to -90", new GyroTurnToAngle(0.4, -90, 2.0));
-	    SmartDashboard.putData("Turn to 180", new GyroTurnToAngle(0.4, 180, 2.0));
-	    SmartDashboard.putData("Turn to 5", new GyroTurnToAngle(0.4, 5, 2.0));
-	    SmartDashboard.putData("Turn to -5", new GyroTurnToAngle(0.4, -5, 2.0));
-	    SmartDashboard.putData("Turn to 10", new GyroTurnToAngle(0.4, 10, 2.0));
-	    SmartDashboard.putData("Turn to -10", new GyroTurnToAngle(0.4, -10, 2.0));
-		SmartDashboard.putData("Turn to 0", new GyroTurnToAngle(0.4, 0));
-*/	    
-	    // DriveStraightDistance tests
-	    SmartDashboard.putData("Drive Straight Distance", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, DriveStraightDistance.Units.inches));
-	    SmartDashboard.putNumber("DriveSpeed", 0);
-	    SmartDashboard.putNumber("Distance", 0);
-//	    SmartDashboard.putNumber("BoilerDistance", 0);
-//	    SmartDashboard.putNumber("UltrasonicDistance", 0);
-//	    SmartDashboard.putData("Drive to Boiler_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.BOILER_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
-//	    SmartDashboard.putData("Drive 12 inches", new DriveStraightDistance(0.4, -12.0, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches));
-//	    SmartDashboard.putData("Drive to Ultraonic", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC, DriveStraightDistance.Units.inches));
-//	    SmartDashboard.putData("Drive to Ultrasonic_SmartDashboard", new DriveStraightDistance(0.4, 0.0, DriveStraightDistance.DriveMode.ULTRASONIC_SMARTDASHBOARD, DriveStraightDistance.Units.inches));
+		
+		SmartDashboard.putData("Drive With Joysticks", new DriveWithJoysticks());
 
-	    // Readouts for intake
-	    Robot.intake.setupSmartDashboard();
-	    
 	    if (Robot.smartDashboardDebug) {
         	setupSmartDashboardDebug();
         }
@@ -405,7 +366,29 @@ public class OI {
 	public boolean getDriveDirection(){
 		return driveDirection;
 	}
+	
 	public void setupSmartDashboardDebug() {
 		//TODO: PUT STUFF IN HERE
+		// Encoders
+		Robot.driveTrain.updateSmartDashboardEncoders();
+		
+	    // Readouts for intake
+	    Robot.intake.setupSmartDashboard();
+	    
+	    // Climb Motor Tests
+	    SmartDashboard.putData("Start Climb Motor", new ClimbSetToSpeed(0.4));
+	    SmartDashboard.putData("Stop Climb Motor", new ClimbSetToSpeed(0.0));
+	    
+	    // Autonomous Command Testing
+	    SmartDashboard.putData("Autonomous Gear Left", new AutoDriveAndGear(Teams.blue, StartPositions.left));
+	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGear(Teams.blue, StartPositions.right));
+	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGear(Teams.blue, StartPositions.middle)); 
+	    SmartDashboard.putData("Autonomous from Knobs", new AutoCommandFromKnobs());
+	    
+	    // Shooter controls
+	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
+		SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
+	    SmartDashboard.putData("Set Shooter RPM Low From SD", new ShooterSetToRPMFromSmartDashboardLow());
+	    SmartDashboard.putData("Set Shooter RPM High From SD", new ShooterSetToRPMFromSmartDashboardHigh());
 	}
 }
