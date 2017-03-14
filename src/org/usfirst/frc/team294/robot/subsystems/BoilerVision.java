@@ -42,27 +42,28 @@ public class BoilerVision extends Subsystem {
 		}
 		Contour[] contours;
 		//Instantiate array of contours to be filtered
-		int tempXLength, tempYLength, tempAreaLength, tempWidthLength, tempHeightLength, tempHardnessLength;
+		int xLen, yLen, areaLen, widthLen, heightLen, hardnessLen;
+		//Loop through, getting contour values until we get a set of contours, all with common lengths
 		while (true) { 
-			double[] tempXPos = table.getNumberArray("centerX",   networkTableDefault);
-			double[] tempYPos =  table.getNumberArray("centerY",   networkTableDefault);
-			double[] tempArea = table.getNumberArray("area",   networkTableDefault);
-			double[] tempHeight = table.getNumberArray("height", networkTableDefault);
-			double[] tempWidth = table.getNumberArray("width", networkTableDefault);
-			double[] tempHardness = table.getNumberArray("solidity", networkTableDefault);
-			tempXLength = tempXPos.length;
-			tempYLength = tempYPos.length;
-			tempAreaLength = tempArea.length;
-			tempWidthLength = tempWidth.length;
-			tempHeightLength = tempHeight.length;
-			tempHardnessLength = tempHardness.length;
-			contours = new Contour[tempXLength];
-			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength &&
-					tempHeightLength == tempWidthLength && tempWidthLength == tempHardnessLength){
-				for (int i = 0; i < tempXLength; i++) {
-					contours[i] = new Contour(tempXPos[i], tempYPos[i], tempArea[i], tempHeight[i], tempWidth[i], tempHardness[i]);
+			double[] xPos = table.getNumberArray("centerX",   networkTableDefault);
+			double[] yPos =  table.getNumberArray("centerY",   networkTableDefault);
+			double[] area = table.getNumberArray("area",   networkTableDefault);
+			double[] height = table.getNumberArray("height", networkTableDefault);
+			double[] width = table.getNumberArray("width", networkTableDefault);
+			double[] hardness = table.getNumberArray("solidity", networkTableDefault);
+			xLen = xPos.length;
+			yLen = yPos.length;
+			areaLen = area.length;
+			widthLen = width.length;
+			heightLen = height.length;
+			hardnessLen = hardness.length;
+			//Verify that all contour characteristic arrays have the same length
+			if (xLen == yLen && yLen == areaLen && areaLen == heightLen && heightLen == widthLen && widthLen == hardnessLen) {
+				contours = new Contour[xLen]; //Allocate contour array memory
+				for (int i = 0; i < xLen; i++) { //Assign values to each contour
+					contours[i] = new Contour(xPos[i], yPos[i], area[i], height[i], width[i], hardness[i]);
 				}
-				break;
+				break; //Break out of while(true) loop
 			}
 		}
 		for (int a = 0; a < contours.length; a++) {
@@ -71,7 +72,7 @@ public class BoilerVision extends Subsystem {
 				//if (contours[b].isEliminated()) {continue; } // If the contour at b is already eliminated, skip it
 				if (contours[a].intersects(contours[b])) { //If contours intersect, delete one of them
 					if (contours[a].getArea() < contours[b].getArea()) {contours[a].eliminate();} //If the area of a < area of b, delete a
-					else {contours[b].eliminate();} //If the area of b <= the area of a, delete b
+					else { contours[b].eliminate(); } //If the area of b <= the area of a, delete b
 				}
 			}
 		}
@@ -85,9 +86,10 @@ public class BoilerVision extends Subsystem {
 				}
 			else if (contours[i].getArea() > bestContours[1].getArea()) {bestContours[1] = contours[i]; }
 		}
+		 //Perform coordinate transformation to account for rotation about axis coming out of camera.
 		if (camRotationAngle != 0) {
 			double a = camRotationAngle * Math.PI / 180;
-			for (int u = 0; u < 2; u++) { //Perform coordinate transformation to account for rotation about axis coming out of camera.
+			for (int u = 0; u < 2; u++) {
 				bestContours[u].setXPos(bestContours[u].getXPos() * Math.cos(a) - bestContours[u].getYPos() * Math.sin(a));
 				bestContours[u].setYPos(bestContours[u].getXPos() * Math.sin(a) + bestContours[u].getYPos() * Math.cos(a));
 			}
