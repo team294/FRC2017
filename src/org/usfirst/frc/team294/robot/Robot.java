@@ -162,7 +162,8 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
 			SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
 		}
-
+		SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
+		SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
 		teleopTime.reset();
 	}
 
@@ -293,22 +294,22 @@ public class Robot extends IterativeRobot {
 
 
 		if(robotPrefs.getDouble("horizontalConveyorInVolts",0) == 0){
-			robotPrefs.putDouble("horizontalConveyorInVolts", 9.0);
+			robotPrefs.putDouble("horizontalConveyorInVolts", 12.0);
 		}	
 		horizontalConveyorInVolts = robotPrefs.getDouble("horizontalConveyorInVolts",0);
 
 		if(robotPrefs.getDouble("verticalConveyorInVolts",0) == 0){
-			robotPrefs.putDouble("verticalConveyorInVolts", 7.5);
+			robotPrefs.putDouble("verticalConveyorInVolts", 12.0);
 		}
 		verticalConveyorInVolts = robotPrefs.getDouble("verticalConveyorInVolts",0);
 
 		if(robotPrefs.getDouble("horizontalConveyorOutVolts",0) == 0){
-			robotPrefs.putDouble("horizontalConveyorOutVolts", -2.0);
+			robotPrefs.putDouble("horizontalConveyorOutVolts", -12.0);
 		}
 		horizontalConveyorOutVolts = robotPrefs.getDouble("horizontalConveyorOutVolts", 0);
 
 		if(robotPrefs.getDouble("verticalConveyorOutVolts",0) == 0){
-			robotPrefs.putDouble("verticalConveyorOutVolts", -2.0);
+			robotPrefs.putDouble("verticalConveyorOutVolts", -10.0);
 		}
 		verticalConveyorOutVolts = robotPrefs.getDouble("verticalConveyorOutVolts",0);
 

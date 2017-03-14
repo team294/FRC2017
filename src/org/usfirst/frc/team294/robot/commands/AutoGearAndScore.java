@@ -26,6 +26,6 @@ public class AutoGearAndScore extends CommandGroup {
     	addSequential(new WaitSeconds(2.0));
     	
     	// Score on the boiler according to team and position
-    	addSequential(new AutoScoreBoiler(team, position));
+    	// addSequential(new AutoScoreBoiler(team, position));
     }
 }

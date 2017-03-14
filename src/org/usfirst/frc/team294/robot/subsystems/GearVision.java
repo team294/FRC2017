@@ -5,6 +5,7 @@ import org.usfirst.frc.team294.utilities.Contour;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class GearVision extends Subsystem {
@@ -21,10 +22,10 @@ public class GearVision extends Subsystem {
 	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera pixel length
 	double camVertAngle = (camPXHeight / camPXDiagonal) * camDiagonalAngle; //Vertical camera aperture angle
 	double camHorizAngle = (camPXWidth / camPXDiagonal) * camDiagonalAngle; //Horizontal camera aperture angle
-	double camOffset = 5.75; //Camera horizontal offset from center of robot
+	double camOffset = 6+3/8; //Camera horizontal offset from center of robot
 	double camHeight = 0; //Camera height off of the ground
-    double camHorizAngleOffsetDegrees = -2.3; //Horizontal angle offset of camera
-    double camVertAngleOffsetDegrees = -3.8;  //Vertical angle offset of camera
+    double camHorizAngleOffsetDegrees = 5; //Horizontal angle offset of camera
+    double camVertAngleOffsetDegrees = 0.0;  //Vertical angle offset of camera
     
     //Calibration Variables [start]
     double calibrationDistance = 0;
