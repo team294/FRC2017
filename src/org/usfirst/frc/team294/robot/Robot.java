@@ -222,19 +222,20 @@ public class Robot extends IterativeRobot {
 
 		Robot.shooter.updateSmartDashboardShooterSpeed();
 
+		intake.logClimbStatus();
+//		intake.logIntakeStatus();
+//		driveTrain.logTalonStatus();
+		
 		if (Robot.smartDashboardDebug) {
-			//for testing purposes 
+			//SmartDashboard stuff here 
 			driveTrain.updateSmartDashboardEncoders();
 			boilerVision.updateSmartDashboard();
-			//driveTrain.logTalonStatus();
-			intake.logClimbStatus();
 
 			SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
 			SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
 
 			shooter.updateSmartDashboard(); 
 			intake.updateSmartDashboard();
-			//			intake.logIntakeStatus();
 		}
 
 		shooter.periodicSetF();
