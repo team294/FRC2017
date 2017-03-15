@@ -27,7 +27,7 @@ public class DriveStraightDistance extends Command {
     // Encoder and distance settings, copied from 2016 code and robot
 	private double distErr, distSpeedControl;
 	//private double kPdist = 3; // Practice Bot
-	private double kPdist = 3;
+	private double kPdist = .1;
 	private double kDdist = 0.0;
 	private double prevSpeed = 0.0;
 	private double minSpeed = 0.1;
@@ -75,6 +75,8 @@ public class DriveStraightDistance extends Command {
     	if (driveMode == DriveMode.BOILER_VISION) {
     		requires(Robot.boilerVision);
     	}
+    	requires(Robot.shifter);
+    	
         
         this.speed = Math.abs(speed);
         this.distance = (units == Units.rotations) ? distance : distance / Robot.inchesPerRevolution;
@@ -99,6 +101,7 @@ public class DriveStraightDistance extends Command {
      */
     public DriveStraightDistance(double speed, double distance, DriveMode driveMode, Units units, boolean precise, double tolerance) {
     	this(speed, distance, driveMode, units, precise);
+    	
 
     	distTol = (units == Units.rotations) ? Math.abs(tolerance) : Math.abs(tolerance) / Robot.inchesPerRevolution;
     	this.tolerance.setTolerance(distTol);
@@ -135,6 +138,7 @@ public class DriveStraightDistance extends Command {
     
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.shifter.shiftUp();
     	success = false;
     	tolerance.reset();
     	Robot.driveTrain.resetDegrees();
