@@ -157,13 +157,16 @@ public class Robot extends IterativeRobot {
 		Robot.intake.stopClimber();
 		Robot.driveTrain.stop();
 
-		if (Robot.smartDashboardDebug) {
-			//SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub2", driveTrain.getGyroAngle());
-			SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
-			SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
-		}
-		SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
-		SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
+		//SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
+		//SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
+		//for (int i = 0; i < 10; i++) {
+			SmartDashboard.putNumber("Boiler Angle", Robot.boilerVision.getBoilerAngleOffset());
+			SmartDashboard.putNumber("Boiler Distance", Robot.boilerVision.getBoilerDistance());
+		//}
+		//System.out.print("Gear Distance: ");
+		//System.out.println(Robot.gearVision.getGearDistance());
+		//System.out.print("Angle Distance: ");
+		//System.out.println(Robot.gearVision.getGearAngleOffset());
 		teleopTime.reset();
 	}
 
@@ -221,6 +224,8 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();	
 
 		Robot.shooter.updateSmartDashboardShooterSpeed();
+		SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
+		SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
 
 		if (Robot.smartDashboardDebug) {
 			//for testing purposes 

@@ -238,6 +238,8 @@ public class OI {
 		SmartDashboard.putData("Conveyors Stopped", new ConveyorSetFromRobot(States.stopped));
 		
 		SmartDashboard.putData("Drive With Joysticks", new DriveWithJoysticks());
+		
+		SmartDashboard.putData("Drive Straight Distance", new DriveStraightDistance(1.0, -35, Units.inches, true, true));
 
 	    if (Robot.smartDashboardDebug) {
         	setupSmartDashboardDebug();

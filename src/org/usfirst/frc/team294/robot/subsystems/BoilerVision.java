@@ -17,7 +17,9 @@ public class BoilerVision extends Subsystem {
 	double boilerAngleOffset;
     boolean isAngleValid = false;
     
-	double camHeight = 1.792; //Height of center of camera off of the ground (in feet)
+    double boilerHeight = 6.875; //Height of boiler in feet //6.875
+    
+	double camHeight = 1 + 2.5/12; //Height of center of camera off of the ground (in feet)
 	double camAngle  = 40; //Upward angle offset of camera (in degrees)
 	double camOffset = 0; //Camera horizontal offset from center of robot
 	double camRotationAngle = 0; //Adjusts for rotation of camera about axis that goes through lens.
@@ -109,15 +111,19 @@ public class BoilerVision extends Subsystem {
 		isAngleValid = numValid > 0;
 		if (numValid == 2) { //Checks that both contours are significant and not default
 			//double phi = targets[0].getHeight()/camPXHeight*camVertAngle + (camAngle - camVertAngle/2); //Angle from horizontal to center of the top contour
-			double height = camPXHeight - Math.abs(targets[0].getYPos() + targets[1].getYPos())/2;
+			double height = camPXHeight - (targets[0].getYPos() + targets[1].getYPos())/2;
 			double phi = height/camPXHeight*camVertAngle + (camAngle - camVertAngle/2);
-			distance = (6.875 - camHeight)/Math.tan(phi*Math.PI/180); //6.875 is the height in feet to the center of the two contours
+			distance = (boilerHeight - camHeight)/Math.tan(phi*Math.PI/180);
 		}
 		else { distance = -1; }
 		if (targets.length > 0) System.out.println(""+targets[0].getArea());
 		if (targets.length > 1) System.out.println(""+targets[1].getArea());
-
-		return distance * 12; //Returns distance in inches
+		distance = distance * 12; //convert to inches
+		double a = .0047643798;
+		double b = 1.078009697;
+		double c = 10.1099274;
+		distance = a * distance * distance + b * distance + c;
+		return distance; //Returns distance in inches
 	}
 	
 	public double getBoilerDistance() {
