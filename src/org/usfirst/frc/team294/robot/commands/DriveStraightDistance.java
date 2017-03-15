@@ -27,7 +27,7 @@ public class DriveStraightDistance extends Command {
     // Encoder and distance settings, copied from 2016 code and robot
 	private double distErr, distSpeedControl;
 	//private double kPdist = 3; // Practice Bot
-	private double kPdist = .1;
+	private double kPdist = 3;
 	private double kDdist = 0.0;
 	private double prevSpeed = 0.0;
 	private double minSpeed = 0.1;
@@ -172,7 +172,7 @@ public class DriveStraightDistance extends Command {
 //    		break;
     	case SMARTDASHBOARD:
     		Robot.driveTrain.resetEncoders();
-    		distance = SmartDashboard.getNumber("Distance", 0) / Robot.inchesPerRevolution;
+    		distance = SmartDashboard.getNumber("Distance", 0); // Robot.inchesPerRevolution;
     		speed = Math.abs( SmartDashboard.getNumber("DriveSpeed", 0) );
     		//tolerance = SmartDashboard.getData("DriveTolerance", 0);
     		Robot.log.writeLogEcho("Drive to target SMARTDASHBOARD " + distance * Robot.inchesPerRevolution + " inches away.");
@@ -246,6 +246,8 @@ public class DriveStraightDistance extends Command {
 	    if (Robot.smartDashboardDebug) {
     		Robot.log.writeLog("DriveStraightDistance-Distance-DistanceError-Speed-SpeedControl-AngleError-Curve" + "\t" + distance * Robot.inchesPerRevolution + "\t" + distErr + "\t" + speed + "\t" + distSpeedControl + "\t" + angleErr + "\t" + curve);
         }
+	    SmartDashboard.putNumber("Distance Command", distance);
+	    SmartDashboard.putNumber("DistError", distErr);
     } 
 
     // Make this return true when this Command no longer needs to run execute()

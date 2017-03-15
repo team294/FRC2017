@@ -208,9 +208,11 @@ public class OI {
 	    
 	    //Debug mode
 		SmartDashboard.putData("Debug Dashboard", new SmartDashboardDebug());
-		SmartDashboard.putNumber("Drive Straight Distance", 0);
+		SmartDashboard.putNumber("Distance", 0);
 		double distanceForStraight = SmartDashboard.getNumber("Drive Straight Distance", 0);
-		SmartDashboard.putData("Drive Straight Command", new DriveStraightDistance(1, distanceForStraight, Units.inches, true, true));
+		SmartDashboard.putNumber("DriveSpeed", 0);
+		SmartDashboard.putData("Shift Up", new ShiftUp());
+		SmartDashboard.putData("Drive Straight Command", new DriveStraightDistance(1, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, Units.inches, true, 1.0));
 	    
 	    // Subsystem Testing Commands
 	    SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
