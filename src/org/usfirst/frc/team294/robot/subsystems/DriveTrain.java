@@ -198,8 +198,8 @@ public class DriveTrain extends Subsystem {
      * and update these values on the SmartDashboard.
      */
     public void updateSmartDashboardEncoders() {
-    	SmartDashboard.putNumber("Left Position", leftMotor2.getPosition() - leftEncoderZero);
-    	SmartDashboard.putNumber("Right Position", rightMotor2.getPosition() - rightEncoderZero);
+    	SmartDashboard.putNumber("Left Position", (leftMotor2.getPosition() - leftEncoderZero)*Robot.inchesPerRevolution);
+    	SmartDashboard.putNumber("Right Position", (rightMotor2.getPosition() - rightEncoderZero)*Robot.inchesPerRevolution);
     	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
     	SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
     	getGyroAngle();
