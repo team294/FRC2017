@@ -314,11 +314,6 @@ public class DriveTrain extends Subsystem {
 
 		// Normalize to 0 to 360 degrees
 		angle = (angle + 360) % 360;
-<<<<<<< HEAD
-
-=======
-		//TODO
->>>>>>> refs/remotes/origin/master
 		SmartDashboard.putNumber("navX angle", angle>180.0 ? angle-360.0 : angle);
 		//Robot.log.writeLog("Gyro: Current Angle: " + angle);
 
