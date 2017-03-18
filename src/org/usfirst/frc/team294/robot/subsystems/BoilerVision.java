@@ -123,6 +123,7 @@ public class BoilerVision extends Subsystem {
 		double b = 1.078009697;
 		double c = 10.1099274;
 		distance = a * distance * distance + b * distance + c;
+		distance = distance/Math.sin(Math.PI/2 - getBoilerAngleOffset(targets));
 		return distance; //Returns distance in inches
 	}
 	
@@ -133,14 +134,15 @@ public class BoilerVision extends Subsystem {
 	public boolean isBoilerAngleValid() {
 		return isAngleValid;
 	}
-	
+	public double getBoilerAngleOffset() {
+		getBoilerAngleOffset(filterContours());
+	}
 	/**
 	 * Gets the robot's angle of offset from the boiler
 	 * @return Angle offset in degrees
 	 */
-	public double getBoilerAngleOffset() {
+	public double getBoilerAngleOffset(Contour targets) {
 		//Gives the robot's angle of offset from the boiler in degrees
-		Contour[] targets = filterContours(); //Gets best two best contours
 		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
 		if (targets.length > 0 && targets[0].getArea() > 5) { // target[0] should be bigger than target[1], so if target[0] fails, so will target[1].
 			numValid++;
