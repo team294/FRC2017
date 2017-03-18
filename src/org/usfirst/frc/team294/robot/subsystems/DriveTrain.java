@@ -348,6 +348,26 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber(   "IMU_Pitch",            ahrs.getPitch());
         SmartDashboard.putNumber(   "IMU_Roll",             ahrs.getRoll());
     }
+    
+    /**
+	 * Sets the PID from the Smart Dashboard  Nominal
+	 */
+	public void setDrivePIDFromSmartDashboard(){
+		double driveP= SmartDashboard.getNumber("Drive P", 0);
+		double driveI= SmartDashboard.getNumber("Drive I", 0);
+		double driveD= SmartDashboard.getNumber("Drive D", 0);
+		double angleP= SmartDashboard.getNumber("Angle P", 0);
+		double angleI= SmartDashboard.getNumber("Angle I", 0);
+		double angleD= SmartDashboard.getNumber("Angle D", 0);
+		
+		robotPrefs.putDouble("driveP",driveP); 
+		robotPrefs.putDouble("driveI",driveI); 
+		robotPrefs.putDouble("driveD",driveD); 
+		robotPrefs.putDouble("angleP",angleP); 
+		robotPrefs.putDouble("angleI",angleI); 
+		robotPrefs.putDouble("angleD",angleD); 
+	}
+
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

@@ -395,5 +395,9 @@ public class OI {
 		SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
 	    SmartDashboard.putData("Set Shooter RPM Low From SD", new ShooterSetToRPMFromSmartDashboardLow());
 	    SmartDashboard.putData("Set Shooter RPM High From SD", new ShooterSetToRPMFromSmartDashboardHigh());
+	    
+	    //Drive PID
+		SmartDashboard.putData("Set Drive PID values", new DriveSetPID());
+
 	}
 }
