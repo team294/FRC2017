@@ -29,17 +29,20 @@ public class DriveStraightDistance extends Command {
     // Encoder and distance settings, copied from 2016 code and robot
 	private double distErr, distSpeedControl;
 	//private double kPdist = 3; // Practice Bot
-	private double kPdist = 3;
-	private double kDdist = 0.0;
+	private double drivePConstant = Robot.driveP*.8;
+	private double kPdist = drivePConstant;//3;
+	private double kDdist = Robot.driveD;
+//	private double kIdist = Robot.driveI;
 	private double prevSpeed = 0.0;
 	private double minSpeed = 0.1;
 	
     // Steering settings, also copied from 2016 code. May need to be changed
     private double angleErr, curve;
     //private double kPangle = 0.025; // Practice Bot
-    private double kPangle = 0.025;
-    private double kIangle = 0.0;
-    private double kDangle = 0.05;
+	private double anglePConstant = Robot.angleP*.8;
+    private double kPangle;// = Robot.angleP;//0.025;
+    private double kIangle = Robot.angleI;
+    private double kDangle = Robot.angleD;//0.05;
     private double intErr = 0.0;
     private double prevErr = 0.0;
     
@@ -77,6 +80,8 @@ public class DriveStraightDistance extends Command {
     	if (driveMode == DriveMode.BOILER_VISION) {
     		requires(Robot.boilerVision);
     	}
+    	requires(Robot.shifter);
+    	
         
         this.speed = Math.abs(speed);
         this.distance = (units == Units.rotations) ? distance : distance / Robot.inchesPerRevolution;
@@ -101,6 +106,7 @@ public class DriveStraightDistance extends Command {
      */
     public DriveStraightDistance(double speed, double distance, DriveMode driveMode, Units units, boolean precise, double tolerance) {
     	this(speed, distance, driveMode, units, precise);
+    	
 
     	distTol = (units == Units.rotations) ? Math.abs(tolerance) : Math.abs(tolerance) / Robot.inchesPerRevolution;
     	this.tolerance.setTolerance(distTol);
@@ -137,6 +143,10 @@ public class DriveStraightDistance extends Command {
     
     // Called just before this Command runs the first time
     protected void initialize() {
+    	if (Math.abs(speed) >= minSpeed) {
+        	kPdist = drivePConstant/Math.abs(speed);
+        	kPangle = anglePConstant/Math.abs(speed);
+        	}
     	success = false;
     	tolerance.reset();
     	Robot.driveTrain.resetDegrees();
@@ -173,6 +183,7 @@ public class DriveStraightDistance extends Command {
     		Robot.driveTrain.resetEncoders();
     		distance = SmartDashboard.getNumber("Distance", 0) / Robot.inchesPerRevolution;
     		speed = Math.abs( SmartDashboard.getNumber("DriveSpeed", 0) );
+    		SmartDashboard.putNumber("Angle Error", angleErr);
     		//tolerance = SmartDashboard.getData("DriveTolerance", 0);
     		Robot.log.writeLogEcho("Drive to target SMARTDASHBOARD " + distance * Robot.inchesPerRevolution + " inches away.");
     		break;
@@ -247,6 +258,8 @@ public class DriveStraightDistance extends Command {
 	    if (Robot.smartDashboardDebug) {
     		Robot.log.writeLog("DriveStraightDistance-Distance-DistanceError-Speed-SpeedControl-AngleError-Curve" + "\t" + distance * Robot.inchesPerRevolution + "\t" + distErr + "\t" + speed + "\t" + distSpeedControl + "\t" + angleErr + "\t" + curve);
         }
+	    SmartDashboard.putNumber("Distance Command", distance);
+	    SmartDashboard.putNumber("DistError", distErr);
     } 
 
     // Make this return true when this Command no longer needs to run execute()

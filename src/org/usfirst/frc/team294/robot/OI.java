@@ -208,6 +208,11 @@ public class OI {
 	    
 	    //Debug mode
 		SmartDashboard.putData("Debug Dashboard", new SmartDashboardDebug());
+		SmartDashboard.putNumber("Distance", 0);
+		double distanceForStraight = SmartDashboard.getNumber("Drive Straight Distance", 0);
+		SmartDashboard.putNumber("DriveSpeed", 0);
+		SmartDashboard.putData("Shift Up", new ShiftUp());
+		SmartDashboard.putData("Drive Straight Command", new DriveStraightDistance(1, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, Units.inches, true, 1.0));
 	    
 	    // Subsystem Testing Commands
 	    SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
@@ -390,5 +395,9 @@ public class OI {
 		SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
 	    SmartDashboard.putData("Set Shooter RPM Low From SD", new ShooterSetToRPMFromSmartDashboardLow());
 	    SmartDashboard.putData("Set Shooter RPM High From SD", new ShooterSetToRPMFromSmartDashboardHigh());
+	    
+	    //Drive PID
+		SmartDashboard.putData("Set Drive PID values", new DriveSetPID());
+
 	}
 }

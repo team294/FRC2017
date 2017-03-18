@@ -22,11 +22,15 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Preferences;
 
 /**
  * Main Robot Drive Train
  */
 public class DriveTrain extends Subsystem {
+	
+	public static Preferences robotPrefs;
+
 
 	// Drive Train hardware
 	private final CANTalon leftMotor1 = new CANTalon(RobotMap.driveTrainLeftMotor1);
@@ -191,62 +195,63 @@ public class DriveTrain extends Subsystem {
 		leftEncoderZero = leftMotor2.getPosition();
 		rightEncoderZero = rightMotor2.getPosition();
 		Robot.log.writeLogEcho("Drive encoders reset");
-	}
+    }
 
-	/**
-	 * Get the left and right positions and the left and right speeds from the encoder
-	 * and update these values on the SmartDashboard.
-	 */
-	public void updateSmartDashboardEncoders() {
-		SmartDashboard.putNumber("Left Position", leftMotor2.getPosition() - leftEncoderZero);
-		SmartDashboard.putNumber("Right Position", rightMotor2.getPosition() - rightEncoderZero);
-		SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
-		SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
-		getGyroAngle();
-	}
+    /**
+     * Get the left and right positions and the left and right speeds from the encoder
+     * and update these values on the SmartDashboard.
+     */
+    public void updateSmartDashboardEncoders() {
+    	SmartDashboard.putNumber("Left Position", (leftMotor2.getPosition() - leftEncoderZero)*Robot.inchesPerRevolution);
+    	SmartDashboard.putNumber("Right Position", (rightMotor2.getPosition() - rightEncoderZero)*Robot.inchesPerRevolution);
+    	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
+    	SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
+    	getGyroAngle();
+    }
 
-	/**
-	 * Reads the value of the encoder on left motor 2
-	 * @return
-	 */
-	public double getLeftEncoder() {
-		SmartDashboard.putNumber("Left Position", leftMotor2.getPosition() - leftEncoderZero);
-		SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
-		return leftMotor2.getPosition() - leftEncoderZero;
-	}
+    /**
+     * Reads the value of the encoder on left motor 2
+     * @return
+     */
+    public double getLeftEncoder() { //TODO 
+    	SmartDashboard.putNumber("Left Position", leftMotor2.getPosition() - leftEncoderZero);
+    	SmartDashboard.putNumber("Left Speed", leftMotor2.getSpeed());
+    	return leftMotor2.getPosition() - leftEncoderZero;
+    }
+    
+    /**
+     * Read the value of the encoder on right motor 2
+     * @return
+     */
 
-	/**
-	 * Read the value of the encoder on right motor 2
-	 * @return
-	 */
+    public double getRightEncoder() {
+    	SmartDashboard.putNumber("Right Position", rightMotor2.getPosition() - rightEncoderZero);
+    	SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
+    	return rightMotor2.getPosition() - rightEncoderZero;
+    }
+    
+    /**
+     * Reads the raw value of the left encoder without adjusting for resets
+     * Testing purposes only
+     * @return
+     */
+    public double getLeftEncoderRaw() {
+    	return leftMotor2.getPosition();
+    }
+    
+    /**
+     * Reads the raw value of the right encoder without adjusting for resets
+     * Testing purpsoes only
+     * @return
+     */
+    public double getRightEncoderRaw() {
+    	return rightMotor2.getPosition();
+    }
+    
+    /**
+     * Logs the talon output to the log file
+     */
 
-	public double getRightEncoder() {
-		SmartDashboard.putNumber("Right Position", rightMotor2.getPosition() - rightEncoderZero);
-		SmartDashboard.putNumber("Right Speed", rightMotor2.getSpeed());
-		return rightMotor2.getPosition() - rightEncoderZero;
-	}
-
-	/**
-	 * Reads the raw value of the left encoder without adjusting for resets
-	 * Testing purposes only
-	 * @return
-	 */
-	public double getLeftEncoderRaw() {
-		return leftMotor2.getPosition();
-	}
-
-	/**
-	 * Reads the raw value of the right encoder without adjusting for resets
-	 * Testing purpsoes only
-	 * @return
-	 */
-	public double getRightEncoderRaw() {
-		return rightMotor2.getPosition();
-	}
-
-	/**
-	 * Logs the talon output to the log file
-	 */
 	public void logTalonStatus() {
 		Robot.log.writeLog(
 				"Motors:  Left Motor 2 (Main)-- TempC, " + leftMotor2.getTemperature() +
@@ -318,40 +323,60 @@ public class DriveTrain extends Subsystem {
 		//Robot.log.writeLog("Gyro: Current Angle: " + angle);
 
 		return angle;
-	}
+    }
+    
+    /**
+     * Get the gyro rate
+     * @return
+     */
+    public double getGyroRate() {
+    	return ahrs.getRate();
+    }
+    
+    /**
+     * Get the distance range of the ultrasonic sensor in inches
+     * @return
+     */
+//    public double getUltrasonicDistance() {
+//    	return ultrasonicSensor.getRangeInches();
+//    }
 
-	/**
-	 * Get the gyro rate
-	 * @return
+    /**
+     * Update the SmartDashboard with NavX readings.
+     */
+    public void updateGyroSmartDashboard() {
+        SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
+        SmartDashboard.putBoolean(  "IMU_IsCalibrating",    ahrs.isCalibrating());
+        SmartDashboard.putNumber(   "IMU_FusedHeading",              ahrs.getFusedHeading());
+        SmartDashboard.putNumber(   "IMU_Yaw",              ahrs.getYaw());
+        SmartDashboard.putNumber(   "IMU_Pitch",            ahrs.getPitch());
+        SmartDashboard.putNumber(   "IMU_Roll",             ahrs.getRoll());
+    }
+    
+    /**
+	 * Sets the PID from the Smart Dashboard  Nominal
 	 */
-	public double getGyroRate() {
-		return ahrs.getRate();
+	public void setDrivePIDFromSmartDashboard(){
+		double driveP= SmartDashboard.getNumber("Drive P", 0);
+		double driveI= SmartDashboard.getNumber("Drive I", 0);
+		double driveD= SmartDashboard.getNumber("Drive D", 0);
+		double angleP= SmartDashboard.getNumber("Angle P", 0);
+		double angleI= SmartDashboard.getNumber("Angle I", 0);
+		double angleD= SmartDashboard.getNumber("Angle D", 0);
+		
+		robotPrefs.putDouble("driveP",driveP); 
+		robotPrefs.putDouble("driveI",driveI); 
+		robotPrefs.putDouble("driveD",driveD); 
+		robotPrefs.putDouble("angleP",angleP); 
+		robotPrefs.putDouble("angleI",angleI); 
+		robotPrefs.putDouble("angleD",angleD); 
 	}
 
-	/**
-	 * Get the distance range of the ultrasonic sensor in inches
-	 * @return
-	 */
-	//    public double getUltrasonicDistance() {
-	//    	return ultrasonicSensor.getRangeInches();
-	//    }
 
-	/**
-	 * Update the SmartDashboard with NavX readings.
-	 */
-	public void updateGyroSmartDashboard() {
-		SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
-		SmartDashboard.putBoolean(  "IMU_IsCalibrating",    ahrs.isCalibrating());
-		SmartDashboard.putNumber(   "IMU_FusedHeading",              ahrs.getFusedHeading());
-		SmartDashboard.putNumber(   "IMU_Yaw",              ahrs.getYaw());
-		SmartDashboard.putNumber(   "IMU_Pitch",            ahrs.getPitch());
-		SmartDashboard.putNumber(   "IMU_Roll",             ahrs.getRoll());
-	}
-
-	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		//setDefaultCommand(new MySpecialCommand());
-		setDefaultCommand(new DriveWithJoysticks());
-	}
+    public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+        //setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new DriveWithJoysticks());
+    }
 }
 
