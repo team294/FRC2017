@@ -47,8 +47,8 @@ public class MotorGroupCurrentTrigger extends Trigger {
 		}
 
 		for(int k = 0; k < badMotor.length; k++){
-			if (badMotor[k] == true) break;
-			else if((k == badMotor.length) && (badMotor[k] == false)) timer.reset();
+			if (badMotor[k] == true) break;//If we have a bad motor, the timer keeps running
+			else if((k == badMotor.length) && (badMotor[k] == false)) timer.reset();//If we have no bad motors, reset the timer
 		}
 		/*if (!badMotor.contains(true)) {
 			// All motors are good, so reset timer
@@ -75,9 +75,9 @@ public class MotorGroupCurrentTrigger extends Trigger {
 
 		for(int i = 0; i < badMotor.length; i++){
 			if(badMotor[i]) 
-				s = s + " " + i;
+				s = s + (" " + motorList[i]);
 		}
 
-		SmartDashboard.putString("Bad motors: "+name , s);  //Prints list of bad motor(s) to Smartdashboard
+		SmartDashboard.putString(("Bad" + name + "motors: "), s);  //Prints list of bad motor(s) to Smartdashboard
 	}
 }
