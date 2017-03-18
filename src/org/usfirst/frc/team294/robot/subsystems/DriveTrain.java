@@ -22,11 +22,15 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Preferences;
 
 /**
  * Main Robot Drive Train
  */
 public class DriveTrain extends Subsystem {
+	
+	public static Preferences robotPrefs;
+
 
     // Drive Train hardware
 	private final CANTalon leftMotor1 = new CANTalon(RobotMap.driveTrainLeftMotor1);
