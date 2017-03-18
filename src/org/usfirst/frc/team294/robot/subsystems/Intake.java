@@ -159,7 +159,7 @@ public class Intake extends Subsystem {
      * Set the value of the hopper tracker in the code
      * @param position Intake.Positions.stowed,deployed,unknown
      */
-    public void setHopperTracker(Status position) {
+    public void setHopperTracker(Status position) {//TODO
     	hopperPos = position;
     	SmartDashboard.putString("Hopper status", 
     			(position == Status.stowed) ? "Stowed" :
@@ -167,6 +167,7 @@ public class Intake extends Subsystem {
     }
     
     /**
+     * 
      * Set the value of the intake tracker in the code
      * @param position Intake.Positions.stowed,deployed,unknown
      */
@@ -256,6 +257,7 @@ public class Intake extends Subsystem {
 				"Climber: Climb Motor 1 (Main)-- Speed: " + climbMotor1.get() +
 				" Climb Motor 2 (Follower)-- Speed: " + climbMotor2.get()
 				);
+		Robot.log.writeLog("Climber Moter Current" + "\t" + climbMotor1.getOutputCurrent() + "\t" + climbMotor2.getOutputCurrent());
 	}
 
 	/**

@@ -5,37 +5,25 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Set the PIDF of the shooter from the Smart Dashboard
+ * Turn off SmartDashboardDebugging
  */
-public class ShooterSetPIDF extends Command {
+public class SmartDashboardDebugOff extends Command {
 
-	private double speed;
-	
 	/**
-	 * Set the PIDF of the shooter from the Smart Dashboard and the speed here
-	 * @param speed rpm, from -1000 to 18000
+	 * Turn on SmartDashboardDebugging
 	 */
-    public ShooterSetPIDF(double speed) {
+    public SmartDashboardDebugOff() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-		requires(Robot.shooter);
-		this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-	    
-    	if (Robot.smartDashboardDebug) {
-	    	Robot.shooter.setPIDFromSmartDashboard();
-        }
-    	Robot.shooter.setRPM(speed);
-    	
-    	// Write log of setting PIDF
-    	Robot.log.writeLog(" Shooter-- Setting PIDF ");
+    	Robot.smartDashboardDebug = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {    	
+    protected void execute() {
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -51,4 +39,4 @@ public class ShooterSetPIDF extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
- }
+}

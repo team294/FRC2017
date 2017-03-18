@@ -22,10 +22,10 @@ public class AutoGearAndScore extends CommandGroup {
     	
     	// Shift down and do a gear sequence according to the position given
     	addSequential(new ShiftDown());
-    	addSequential(new AutoDriveAndGear(position));
+    	addSequential(new AutoDriveAndGear(team, position));
     	addSequential(new WaitSeconds(2.0));
     	
     	// Score on the boiler according to team and position
-    	addSequential(new AutoScoreBoiler(team, position));
+    	// addSequential(new AutoScoreBoiler(team, position));
     }
 }
