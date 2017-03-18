@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.utilities.ProfileGenerator;
 import org.usfirst.frc.team294.utilities.ToleranceChecker;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,8 +14,9 @@ public class DriveStraightDistance extends Command {
 
 	// Available drive modes
 	public enum DriveMode {
-		ABSOLUTE, RELATIVE, GEAR_VISION, BOILER_VISION, SMARTDASHBOARD, BOILER_SMARTDASHBOARD 
+		ABSOLUTE, RELATIVE, GEAR_VISION, BOILER_VISION, SMARTDASHBOARD, BOILER_SMARTDASHBOARD, MOTION_PROFILE
 	}
+	public ProfileGenerator trapezoid;
 	// Commented-out drive modes:  ULTRASONIC, ULTRASONIC_SMARTDASHBOARD
 	
 	public enum Units {rotations, inches};
@@ -138,6 +140,7 @@ public class DriveStraightDistance extends Command {
     	success = false;
     	tolerance.reset();
     	Robot.driveTrain.resetDegrees();
+    	trapezoid = new ProfileGenerator(0, distance, 0, 0.75, 0.5, 0.1);
     	
     switch (driveMode) {
     	case ABSOLUTE:
@@ -196,9 +199,10 @@ public class DriveStraightDistance extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	distErr = (distance > 0) 
+    	distErr = Math.signum(distance)*(Math.abs(distance) - Math.abs(trapezoid.getCurrentPosition()));
+    	/*distErr = (distance > 0) 
     			? Math.min(distance - Robot.driveTrain.getLeftEncoder(), distance - Robot.driveTrain.getRightEncoder() )
-    			: Math.max(distance - Robot.driveTrain.getLeftEncoder(), distance - Robot.driveTrain.getRightEncoder() );
+    			: Math.max(distance - Robot.driveTrain.getLeftEncoder(), distance - Robot.driveTrain.getRightEncoder() );*/
     	if (preciseDistance) {
     		success = tolerance.success(Math.abs(distErr));
     	} else {
@@ -220,6 +224,7 @@ public class DriveStraightDistance extends Command {
        		} else {
        			distSpeedControl = (distSpeedControl>-minSpeed) ? -minSpeed : distSpeedControl;
        		}
+        	if(distSpeedControl > trapezoid.getCurrentVelocity()) distSpeedControl = trapezoid.getCurrentVelocity();
         	
         	// Find angle to drive
         	angleErr = Robot.driveTrain.getGyroAngle();
