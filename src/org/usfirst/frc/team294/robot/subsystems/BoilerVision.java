@@ -1,5 +1,6 @@
 //Only losers play Pokemon Go
 package org.usfirst.frc.team294.robot.subsystems;
+
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.utilities.Contour;
 
@@ -135,7 +136,7 @@ public class BoilerVision extends Subsystem {
 		return isAngleValid;
 	}
 	public double getBoilerAngleOffset() {
-		getBoilerAngleOffset(filterContours());
+		return getBoilerAngleOffset(filterContours());
 	}
 	/**
 	 * Gets the robot's angle of offset from the boiler
