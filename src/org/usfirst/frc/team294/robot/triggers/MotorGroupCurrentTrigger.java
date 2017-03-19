@@ -13,7 +13,7 @@ public class MotorGroupCurrentTrigger extends Trigger {
 	double duration; //Time that motors must be running at bad current level
 	String name;  //Name of motor group for this trigger
 	Timer timer = new Timer(); //Timer to measure duration
-	Boolean[] badMotor = new Boolean[motorList.length]; //List of bad motors. If a value is true, that means that motor is bad
+	Boolean[] badMotor; //List of bad motors. If a value is true, that means that motor is bad
 
 	/**
 	 * Test to see if any motor in the group is dead
@@ -25,6 +25,7 @@ public class MotorGroupCurrentTrigger extends Trigger {
 		this.motorList = inputMotors;
 		this.duration = duration;
 		this.name = name;
+		badMotor = new Boolean[motorList.length];
 
 		for(int i=0; i<motorList.length; i++){
 			badMotor[i] = false; //Assume that no  motors are bad, thus badMotor = false
@@ -40,9 +41,9 @@ public class MotorGroupCurrentTrigger extends Trigger {
 			for(int j = 0; j < motorList.length; j++) {
 				// Compare current for motor i to to every other motor
 				if (i==j) continue;//Don't compare motor to itself, moves on to next iteraton of j loop
-				else if ((motorList[j].getOutputCurrent() > 0.5) && (motorList[i].getOutputCurrent()/motorList[j].getOutputCurrent() <= 0.67)) {//If a motor is bad
-					badMotor[i] = true;//Set the index corresponding to the bad motor to true
-				}
+				//else if ((motorList[j].getOutputCurrent() > 0.5) && (motorList[i].getOutputCurrent()/motorList[j].getOutputCurrent() <= 0.67)) {//If a motor is bad
+				//	badMotor[i] = true;//Set the index corresponding to the bad motor to true
+				//}
 			}
 		}
 
