@@ -7,6 +7,9 @@
 	<classpathentry kind="var" path="cscore" sourcepath="cscore.sources"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+<<<<<<< HEAD
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRLib.jar"/>
+=======
+>>>>>>> origin/John
 	<classpathentry kind="output" path="bin"/>
 </classpath>
