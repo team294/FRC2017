@@ -175,6 +175,16 @@ public class BoilerVision extends Subsystem {
 		return lastBoilerDistance;
 	}
 	
+	public double getShootRPMForDistance() {
+		double distance = getBoilerDistance();
+		double a, b, c;
+		a = 0.0; //TODO: Update values according to PID testing
+		b = 0.0;
+		c = 4000.0;
+		double shooterRPM = a * distance * distance + b * distance + c;
+		return shooterRPM;
+	}
+	
 	/**
 	 * Displays the distance to boiler on SmartDashboard
 	 */
