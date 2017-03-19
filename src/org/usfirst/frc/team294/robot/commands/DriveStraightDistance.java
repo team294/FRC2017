@@ -31,7 +31,7 @@ public class DriveStraightDistance extends Command {
 	private double kPdist = drivePConstant;//3;
 	private double kDdist = Robot.driveD;
 //	private double kIdist = Robot.driveI;
-	private double prevSpeed = 0.0;
+	private double prevDistErr = 0.0;
 	private double minSpeed = 0.1;
 	
     // Steering settings, also copied from 2016 code. May need to be changed
@@ -42,7 +42,7 @@ public class DriveStraightDistance extends Command {
     private double kIangle = Robot.angleI;
     private double kDangle = Robot.angleD;//0.05;
     private double intErr = 0.0;
-    private double prevErr = 0.0;
+    private double prevAngleErr = 0.0;
     
     // Expanded settings
     private boolean preciseDistance = true;
@@ -148,6 +148,9 @@ public class DriveStraightDistance extends Command {
     	success = false;
     	tolerance.reset();
     	Robot.driveTrain.resetDegrees();
+    	if (Math.abs(speed) > minSpeed) {
+    	    kPdist = kPdist; // * (0.8 / speed);
+    	}
     	
     switch (driveMode) {
     	case ABSOLUTE:
@@ -219,14 +222,14 @@ public class DriveStraightDistance extends Command {
     	
     	if (!success) {
         	// Find speed to drive
-        	distSpeedControl = distErr*kPdist+(distErr-prevErr)*kDdist;
-        	prevErr = distErr;
-        	distSpeedControl = (distSpeedControl>1) ? 1 : distSpeedControl;
-        	distSpeedControl = (distSpeedControl<-1) ? -1 : distSpeedControl;
+        	distSpeedControl = distErr*kPdist+(distErr-prevDistErr)*kDdist;
+        	prevDistErr = distErr;
+        	distSpeedControl = (distSpeedControl > 1) ? 1 : distSpeedControl;
+        	distSpeedControl = (distSpeedControl < -1) ? -1 : distSpeedControl;
         	distSpeedControl *= speed;
         	
         	// Use minSpeed to stay out of dead band
-        	if (distSpeedControl>0) {
+        	if (distSpeedControl > 0) {
         		distSpeedControl = (distSpeedControl<minSpeed) ? minSpeed : distSpeedControl;
        		} else {
        			distSpeedControl = (distSpeedControl>-minSpeed) ? -minSpeed : distSpeedControl;
@@ -237,14 +240,14 @@ public class DriveStraightDistance extends Command {
         	angleErr = (angleErr>180) ? angleErr-360 : angleErr;
         	angleErr = (Math.abs(angleErr) <= 10.0) ? angleErr : 0.0;		// Assume if we are more than 10 deg off then we have a NavX failure
         	intErr = intErr + angleErr*0.02;
-        	double dErr = angleErr - prevErr;
-        	prevErr = angleErr;
+        	double dErr = angleErr - prevAngleErr;
+        	prevAngleErr = angleErr;
         	SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub", angleErr);
         	
         	SmartDashboard.putNumber("Integrated Error: ", intErr);
             curve = angleErr*kPangle + intErr*kIangle + dErr*kDangle;
-        	curve = (curve>0.5) ? 0.5 : curve;
-        	curve = (curve<-0.5) ? -0.5 : curve;
+        	curve = (curve > 0.5) ? 0.5 : curve;
+        	curve = (curve < -0.5) ? -0.5 : curve;
         	curve = (distErr>=0) ? -curve : curve; // Flip sign if we are going forwards
         	SmartDashboard.putNumber("drive curve wwwwwwwwwwwwwwwwww", curve);
         	

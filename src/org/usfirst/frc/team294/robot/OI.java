@@ -209,11 +209,11 @@ public class OI {
 	    //Debug mode
 		SmartDashboard.putData("Debug Dashboard", new SmartDashboardDebug());
 		SmartDashboard.putNumber("Distance", 0);
-		double distanceForStraight = SmartDashboard.getNumber("Drive Straight Distance", 0);
 		SmartDashboard.putNumber("DriveSpeed", 0);
 		SmartDashboard.putData("Shift Up", new ShiftUp());
-		SmartDashboard.putData("Drive Straight Command", new DriveStraightDistance(1, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, Units.inches, true, 1.0));
-	    
+		SmartDashboard.putData("Drive Straight Command", new DriveStraightDistance(
+				                 1, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, Units.inches, true, 1.0));
+		
 	    // Subsystem Testing Commands
 	    SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
 	    SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
@@ -244,7 +244,7 @@ public class OI {
 		
 		SmartDashboard.putData("Drive With Joysticks", new DriveWithJoysticks());
 
-	    if (Robot.smartDashboardDebug) {
+	    if (true) { //Robot.smartDashboardDebug) {
         	setupSmartDashboardDebug();
         }
 	}
@@ -389,6 +389,7 @@ public class OI {
 	    SmartDashboard.putData("Autonomous Gear Right", new AutoDriveAndGear(Teams.blue, StartPositions.right));
 	    SmartDashboard.putData("Autonomous Gear Middle", new AutoDriveAndGear(Teams.blue, StartPositions.middle)); 
 	    SmartDashboard.putData("Autonomous from Knobs", new AutoCommandFromKnobs());
+	    
 	    
 	    // Shooter controls
 	    SmartDashboard.putData("Shooter Motor Voltage", new ShooterSetVoltageFromSmartDashboard());    
