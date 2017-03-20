@@ -215,6 +215,7 @@ public class Robot extends IterativeRobot {
 
 		//DeployIntakeAndHopper();
 		//ShooterSetRPM(Robot.shootHighSpeed);
+		readPreferences();
 	}
 
 	/**
@@ -243,7 +244,8 @@ public class Robot extends IterativeRobot {
 			intake.updateSmartDashboard();
 		}
 
-		shooter.periodicSetF();
+		//shooter.periodicSetF();
+		//May be interfering with PID's, taking out temporarily
 
 		oi.readBottomKnobRaw();
 		oi.readMiddleKnobRaw();

@@ -132,8 +132,8 @@ public class OI {
 	    	left[i] = new JoystickButton(leftJoystick, i);
 	    	right[i] = new JoystickButton(rightJoystick, i);
 	    	if (i == 1) {
-	    		right[i].whenPressed(new GyroTurnToAngle(0.8, 0.0, 1.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
-	    		left[i].whenPressed(new GyroTurnToAngle(0.8, 0.0, 1.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+	    		right[i].whenPressed(new GyroTurnToAngle(0.6, 0.0, 2.0, GyroTurnToAngle.TurnMode.BOILER_VISION));
+	    		left[i].whenPressed(new GyroTurnToAngle(0.8, 0.0, 2.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
 	    	} else if (i == 3) {
 	    		right[i].whenPressed(new SwitchDriveDirection(true));
 	    		left[i].whenPressed(new SwitchDriveDirection(false));
@@ -167,7 +167,7 @@ public class OI {
 	    coP[1].whenPressed(new StopAllMotors());
 	    coP[2].whenPressed(new ClimbSequenceStart());
 	    //coP[3].whenPressed(new StartManualClimbControl());
-	    coP[4].whenPressed(new ShooterSetRPM(Robot.shootSpeedLowRPM));
+	    coP[4].whenPressed(new AutoGrabHopper());
 	    coP[5].whenPressed(new ShooterSetRPM(Robot.shootSpeedHighRPM));
 	    coP[6].whenPressed(new ConveyorSetFromRobot(States.in));
 	    coP[6].whenReleased(new ConveyorSetFromRobot(States.stopped));
@@ -191,7 +191,7 @@ public class OI {
 	    xbB[7].whenPressed(new DeployIntakeAndHopper());
 	    xbB[8].whenPressed(new ClimbSequenceStart());
 	    xbB[9].whenPressed(new StopAllMotors());
-	    xbB[10].whenPressed(new ClimbJoystickControl()); //Command does not yet exist
+	    xbB[10].whenPressed(new ClimbJoystickControl());
 	    
 	    xbPovUp.whenActive(new ShooterSetRPM(Robot.shootSpeedHighRPM));
 	    xbPovDown.whenActive(new ShooterSetRPM(Robot.shootSpeedLowRPM));

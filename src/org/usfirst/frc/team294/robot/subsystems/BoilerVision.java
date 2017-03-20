@@ -19,10 +19,10 @@ public class BoilerVision extends Subsystem {
     
     double boilerHeight = 6.875; //Height of boiler in feet //6.875
     
-	double camHeight = 21.5/12; //Height of center of camera off of the ground (in feet)
-	double camAngle  = 25; //Upward angle offset of camera (in degrees)
-	double camOffset = 10.8/12; //Camera horizontal offset from center of robot (in feet)
-	double camRotationAngle = 10; //Adjusts for rotation of camera about axis that goes through lens.
+	double camHeight = 21/12; //Height of center of camera off of the ground (in feet)
+	double camAngle  = 30; //Upward angle offset of camera (in degrees)
+	double camOffset = 10.5/12; //Camera horizontal offset from center of robot (in feet)
+	double camRotationAngle = 12; //Adjusts for rotation of camera about axis that goes through lens.
 	
 	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
 	double camPXDiagonal = Math.hypot(camPXWidth, camPXHeight); //Diagonal camera pixel length
@@ -34,7 +34,7 @@ public class BoilerVision extends Subsystem {
 		//setDefaultCommand(new MySpecialCommand());
 	}
 	public BoilerVision(){
-		table = NetworkTable.getTable("GRIP/myBoilerReport");
+		table = NetworkTable.getTable("GRIP/myGearReport");//"GRIP/myBoilerReport");
 		grip_table = NetworkTable.getTable("GRIP");
 	}
 	public Contour[] filterContours() {
@@ -123,7 +123,7 @@ public class BoilerVision extends Subsystem {
 		double b = 1.078009697;
 		double c = 10.1099274;
 		distance = a * distance * distance + b * distance + c;
-		distance = distance/Math.sin(Math.PI/2 - getBoilerAngleOffset(targets));
+		//distance = distance/Math.sin(Math.PI/2 - getBoilerAngleOffset(targets));
 		return distance; //Returns distance in inches
 	}
 	
@@ -135,7 +135,7 @@ public class BoilerVision extends Subsystem {
 		return isAngleValid;
 	}
 	public double getBoilerAngleOffset() {
-		getBoilerAngleOffset(filterContours());
+		return getBoilerAngleOffset(filterContours());
 	}
 	/**
 	 * Gets the robot's angle of offset from the boiler
