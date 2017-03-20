@@ -1,5 +1,6 @@
 //Only losers play Pokemon Go
 package org.usfirst.frc.team294.robot.subsystems;
+
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.utilities.Contour;
 
@@ -17,10 +18,12 @@ public class BoilerVision extends Subsystem {
 	double boilerAngleOffset;
     boolean isAngleValid = false;
     
-	double camHeight = 1.792; //Height of center of camera off of the ground (in feet)
-	double camAngle  = 40; //Upward angle offset of camera (in degrees)
-	double camOffset = 0; //Camera horizontal offset from center of robot
-	double camRotationAngle = 0; //Adjusts for rotation of camera about axis that goes through lens.
+    double boilerHeight = 6.875; //Height of boiler in feet //6.875
+    
+	double camHeight = 21/12; //Height of center of camera off of the ground (in feet)
+	double camAngle  = 30; //Upward angle offset of camera (in degrees)
+	double camOffset = 10.5/12; //Camera horizontal offset from center of robot (in feet)
+	double camRotationAngle = 12; //Adjusts for rotation of camera about axis that goes through lens.
 	
 	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
 	double camPXDiagonal = Math.hypot(camPXWidth, camPXHeight); //Diagonal camera pixel length
@@ -32,7 +35,7 @@ public class BoilerVision extends Subsystem {
 		//setDefaultCommand(new MySpecialCommand());
 	}
 	public BoilerVision(){
-		table = NetworkTable.getTable("GRIP/myBoilerReport");
+		table = NetworkTable.getTable("GRIP/myGearReport");//"GRIP/myBoilerReport");
 		grip_table = NetworkTable.getTable("GRIP");
 	}
 	public Contour[] filterContours() {
@@ -109,15 +112,20 @@ public class BoilerVision extends Subsystem {
 		isAngleValid = numValid > 0;
 		if (numValid == 2) { //Checks that both contours are significant and not default
 			//double phi = targets[0].getHeight()/camPXHeight*camVertAngle + (camAngle - camVertAngle/2); //Angle from horizontal to center of the top contour
-			double height = camPXHeight - Math.abs(targets[0].getYPos() + targets[1].getYPos())/2;
+			double height = camPXHeight - (targets[0].getYPos() + targets[1].getYPos())/2;
 			double phi = height/camPXHeight*camVertAngle + (camAngle - camVertAngle/2);
-			distance = (6.875 - camHeight)/Math.tan(phi*Math.PI/180); //6.875 is the height in feet to the center of the two contours
+			distance = (boilerHeight - camHeight)/Math.tan(phi*Math.PI/180);
 		}
 		else { distance = -1; }
 		if (targets.length > 0) System.out.println(""+targets[0].getArea());
 		if (targets.length > 1) System.out.println(""+targets[1].getArea());
-
-		return distance * 12; //Returns distance in inches
+		distance = distance * 12; //convert to inches
+		double a = .0047643798;
+		double b = 1.078009697;
+		double c = 10.1099274;
+		distance = a * distance * distance + b * distance + c;
+		//distance = distance/Math.sin(Math.PI/2 - getBoilerAngleOffset(targets));
+		return distance; //Returns distance in inches
 	}
 	
 	public double getBoilerDistance() {
@@ -127,14 +135,15 @@ public class BoilerVision extends Subsystem {
 	public boolean isBoilerAngleValid() {
 		return isAngleValid;
 	}
-	
+	public double getBoilerAngleOffset() {
+		return getBoilerAngleOffset(filterContours());
+	}
 	/**
 	 * Gets the robot's angle of offset from the boiler
 	 * @return Angle offset in degrees
 	 */
-	public double getBoilerAngleOffset() {
+	public double getBoilerAngleOffset(Contour[] targets) {
 		//Gives the robot's angle of offset from the boiler in degrees
-		Contour[] targets = filterContours(); //Gets best two best contours
 		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
 		if (targets.length > 0 && targets[0].getArea() > 5) { // target[0] should be bigger than target[1], so if target[0] fails, so will target[1].
 			numValid++;
@@ -167,6 +176,16 @@ public class BoilerVision extends Subsystem {
 		}
 		//this.boilerAngleOffset = (this.boilerAngleOffset > 0) ? lastBoilerDistance : negNum;
 		return lastBoilerDistance;
+	}
+	
+	public double getShootRPMForDistance() {
+		double distance = getBoilerDistance();
+		double a, b, c;
+		a = 0.0; //TODO: Update values according to PID testing
+		b = 0.0;
+		c = 4000.0;
+		double shooterRPM = a * distance * distance + b * distance + c;
+		return shooterRPM;
 	}
 	
 	/**

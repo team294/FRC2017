@@ -45,7 +45,7 @@ public class Shooter extends Subsystem {
 		shooterMotor1.enableBrakeMode(false);
 		shooterMotor1.set(0.0);
 		shooterMotor1.setPID(Robot.shooterP, Robot.shooterI, Robot.shooterD, Robot.shooterFNominal, 500, 500, 0); 
-		periodicSetF();
+		//periodicSetF();
 		shooterMotor1.SetVelocityMeasurementWindow(10);		//These need to be tuned
 		shooterMotor1.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_100Ms);
 		
@@ -166,7 +166,8 @@ public class Shooter extends Subsystem {
 	 */
 	public void updateSmartDashboardShooterSpeed() {
 		SmartDashboard.putNumber("Shooter Motor Speed", -shooterMotor1.getSpeed());
-
+		SmartDashboard.putNumber("Shooter Motor Error", -shooterMotor1.getSpeed() - setSpeed);
+		SmartDashboard.putNumber("Shooter Bottom Out", shooterMotor1.getBusVoltage()+ shooterMotor1.getOutputVoltage());
 	}
 
 	/**
@@ -195,6 +196,7 @@ public class Shooter extends Subsystem {
 		double i= SmartDashboard.getNumber("Shooter Motor 1000*I", 0) / 1000;
 		double d= SmartDashboard.getNumber("Shooter Motor 1000*D", 0) / 1000;
 		fNominal = SmartDashboard.getNumber("Set Nominal 1000* F Value",0) / 1000;
+		shooterMotor1.setF(fNominal);
 		
 		shooterMotor1.setP(p) ;
 		shooterMotor1.setI(i);
