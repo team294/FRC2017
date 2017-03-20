@@ -150,7 +150,7 @@ public class DriveStraightDistance extends Command {
     	success = false;
     	tolerance.reset();
     	Robot.driveTrain.resetDegrees();
-    	trapezoid = new ProfileGenerator(0, distance, 0, 0.75, 0.5, 0.1);
+    	trapezoid = new ProfileGenerator(0, distance, 0, 72, 72, 0.1, 0.01);
     	
     switch (driveMode) {
     	case ABSOLUTE:
@@ -210,7 +210,7 @@ public class DriveStraightDistance extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	distErr = Math.signum(distance)*(Math.abs(distance) - Math.abs(trapezoid.getCurrentPosition()));
+    	distErr = trapezoid.getCurrentPosition() - distance;
     	/*distErr = (distance > 0) 
     			? Math.min(distance - Robot.driveTrain.getLeftEncoder(), distance - Robot.driveTrain.getRightEncoder() )
     			: Math.max(distance - Robot.driveTrain.getLeftEncoder(), distance - Robot.driveTrain.getRightEncoder() );*/
