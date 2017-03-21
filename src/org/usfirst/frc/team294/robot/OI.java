@@ -168,7 +168,7 @@ public class OI {
 	    coP[2].whenPressed(new ClimbSequenceStart());
 	    //coP[3].whenPressed(new StartManualClimbControl());
 	    coP[4].whenPressed(new AutoGrabHopper());
-	    coP[5].whenPressed(new ShooterSetRPM(Robot.shootSpeedHighRPM));
+	    coP[5].whenPressed(new GyroTurnToAngle(.4, -90));
 	    coP[6].whenPressed(new ConveyorSetFromRobot(States.in));
 	    coP[6].whenReleased(new ConveyorSetFromRobot(States.stopped));
 	    coP[7].whenPressed(new ConveyorSetFromRobot(States.out));
@@ -209,7 +209,6 @@ public class OI {
 	    //Debug mode
 		SmartDashboard.putData("Debug Dashboard", new SmartDashboardDebug());
 		SmartDashboard.putNumber("Distance", 0);
-		double distanceForStraight = SmartDashboard.getNumber("Drive Straight Distance", 0);
 		SmartDashboard.putNumber("DriveSpeed", 0);
 		SmartDashboard.putData("Shift Up", new ShiftUp());
 		SmartDashboard.putData("Drive Straight Command", new DriveStraightDistance(1, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, Units.inches, true, 1.0));

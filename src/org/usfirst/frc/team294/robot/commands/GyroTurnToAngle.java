@@ -25,9 +25,9 @@ public class GyroTurnToAngle extends Command {
 	private ToleranceChecker tolCheck;
 	
 	// Turning parameters
-	private double kPangle = 0.04;
+	private double kPangle = 0.02;
 	private double kIangle = 0.002;
-	private double kDangle = 0.25;
+	private double kDangle = 0.2;
 	private double minSpeed = 0.25;
 
 	// Local variables
@@ -118,7 +118,7 @@ public class GyroTurnToAngle extends Command {
     		break;
     	case BOILER_VISION:
     		Robot.driveTrain.resetDegrees();
-    		angle = Robot.boilerVision.getBoilerAngleOffset();
+    		angle = -Robot.boilerVision.getBoilerAngleOffset();
     		Robot.log.writeLogEcho("Gyro: Start turn to angle BOILER" + angle + " degrees.");
     		break;
     	case SMARTDASHBOARD:
