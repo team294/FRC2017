@@ -20,9 +20,9 @@ public class BoilerVision extends Subsystem {
     
     double boilerHeight = 6.875; //Height of boiler in feet //6.875
     
-	double camHeight = 21/12; //Height of center of camera off of the ground (in feet)
-	double camAngle  = 30; //Upward angle offset of camera (in degrees)
-	double camOffset = 10.5/12; //Camera horizontal offset from center of robot (in feet)
+	double camHeight = 21.5/12; //Height of center of camera off of the ground (in feet)
+	double camAngle  = 33; //Upward angle offset of camera (in degrees)
+	double camOffset = 11/12; //Camera horizontal offset from center of robot (in feet)
 	double camRotationAngle = 12; //Adjusts for rotation of camera about axis that goes through lens.
 	
 	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
