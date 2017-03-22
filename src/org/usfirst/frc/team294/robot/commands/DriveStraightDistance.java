@@ -16,9 +16,12 @@ public class DriveStraightDistance extends Command {
 	
 	// Available drive modes
 	public enum DriveMode {
-		ABSOLUTE, RELATIVE, GEAR_VISION, BOILER_VISION, SMARTDASHBOARD, BOILER_SMARTDASHBOARD, MOTION_PROFILE
+		ABSOLUTE, RELATIVE, GEAR_VISION, BOILER_VISION, SMARTDASHBOARD, BOILER_SMARTDASHBOARD
 	}
+	
+	//Generates a trapezoidal motion profile to make acceleration/deceleration smoother
 	public ProfileGenerator trapezoid;
+	
 	// Commented-out drive modes:  ULTRASONIC, ULTRASONIC_SMARTDASHBOARD
 	
 	public enum Units {rotations, inches};
@@ -177,7 +180,7 @@ public class DriveStraightDistance extends Command {
     	startTime = runTime.get();
     	tolerance.reset();
     	Robot.driveTrain.resetDegrees();
-    	trapezoid = new ProfileGenerator(0, distance*Robot.inchesPerRevolution, 0, 72, 72, 0.02, 0.01);
+    	trapezoid = new ProfileGenerator(0, distance*Robot.inchesPerRevolution, 0, 72, 72, 0.01);
     	
     switch (driveMode) {
     	case ABSOLUTE:
@@ -266,7 +269,6 @@ public class DriveStraightDistance extends Command {
        		} else {
        			distSpeedControl = (distSpeedControl>-minSpeed) ? -minSpeed : distSpeedControl;
        		}
-        	//if(distSpeedControl > trapezoid.getCurrentVelocity()) distSpeedControl = trapezoid.getCurrentVelocity();
         	
         	// Find angle to drive
         	angleErr = Robot.driveTrain.getGyroAngle();

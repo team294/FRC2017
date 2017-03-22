@@ -41,10 +41,10 @@ public class MotorGroupCurrentTrigger extends Trigger {
 			for(int j = 0; j < motorList.length; j++) {
 				// Compare current for motor i to to every other motor
 				if (i==j) continue;//Don't compare motor to itself, moves on to next iteraton of j loop
-				//else if ((motorList[j].getOutputCurrent() > 0.5) && (motorList[i].getOutputCurrent()/motorList[j].getOutputCurrent() <= 0.67)) {//If a motor is bad
-				//	badMotor[i] = true;//Set the index corresponding to the bad motor to true
-				//}
-			}
+				else if ((motorList[j].getOutputCurrent() > 0.5) && (motorList[i].getOutputCurrent()/motorList[j].getOutputCurrent() <= 0.67)) {//If a motor is bad
+					badMotor[i] = true;//Set the index corresponding to the bad motor to true
+				}
+			} //LINES 44-46 CAN CAUSE A TIMEOUT ERROR, DON't KNOW WHY
 		}
 
 		for(int k = 0; k < badMotor.length; k++){

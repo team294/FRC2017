@@ -19,7 +19,7 @@ public class ProfileGenerator {
 	private double directionSign;
 
 	//Function to update equations for when we increment them, function to say hey we're done
-	public ProfileGenerator(double initialPosition, double finalPosition, double initialVelocity, double maxVelocity, double maxAcceleration, double dt, double threshold) {
+	public ProfileGenerator(double initialPosition, double finalPosition, double initialVelocity, double maxVelocity, double maxAcceleration, double threshold) {
 		// TODO Auto-generated constructor stub
 		this.currentPosition = initialPosition;
 		this.finalPosition = Math.abs(finalPosition);
@@ -28,7 +28,7 @@ public class ProfileGenerator {
 		this.maxVelocity = maxVelocity;
 		//this.currentAcceleration = currentAcceleration;
 		this.maxAcceleration = maxAcceleration;
-		this.dt = dt;
+		this.dt = 0.02;
 		this.threshold = threshold;
 		//this.totalTime = totalTime;
 	}

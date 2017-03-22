@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.utilities.ProfileGenerator;
 import org.usfirst.frc.team294.utilities.ToleranceChecker;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -15,6 +16,9 @@ public class GyroTurnToAngle extends Command {
 	public enum TurnMode {
 	    RELATIVE, ABSOLUTE, GEAR_VISION, BOILER_VISION, SMARTDASHBOARD
 	}
+	
+	//Generates a trapezoidal motion profile to smooth out turns
+	public ProfileGenerator turnProfile;
 	
 	// Settings from command initialization
 	private double angle;
@@ -95,7 +99,8 @@ public class GyroTurnToAngle extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	tolCheck.reset();
-
+    	turnProfile = new ProfileGenerator(0, angle, 0, 15.0, 15.0, 0.01);
+    	
     	switch (turnMode) {
     	case ABSOLUTE:
     		Robot.log.writeLogEcho("Gyro: Start turn to angle absolute " + angle  + " degrees, current heading " +
@@ -146,7 +151,7 @@ public class GyroTurnToAngle extends Command {
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	angleErr = getAngleErr();
+    	angleErr = turnProfile.getCurrentPosition() - getAngleErr();
     	intErr = intErr + angleErr*0.02;
     	tolCheck.check(Math.abs(angleErr));
     	
