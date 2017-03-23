@@ -173,17 +173,17 @@ public class OI {
 	    coP[6].whenReleased(new ConveyorSetFromRobot(States.stopped));
 	    coP[7].whenPressed(new ConveyorSetFromRobot(States.out));
 	    coP[7].whenReleased(new ConveyorSetFromRobot(States.stopped));
-	    coP[8].whenPressed(new MoveGearGate(false));
+	    coP[8].whenPressed(new GearGateTilt(false));
 	    coP[9].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
-	    coP[10].whenPressed(new MoveGearGate(true));
+	    coP[10].whenPressed(new GearGateTilt(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
 	    coP[12].whenPressed(new MoveHopperIfSafe(false));
 	    coP[13].whenPressed(new StowIntakeAndHopper()); 
 	    coP[14].whenPressed(new DeployIntakeAndHopper()); 
 	    
 	    // Xbox controller buttons
-	    xbB[1].whenPressed(new MoveGearGate(true));
-	    xbB[2].whenPressed(new MoveGearGate(false));
+	    xbB[1].whenPressed(new GearGateTilt(true));
+	    xbB[2].whenPressed(new GearGateTilt(false));
 	    xbB[3].whenPressed(new MoveHopperIfSafe(false));
 	    xbB[4].whenPressed(new StowIntakeAndHopper());
 	    xbB[5].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
@@ -210,8 +210,8 @@ public class OI {
 		SmartDashboard.putData("Debug Dashboard", new SmartDashboardDebug());
 	    
 	    // Subsystem Testing Commands
-	    SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
-	    SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
+	    SmartDashboard.putData("Gear Piston Out", new GearGateTilt(true));
+	    SmartDashboard.putData("Gear Piston In", new GearGateTilt(false));
 	    SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
 	    SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(Robot.intakeSpeed));
 	    SmartDashboard.putData("Start Outtake", new IntakeSetToSpeed(-Robot.intakeSpeed));

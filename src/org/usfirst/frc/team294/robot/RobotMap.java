@@ -36,9 +36,9 @@ public class RobotMap {
 //    public static int gearSolenoid = 7;
     //NEW IDs FOR ACTIVE GEAR ON COMP ROBOT TODO get the new IDs 
     public static int shifterSolenoid = 0;
-    public static int gearGateSolenoid = 7;
-    public static int gearShieldSolenoid = 1;
-    public static int gearPuncherSolenoid = 6;
+    public static int gearTiltSolenoid = 7;
+    public static int gearShieldSolenoid = 1; //these might change
+    public static int gearPuncherSolenoid = 6; //these might change
 
     // Analog I/O addresses
     public static int driveTrainGyro = 0;

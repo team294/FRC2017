@@ -7,15 +7,15 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class MoveGearGate extends Command {
-
+public class GearActuatShield extends Command {
+	
 	private boolean state;
 	
 	/**
-	 * Set the gear piston
+	 * Set the gear shield piston
 	 * @param state true for out, false for in
 	 */
-    public MoveGearGate(boolean state) {
+    public GearActuatShield(boolean state) {
         requires(Robot.gearGate);
         this.state = state;
     }
@@ -23,22 +23,19 @@ public class MoveGearGate extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	if (state) {
-//    		Robot.gearGate.out();
-    		Robot.gearGate.gearGateOut();
-
+    		Robot.gearGate.gearShieldOpen();
     	} else {
-//    		Robot.gearGate.in();
-    		Robot.gearGate.gearGateIn();
+    		Robot.gearGate.gearShieldClose();
     	}
     }
-
+    
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

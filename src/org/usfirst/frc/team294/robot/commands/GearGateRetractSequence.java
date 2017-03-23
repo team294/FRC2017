@@ -9,6 +9,6 @@ public class GearGateRetractSequence extends CommandGroup {
 
     public GearGateRetractSequence() {
     	addSequential(new GearPunch(false));
-    	addSequential(new GearShieldMove(false));
+    	addSequential(new GearActuatShield(false));
     }
 }
