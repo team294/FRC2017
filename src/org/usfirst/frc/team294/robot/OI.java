@@ -166,8 +166,8 @@ public class OI {
 	    // Bind commands to the codriver panel switches
 	    coP[1].whenPressed(new StopAllMotors());
 	    coP[2].whenPressed(new ClimbSequenceStart());
-	    //coP[3].whenPressed(new StartManualClimbControl());
-	    coP[4].whenPressed(new AutoGrabHopper());
+	    coP[3].whenPressed(new ClimbJoystickControl());
+	    coP[4].whenPressed(new ShooterSetRPM(Robot.shootSpeedLowRPM));
 	    coP[5].whenPressed(new ShooterSetRPM(Robot.shootSpeedHighRPM));
 	    coP[6].whenPressed(new ConveyorSetFromRobot(States.in));
 	    coP[6].whenReleased(new ConveyorSetFromRobot(States.stopped));
@@ -178,8 +178,8 @@ public class OI {
 	    coP[10].whenPressed(new MoveGearGate(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
 	    coP[12].whenPressed(new MoveHopperIfSafe(false));
-	    coP[13].whenPressed(new StowIntakeAndHopper()); //for testing can be reset when we get a shooter hood
-	    coP[14].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
+	    coP[13].whenPressed(new StowIntakeAndHopper()); 
+	    coP[14].whenPressed(new DeployIntakeAndHopper()); 
 	    
 	    // Xbox controller buttons
 	    xbB[1].whenPressed(new MoveGearGate(true));
