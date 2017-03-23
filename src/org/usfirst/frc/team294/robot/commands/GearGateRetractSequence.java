@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class GearGateRetractSequence extends CommandGroup {
 
     public GearGateRetractSequence() {
-    	addSequential(new GearShieldMove(false));
     	addSequential(new GearPunch(false));
+    	addSequential(new GearShieldMove(false));
     }
 }
