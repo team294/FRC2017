@@ -23,9 +23,12 @@ public class MoveGearGate extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	if (state) {
-    		Robot.gearGate.out();
+//    		Robot.gearGate.out();
+    		Robot.gearGate.gearGateOut();
+
     	} else {
-    		Robot.gearGate.in();
+//    		Robot.gearGate.in();
+    		Robot.gearGate.gearGateIn();
     	}
     }
 
