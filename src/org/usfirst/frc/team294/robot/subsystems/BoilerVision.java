@@ -160,7 +160,7 @@ public class BoilerVision extends Subsystem {
 		}
 		else { return 0; } //Return 0 if there are no "valid" contours (see numValid assignment)
 		if (camOffset != 0) {boilerAngleOffset = Math.atan(camOffset/getBoilerDistance(targets)*12 + Math.tan(boilerAngleOffset*Math.PI/180))*180/Math.PI;} //Adjusts angle for when the camera is not centered on the robot
-		return boilerAngleOffset;
+		return boilerAngleOffset + 4 - 6;
 	}
 	
 	/**

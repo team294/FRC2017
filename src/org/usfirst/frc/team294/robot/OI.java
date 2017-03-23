@@ -138,8 +138,8 @@ public class OI {
 	    		right[i].whenPressed(new SwitchDriveDirection(true));
 	    		left[i].whenPressed(new SwitchDriveDirection(false));
 	    	} else if (i == 2) {
-	    		right[i].whenPressed(new DriveStraightDistance(.4, -32, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
-	    		left[i].whenPressed(new DriveStraightDistance(.4, -32, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
+	    		right[i].whenPressed(new DriveStraightDistance(.4, -24, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
+	    		left[i].whenPressed(new DriveStraightDistance(.4, -24, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
 	    	} else if (i == 4 || i == 5) {
 	    		right[i].whenPressed(new DriveWithJoysticks());
 	    		left[i].whenPressed(new DriveWithJoysticks());
@@ -193,10 +193,11 @@ public class OI {
 	    xbB[9].whenPressed(new StopAllMotors());
 	    xbB[10].whenPressed(new ClimbJoystickControl());
 	    
+	    
 	    xbPovUp.whenActive(new ShooterSetRPM(Robot.shootSpeedHighRPM));
 	    xbPovDown.whenActive(new ShooterSetRPM(Robot.shootSpeedLowRPM));
-	    xbPovLeft.whenActive(new ShooterSetRPM(Robot.shootSpeedLowRPM));
-	    xbPovRight.whenActive(new ShooterSetRPM(Robot.shootSpeedHighRPM));
+	    xbPovLeft.whenActive(new ShooterAddRPM(false));
+	    xbPovRight.whenActive(new ShooterAddRPM(true));
 	    
 	    // Xbox triggers
 	    xbLT.whenActive(new ConveyorSetFromRobot(States.out)); // This runs the conveyors out. The number is subject to change.
