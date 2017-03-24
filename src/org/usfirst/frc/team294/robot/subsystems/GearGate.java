@@ -1,8 +1,10 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The gate and solenoid to capture and place gears
@@ -37,16 +39,18 @@ public class GearGate extends Subsystem {
 	}*/
 ///////////////////////////////////
 	/**
-	 * Set the gear gate piston to out
+	 * Set the gear gate to tilt out
 	 */
 	public void gearTiltOut() {
+		Robot.log.writeLog("GearGate - tilting out");
 		gearTiltPiston.set(true);
 	}
 	
 	/**
-	 * Set the gear gate piston to in
+	 * Set the gear gate to tilt in
 	 */
 	public void gearTiltIn() {
+		Robot.log.writeLog("GearGate - tilting in");
 		gearTiltPiston.set(false);		
 	}
 	
@@ -54,7 +58,7 @@ public class GearGate extends Subsystem {
 	 * Get the position of the gear gate solenoid
 	 * @return true for out, false for in
 	 */
-	public boolean getGearTiltPosition() {
+	public boolean isGearTiltOut() {
 		return gearTiltPiston.get();
 	}
 /////////////////////////////	
@@ -62,6 +66,7 @@ public class GearGate extends Subsystem {
 	 * Set the gear shield piston to open
 	 */
 	public void gearShieldOpen() {
+		Robot.log.writeLog("GearGate - opening shield");
 		gearShieldPiston.set(true);
 	}
 	
@@ -69,6 +74,7 @@ public class GearGate extends Subsystem {
 	 * Set the gear shield piston to close
 	 */
 	public void gearShieldClose() {
+		Robot.log.writeLog("GearGate - closing shield");
 		gearShieldPiston.set(false);		
 	}
 	
@@ -76,7 +82,7 @@ public class GearGate extends Subsystem {
 	 * Get the position of the shield gear solenoid
 	 * @return true for open, false for close
 	 */
-	public boolean getgearShieldPosition() {
+	public boolean isGearShieldOpen() {
 		return gearShieldPiston.get();
 	}
 /////////////////////////////////
@@ -84,6 +90,7 @@ public class GearGate extends Subsystem {
 	 * Set the gear puncher piston to deploy
 	 */
 	public void gearPuncherDeploy() {
+		Robot.log.writeLog("GearGate - punching!!!");
 		gearPuncherPiston.set(true);
 	}
 	
@@ -91,6 +98,7 @@ public class GearGate extends Subsystem {
 	 * Set the gear puncher piston to retract
 	 */
 	public void gearPuncherRetract() {
+		Robot.log.writeLog("GearGate - punch retracting");
 		gearPuncherPiston.set(false);		
 	}
 	
@@ -98,8 +106,15 @@ public class GearGate extends Subsystem {
 	 * Get the position of the gear puncher solenoid
 	 * @return true for deploy, false for retract
 	 */
-	public boolean getgearPuncherPosition() {
+	public boolean isGearPuncherOut() {
 		return gearPuncherPiston.get();
+	}
+/////////////////////////////////
+
+	public void updateSmartDashboard() {
+		SmartDashboard.putBoolean("Gear Tilt Out", isGearTiltOut());
+		SmartDashboard.putBoolean("Gear Shield Open", isGearShieldOpen());
+		SmartDashboard.putBoolean("Gear Punch Out", isGearPuncherOut());
 	}
 	
     public void initDefaultCommand() {

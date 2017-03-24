@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Shifter extends Subsystem {
 	
-	private boolean gear; //Tracks the shifter setting in software. True is high gear, false is low.
+//	private boolean gear; //Tracks the shifter setting in software. True is high gear, false is low.
 	
 	//This is a legitimate question- Why do we need to track the shifter in the code?
 	//I understand why on the hopper and intake, because of interlock. Is there a reason to
@@ -58,7 +58,15 @@ public class Shifter extends Subsystem {
 	public void shiftDown() {
 		shifter.set(false);		
 	}
-	
+
+	/**
+	 * Returns the state of the shifter
+	 * @return true for high gear, false for low
+	 */
+	public boolean isShifterInHighGear() {
+		return shifter.get();
+	}
+
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());

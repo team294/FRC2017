@@ -9,22 +9,23 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class GearGateTilt extends Command {
 
-	private boolean state;
+	private boolean tiltOut;
 	
 	/**
-	 * Set the gear piston
-	 * @param state true for out, false for in
+	 * Set the gear piston.  <b>Note:</b> When tilting out, the shield is automatically closed.
+	 * @param tiltOut true for out, false for in
+	 * 
 	 */
-    public GearGateTilt(boolean state) {
+    public GearGateTilt(boolean tiltOut) {
         requires(Robot.gearGate);
-        this.state = state;
+        this.tiltOut = tiltOut;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (state) {
+    	if (tiltOut) {
+    		Robot.gearGate.gearShieldClose();
     		Robot.gearGate.gearTiltOut();
-
     	} else {
     		Robot.gearGate.gearTiltIn();
     	}

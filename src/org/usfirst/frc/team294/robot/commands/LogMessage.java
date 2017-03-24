@@ -7,31 +7,35 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class MoveShooterHood extends Command {
-
-	private boolean position;
+public class LogMessage extends Command {
+	private String msg;
+	private boolean echo;
 	
 	/**
-	 * Set the position of the shooter hood
-	 * @param position true for out/up, false for in/down
+	 * Writes a message to the log file.  This is mostly helpful in a command sequence, so that the message
+	 * is written when the command sequence is run, instead of when the command sequence is created.
+	 * @param msg Message to write to log file
+	 * @param echo true to also echo the message to the console, false to only write the message to the log file.
 	 */
-    public MoveShooterHood(boolean position) {
+    public LogMessage(String msg, boolean echo) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.shooterHood);
-    	
-    	this.position = position;
+    	this.msg = msg;
+    	this.echo = echo;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (position) Robot.shooterHood.deploy();
-    	else { Robot.shooterHood.stow(); }
+    	if (echo)
+    		Robot.log.writeLogEcho(msg);
+    	else
+    		Robot.log.writeLog(msg);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     }
+    
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

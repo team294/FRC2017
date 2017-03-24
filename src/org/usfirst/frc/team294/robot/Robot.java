@@ -34,7 +34,6 @@ public class Robot extends IterativeRobot {
 	public static GearGate gearGate;
 	public static Intake intake;
 	public static Shooter shooter;
-	public static ShooterHood shooterHood;
 
 	// Vision subsystems
 	public static BoilerVision boilerVision;
@@ -93,7 +92,6 @@ public class Robot extends IterativeRobot {
 		gearGate = new GearGate();
 		gearVision = new GearVision();
 		boilerVision = new BoilerVision();
-		shooterHood = new ShooterHood();
 		ballFeed = new BallFeed();
 
 		// Turn on current protection for motors
@@ -116,7 +114,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(shooter);
 		SmartDashboard.putData(intake);
 		SmartDashboard.putData(gearGate);
-		SmartDashboard.putData(shooterHood);
 		SmartDashboard.putData(ballFeed);
 		//		SmartDashboard.putData(gearVision);
 		//		SmartDashboard.putData(boilerVision);
@@ -229,6 +226,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
 
 		intake.logClimbStatus();
+		gearGate.updateSmartDashboard();
 //		intake.logIntakeStatus();
 //		driveTrain.logTalonStatus();
 		
