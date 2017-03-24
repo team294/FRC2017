@@ -99,7 +99,7 @@ public class AutoDriveAndGear extends CommandGroup {
         	addSequential(new WaitSeconds(0.8));
         	addSequential(new DriveStraightDistance(0.4, -38/Math.cos(angleOffset*Math.PI/180), Units.inches, true, true));
         	*/
-        	addSequential(new DriveStraightDistance(0.4, -35, Units.inches, true, true));
+        	addSequential(new DriveStraightDistance(0.4, -55, Units.inches, true, true));
         	addSequential(new WaitSeconds(0.2));
         	double angleOffset = Robot.gearVision.getGearAngleOffset();
         	addSequential(new GyroTurnToAngle(0.4, -angleOffset, 2.0, GyroTurnToAngle.TurnMode.RELATIVE));

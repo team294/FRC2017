@@ -69,7 +69,13 @@ public class Robot extends IterativeRobot {
 	public static double horizontalConveyorOutVolts;
 	public static double verticalConveyorOutVolts;
 	public static double gearCamHorizOffsetInches; // Gear vision cam horizontal offset	
-
+	public static double driveP;
+	public static double driveI;
+	public static double driveD;
+	public static double angleP;
+	public static double angleI;
+	public static double angleD;
+	
 	// Variable for auto command
 	Command autonomousCommand;
 
@@ -104,7 +110,7 @@ public class Robot extends IterativeRobot {
 		driveTrain.rightCurrentProtection();
 
 		// Turn on drive camera
-		CameraServer.getInstance().startAutomaticCapture().setResolution(320, 240);
+		//CameraServer.getInstance().startAutomaticCapture().setResolution(320, 240);
 
 		// Create OI
 		oi = new OI();
@@ -157,13 +163,16 @@ public class Robot extends IterativeRobot {
 		Robot.intake.stopClimber();
 		Robot.driveTrain.stop();
 
-		if (Robot.smartDashboardDebug) {
-			//SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub2", driveTrain.getGyroAngle());
-			SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
-			SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
-		}
-		SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
-		SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
+		//SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
+		//SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
+		//for (int i = 0; i < 10; i++) {
+			SmartDashboard.putNumber("Boiler Angle", Robot.boilerVision.getBoilerAngleOffset());
+			SmartDashboard.putNumber("Boiler Distance", Robot.boilerVision.getBoilerDistance());
+		//}
+		//System.out.print("Gear Distance: ");
+		//System.out.println(Robot.gearVision.getGearDistance());
+		//System.out.print("Angle Distance: ");
+		//System.out.println(Robot.gearVision.getGearAngleOffset());
 		teleopTime.reset();
 	}
 
@@ -212,6 +221,7 @@ public class Robot extends IterativeRobot {
 
 		//DeployIntakeAndHopper();
 		//ShooterSetRPM(Robot.shootHighSpeed);
+		readPreferences();
 	}
 
 	/**
@@ -221,23 +231,27 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();	
 
 		Robot.shooter.updateSmartDashboardShooterSpeed();
+		SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
+		SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
 
+		intake.logClimbStatus();
+//		intake.logIntakeStatus();
+//		driveTrain.logTalonStatus();
+		
 		if (Robot.smartDashboardDebug) {
-			//for testing purposes 
+			//SmartDashboard stuff here 
 			driveTrain.updateSmartDashboardEncoders();
 			boilerVision.updateSmartDashboard();
-			//driveTrain.logTalonStatus();
-			intake.logClimbStatus();
 
 			SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
 			SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
 
 			shooter.updateSmartDashboard(); 
 			intake.updateSmartDashboard();
-			//			intake.logIntakeStatus();
 		}
 
-		shooter.periodicSetF();
+		//shooter.periodicSetF();
+		//May be interfering with PID's, taking out temporarily
 
 		oi.readBottomKnobRaw();
 		oi.readMiddleKnobRaw();
@@ -274,7 +288,7 @@ public class Robot extends IterativeRobot {
 			DriverStation.reportError("Error:  Preferences missing from RoboRio for Inches per Revolution calibration.", true);
 			robotPrefs.putDouble("inchesPerRev", 12.5); //this needs to be changed when we find the new value
 		}
-		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 0);
+		inchesPerRevolution = robotPrefs.getDouble("inchesPerRev", 12.5);
 
 		shooterP = robotPrefs.getDouble("shooterP",0.15);// This has to be done before Shooter()
 		shooterI = robotPrefs.getDouble("shooterI",0);
@@ -313,7 +327,13 @@ public class Robot extends IterativeRobot {
 		}
 		verticalConveyorOutVolts = robotPrefs.getDouble("verticalConveyorOutVolts",0);
 
-
+		driveP = robotPrefs.getDouble("driveP",3);
+		driveI = robotPrefs.getDouble("driveI",0);
+		driveD = robotPrefs.getDouble("driveD",0);
+		angleP = robotPrefs.getDouble("angleP",.025);
+		angleI = robotPrefs.getDouble("angleI",0);
+		angleD = robotPrefs.getDouble("angleD",0.05);
+		
 		gearCamHorizOffsetInches = robotPrefs.getDouble("gearCam",0);
 
 	}	

@@ -28,8 +28,8 @@ public class GearVision extends Subsystem {
     double camVertAngleOffsetDegrees = 0.0;  //Vertical angle offset of camera
     
     //Calibration Variables [start]
-    double calibrationDistance = 0;
-    double calibrationHeight = 0;
+    double calibrationDistance = 36;
+    double calibrationHeight = 9.3;
     //Calibration Variables [end]
     
 	public void initDefaultCommand() {
