@@ -168,6 +168,7 @@ public class OI {
 	    coP[2].whenPressed(new ClimbSequenceStart());
 	    coP[3].whenPressed(new ClimbJoystickControl());
 	    //coP[3].whenPressed(new StartManualClimbControl());
+	    //coP[4].whenPressed(new AutoGrabHopper());
 	    coP[4].whenPressed(new ShooterSetRPM(Robot.shootSpeedLowRPM));
 	    coP[5].whenPressed(new ShooterSetRPM(Robot.shootSpeedHighRPM));
 	    coP[6].whenPressed(new ConveyorSetFromRobot(States.in));
