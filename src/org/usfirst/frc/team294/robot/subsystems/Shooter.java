@@ -30,10 +30,12 @@ public class Shooter extends Subsystem {
 	boolean error = false;
 	private double fNominal, fLast;
 	public static Preferences robotPrefs;
+	public double lastSpeed;
 
 	public Shooter() {
 		super();
 		robotPrefs = Preferences.getInstance();
+		
 		
 		shooterMotor1.setVoltageRampRate(5.0);		
 		
@@ -46,8 +48,9 @@ public class Shooter extends Subsystem {
 		shooterMotor1.set(0.0);
 		shooterMotor1.setPID(Robot.shooterP, Robot.shooterI, Robot.shooterD, Robot.shooterFNominal, 500, 500, 0); 
 		//periodicSetF();
-		shooterMotor1.SetVelocityMeasurementWindow(10);		//These need to be tuned
+		shooterMotor1.SetVelocityMeasurementWindow(100);		//These need to be tuned was 10
 		shooterMotor1.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_100Ms);
+		shooterMotor1.configPeakOutputVoltage(-6f, -12f);
 		
 	    if (Robot.smartDashboardDebug) {
 			setupSmartDashboard();
@@ -66,7 +69,7 @@ public class Shooter extends Subsystem {
 	}
 	
 	/**
-	 * Sets the shooter motor to speed according to rpm (normal, I kept this is in case it was used somewhere I don't know about -John)
+	 * Sets the shooter motor to speed according to rpm 
 	 * @param rpm from -1000 to 6000  (18000 if encoder is on motor
 	 * Only run reverse to clear a possible jam
 	 */
@@ -78,8 +81,18 @@ public class Shooter extends Subsystem {
 		rpm = (rpm < -600.0) ? -600.0 : rpm;
 
 		setSpeed = rpm;
-		shooterMotor1.set(-rpm);		
+		shooterMotor1.set(-rpm);
+		
 	}
+	
+	public void addRPM(){
+		setRPM(setSpeed + 50);
+	}
+	
+	public void subRPM(){
+		setRPM(setSpeed - 50);
+	}
+	
 	
 	/**
 	 * Sets the shooter motor to speed according to rpm (Low)

@@ -37,9 +37,9 @@ public class Intake extends Subsystem {
 	//Current Protection
 	public final MotorCurrentTrigger intakeCurrentTrigger = new MotorCurrentTrigger(intakeMotor, 22, 3);
 	//TODO:  Decide on current limits for climb motors
-	public final MotorCurrentTrigger climb1CurrentTrigger = new MotorCurrentTrigger(climbMotor1, 70, 2);
-	public final MotorCurrentTrigger climb2CurrentTrigger = new MotorCurrentTrigger(climbMotor2, 70, 2);
-	List<CANTalon> climbMotors = new ArrayList<CANTalon>(Arrays.asList(climbMotor1, climbMotor2));
+	public final MotorCurrentTrigger climb1CurrentTrigger = new MotorCurrentTrigger(climbMotor1, 40, 3);
+	public final MotorCurrentTrigger climb2CurrentTrigger = new MotorCurrentTrigger(climbMotor1, 40, 3);
+	CANTalon[] climbMotors = {climbMotor1, climbMotor2};
 	//TODO:  Fix MotorGroupCurrentTrigger
 	//	public final MotorGroupCurrentTrigger climbGroupCurrentTrigger = new MotorGroupCurrentTrigger(climbMotors, 2, "climb");
 

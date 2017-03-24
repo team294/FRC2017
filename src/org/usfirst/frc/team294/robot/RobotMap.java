@@ -73,7 +73,7 @@ public class RobotMap {
 	public enum Teams {
 		noBoilerShooting, blue, red
 	}
-    
+	
     public static double getDistance(AutoDistances distance) {
     	if (distance == AutoDistances.toBaseLine) return distanceToBaseline;
     	if (distance == AutoDistances.toGearSide) return distanceToGearSide;

@@ -138,8 +138,8 @@ public class OI {
 	    		right[i].whenPressed(new SwitchDriveDirection(true));
 	    		left[i].whenPressed(new SwitchDriveDirection(false));
 	    	} else if (i == 2) {
-	    		right[i].whenPressed(new DriveStraightDistance(.4, -32, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
-	    		left[i].whenPressed(new DriveStraightDistance(.4, -32, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
+	    		right[i].whenPressed(new DriveStraightDistance(.4, -24, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
+	    		left[i].whenPressed(new DriveStraightDistance(.4, -24, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
 	    	} else if (i == 4 || i == 5) {
 	    		right[i].whenPressed(new DriveWithJoysticks());
 	    		left[i].whenPressed(new DriveWithJoysticks());
@@ -167,7 +167,9 @@ public class OI {
 	    coP[1].whenPressed(new StopAllMotors());
 	    coP[2].whenPressed(new ClimbSequenceStart());
 	    coP[3].whenPressed(new ClimbJoystickControl());
+	    //coP[4].whenPressed(new AutoGrabHopper());
 	    coP[4].whenPressed(new ShooterSetRPM(Robot.shootSpeedLowRPM));
+	    //coP[5].whenPressed(new GyroTurnToAngle(.4, -90));
 	    coP[5].whenPressed(new ShooterSetRPM(Robot.shootSpeedHighRPM));
 	    coP[6].whenPressed(new ConveyorSetFromRobot(States.in));
 	    coP[6].whenReleased(new ConveyorSetFromRobot(States.stopped));
@@ -193,10 +195,11 @@ public class OI {
 	    xbB[9].whenPressed(new StopAllMotors());
 	    xbB[10].whenPressed(new ClimbJoystickControl());
 	    
+	    
 	    xbPovUp.whenActive(new ShooterSetRPM(Robot.shootSpeedHighRPM));
 	    xbPovDown.whenActive(new ShooterSetRPM(Robot.shootSpeedLowRPM));
-	    xbPovLeft.whenActive(new ShooterSetRPM(Robot.shootSpeedLowRPM));
-	    xbPovRight.whenActive(new ShooterSetRPM(Robot.shootSpeedHighRPM));
+	    xbPovLeft.whenActive(new ShooterAddRPM(false));
+	    xbPovRight.whenActive(new ShooterAddRPM(true));
 	    
 	    // Xbox triggers
 	    xbLT.whenActive(new ConveyorSetFromRobot(States.out)); // This runs the conveyors out. The number is subject to change.
@@ -208,6 +211,10 @@ public class OI {
 	    
 	    //Debug mode
 		SmartDashboard.putData("Debug Dashboard", new SmartDashboardDebug());
+		SmartDashboard.putNumber("Distance", 0);
+		SmartDashboard.putNumber("DriveSpeed", 0);
+		SmartDashboard.putData("Shift Up", new ShiftUp());
+		SmartDashboard.putData("Drive Straight Command", new DriveStraightDistance(1, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, Units.inches, true, 1.0));
 	    
 	    // Subsystem Testing Commands
 	    SmartDashboard.putData("Gear Piston Out", new GearGateTilt(true));
@@ -392,5 +399,9 @@ public class OI {
 		SmartDashboard.putData("Set Shooter PIDF values", new ShooterSetPIDF(0));
 	    SmartDashboard.putData("Set Shooter RPM Low From SD", new ShooterSetToRPMFromSmartDashboardLow());
 	    SmartDashboard.putData("Set Shooter RPM High From SD", new ShooterSetToRPMFromSmartDashboardHigh());
+	    
+	    //Drive PID
+		SmartDashboard.putData("Set Drive PID values", new DriveSetPID());
+
 	}
 }

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.utilities.ProfileGenerator;
 import org.usfirst.frc.team294.utilities.ToleranceChecker;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -16,6 +17,9 @@ public class GyroTurnToAngle extends Command {
 	    RELATIVE, ABSOLUTE, GEAR_VISION, BOILER_VISION, SMARTDASHBOARD
 	}
 	
+	//Generates a trapezoidal motion profile to smooth out turns
+	public ProfileGenerator turnProfile;
+	
 	// Settings from command initialization
 	private double angle;
 	private double maxSpeed;
@@ -25,9 +29,9 @@ public class GyroTurnToAngle extends Command {
 	private ToleranceChecker tolCheck;
 	
 	// Turning parameters
-	private double kPangle = 0.04;
+	private double kPangle = 0.02;
 	private double kIangle = 0.002;
-	private double kDangle = 0.25;
+	private double kDangle = 0.2;
 	private double minSpeed = 0.25;
 
 	// Local variables
@@ -95,7 +99,8 @@ public class GyroTurnToAngle extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	tolCheck.reset();
-
+    	turnProfile = new ProfileGenerator(0, angle, 0, 15.0, 15.0, 0.01);
+    	
     	switch (turnMode) {
     	case ABSOLUTE:
     		Robot.log.writeLogEcho("Gyro: Start turn to angle absolute " + angle  + " degrees, current heading " +
@@ -118,7 +123,7 @@ public class GyroTurnToAngle extends Command {
     		break;
     	case BOILER_VISION:
     		Robot.driveTrain.resetDegrees();
-    		angle = Robot.boilerVision.getBoilerAngleOffset();
+    		angle = -Robot.boilerVision.getBoilerAngleOffset();
     		Robot.log.writeLogEcho("Gyro: Start turn to angle BOILER" + angle + " degrees.");
     		break;
     	case SMARTDASHBOARD:
@@ -146,7 +151,7 @@ public class GyroTurnToAngle extends Command {
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	angleErr = getAngleErr();
+    	angleErr = turnProfile.getCurrentPosition() - getAngleErr();
     	intErr = intErr + angleErr*0.02;
     	tolCheck.check(Math.abs(angleErr));
     	
