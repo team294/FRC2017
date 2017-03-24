@@ -34,6 +34,7 @@ public class Robot extends IterativeRobot {
 	public static GearGate gearGate;
 	public static Intake intake;
 	public static Shooter shooter;
+	public static CameraControl cameraControl;
 
 	// Vision subsystems
 	public static BoilerVision boilerVision;
@@ -99,7 +100,11 @@ public class Robot extends IterativeRobot {
 		gearVision = new GearVision();
 		boilerVision = new BoilerVision();
 		ballFeed = new BallFeed();
+		cameraControl = new CameraControl();
 
+		// Turn off camera lights until the robot is enabled
+		cameraControl.turnOffLights();
+		
 		// Turn on current protection for motors
 		ballFeed.ballFeedCurrentProtection();
 		shooter.shooterCurrentProtection();
@@ -123,7 +128,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(ballFeed);
 		//		SmartDashboard.putData(gearVision);
 		//		SmartDashboard.putData(boilerVision);
-
+//		SmartDashboard.putData(cameraControl);
+		
 		//new Thread(() -> {
 		//	UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		//	camera.setResolution(320, 240);
@@ -149,6 +155,8 @@ public class Robot extends IterativeRobot {
 	public void disabledInit() {
 		intake.updateConflicts();
 
+		// Turn off camera lights until the robot is enabled
+		cameraControl.turnOffLights();
 	}
 
 	public void disabledPeriodic() {
@@ -189,6 +197,7 @@ public class Robot extends IterativeRobot {
 		// schedule the autonomous command (example)
 		intake.updateConflicts();
 		log.writeLogEcho("Autonomous Mode Started");
+		cameraControl.activateGearCamera();
 
 		autonomousCommand = new AutoGearAndScore(oi.readMiddleKnobTeam(), oi.readBottomKnobStartPosition());
 
@@ -219,6 +228,8 @@ public class Robot extends IterativeRobot {
 		//DeployIntakeAndHopper();
 		//ShooterSetRPM(Robot.shootHighSpeed);
 		readPreferences();
+
+		cameraControl.setCamerasFromDriveDirection();
 	}
 
 	/**

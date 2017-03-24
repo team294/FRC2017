@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutoGrabHopper extends CommandGroup {
 
-
-
 	public AutoGrabHopper(Teams team) {
+    	addSequential(new LogMessage("Autonomous: Starting Grab Hopper Command for " + team , true));
+
 		switch(team){
 		case red:
 			addParallel(new AutoPrepareToShoot());

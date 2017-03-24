@@ -27,8 +27,9 @@ public class AutoDriveAndGear extends CommandGroup {
     	// Shift down and drive to the baseline
     	addSequential(new ShiftDown());
     	addSequential(new GearGateTilt(false));
+    	addSequential(new CameraActivate(false, false));  // Turn on gear camera
     	
-    	double extraDistance = (team == Teams.red) ? 1.0 : 1.0;
+    	double extraDistance = (team == Teams.red) ? 1.0 : 2.0;
     	
 //    	addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toBaseLine), Units.inches, false, true));
         

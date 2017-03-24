@@ -139,7 +139,7 @@ public class OI {
 	    		left[i].whenPressed(new SwitchDriveDirection(false));
 	    	} else if (i == 2) {
 	    		right[i].whenPressed(new DriveStraightDistance(.4, -24, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
-	    		left[i].whenPressed(new DriveStraightDistance(.4, -24, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
+	    		left[i].whenPressed(new DriveStraightDistance(.4, -18, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
 	    	} else if (i == 4 || i == 5) {
 	    		right[i].whenPressed(new DriveWithJoysticks());
 	    		left[i].whenPressed(new DriveWithJoysticks());
@@ -365,7 +365,7 @@ public class OI {
 	
 	/**
 	 * Sets the drive direction
-	 * @param direction true = gear in the front false = shooter in the front
+	 * @param direction false = gear in the front, true = shooter in the front
 	 */
 	public void setDriveDirection(boolean direction){
 		this.driveDirection = direction;
@@ -373,7 +373,7 @@ public class OI {
 	
 	/**
 	 * Gets the drive direction of the robot
-	 * @return true for ? false for ?
+	 * @return false = gear in the front, true = shooter in the front
 	 */
 	public boolean getDriveDirection(){
 		return driveDirection;

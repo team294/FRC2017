@@ -22,7 +22,9 @@ public class AutoGearAndScore extends CommandGroup {
     	
     	// Do a gear sequence according to the position given
     	addSequential(new AutoDriveAndGear(team, position));
-    	addSequential(new WaitSeconds(2.0));
+    	
+    	// Turn on boiler camera
+    	addSequential(new CameraActivate(true, false));
     	
     	// Score on the boiler according to team and position
     	// addSequential(new AutoScoreBoiler(team, position));

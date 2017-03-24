@@ -44,6 +44,8 @@ public class RobotMap {
     public static int driveTrainGyro = 0;
     
     // Digital I/O addresses
+    public static int cameraLightBoiler = 0;    
+    public static int cameraLightGear = 1;
     public static int usTx = 8;		// Ultrasonic sensor
     public static int usRx = 9;		// Ultrasonic sensor
         

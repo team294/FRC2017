@@ -25,6 +25,7 @@ public class SwitchDriveDirection extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.oi.setDriveDirection(direction);
+    	Robot.cameraControl.setCamerasFromDriveDirection();
     }
 
     // Called repeatedly when this Command is scheduled to run
