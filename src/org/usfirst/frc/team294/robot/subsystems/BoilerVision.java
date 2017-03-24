@@ -192,7 +192,10 @@ public class BoilerVision extends Subsystem {
 	 * Displays the distance to boiler on SmartDashboard
 	 */
 	public void updateSmartDashboard(){
-		SmartDashboard.putNumber("Distance to Boiler", Robot.boilerVision.getBoilerDistance());
+		SmartDashboard.putNumber("BV Distance", getBoilerDistance());
+		SmartDashboard.putNumber("BV Angle", getBoilerAngleOffset());
+		SmartDashboard.putBoolean("BV Found Contours", isBoilerAngleValid());
+		SmartDashboard.putNumber("BV RPM for Distance", getShootRPMForDistance());
 	}
 	
 }

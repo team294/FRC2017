@@ -230,9 +230,9 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();	
 
-		Robot.shooter.updateSmartDashboardShooterSpeed();
-		SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
-		SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
+		shooter.updateSmartDashboardShooterSpeed();
+		gearVision.updateSmartDashboard();
+		boilerVision.updateSmartDashboard();
 
 		intake.logClimbStatus();
 //		intake.logIntakeStatus();
@@ -241,7 +241,6 @@ public class Robot extends IterativeRobot {
 		if (Robot.smartDashboardDebug) {
 			//SmartDashboard stuff here 
 			driveTrain.updateSmartDashboardEncoders();
-			boilerVision.updateSmartDashboard();
 
 			SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
 			SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());

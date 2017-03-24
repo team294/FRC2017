@@ -167,7 +167,6 @@ public class OI {
 	    coP[1].whenPressed(new StopAllMotors());
 	    coP[2].whenPressed(new ClimbSequenceStart());
 	    //coP[3].whenPressed(new StartManualClimbControl());
-	    //coP[4].whenPressed(new AutoGrabHopper());
 	    coP[4].whenPressed(new ShooterSetRPM(Robot.shootSpeedLowRPM));
 	    //coP[5].whenPressed(new GyroTurnToAngle(.4, -90));
 	    coP[5].whenPressed(new ShooterSetRPM(Robot.shootSpeedHighRPM));
@@ -216,6 +215,10 @@ public class OI {
 		SmartDashboard.putData("Shift Up", new ShiftUp());
 		SmartDashboard.putData("Drive Straight Command", new DriveStraightDistance(1, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, Units.inches, true, 1.0));
 	    
+		// Vision Testing Commands
+		SmartDashboard.putData("GV Calibrate", new GearVisionCalibrate());
+		SmartDashboard.putData("GV Turn to Gear", new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+		
 	    // Subsystem Testing Commands
 	    SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
 	    SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
@@ -246,7 +249,7 @@ public class OI {
 		
 		SmartDashboard.putData("Drive With Joysticks", new DriveWithJoysticks());
 		
-		SmartDashboard.putData("Drive Straight Distance", new DriveStraightDistance(1.0, -35, Units.inches, true, true));
+		SmartDashboard.putData("Drive Straight Distance", new DriveStraightDistance(0.4, -12, Units.inches, true, true));
 
 	    if (Robot.smartDashboardDebug) {
         	setupSmartDashboardDebug();
