@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.utilities.Contour;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -163,6 +164,14 @@ public class GearVision extends Subsystem {
 		Contour[] targets = filterContours();
 		camHorizAngleOffsetDegrees = 90 - Math.atan(calibrationDistance/camOffset)*180/Math.PI - camHorizAngle*(targets[0].getXPos()/camPXWidth);
 		camVertAngleOffsetDegrees = 90 - Math.atan(calibrationDistance/(calibrationHeight - camHeight))*180/Math.PI - camVertAngle*(targets[0].getYPos()/camPXHeight);
+	}
+	
+	public void updateSmartDashboard() {
+		SmartDashboard.putNumber("GV Horiz Offset", camHorizAngleOffsetDegrees);
+		SmartDashboard.putNumber("GV Vert Offset", camVertAngleOffsetDegrees);
+		SmartDashboard.putNumber("GV Gear Distance", getGearDistance());
+		SmartDashboard.putNumber("GV Gear Angle", getGearAngleOffset());
+		SmartDashboard.putBoolean("GV Found Contours", isGearAngleValid());
 	}
 }
 
