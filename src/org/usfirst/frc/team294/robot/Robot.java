@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team294.robot.subsystems.*;
 import org.opencv.core.Mat;
-import org.usfirst.frc.team294.robot.commands.AutoGearAndScore;
+import org.usfirst.frc.team294.robot.commands.AutoMasterCommand;
 import org.usfirst.frc.team294.utilities.FileLog;
 
 /**
@@ -199,7 +199,7 @@ public class Robot extends IterativeRobot {
 		log.writeLogEcho("Autonomous Mode Started");
 		cameraControl.activateGearCamera();
 
-		autonomousCommand = new AutoGearAndScore(oi.readMiddleKnobTeam(), oi.readBottomKnobStartPosition());
+		autonomousCommand = new AutoMasterCommand(oi.readMiddleKnobTeam(), oi.readBottomKnobStartPosition());
 
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -239,6 +239,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();	
 
 		shooter.updateSmartDashboardShooterSpeed();
+		shooter.logTalonStatus();
 		gearVision.updateSmartDashboard();
 		boilerVision.updateSmartDashboard();
 

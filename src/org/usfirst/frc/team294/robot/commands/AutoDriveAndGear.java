@@ -52,7 +52,8 @@ public class AutoDriveAndGear extends CommandGroup {
             addSequential(new DriveStraightDistance(0.4, -30, Units.inches, true, true));
             addSequential(new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
             //addSequential(new WaitSeconds(0.2));
-            addSequential(new DriveNotStraightDistance(0.4, -extraDistance -22, Units.inches, true, true));
+ //test: was 22 in, shorten by 3 in to be safe
+            addSequential(new DriveNotStraightDistance(0.4, -extraDistance -19, Units.inches, true, true));
             //addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearSide), Units.inches, false, true));
             addSequential(new GearGateDeploySequence());
         	addSequential(new LogMessage("Autonomous: Gear deployed.", true));
@@ -83,7 +84,8 @@ public class AutoDriveAndGear extends CommandGroup {
             addSequential(new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
             //addSequential(new WaitSeconds(0.2));
             addSequential(new DriveStraightDistance(0.4, -20 -extraDistance, Units.inches, true, true));
-            addSequential(new DriveNotStraightDistance(0.25, -13.0, Units.inches, true, true));
+//test:  was 13 in, drive 3 in short to be safe
+            addSequential(new DriveNotStraightDistance(0.25, -10.0, Units.inches, true, true));
             //addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearSide), Units.inches, false, true));
             addSequential(new GearGateDeploySequence());
         	addSequential(new LogMessage("Autonomous: Gear deployed.", true));
@@ -112,7 +114,9 @@ public class AutoDriveAndGear extends CommandGroup {
 //        	addSequential(new GearGateTilt(true));
         	//addSequential(new WaitSeconds(0.2));
         	//addSequential(new DriveStraightDistance(0.4, -20/Math.cos(angleOffset*Math.PI/180), Units.inches, true, true));
-        	addSequential(new DriveStraightDistance(0.4, -extraDistance -38/Math.cos(angleOffset*Math.PI/180), Units.inches, true, true));
+        	
+//test:  drive 3 in short to be safe
+        	addSequential(new DriveStraightDistance(0.4, -extraDistance -38/Math.cos(angleOffset*Math.PI/180) + 3, Units.inches, true, true));
         	
 
 //            addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearMiddle)*0.65, Units.inches, false, true));

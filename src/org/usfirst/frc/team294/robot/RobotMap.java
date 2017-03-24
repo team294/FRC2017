@@ -73,7 +73,7 @@ public class RobotMap {
 	}
 	
 	public enum Teams {
-		noBoilerShooting, blue, red
+		noBoilerShooting, blue, red, hopperBlue, hopperRed
 	}
 	
     public static double getDistance(AutoDistances distance) {

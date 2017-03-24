@@ -48,7 +48,7 @@ public class GearActuateShield extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (!waitIfMoved || this.timeSinceInitialized() >= 0.8);
+        return (!waitIfMoved || this.timeSinceInitialized() >= 0.6);
     }
 
     // Called once after isFinished returns true

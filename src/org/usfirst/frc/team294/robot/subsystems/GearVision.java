@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GearVision extends Subsystem {
 	NetworkTable table;
-	NetworkTable grip_table;
+//	NetworkTable grip_table;
 	double[] networkTableDefault = new double[] { -1.0 };
 
 	double gearAngleOffset, distance;
@@ -38,8 +38,8 @@ public class GearVision extends Subsystem {
 		//setDefaultCommand(new MySpecialCommand());
 	}
 	public GearVision(){
-		table = NetworkTable.getTable("GRIP/myGearReport");
-		grip_table = NetworkTable.getTable("GRIP");
+		table = NetworkTable.getTable("PiReport");
+//		grip_table = NetworkTable.getTable("GRIP");
 	}
 	public Contour[] filterContours() {
 		if (table.getNumberArray("area", networkTableDefault).length < 2) { //Make sure # of contours is valid

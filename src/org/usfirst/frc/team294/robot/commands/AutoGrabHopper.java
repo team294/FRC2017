@@ -16,9 +16,14 @@ public class AutoGrabHopper extends CommandGroup {
 
 	public AutoGrabHopper(Teams team) {
     	addSequential(new LogMessage("Autonomous: Starting Grab Hopper Command for " + team , true));
-
+ 
+    	// Shift down and drive to the baseline
+    	addSequential(new ShiftDown());
+    	addSequential(new GearGateTilt(false));
+    	addSequential(new CameraActivate(true, false));  // Turn on boiler camera
+    	
 		switch(team){
-		case red:
+		case hopperRed:
 			addParallel(new AutoPrepareToShoot());
 			addSequential(new DriveStraightDistance(0.9, -80, 2.0, Units.inches, true, true));
 			addSequential(new GyroTurnToAngle(0.9, -90));
@@ -33,7 +38,7 @@ public class AutoGrabHopper extends CommandGroup {
 			//addSequential(new DriveStraightDistance(0.4, 12, Units.inches, true, true));
 			addSequential(new ConveyorSetFromRobot(States.in));
 			break;
-		case blue:
+		case hopperBlue:
 			addParallel(new AutoPrepareToShoot());
 			addSequential(new DriveStraightDistance(0.9, -80, 2.0, Units.inches, true, true));
 			addSequential(new GyroTurnToAngle(0.9, 90));

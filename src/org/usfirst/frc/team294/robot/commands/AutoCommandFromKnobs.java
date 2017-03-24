@@ -15,7 +15,7 @@ public class AutoCommandFromKnobs extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-		Command autonomousCommand = new AutoGearAndScore(Robot.oi.readMiddleKnobTeam(), Robot.oi.readBottomKnobStartPosition());
+		Command autonomousCommand = new AutoMasterCommand(Robot.oi.readMiddleKnobTeam(), Robot.oi.readBottomKnobStartPosition());
 		autonomousCommand.start();
     }
 
