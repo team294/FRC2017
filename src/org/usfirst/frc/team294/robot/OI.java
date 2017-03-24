@@ -132,8 +132,8 @@ public class OI {
 	    	left[i] = new JoystickButton(leftJoystick, i);
 	    	right[i] = new JoystickButton(rightJoystick, i);
 	    	if (i == 1) {
-	    		right[i].whenPressed(new GyroTurnToAngle(0.6, 0.0, 2.0, GyroTurnToAngle.TurnMode.BOILER_VISION));
-	    		left[i].whenPressed(new GyroTurnToAngle(0.8, 0.0, 2.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+	    		right[i].whenPressed(new GyroTurnWithVisionManual(true));  // Turn towards boiler with vision
+	    		left[i].whenPressed(new GyroTurnWithVisionManual(false));  // Turn towards gear with vision
 	    	} else if (i == 3) {
 	    		right[i].whenPressed(new SwitchDriveDirection(true));
 	    		left[i].whenPressed(new SwitchDriveDirection(false));
@@ -184,8 +184,10 @@ public class OI {
 	    
 	    // Xbox controller buttons
 	    xbB[1].whenPressed(new GearGateTilt(true));
-	    xbB[2].whenPressed(new GearGateTilt(false));
-	    xbB[3].whenPressed(new MoveHopperIfSafe(false));
+//	    xbB[2].whenPressed(new GearGateTilt(false));
+	    xbB[2].whenPressed(new GearGateRetractSequence());
+//	    xbB[3].whenPressed(new MoveHopperIfSafe(false));
+	    xbB[3].whenPressed(new GearGateDeploySequence());
 	    xbB[4].whenPressed(new StowIntakeAndHopper());
 	    xbB[5].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
 	    xbB[6].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
