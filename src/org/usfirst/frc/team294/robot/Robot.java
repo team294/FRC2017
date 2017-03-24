@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
 	// Turn on/off SmartDashboard debugging
-	public static boolean smartDashboardDebug = true;//false;		// true to print lots of stuff on the SmartDashboard
+	public static boolean smartDashboardDebug = false;		// true to print lots of stuff on the SmartDashboard
 
 	//Timer
 	public static Timer teleopTime;
