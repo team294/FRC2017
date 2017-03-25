@@ -240,6 +240,7 @@ public class Robot extends IterativeRobot {
 
 		shooter.updateSmartDashboardShooterSpeed();
 		shooter.logTalonStatus();
+		shooter.updateSmartDashboard(); 
 		gearVision.updateSmartDashboard();
 		boilerVision.updateSmartDashboard();
 
@@ -255,7 +256,6 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
 			SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
 
-			shooter.updateSmartDashboard(); 
 			intake.updateSmartDashboard();
 		}
 

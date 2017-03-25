@@ -23,9 +23,9 @@ public class GearVision extends Subsystem {
 	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera pixel length
 	double camVertAngle = (camPXHeight / camPXDiagonal) * camDiagonalAngle; //Vertical camera aperture angle
 	double camHorizAngle = (camPXWidth / camPXDiagonal) * camDiagonalAngle; //Horizontal camera aperture angle
-	double camOffset = 6+3/8; //Camera horizontal offset from center of robot
-	double camHeight = 0; //Camera height off of the ground
-    double camHorizAngleOffsetDegrees = 5; //Horizontal angle offset of camera
+	double camOffset = 14.5 - 4.3; //Camera horizontal offset from center of robot
+	double camHeight = 9; //Camera height off of the ground
+    double camHorizAngleOffsetDegrees = 0.0; //Horizontal angle offset of camera
     double camVertAngleOffsetDegrees = 0.0;  //Vertical angle offset of camera
     
     //Calibration Variables [start]
