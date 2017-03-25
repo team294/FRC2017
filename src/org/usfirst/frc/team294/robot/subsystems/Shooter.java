@@ -50,7 +50,8 @@ public class Shooter extends Subsystem {
 		//periodicSetF();
 		shooterMotor1.SetVelocityMeasurementWindow(100);		//These need to be tuned was 10
 		shooterMotor1.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_100Ms);
-		shooterMotor1.configPeakOutputVoltage(-6f, -12f);
+		shooterMotor1.configPeakOutputVoltage(+6f, -12f);
+		shooterMotor1.setNominalClosedLoopVoltage(12.0);		//Auto compensate for battery voltage.  Will this work?
 		
 	    if (Robot.smartDashboardDebug) {
 			setupSmartDashboard();
@@ -152,11 +153,11 @@ public class Shooter extends Subsystem {
 	
 	public void logTalonStatus() {
 		Robot.log.writeLog(
-				"Motor Speed, " + shooterMotor1.getSpeed() +
+				"Shooter, Motor Speed, " + (-shooterMotor1.getSpeed()) +
 				", Motor Voltage, " + shooterMotor1.getOutputVoltage() +
 				", Motor Vbus, " + shooterMotor1.getBusVoltage() +
 				", Motor Current, " + shooterMotor1.getOutputCurrent() +
-				", Motor error, " +  (shooterMotor1.getSpeed() - setSpeed)
+				", Motor error, " +  (-shooterMotor1.getSpeed() - setSpeed)
 		);		
 	}
 

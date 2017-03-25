@@ -34,8 +34,8 @@ public class MoveHopperIfSafe extends Command {
     			(!deploy && Robot.intake.getHopperTracker() == Status.stowed)) {
     		// Hopper is already in desired position, so do nothing
     		waitForMovement = false;
-    	} else if (Robot.intake.getIntakeTracker() != Status.deployed) {
-    		// Can't move hopper if intake is not deployed (ie., if stowed or unknown or moving)
+    	} else if (deploy && (Robot.intake.getIntakeTracker() != Status.deployed)) {
+    		// Can't deploy hopper if intake is not deployed (ie., if stowed or unknown or moving)
     		waitForMovement = false;
     	} else {
     		// OK, we can move the hopper

@@ -7,25 +7,25 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class MoveGearGate extends Command {
-
-	private boolean state;
+public class GearPunch extends Command {
+	
+	private boolean punchOut;
 	
 	/**
-	 * Set the gear piston
-	 * @param state true for out, false for in
+	 * Set the gear puncher piston
+	 * @param true for out, false for in
 	 */
-    public MoveGearGate(boolean state) {
+    public GearPunch(boolean punchOut) {
         requires(Robot.gearGate);
-        this.state = state;
+        this.punchOut = punchOut;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (state) {
-    		Robot.gearGate.out();
+    	if (punchOut) {
+    		Robot.gearGate.gearPuncherDeploy();
     	} else {
-    		Robot.gearGate.in();
+    		Robot.gearGate.gearPuncherRetract();
     	}
     }
 

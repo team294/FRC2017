@@ -1,22 +1,34 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team294.robot.Robot;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class AutoCommandFromKnobs extends Command {
+public class GearGateTilt extends Command {
 
-    public AutoCommandFromKnobs() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+	private boolean tiltOut;
+	
+	/**
+	 * Set the gear piston.  <b>Note:</b> When tilting out, the shield is automatically closed.
+	 * @param tiltOut true for out, false for in
+	 * 
+	 */
+    public GearGateTilt(boolean tiltOut) {
+        requires(Robot.gearGate);
+        this.tiltOut = tiltOut;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-		Command autonomousCommand = new AutoMasterCommand(Robot.oi.readMiddleKnobTeam(), Robot.oi.readBottomKnobStartPosition());
-		autonomousCommand.start();
+    	if (tiltOut) {
+    		Robot.gearGate.gearShieldClose();
+    		Robot.gearGate.gearTiltOut();
+    	} else {
+    		Robot.gearGate.gearTiltIn();
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run

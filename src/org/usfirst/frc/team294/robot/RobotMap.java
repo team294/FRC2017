@@ -26,19 +26,26 @@ public class RobotMap {
 	public static int verticalConveyor = 15;
 
 	// Pneumatic controller PCM IDs
-    public static int shifterSolenoidFwd = 0;
-    public static int shifterSolenoidRev = 1;
+//    public static int shifterSolenoidFwd = 0;
+//    public static int shifterSolenoidRev = 1;
     public static int intakeSolenoidFwd = 2;
     public static int intakeSolenoidRev = 3;
     public static int hopperSolenoidFwd = 4;
     public static int hopperSolenoidRev = 5;
-    public static int shooterHoodSolenoid = 6;
-    public static int gearSolenoid = 7;
+//    public static int shooterHoodSolenoid = 6;
+//    public static int gearSolenoid = 7;
+    //NEW IDs FOR ACTIVE GEAR ON COMP ROBOT TODO get the new IDs 
+    public static int shifterSolenoid = 0;
+    public static int gearTiltSolenoid = 7;
+    public static int gearShieldSolenoid = 1; //these might change
+    public static int gearPuncherSolenoid = 6; //these might change
 
     // Analog I/O addresses
     public static int driveTrainGyro = 0;
     
     // Digital I/O addresses
+    public static int cameraLightBoiler = 0;    
+    public static int cameraLightGear = 1;
     public static int usTx = 8;		// Ultrasonic sensor
     public static int usRx = 9;		// Ultrasonic sensor
         
@@ -66,7 +73,7 @@ public class RobotMap {
 	}
 	
 	public enum Teams {
-		noBoilerShooting, blue, red
+		noBoilerShooting, blue, red, hopperBlue, hopperRed
 	}
 	
     public static double getDistance(AutoDistances distance) {

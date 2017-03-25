@@ -12,6 +12,7 @@ import org.usfirst.frc.team294.robot.RobotMap.*;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.Units;
+import org.usfirst.frc.team294.robot.commands.GyroTurnToAngle.TurnMode;
 import org.usfirst.frc.team294.robot.triggers.AxisTrigger;
 import org.usfirst.frc.team294.robot.triggers.POVTrigger;
 
@@ -132,14 +133,14 @@ public class OI {
 	    	left[i] = new JoystickButton(leftJoystick, i);
 	    	right[i] = new JoystickButton(rightJoystick, i);
 	    	if (i == 1) {
-	    		right[i].whenPressed(new GyroTurnToAngle(0.6, 0.0, 2.0, GyroTurnToAngle.TurnMode.BOILER_VISION));
-	    		left[i].whenPressed(new GyroTurnToAngle(0.8, 0.0, 2.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+	    		right[i].whenPressed(new GyroTurnWithVisionManual(true));  // Turn towards boiler with vision
+	    		left[i].whenPressed(new GyroTurnWithVisionManual(false));  // Turn towards gear with vision
 	    	} else if (i == 3) {
 	    		right[i].whenPressed(new SwitchDriveDirection(true));
 	    		left[i].whenPressed(new SwitchDriveDirection(false));
 	    	} else if (i == 2) {
 	    		right[i].whenPressed(new DriveStraightDistance(.4, -24, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
-	    		left[i].whenPressed(new DriveStraightDistance(.4, -24, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
+	    		left[i].whenPressed(new DriveStraightDistance(.4, -18, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
 	    	} else if (i == 4 || i == 5) {
 	    		right[i].whenPressed(new DriveWithJoysticks());
 	    		left[i].whenPressed(new DriveWithJoysticks());
@@ -166,26 +167,28 @@ public class OI {
 	    // Bind commands to the codriver panel switches
 	    coP[1].whenPressed(new StopAllMotors());
 	    coP[2].whenPressed(new ClimbSequenceStart());
+	    coP[3].whenPressed(new ClimbJoystickControl());
 	    //coP[3].whenPressed(new StartManualClimbControl());
 	    coP[4].whenPressed(new ShooterSetRPM(Robot.shootSpeedLowRPM));
-	    //coP[5].whenPressed(new GyroTurnToAngle(.4, -90));
 	    coP[5].whenPressed(new ShooterSetRPM(Robot.shootSpeedHighRPM));
 	    coP[6].whenPressed(new ConveyorSetFromRobot(States.in));
 	    coP[6].whenReleased(new ConveyorSetFromRobot(States.stopped));
 	    coP[7].whenPressed(new ConveyorSetFromRobot(States.out));
 	    coP[7].whenReleased(new ConveyorSetFromRobot(States.stopped));
-	    coP[8].whenPressed(new MoveGearGate(false));
+	    coP[8].whenPressed(new GearGateTilt(false));
 	    coP[9].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
-	    coP[10].whenPressed(new MoveGearGate(true));
+	    coP[10].whenPressed(new GearGateTilt(true));
 	    coP[11].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
 	    coP[12].whenPressed(new MoveHopperIfSafe(false));
-	    coP[13].whenPressed(new StowIntakeAndHopper()); //for testing can be reset when we get a shooter hood
-	    coP[14].whenPressed(new DeployIntakeAndHopper()); //for testing can be reset when we get a shooter hood
+	    coP[13].whenPressed(new StowIntakeAndHopper()); 
+	    coP[14].whenPressed(new DeployIntakeAndHopper()); 
 	    
 	    // Xbox controller buttons
-	    xbB[1].whenPressed(new MoveGearGate(true));
-	    xbB[2].whenPressed(new MoveGearGate(false));
-	    xbB[3].whenPressed(new MoveHopperIfSafe(false));
+	    xbB[1].whenPressed(new GearGateTilt(true));
+//	    xbB[2].whenPressed(new GearGateTilt(false));
+	    xbB[2].whenPressed(new GearGateRetractSequence());
+//	    xbB[3].whenPressed(new MoveHopperIfSafe(false));
+	    xbB[3].whenPressed(new GearGateDeploySequence());
 	    xbB[4].whenPressed(new StowIntakeAndHopper());
 	    xbB[5].whenPressed(new IntakeSetToSpeed(Robot.intakeSpeed));
 	    xbB[6].whenPressed(new IntakeSetToSpeed(-Robot.intakeSpeed));
@@ -210,18 +213,27 @@ public class OI {
 	    
 	    //Debug mode
 		SmartDashboard.putData("Debug Dashboard", new SmartDashboardDebug());
+		
+		// Drive distance testing
 		SmartDashboard.putNumber("Distance", 0);
-		SmartDashboard.putNumber("DriveSpeed", 0);
-		SmartDashboard.putData("Shift Up", new ShiftUp());
+		SmartDashboard.putNumber("DriveSpeed", 0.4);
 		SmartDashboard.putData("Drive Straight Command", new DriveStraightDistance(1, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, Units.inches, true, 1.0));
 	    
+		// Drive angle testing
+		SmartDashboard.putNumber("TurnAngle", 10); 
+		SmartDashboard.putNumber("TurnSpeed", 0.4);
+		SmartDashboard.putNumber("AngleTolerance", 2.0);
+		SmartDashboard.putData("Turn Command", new GyroTurnToAngle(0.4, 0.0, 2.0, TurnMode.SMARTDASHBOARD));
+		
+//		SmartDashboard.putData("Shift Up", new ShiftUp());
+		
 		// Vision Testing Commands
 		SmartDashboard.putData("GV Calibrate", new GearVisionCalibrate());
 		SmartDashboard.putData("GV Turn to Gear", new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
 		
 	    // Subsystem Testing Commands
-	    SmartDashboard.putData("Gear Piston Out", new MoveGearGate(true));
-	    SmartDashboard.putData("Gear Piston In", new MoveGearGate(false));
+	    SmartDashboard.putData("Gear Piston Out", new GearGateTilt(true));
+	    SmartDashboard.putData("Gear Piston In", new GearGateTilt(false));
 	    SmartDashboard.putData("Stop Intake Motor", new IntakeSetToSpeed(0.0));
 	    SmartDashboard.putData("Start Intake Motor", new IntakeSetToSpeed(Robot.intakeSpeed));
 	    SmartDashboard.putData("Start Outtake", new IntakeSetToSpeed(-Robot.intakeSpeed));
@@ -230,10 +242,10 @@ public class OI {
 	    SmartDashboard.putData("Start Climb Sequence", new ClimbSequenceStart());
 	    
 	    // Intake and Hopper Tests
-	    SmartDashboard.putData("Deploy Intake", new MoveIntakeIfSafe(true));
-	    SmartDashboard.putData("Stow Intake", new MoveIntakeIfSafe(false));
-	    SmartDashboard.putData("Deploy Hopper", new MoveHopperIfSafe(true));
-	    SmartDashboard.putData("Stow Hopper", new MoveHopperIfSafe(false)); 
+//	    SmartDashboard.putData("Deploy Intake", new MoveIntakeIfSafe(true));
+//	    SmartDashboard.putData("Stow Intake", new MoveIntakeIfSafe(false));
+//	    SmartDashboard.putData("Deploy Hopper", new MoveHopperIfSafe(true));
+//	    SmartDashboard.putData("Stow Hopper", new MoveHopperIfSafe(false)); 
 	    SmartDashboard.putData("Deploy Intake and Hopper", new DeployIntakeAndHopper());
 	    SmartDashboard.putData("Stow Intake and Hopper", new StowIntakeAndHopper());
 
@@ -247,9 +259,9 @@ public class OI {
 		SmartDashboard.putData("Conveyors Out", new ConveyorSetFromRobot(States.out));
 		SmartDashboard.putData("Conveyors Stopped", new ConveyorSetFromRobot(States.stopped));
 		
-		SmartDashboard.putData("Drive With Joysticks", new DriveWithJoysticks());
+//		SmartDashboard.putData("Drive With Joysticks", new DriveWithJoysticks());
 		
-		SmartDashboard.putData("Drive Straight Distance", new DriveStraightDistance(0.4, -12, Units.inches, true, true));
+//		SmartDashboard.putData("Drive Straight Distance", new DriveStraightDistance(0.4, -12, Units.inches, true, true));
 
 	    if (Robot.smartDashboardDebug) {
         	setupSmartDashboardDebug();
@@ -365,7 +377,7 @@ public class OI {
 	
 	/**
 	 * Sets the drive direction
-	 * @param direction true = gear in the front false = shooter in the front
+	 * @param direction false = gear in the front, true = shooter in the front
 	 */
 	public void setDriveDirection(boolean direction){
 		this.driveDirection = direction;
@@ -373,7 +385,7 @@ public class OI {
 	
 	/**
 	 * Gets the drive direction of the robot
-	 * @return true for ? false for ?
+	 * @return false = gear in the front, true = shooter in the front
 	 */
 	public boolean getDriveDirection(){
 		return driveDirection;

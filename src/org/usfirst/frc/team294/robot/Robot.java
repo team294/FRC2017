@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team294.robot.subsystems.*;
 import org.opencv.core.Mat;
-import org.usfirst.frc.team294.robot.commands.AutoGearAndScore;
+import org.usfirst.frc.team294.robot.commands.AutoMasterCommand;
 import org.usfirst.frc.team294.utilities.FileLog;
 
 /**
@@ -34,7 +34,7 @@ public class Robot extends IterativeRobot {
 	public static GearGate gearGate;
 	public static Intake intake;
 	public static Shooter shooter;
-	public static ShooterHood shooterHood;
+	public static CameraControl cameraControl;
 
 	// Vision subsystems
 	public static BoilerVision boilerVision;
@@ -52,6 +52,7 @@ public class Robot extends IterativeRobot {
 
 	// File logger
 	public static FileLog log;
+	public static boolean logClimberData = false;		// Set to true when climbing to start logging the climb motor data
 
 	// set up preferences (robot specific calibrations flash memory in roborio)
 	public static Preferences robotPrefs;
@@ -99,9 +100,12 @@ public class Robot extends IterativeRobot {
 		gearGate = new GearGate();
 		gearVision = new GearVision();
 		boilerVision = new BoilerVision();
-		shooterHood = new ShooterHood();
 		ballFeed = new BallFeed();
+		cameraControl = new CameraControl();
 
+		// Turn off camera lights until the robot is enabled
+		cameraControl.turnOffLights();
+		
 		// Turn on current protection for motors
 		ballFeed.ballFeedCurrentProtection();
 		shooter.shooterCurrentProtection();
@@ -122,11 +126,11 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(shooter);
 		SmartDashboard.putData(intake);
 		SmartDashboard.putData(gearGate);
-		SmartDashboard.putData(shooterHood);
 		SmartDashboard.putData(ballFeed);
 		//		SmartDashboard.putData(gearVision);
 		//		SmartDashboard.putData(boilerVision);
-
+//		SmartDashboard.putData(cameraControl);
+		
 		//new Thread(() -> {
 		//	UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		//	camera.setResolution(320, 240);
@@ -152,6 +156,8 @@ public class Robot extends IterativeRobot {
 	public void disabledInit() {
 		intake.updateConflicts();
 
+		// Turn off camera lights until the robot is enabled
+		cameraControl.turnOffLights();
 	}
 
 	public void disabledPeriodic() {
@@ -192,8 +198,10 @@ public class Robot extends IterativeRobot {
 		// schedule the autonomous command (example)
 		intake.updateConflicts();
 		log.writeLogEcho("Autonomous Mode Started");
+		cameraControl.activateGearCamera();
+		logClimberData = false;
 
-		autonomousCommand = new AutoGearAndScore(oi.readMiddleKnobTeam(), oi.readBottomKnobStartPosition());
+		autonomousCommand = new AutoMasterCommand(oi.readMiddleKnobTeam(), oi.readBottomKnobStartPosition());
 
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -217,11 +225,14 @@ public class Robot extends IterativeRobot {
 		log.writeLogEcho("Teleop Mode Started");
 		teleopTime.start();
 		startTime = teleopTime.get();
+		logClimberData = false;
 		//SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub", driveTrain.getGyroAngle());
 
 		//DeployIntakeAndHopper();
 		//ShooterSetRPM(Robot.shootHighSpeed);
 		readPreferences();
+
+		cameraControl.setCamerasFromDriveDirection();
 	}
 
 	/**
@@ -231,10 +242,16 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();	
 
 		shooter.updateSmartDashboardShooterSpeed();
+		shooter.updateSmartDashboard(); 
 		gearVision.updateSmartDashboard();
 		boilerVision.updateSmartDashboard();
+		gearGate.updateSmartDashboard();
 
-		intake.logClimbStatus();
+		shooter.logTalonStatus();
+
+		if (logClimberData)
+			intake.logClimbStatus();
+
 //		intake.logIntakeStatus();
 //		driveTrain.logTalonStatus();
 		
@@ -245,7 +262,6 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
 			SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
 
-			shooter.updateSmartDashboard(); 
 			intake.updateSmartDashboard();
 		}
 

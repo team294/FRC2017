@@ -252,12 +252,15 @@ public class Intake extends Subsystem {
 	/**
 	 * Logs the speed of both climbers to the robot log
 	 */
-	public void logClimbStatus() {
+	public void logClimbStatus() {  
 		Robot.log.writeLog(
-				"Climber: Climb Motor 1 (Main)-- Speed: " + climbMotor1.get() +
-				" Climb Motor 2 (Follower)-- Speed: " + climbMotor2.get()
+				"Climber, Motor 1 speed, " + climbMotor1.get() +
+				", Motor 2 speed, " + climbMotor2.get() +
+				", Motor 1 voltage, " + climbMotor1.getOutputVoltage() +
+				", Motor 2 voltage, " + climbMotor2.getOutputVoltage() +
+				", Motor 1 current, " + climbMotor1.getOutputCurrent() +
+				", Motor 2 current, " + climbMotor2.getOutputCurrent()
 				);
-		Robot.log.writeLog("Climber Moter Current" + "\t" + climbMotor1.getOutputCurrent() + "\t" + climbMotor2.getOutputCurrent());
 	}
 
 	/**
