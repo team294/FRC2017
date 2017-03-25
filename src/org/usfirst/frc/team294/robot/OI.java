@@ -218,6 +218,7 @@ public class OI {
 		SmartDashboard.putNumber("Distance", 0);
 		SmartDashboard.putNumber("DriveSpeed", 0.4);
 		SmartDashboard.putData("Drive Straight Command", new DriveStraightDistance(1, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, Units.inches, true, 1.0));
+		SmartDashboard.putData("Drive Not Straight Command", new DriveNotStraightDistance(1.0, 0.0, DriveNotStraightDistance.DriveMode.SMARTDASHBOARD, Units.inches, true, 1.0));
 	    
 		// Drive angle testing
 		SmartDashboard.putNumber("TurnAngle", 10); 
