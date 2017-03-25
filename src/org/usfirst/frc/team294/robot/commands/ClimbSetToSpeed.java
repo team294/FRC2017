@@ -24,6 +24,10 @@ public class ClimbSetToSpeed extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	// Turn on climber data logging
+    	Robot.logClimberData = true;
+		Robot.log.writeLogEcho("Set climber speed, " + speed);
+
     	Robot.intake.setClimbSpeed(speed);
     }
 

@@ -18,7 +18,7 @@ public class AutoMasterCommand extends CommandGroup {
 	 */
     public AutoMasterCommand(Teams team, StartPositions position) {
 
-    	addSequential(new LogMessage("Autonomous: Starting Gear and Score Command for " + team + " and " + position, true));
+    	addSequential(new LogMessage("Autonomous: Starting Master Command for team " + team + " and position " + position, true));
     	
     	if ((team == Teams.noBoilerShooting) || (team == Teams.blue) || (team == Teams.red)) {
     		

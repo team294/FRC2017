@@ -52,6 +52,7 @@ public class Robot extends IterativeRobot {
 
 	// File logger
 	public static FileLog log;
+	public static boolean logClimberData = false;		// Set to true when climbing to start logging the climb motor data
 
 	// set up preferences (robot specific calibrations flash memory in roborio)
 	public static Preferences robotPrefs;
@@ -198,6 +199,7 @@ public class Robot extends IterativeRobot {
 		intake.updateConflicts();
 		log.writeLogEcho("Autonomous Mode Started");
 		cameraControl.activateGearCamera();
+		logClimberData = false;
 
 		autonomousCommand = new AutoMasterCommand(oi.readMiddleKnobTeam(), oi.readBottomKnobStartPosition());
 
@@ -223,6 +225,7 @@ public class Robot extends IterativeRobot {
 		log.writeLogEcho("Teleop Mode Started");
 		teleopTime.start();
 		startTime = teleopTime.get();
+		logClimberData = false;
 		//SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub", driveTrain.getGyroAngle());
 
 		//DeployIntakeAndHopper();
@@ -239,13 +242,16 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();	
 
 		shooter.updateSmartDashboardShooterSpeed();
-		shooter.logTalonStatus();
 		shooter.updateSmartDashboard(); 
 		gearVision.updateSmartDashboard();
 		boilerVision.updateSmartDashboard();
-
-		intake.logClimbStatus();
 		gearGate.updateSmartDashboard();
+
+		shooter.logTalonStatus();
+
+		if (logClimberData)
+			intake.logClimbStatus();
+
 //		intake.logIntakeStatus();
 //		driveTrain.logTalonStatus();
 		

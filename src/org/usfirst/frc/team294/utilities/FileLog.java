@@ -25,7 +25,7 @@ public class FileLog {
 		try {
 			fileStream = new FileWriter(filename + "." + fileDateFormat.format(System.currentTimeMillis()) + ".txt", true);
 			fileStream.write("----------------------------\n");
-			fileStream.write(format.format(System.currentTimeMillis()) + ":  FileLog open.\n");
+			fileStream.write(format.format(System.currentTimeMillis()) + ", FileLog open.\n");
 			fileStream.flush();
 		} catch (IOException e) {
 			System.out.println("Could not open log file: " + e);
@@ -39,7 +39,7 @@ public class FileLog {
 	public void writeLog(String msg) {
 		if (fileStream == null) return;
 		try {
-			fileStream.write(format.format(System.currentTimeMillis()) + ": " + msg + "\n");
+			fileStream.write(format.format(System.currentTimeMillis()) + ", " + msg + "\n");
 			fileStream.flush();
 		} catch (IOException e) {
 		}

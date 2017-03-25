@@ -12,6 +12,7 @@ import org.usfirst.frc.team294.robot.RobotMap.*;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistance.Units;
+import org.usfirst.frc.team294.robot.commands.GyroTurnToAngle.TurnMode;
 import org.usfirst.frc.team294.robot.triggers.AxisTrigger;
 import org.usfirst.frc.team294.robot.triggers.POVTrigger;
 
@@ -212,11 +213,20 @@ public class OI {
 	    
 	    //Debug mode
 		SmartDashboard.putData("Debug Dashboard", new SmartDashboardDebug());
+		
+		// Drive distance testing
 		SmartDashboard.putNumber("Distance", 0);
-		SmartDashboard.putNumber("DriveSpeed", 0);
-		SmartDashboard.putData("Shift Up", new ShiftUp());
+		SmartDashboard.putNumber("DriveSpeed", 0.4);
 		SmartDashboard.putData("Drive Straight Command", new DriveStraightDistance(1, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, Units.inches, true, 1.0));
 	    
+		// Drive angle testing
+		SmartDashboard.putNumber("TurnAngle", 10); 
+		SmartDashboard.putNumber("TurnSpeed", 0.4);
+		SmartDashboard.putNumber("AngleTolerance", 2.0);
+		SmartDashboard.putData("Turn Command", new GyroTurnToAngle(0.4, 0.0, 2.0, TurnMode.SMARTDASHBOARD));
+		
+//		SmartDashboard.putData("Shift Up", new ShiftUp());
+		
 		// Vision Testing Commands
 		SmartDashboard.putData("GV Calibrate", new GearVisionCalibrate());
 		SmartDashboard.putData("GV Turn to Gear", new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
@@ -232,10 +242,10 @@ public class OI {
 	    SmartDashboard.putData("Start Climb Sequence", new ClimbSequenceStart());
 	    
 	    // Intake and Hopper Tests
-	    SmartDashboard.putData("Deploy Intake", new MoveIntakeIfSafe(true));
-	    SmartDashboard.putData("Stow Intake", new MoveIntakeIfSafe(false));
-	    SmartDashboard.putData("Deploy Hopper", new MoveHopperIfSafe(true));
-	    SmartDashboard.putData("Stow Hopper", new MoveHopperIfSafe(false)); 
+//	    SmartDashboard.putData("Deploy Intake", new MoveIntakeIfSafe(true));
+//	    SmartDashboard.putData("Stow Intake", new MoveIntakeIfSafe(false));
+//	    SmartDashboard.putData("Deploy Hopper", new MoveHopperIfSafe(true));
+//	    SmartDashboard.putData("Stow Hopper", new MoveHopperIfSafe(false)); 
 	    SmartDashboard.putData("Deploy Intake and Hopper", new DeployIntakeAndHopper());
 	    SmartDashboard.putData("Stow Intake and Hopper", new StowIntakeAndHopper());
 
@@ -249,9 +259,9 @@ public class OI {
 		SmartDashboard.putData("Conveyors Out", new ConveyorSetFromRobot(States.out));
 		SmartDashboard.putData("Conveyors Stopped", new ConveyorSetFromRobot(States.stopped));
 		
-		SmartDashboard.putData("Drive With Joysticks", new DriveWithJoysticks());
+//		SmartDashboard.putData("Drive With Joysticks", new DriveWithJoysticks());
 		
-		SmartDashboard.putData("Drive Straight Distance", new DriveStraightDistance(0.4, -12, Units.inches, true, true));
+//		SmartDashboard.putData("Drive Straight Distance", new DriveStraightDistance(0.4, -12, Units.inches, true, true));
 
 	    if (Robot.smartDashboardDebug) {
         	setupSmartDashboardDebug();
