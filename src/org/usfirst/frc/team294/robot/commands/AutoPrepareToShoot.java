@@ -11,13 +11,13 @@ public class AutoPrepareToShoot extends CommandGroup {
 
     public AutoPrepareToShoot() {
     	
-    	addSequential(new ShiftDown());
-    	addSequential(new GearGateTilt(false));
-    	addSequential(new CameraActivate(false, false));  // Turn on gear camera
-
+    	//addSequential(new ShiftDown());
+    	//addSequential(new GearGateTilt(false));
+    	//addSequential(new CameraActivate(false, false));  // Turn on gear camera
+        addSequential(new WaitSeconds(0.2));
     	addParallel(new DeployIntakeAndHopper());
-        addParallel(new ShooterSetRPM(Robot.shootSpeedLowRPM));
-        addSequential(new WaitSeconds(0.4));
+    	addParallel(new LogMessage("Autonomous: Hopper deployed.", true));
+        addParallel(new ShooterSetRPM(Robot.shootSpeedHighRPM));
 
     }
 }

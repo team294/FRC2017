@@ -23,7 +23,7 @@ public class Shooter extends Subsystem {
 	private final CANTalon shooterMotor1 = new CANTalon(RobotMap.shooterMotor1);
 	
     //Current Protection
-    public final MotorCurrentTrigger shooterMotorCurrentTrigger = new MotorCurrentTrigger(shooterMotor1, 25, 3);
+    public final MotorCurrentTrigger shooterMotorCurrentTrigger = new MotorCurrentTrigger(shooterMotor1, 29, 3);
 
 	
 	double setSpeed;
@@ -37,7 +37,7 @@ public class Shooter extends Subsystem {
 		robotPrefs = Preferences.getInstance();
 		
 		
-		shooterMotor1.setVoltageRampRate(5.0);		
+		shooterMotor1.setVoltageRampRate(5.0);		// was 5
 		
 		shooterMotor1.reverseSensor(true);    
 		shooterMotor1.reverseOutput(false);
@@ -48,10 +48,11 @@ public class Shooter extends Subsystem {
 		shooterMotor1.set(0.0);
 		shooterMotor1.setPID(Robot.shooterP, Robot.shooterI, Robot.shooterD, Robot.shooterFNominal, 500, 500, 0); 
 		//periodicSetF();
-		shooterMotor1.SetVelocityMeasurementWindow(100);		//These need to be tuned was 10
-		shooterMotor1.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_100Ms);
+		shooterMotor1.SetVelocityMeasurementWindow(10);		//These need to be tuned was 10 (tried 100)
+		shooterMotor1.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_10Ms);  // (was Period_100Ms)
 		shooterMotor1.configPeakOutputVoltage(+6f, -12f);
-		shooterMotor1.setNominalClosedLoopVoltage(12.0);		//Auto compensate for battery voltage.  Will this work?
+		//shooterMotor1.setNominalClosedLoopVoltage(12.0);		//Auto compensate for battery voltage.  Will this work?
+
 		
 	    if (Robot.smartDashboardDebug) {
 			setupSmartDashboard();
@@ -87,11 +88,11 @@ public class Shooter extends Subsystem {
 	}
 	
 	public void addRPM(){
-		setRPM(setSpeed + 50);
+		setRPM(setSpeed + 100);
 	}
 	
 	public void subRPM(){
-		setRPM(setSpeed - 50);
+		setRPM(setSpeed - 100);
 	}
 	
 	

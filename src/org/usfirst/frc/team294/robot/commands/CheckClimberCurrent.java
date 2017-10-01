@@ -29,7 +29,7 @@ public class CheckClimberCurrent extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
 //    	current = maxCurrent * percentage;
-		Robot.log.writeLogEcho("Start climber current check, current trigger, " + current);
+    	Robot.log.writeLogEcho("Start climber current check, current trigger, " + current);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -38,12 +38,12 @@ public class CheckClimberCurrent extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-//		Robot.log.writeLogEcho("Climber current ," + Robot.intake.getAverageClimberCurrent() + ", amps." + "climber current set current ," + current + ",");
         return Robot.intake.getAverageClimberCurrent() >= current;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+		Robot.log.writeLogEcho("Climber current found," + Robot.intake.getAverageClimberCurrent() + ", amps." + "climber current set current ," + current + ",");
     }
 
     // Called when another command which requires one or more of the same

@@ -23,7 +23,7 @@ public class GearVision extends Subsystem {
 	double camPXDiagonal = Math.sqrt(camPXWidth * camPXWidth + camPXHeight * camPXHeight); //Diagonal camera pixel length
 	double camVertAngle = (camPXHeight / camPXDiagonal) * camDiagonalAngle; //Vertical camera aperture angle
 	double camHorizAngle = (camPXWidth / camPXDiagonal) * camDiagonalAngle; //Horizontal camera aperture angle
-	double camOffset = 14.5 - 4.3; //Camera horizontal offset from center of robot
+	double camOffset = -10.75;//-(14.5 - 4.3); //Camera horizontal offset from center of robot
 	double camHeight = 9; //Camera height off of the ground
     double camHorizAngleOffsetDegrees = 0.0; //Horizontal angle offset of camera
     double camVertAngleOffsetDegrees = 0.0;  //Vertical angle offset of camera
@@ -38,11 +38,11 @@ public class GearVision extends Subsystem {
 		//setDefaultCommand(new MySpecialCommand());
 	}
 	public GearVision(){
-		table = NetworkTable.getTable("PiReport");
+		table = NetworkTable.getTable("GearReport");
 //		grip_table = NetworkTable.getTable("GRIP");
 	}
 	public Contour[] filterContours() {
-		if (table.getNumberArray("area", networkTableDefault).length < 2) { //Make sure # of contours is valid
+		if (table.getNumberArray("area", networkTableDefault).length < 1) { //Make sure # of contours is valid
 
 			Contour[] temp = {new Contour(), new Contour()};
 			return temp;
@@ -50,28 +50,27 @@ public class GearVision extends Subsystem {
 		Contour[] contours;
 		//Instantiate array of contours to be filtered
 		int tempXLength, tempYLength, tempAreaLength, tempWidthLength, tempHeightLength, tempHardnessLength;
-		while (true) { // Start of continuous loop to make the contour array
-			double[] tempXPos = table.getNumberArray("centerX",   networkTableDefault);
-			double[] tempYPos =  table.getNumberArray("centerY",   networkTableDefault);
-			double[] tempArea = table.getNumberArray("area",   networkTableDefault);
-			double[] tempHeight = table.getNumberArray("height", networkTableDefault);
-			double[] tempWidth = table.getNumberArray("width", networkTableDefault);
-			double[] tempHardness = table.getNumberArray("solidity", networkTableDefault);
-			tempXLength = tempXPos.length;
-			tempYLength = tempYPos.length;
-			tempAreaLength = tempArea.length;
-			tempWidthLength = tempWidth.length;
-			tempHeightLength = tempHeight.length;
-			tempHardnessLength= tempHardness.length;
+		double[] tempXPos = table.getNumberArray("centerX",   networkTableDefault);
+		double[] tempYPos =  table.getNumberArray("centerY",   networkTableDefault);
+		double[] tempArea = table.getNumberArray("area",   networkTableDefault);
+		double[] tempHeight = table.getNumberArray("height", networkTableDefault);
+		double[] tempWidth = table.getNumberArray("width", networkTableDefault);
+		double[] tempHardness = table.getNumberArray("solidity", networkTableDefault);
+		tempXLength = tempXPos.length;
+		tempYLength = tempYPos.length;
+		tempAreaLength = tempArea.length;
+		tempWidthLength = tempWidth.length;
+		tempHeightLength = tempHeight.length;
+		tempHardnessLength= tempHardness.length;
+		if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength &&
+				tempHeightLength == tempWidthLength /*&& tempWidthLength == tempHardnessLength*/){
 			contours = new Contour[tempXLength];//Gives your contour array a length equal to the number of centerXs present in the Network Table
-			if (tempXLength == tempYLength  && tempYLength == tempAreaLength && tempAreaLength == tempHeightLength &&
-			tempHeightLength == tempWidthLength && tempWidthLength == tempHardnessLength){
-				for (int i = 0; i < tempXLength; i++) {
-					contours[i] = new Contour(tempXPos[i], tempYPos[i], tempArea[i], tempHeight[i], tempWidth[i], tempHardness[i]);
-				}
-				break;
+			for (int i = 0; i < tempXLength; i++) {
+				contours[i] = new Contour(tempXPos[i], tempYPos[i], tempArea[i], tempHeight[i], tempWidth[i], 1/*tempHardness[i]*/);
 			}
-		}// End of the continuous loop to make the contour array
+		} else {
+			contours = new Contour[0];
+		}
 
 		for (int a = 0; a < contours.length; a++) {
 			//if (contours[a].isEliminated()) {continue; } // If the contour at a is already eliminated, skip it
@@ -83,11 +82,13 @@ public class GearVision extends Subsystem {
 				}
 			}
 		}
+		/*
 		for (int i = 0; i < contours.length; i++) { //Filter for hardness
 			if (!contours[i].isEliminated() && contours[i].getHardness() < hardnessTol) {
 				contours[i].eliminate();
 			}
 		}
+		*/
 		// Find two largest remaining contours and return them
 		Contour[] bestContours = {new Contour(), new Contour()};
 		for (int i = 0; i < contours.length; i++) {
@@ -102,7 +103,6 @@ public class GearVision extends Subsystem {
 		return bestContours; //Returns largest two contours
 	}
 
-//Only losers play Pokemon Go
 	/**
 	 * Gets the robot's angle of offset from the gear target
 	 * @return Angle offset in degrees
@@ -111,14 +111,19 @@ public class GearVision extends Subsystem {
 		//Gives the robot's angle of offset from the gear target in degrees
 		Contour[] targets = filterContours(); //Gets best two best contours
 		int numValid = 0; //number of contours that are valid (do not have default values, and are reasonably large)
+		double tapeWidth = 10-2.125;
+		double targ0area =  (targets[0] != null) ? targets[0].getArea() : 0;
+		double targ1area = (targets[1] != null) ? targets[1].getArea() : 0;
+		//System.out.println("targets.length = " + targets.length + " targets[0] area = " + targ0area + "targets 1 area " + targ1area);
 		if (targets.length > 0 && targets[0].getArea() > 50) {numValid++; }
-		if (targets.length > 1 && targets[1].getArea() > 50) {numValid++; }
+		// the larger contour is always contour 0, check to see if the second target is probably not cut off
+		if (targets.length > 1 && targets[1].getArea() > 50 && (targets[1].getXPos() > targets[0].getWidth()/2 || (camPXWidth - targets[1].getXPos() > camPXWidth - targets[0].getWidth()/2))) {numValid++; }
 		foundContours = numValid > 0;
 		if (numValid == 2) {
 			gearAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[1].getXPos())/2)/camPXWidth * camHorizAngle; //in degrees
 		} else if (numValid == 1) {
 			//targets[0].getWidth()*5.25/2 adds theoretical number of pixels to center of gear target
-			gearAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + targets[0].getWidth()*5.25/2))/camPXWidth * camHorizAngle; //in degrees
+			gearAngleOffset = (camPXWidth/2 - (targets[0].getXPos() + Math.signum(targets[0].getXPos()-160)*targets[0].getWidth()*tapeWidth/2.125/2))/camPXWidth * camHorizAngle; //in degrees
 		} else {
 		    return 0;
 		} 

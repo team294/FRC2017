@@ -18,18 +18,20 @@ public class AutoMasterCommand extends CommandGroup {
 	 */
     public AutoMasterCommand(Teams team, StartPositions position) {
 
-    	addSequential(new LogMessage("Autonomous: Starting Master Command for team " + team + " and position " + position, true));
+    	addSequential(new LogMessage("Master Command for team " + team + " and position" + position, true));
     	
     	if ((team == Teams.noBoilerShooting) || (team == Teams.blue) || (team == Teams.red)) {
     		
         	// Do a gear sequence according to the position given
+        	addParallel(new AutoPrepareToShoot());
+
         	addSequential(new AutoDriveAndGear(team, position));
         	
         	// Turn on boiler camera
         	addSequential(new CameraActivate(true, false));
         	
         	// Score on the boiler according to team and position
-        	// addSequential(new AutoScoreBoiler(team, position));
+        	addSequential(new AutoScoreBoiler(team, position));
     	} else {
     		addSequential(new AutoGrabHopper(team));
     	}

@@ -146,6 +146,7 @@ public class Robot extends IterativeRobot {
 			//	outputStream.putFrame(output);
 		//	}
 		//}).start();
+		System.out.println("Finished robot init");
 	}
 
 	/**
@@ -153,14 +154,21 @@ public class Robot extends IterativeRobot {
 	 * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
 	 */
+	boolean firstDisabledPeriodic = true;
 	public void disabledInit() {
+		firstDisabledPeriodic = true;
+		System.out.println("disabled init");
 		intake.updateConflicts();
 
 		// Turn off camera lights until the robot is enabled
 		cameraControl.turnOffLights();
+		System.out.println("Finished disabled init");
 	}
 
 	public void disabledPeriodic() {
+		if (firstDisabledPeriodic) {
+			System.out.println("disabled periodic");
+		}
 		Scheduler.getInstance().run();
 		//stops all motors
 		Robot.shooter.stop();
@@ -169,17 +177,22 @@ public class Robot extends IterativeRobot {
 		Robot.intake.stopClimber();
 		Robot.driveTrain.stop();
 
-		//SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
+		gearVision.updateSmartDashboard();
+		boilerVision.updateSmartDashboard();
+		
+//		SmartDashboard.putNumber("Gear Angle", Robot.gearVision.getGearAngleOffset());
 		//SmartDashboard.putNumber("Gear Distance", Robot.gearVision.getGearDistance());
-		//for (int i = 0; i < 10; i++) {
-			SmartDashboard.putNumber("Boiler Angle", Robot.boilerVision.getBoilerAngleOffset());
-			SmartDashboard.putNumber("Boiler Distance", Robot.boilerVision.getBoilerDistance());
-		//}
+//		SmartDashboard.putNumber("Boiler Angle", Robot.boilerVision.getBoilerAngleOffset());
+//		SmartDashboard.putNumber("Boiler Distance", Robot.boilerVision.getBoilerDistance());
 		//System.out.print("Gear Distance: ");
 		//System.out.println(Robot.gearVision.getGearDistance());
 		//System.out.print("Angle Distance: ");
 		//System.out.println(Robot.gearVision.getGearAngleOffset());
 		teleopTime.reset();
+		if (firstDisabledPeriodic) {
+			System.out.println("Finished disabled periodic");
+			firstDisabledPeriodic = false;
+		}
 	}
 
 	/**
@@ -199,8 +212,10 @@ public class Robot extends IterativeRobot {
 		intake.updateConflicts();
 		log.writeLogEcho("Autonomous Mode Started");
 		cameraControl.activateGearCamera();
-		logClimberData = false;
 
+		// Don't log climber data until we start climbing
+		logClimberData = false;
+		
 		autonomousCommand = new AutoMasterCommand(oi.readMiddleKnobTeam(), oi.readBottomKnobStartPosition());
 
 		if (autonomousCommand != null)
@@ -216,29 +231,40 @@ public class Robot extends IterativeRobot {
 		//		driveTrain.logTalonStatus();
 	}
 
+	boolean firstTeleopPeriodic = true;
+	
 	public void teleopInit() {
+		firstTeleopPeriodic = true;
+		System.out.println("teleop init");
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		intake.updateConflicts();
-		log.writeLogEcho("Teleop Mode Started");
+//		log.writeLogEcho("Teleop Mode Started");
 		teleopTime.start();
 		startTime = teleopTime.get();
-		logClimberData = false;
 		//SmartDashboard.putNumber("Gyro dubdubdubdubdubdubdubdubdub", driveTrain.getGyroAngle());
 
+		// Don't log climber data until we start climbing
+		logClimberData = false;
+		
 		//DeployIntakeAndHopper();
 		//ShooterSetRPM(Robot.shootHighSpeed);
 		readPreferences();
+//		shooter.setRPMHigh(shootSpeedHighRPM);
 
-		cameraControl.setCamerasFromDriveDirection();
+//		cameraControl.setCamerasFromDriveDirection();
+		System.out.println("Finished teleop init");
 	}
 
 	/**
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		if (firstTeleopPeriodic) {
+			System.out.println("teleop periodic");
+		}
 		Scheduler.getInstance().run();	
 
 		shooter.updateSmartDashboardShooterSpeed();
@@ -246,14 +272,14 @@ public class Robot extends IterativeRobot {
 		gearVision.updateSmartDashboard();
 		boilerVision.updateSmartDashboard();
 		gearGate.updateSmartDashboard();
-
-		shooter.logTalonStatus();
-
-		if (logClimberData)
-			intake.logClimbStatus();
-
+		intake.updateSmartDashboard();
+		
 //		intake.logIntakeStatus();
 //		driveTrain.logTalonStatus();
+		shooter.logTalonStatus();
+		
+		if (logClimberData)
+			intake.logClimbStatus();
 		
 		if (Robot.smartDashboardDebug) {
 			//SmartDashboard stuff here 
@@ -279,6 +305,10 @@ public class Robot extends IterativeRobot {
 	    	System.out.println("All Motors Timed Out Reenable to Reset");
 
 	    }*/
+		if (firstTeleopPeriodic) {
+			System.out.println("Finished teleop periodic");
+			firstTeleopPeriodic = false;
+		}
 	}
 
 	/**
@@ -318,7 +348,7 @@ public class Robot extends IterativeRobot {
 		intakeSpeed = robotPrefs.getDouble("intakeSpeed",0);
 
 
-		shootSpeedHighRPM = robotPrefs.getDouble("shootSpeedHighRPM",4200);
+		shootSpeedHighRPM = robotPrefs.getDouble("shootSpeedHighRPM",4100);
 		shootSpeedLowRPM = robotPrefs.getDouble("shootSpeedLowRPM",3800);
 
 

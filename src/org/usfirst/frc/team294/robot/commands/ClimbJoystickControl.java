@@ -21,6 +21,8 @@ public class ClimbJoystickControl extends Command {
     protected void initialize() {
     	// Turn on climber data logging
     	Robot.logClimberData = true;
+    	
+		Robot.log.writeLogEcho("Climber joystic control");
     }
 
     // Called repeatedly when this Command is scheduled to run

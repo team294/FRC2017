@@ -27,9 +27,9 @@ public class AutoScoreBoiler extends CommandGroup {
     	if (team == Teams.noBoilerShooting) return;
     	
     	// Rev up the shooter and back off of the gear peg
-    	addSequential(new ShooterSetRPM(11000));
-    	addSequential(new DriveStraightDistance(1.0, 26.0, DriveMode.RELATIVE, Units.inches));
-    	addSequential(new WaitSeconds(.2));
+    	//addSequential(new ShooterSetRPM(11000));
+    	//addSequential(new DriveStraightDistance(1.0, 26.0, DriveMode.RELATIVE, Units.inches));
+    	//addSequential(new WaitSeconds(.2));
     	
     	// Turn according to the team colour and position
     	if (team == Teams.red) {
@@ -42,7 +42,11 @@ public class AutoScoreBoiler extends CommandGroup {
     	       	break;
     		case middle:
     			addSequential(new GyroTurnToAngle(1, -75, 0, TurnMode.RELATIVE));
-    	      	addSequential(new WaitSeconds(.2));
+    	    	addSequential(new DriveStraightDistance(1.0, 110.0, DriveMode.RELATIVE, Units.inches));
+    	    	addSequential(new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.BOILER_VISION));
+    	    	addSequential(new WaitSeconds(0.2));
+    	    	addSequential(new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.BOILER_VISION));
+    	      	//addSequential(new WaitSeconds(.2));
     	      	break;
     		case left:
     			// Nothing is done on red right
@@ -56,8 +60,13 @@ public class AutoScoreBoiler extends CommandGroup {
     			// Nothing is done on blue left
     			break;
     		case middle:
-    			addSequential(new GyroTurnToAngle(1, 75, 0, TurnMode.RELATIVE));
-    	      	addSequential(new WaitSeconds(.2));
+    			//addSequential(new GyroTurnToAngle(1, 75, 0, TurnMode.RELATIVE));
+    	      	//addSequential(new WaitSeconds(.2));
+    			addSequential(new GyroTurnToAngle(1, -75, 0, TurnMode.RELATIVE));
+    	    	addSequential(new DriveStraightDistance(1.0, 110.0, DriveMode.RELATIVE, Units.inches));
+    	    	addSequential(new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.BOILER_VISION));
+    	    	addSequential(new WaitSeconds(0.2));
+    	    	addSequential(new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.BOILER_VISION));
     	      	break;
     		case left:
     	    	addSequential(new DriveStraightDistance(1.0, 26.0, DriveMode.RELATIVE, Units.inches));
@@ -71,10 +80,10 @@ public class AutoScoreBoiler extends CommandGroup {
     	}
     	
     	// Turn towards the boiler and drive forward
-      	addSequential(new GyroTurnToAngle(1, .75, 1, TurnMode.BOILER_VISION));
-      	addSequential(new WaitSeconds(.2));
-    	addSequential(new DriveStraightDistance(1.0, 0.0, DriveMode.BOILER_VISION, Units.inches));
-       	addSequential(new WaitSeconds(.2));
+      	//addSequential(new GyroTurnToAngle(1, .75, 1, TurnMode.BOILER_VISION));
+      	//addSequential(new WaitSeconds(.2));
+    	//addSequential(new DriveStraightDistance(1.0, 0.0, DriveMode.BOILER_VISION, Units.inches));
+       	//addSequential(new WaitSeconds(.2));
        	
        	// Shoot
        	addSequential(new ConveyorSetFromRobot(States.in));

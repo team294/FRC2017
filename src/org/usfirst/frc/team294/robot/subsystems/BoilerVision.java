@@ -20,10 +20,11 @@ public class BoilerVision extends Subsystem {
     
     double boilerHeight = 6.875; //Height of boiler in feet //6.875
     
-	double camHeight = 21.5/12; //Height of center of camera off of the ground (in feet)
+	double camHeight = 22; //Height of center of camera off of the ground (in inches)
 	double camAngle  = 34; //Upward angle offset of camera (in degrees)
-	double camOffset = (2.3+7.8)/12; //Camera horizontal offset from center of robot (in feet)
+	double camOffset = (2.3+7.8); //Camera horizontal offset from center of robot (in inches)
 	double camRotationAngle = 0; //Adjusts for rotation of camera about axis that goes through lens.
+	double camYawAngle = -3;
 	
 	double camPXWidth = 320, camPXHeight = 240, camDiagonalAngle = 68.5; //Pixels, Pixels, Degrees
 	double camPXDiagonal = Math.hypot(camPXWidth, camPXHeight); //Diagonal camera pixel length
@@ -35,8 +36,8 @@ public class BoilerVision extends Subsystem {
 		//setDefaultCommand(new MySpecialCommand());
 	}
 	public BoilerVision(){
-		table = NetworkTable.getTable("PiReport");//"GRIP/myBoilerReport");
-		grip_table = NetworkTable.getTable("GRIP");
+		table = NetworkTable.getTable("BoilerReport");//"GRIP/myBoilerReport");
+		//grip_table = NetworkTable.getTable("GRIP");
 	}
 	public Contour[] filterContours() {
 		if (table.getNumberArray("area", networkTableDefault).length < 2) { //Make sure # of contours is valid
@@ -47,27 +48,26 @@ public class BoilerVision extends Subsystem {
 		//Instantiate array of contours to be filtered
 		int xLen, yLen, areaLen, widthLen, heightLen, hardnessLen;
 		//Loop through, getting contour values until we get a set of contours, all with common lengths
-		while (true) { 
-			double[] xPos = table.getNumberArray("centerX",   networkTableDefault);
-			double[] yPos =  table.getNumberArray("centerY",   networkTableDefault);
-			double[] area = table.getNumberArray("area",   networkTableDefault);
-			double[] height = table.getNumberArray("height", networkTableDefault);
-			double[] width = table.getNumberArray("width", networkTableDefault);
-			double[] hardness = table.getNumberArray("solidity", networkTableDefault);
-			xLen = xPos.length;
-			yLen = yPos.length;
-			areaLen = area.length;
-			widthLen = width.length;
-			heightLen = height.length;
-			hardnessLen = hardness.length;
-			//Verify that all contour characteristic arrays have the same length
-			if (xLen == yLen && yLen == areaLen && areaLen == heightLen && heightLen == widthLen && widthLen == hardnessLen) {
-				contours = new Contour[xLen]; //Allocate contour array memory
-				for (int i = 0; i < xLen; i++) { //Assign values to each contour
-					contours[i] = new Contour(xPos[i], yPos[i], area[i], height[i], width[i], hardness[i]);
-				}
-				break; //Break out of while(true) loop
+		double[] xPos = table.getNumberArray("centerX",   networkTableDefault);
+		double[] yPos =  table.getNumberArray("centerY",   networkTableDefault);
+		double[] area = table.getNumberArray("area",   networkTableDefault);
+		double[] height = table.getNumberArray("height", networkTableDefault);
+		double[] width = table.getNumberArray("width", networkTableDefault);
+		double[] hardness = table.getNumberArray("solidity", networkTableDefault);
+		xLen = xPos.length;
+		yLen = yPos.length;
+		areaLen = area.length;
+		widthLen = width.length;
+		heightLen = height.length;
+		hardnessLen = hardness.length;
+		//Verify that all contour characteristic arrays have the same length
+		if (xLen == yLen && yLen == areaLen && areaLen == heightLen && heightLen == widthLen /*&& widthLen == hardnessLen*/) {
+			contours = new Contour[xLen]; //Allocate contour array memory
+			for (int i = 0; i < xLen; i++) { //Assign values to each contour
+				contours[i] = new Contour(xPos[i], yPos[i], area[i], height[i], width[i], 1/*hardness[i]*/);
 			}
+		} else {
+			contours = new Contour[0];
 		}
 		for (int a = 0; a < contours.length; a++) {
 			//if (contours[a].isEliminated()) {continue; } // If the contour at a is already eliminated, skip it
@@ -117,13 +117,13 @@ public class BoilerVision extends Subsystem {
 			distance = (boilerHeight - camHeight)/Math.tan(phi*Math.PI/180);
 		}
 		else { distance = -1; }
-		if (targets.length > 0) System.out.println(""+targets[0].getArea());
-		if (targets.length > 1) System.out.println(""+targets[1].getArea());
+		//if (targets.length > 0) System.out.println(""+targets[0].getArea());
+		//if (targets.length > 1) System.out.println(""+targets[1].getArea());
 		distance = distance * 12; //convert to inches
-		double a = .0047643798;
-		double b = 1.078009697;
-		double c = 10.1099274;
-		distance = a * distance * distance + b * distance + c;
+		//double a = .0047643798;
+		//double b = 1.078009697;
+		//double c = 10.1099274;
+		//distance = a * distance * distance + b * distance + c;
 		//distance = distance/Math.sin(Math.PI/2 - getBoilerAngleOffset(targets));
 		return distance; //Returns distance in inches
 	}
@@ -136,7 +136,7 @@ public class BoilerVision extends Subsystem {
 		return isAngleValid;
 	}
 	public double getBoilerAngleOffset() {
-		return getBoilerAngleOffset(filterContours());
+		return getBoilerAngleOffset(filterContours()) * 10.0/7.0;
 	}
 	/**
 	 * Gets the robot's angle of offset from the boiler
@@ -159,8 +159,8 @@ public class BoilerVision extends Subsystem {
 			boilerAngleOffset = (camPXWidth/2 - targets[0].getXPos())/camPXWidth * camHorizAngle; //in degrees
 		}
 		else { return 0; } //Return 0 if there are no "valid" contours (see numValid assignment)
-		if (camOffset != 0) {boilerAngleOffset = Math.atan(camOffset/getBoilerDistance(targets)*12 + Math.tan(boilerAngleOffset*Math.PI/180))*180/Math.PI;} //Adjusts angle for when the camera is not centered on the robot
-		return boilerAngleOffset + 4 - 6;
+		if (camOffset != 0) {boilerAngleOffset = Math.atan(camOffset/getBoilerDistance(targets) + Math.tan(boilerAngleOffset*Math.PI/180))*180/Math.PI;} //Adjusts angle for when the camera is not centered on the robot
+		return boilerAngleOffset + camYawAngle;
 	}
 	
 	/**

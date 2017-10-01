@@ -25,9 +25,9 @@ public class GyroTurnToAngle extends Command {
 	private ToleranceChecker tolCheck;
 	
 	// Turning parameters
-	private double kPangle = 0.04;  // 0.02?
-	private double kIangle = 0.002;
-	private double kDangle = 0.25;  // 0.2?
+	private double kPangle = 0.04;  // 0.02? // was .04
+	private double kIangle = 0.001;  // was .001
+	private double kDangle = 0.25;  // 0.2? // was .25
 	private double minSpeed = 0.25;
 
 	// Local variables

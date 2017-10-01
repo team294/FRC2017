@@ -25,6 +25,27 @@ public class DriveWithJoysticks extends Command {
     	double leftVal = Robot.oi.leftJoystick.getY();
     	double rightVal = Robot.oi.rightJoystick.getY();
     	
+    	if (Robot.shifter.isShifterInHighGear()){
+    		leftVal = leftVal*0.75;
+    		rightVal = rightVal*0.75;
+    	}
+    	
+    	// Arcade drive stuff
+    	// Simple map
+    	// left = straight + turn
+    	// right = straight - turn
+    	// straight = left - turn
+    	// right = left - turn - turn
+    	// *turn = (left-right)/2
+    	// left = straight + (left - right)/2
+    	// *straight = (left + right)/2
+    	//double turnScaleFactor = 1.0;
+    	//double straightVal = (leftVal+rightVal)/2;
+    	//double turnVal = (leftVal-rightVal)/2*turnScaleFactor;
+    	//leftVal = straightVal+turnVal;
+    	//rightVal = straightVal-turnVal;
+    	
+    	
     	if (Robot.oi.getDriveDirection() == true){
     		Robot.driveTrain.driveWithJoystick(leftVal, rightVal);
 //    		SmartDashboard.putBoolean("Forward", true);

@@ -25,7 +25,7 @@ public class FileLog {
 		try {
 			fileStream = new FileWriter(filename + "." + fileDateFormat.format(System.currentTimeMillis()) + ".txt", true);
 			fileStream.write("----------------------------\n");
-			fileStream.write(format.format(System.currentTimeMillis()) + ", FileLog open.\n");
+			fileStream.write(format.format(System.currentTimeMillis()) + ",  FileLog open.\n");
 			fileStream.flush();
 		} catch (IOException e) {
 			System.out.println("Could not open log file: " + e);
@@ -51,7 +51,7 @@ public class FileLog {
 	 */
 	public void writeLogEcho(String msg) {
 		writeLog(msg);
-		System.out.println(msg);
+		System.out.println("Log: " + msg);
 	}
 	
 	/**

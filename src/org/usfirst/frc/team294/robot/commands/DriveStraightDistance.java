@@ -40,8 +40,8 @@ public class DriveStraightDistance extends Command {
 	private double distErr, distSpeedControl;
 	//private double kPdist = 3; // Practice Bot
 	private double drivePConstant = Robot.driveP*.8;
-	private double kPdist = 0.03;//drivePConstant;//3;
-	private double kDdist = 0.2;//Robot.driveD;
+	private double kPdist = 0.06;//drivePConstant;//0.03;
+	private double kDdist = 0.24;//Robot.driveD;
 //	private double kIdist = Robot.driveI;
 	private double prevSpeed = 0.0;
 	private double minSpeed = 0.1;
@@ -50,9 +50,9 @@ public class DriveStraightDistance extends Command {
     private double angleErr, curve;
     //private double kPangle = 0.025; // Practice Bot
 	private double anglePConstant = Robot.angleP*.8;
-    private double kPangle = 0.02;// = Robot.angleP;//0.025;3
-    private double kIangle = 0.0;//1;//Robot.angleI;
-    private double kDangle = 0.2;//2;//Robot.angleD;//0.05;
+    private double kPangle = 0.02;// = Robot.angleP;//0.02
+    private double kIangle = 0.002; //.001;//1;//Robot.angleI;
+    private double kDangle = 0.1;//2;//Robot.angleD;//0.05;
     private double intErr = 0.0;
     private double prevAngleErr = 0.0;
     private double prevDistErr = 0.0;
@@ -60,7 +60,7 @@ public class DriveStraightDistance extends Command {
     private boolean preciseDistance = true;
     
     private boolean success = false;
-    private double distTol = 1.0;//  / Robot.inchesPerRevolution; // Default tolerance in inches, converted to rotations
+    private double distTol = 2.0;//  / Robot.inchesPerRevolution; // Default tolerance in inches, converted to rotations
 	
 	private ToleranceChecker tolerance = new ToleranceChecker(distTol, 3);
 	
@@ -180,7 +180,7 @@ public class DriveStraightDistance extends Command {
     	startTime = runTime.get();
     	tolerance.reset();
     	Robot.driveTrain.resetDegrees();
-    	trapezoid = new ProfileGenerator(0, distance*Robot.inchesPerRevolution, 0, 72, 72, 0.01);
+    	trapezoid = new ProfileGenerator(0, distance*Robot.inchesPerRevolution, 0, 84, 180, 0.01);
     	
     switch (driveMode) {
     	case ABSOLUTE:

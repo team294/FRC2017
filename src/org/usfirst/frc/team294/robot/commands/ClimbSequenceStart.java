@@ -11,14 +11,17 @@ public class ClimbSequenceStart extends CommandGroup {
     	addSequential(new StopAllMotors());
     	addSequential(new MoveIntakeIfSafe(true));
     	addSequential(new MoveHopperIfSafe(false));
+    	addSequential(new ClimbSetToSpeed(0.25));
+    	addSequential(new WaitSeconds(0.5));
+    	addSequential(new CheckClimberCurrent(2.5));
     	addSequential(new ClimbSetToSpeed(0.4));
-    	addSequential(new WaitSeconds(1));
+    	addSequential(new WaitSeconds(0.5));
     	addSequential(new CheckClimberCurrent(10));
     	addSequential(new ClimbSetToSpeed(0.7));
-    	addSequential(new WaitSeconds(1));
+    	addSequential(new WaitSeconds(0.5));
     	addSequential(new CheckClimberCurrent(16));
     	addSequential(new ClimbSetToSpeed(.9));			
-    	addSequential(new WaitSeconds(1));				
+    	addSequential(new WaitSeconds(0.5));				
 //    	addSequential(new CheckClimberCurrent(70));		
 //    	addSequential(new ClimbSetToSpeed(0));
     }

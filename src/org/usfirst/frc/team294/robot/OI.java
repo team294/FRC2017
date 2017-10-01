@@ -92,7 +92,7 @@ public class OI {
 	};
 	
 	Teams[] middleKnobTeam = {
-			Teams.blue, Teams.red, Teams.noBoilerShooting, Teams.noBoilerShooting, Teams.noBoilerShooting
+			Teams.blue, Teams.red, Teams.noBoilerShooting, Teams.hopperBlue, Teams.hopperRed
 	};
 	
 	StartPositions[] bottomKnobStartPosition = {
@@ -139,7 +139,7 @@ public class OI {
 	    		right[i].whenPressed(new SwitchDriveDirection(true));
 	    		left[i].whenPressed(new SwitchDriveDirection(false));
 	    	} else if (i == 2) {
-	    		right[i].whenPressed(new DriveStraightDistance(.4, -24, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
+	    		right[i].whenPressed(new DriveStraightDistance(.4, -36, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
 	    		left[i].whenPressed(new DriveStraightDistance(.4, -18, DriveStraightDistance.DriveMode.RELATIVE, DriveStraightDistance.Units.inches, true));
 	    	} else if (i == 4 || i == 5) {
 	    		right[i].whenPressed(new DriveWithJoysticks());
@@ -215,21 +215,29 @@ public class OI {
 		SmartDashboard.putData("Debug Dashboard", new SmartDashboardDebug());
 		
 		// Drive distance testing
-		SmartDashboard.putNumber("Distance", 0);
-		SmartDashboard.putNumber("DriveSpeed", 0.4);
+		SmartDashboard.putNumber("Distance", 60);
+		SmartDashboard.putNumber("DriveSpeed", 0.9);
 		SmartDashboard.putData("Drive Straight Command", new DriveStraightDistance(1, 0.0, DriveStraightDistance.DriveMode.SMARTDASHBOARD, Units.inches, true, 1.0));
-	    
+		SmartDashboard.putData("Drive Not Straight Command", new DriveNotStraightDistance(1.0, 0.0, DriveNotStraightDistance.DriveMode.SMARTDASHBOARD, Units.inches, true, 1.0));
+
 		// Drive angle testing
 		SmartDashboard.putNumber("TurnAngle", 10); 
 		SmartDashboard.putNumber("TurnSpeed", 0.4);
 		SmartDashboard.putNumber("AngleTolerance", 2.0);
-		SmartDashboard.putData("Turn Command", new GyroTurnToAngle(0.4, 0.0, 2.0, TurnMode.SMARTDASHBOARD));
+		SmartDashboard.putData("Turn Command2", new GyroTurnToAngle(0.4, 0.0, 2.0, TurnMode.SMARTDASHBOARD));
 		
+		// Climb motor testing
+		SmartDashboard.putNumber("Climb Speed", 0.4);
+		SmartDashboard.putData("Climb Command", new ClimbSetToSpeed(0.0, true));
+		SmartDashboard.putData("Climb Stop", new ClimbSetToSpeed(0.0));
+
 //		SmartDashboard.putData("Shift Up", new ShiftUp());
 		
 		// Vision Testing Commands
 		SmartDashboard.putData("GV Calibrate", new GearVisionCalibrate());
 		SmartDashboard.putData("GV Turn to Gear", new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
+		SmartDashboard.putData("BV Turn to Boiler", new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.BOILER_VISION));
+		
 		
 	    // Subsystem Testing Commands
 	    SmartDashboard.putData("Gear Piston Out", new GearGateTilt(true));

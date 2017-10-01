@@ -53,9 +53,10 @@ public class AutoDriveAndGear extends CommandGroup {
             addSequential(new GyroTurnToAngle(0.4, 0.0, 2.0, GyroTurnToAngle.TurnMode.GEAR_VISION));
             //addSequential(new WaitSeconds(0.2));
  //test: was 22 in, shorten by 3 in to be safe
-            addSequential(new DriveNotStraightDistance(0.4, -extraDistance -22.0 + 3.0, Units.inches, true, true));
+            addSequential(new DriveNotStraightDistance(0.4, -extraDistance -22.0 + 8.0, Units.inches, true, true));
             //addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearSide), Units.inches, false, true));
             addSequential(new GearGateDeploySequence());
+        	addSequential(new DriveStraightDistance(0.4, 24, 2.0, Units.inches, true, true));
         	addSequential(new LogMessage("Autonomous: Gear deployed.", true));
             break;
         case right:
@@ -85,27 +86,15 @@ public class AutoDriveAndGear extends CommandGroup {
             //addSequential(new WaitSeconds(0.2));
             addSequential(new DriveStraightDistance(0.4, -20 -extraDistance, Units.inches, true, true));
 //test:  was 13 in, drive 3 in short to be safe
-            addSequential(new DriveNotStraightDistance(0.25, -13.0 + 3.0, Units.inches, true, true));
+            addSequential(new DriveNotStraightDistance(0.25, -13.0 + 8.0, Units.inches, true, true));
             //addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearSide), Units.inches, false, true));
             addSequential(new GearGateDeploySequence());
+        	addSequential(new DriveStraightDistance(0.4, 24, 2.0, Units.inches, true, true));
         	addSequential(new LogMessage("Autonomous: Gear deployed.", true));
             break;
         case middle:
         	// Turn using gear vision and then advance the final segment
-        	/*double angleOffset = Robot.gearVision.getGearAngleOffset();
-        	addSequential(new GyroTurnToAngle(0.4, Math.signum(-angleOffset)*90, 2.0, GyroTurnToAngle.TurnMode.RELATIVE));
-        	addSequential(new WaitSeconds(0.2));
-        	addSequential(new DriveStraightDistance(0.4, -38/Math.tan((90-Math.abs(angleOffset))*Math.PI/180), Units.inches, true, true));
-        	addSequential(new WaitSeconds(0.2));
-        	addSequential(new GyroTurnToAngle(0.4, Math.signum(angleOffset)*90, 2.0, GyroTurnToAngle.TurnMode.RELATIVE));
-        	addSequential(new WaitSeconds(0.2));
-        	angleOffset = Robot.gearVision.getGearAngleOffset();
-        	addSequential(new GyroTurnToAngle(0.4, -angleOffset, 2.0, GyroTurnToAngle.TurnMode.RELATIVE));
-        	addSequential(new WaitSeconds(0.2));
-        	addSequential(new MoveGearGate(true));
-        	addSequential(new WaitSeconds(0.8));
-        	addSequential(new DriveStraightDistance(0.4, -38/Math.cos(angleOffset*Math.PI/180), Units.inches, true, true));
-        	*/
+        	
         	addSequential(new DriveStraightDistance(0.4, -55, Units.inches, true, true));
         	addSequential(new WaitSeconds(0.2));
             // Turn using gear vision and then advance the final segment
@@ -116,7 +105,7 @@ public class AutoDriveAndGear extends CommandGroup {
         	//addSequential(new DriveStraightDistance(0.4, -20/Math.cos(angleOffset*Math.PI/180), Units.inches, true, true));
         	
 //test:  drive 3 in short to be safe
-        	addSequential(new DriveStraightDistance(0.4, -extraDistance -38 + 3, Units.inches, true, true));
+        	addSequential(new DriveStraightDistance(0.4, -extraDistance -30, 2.0, Units.inches, true, true));
         	
 
 //            addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearMiddle)*0.65, Units.inches, false, true));
@@ -126,6 +115,7 @@ public class AutoDriveAndGear extends CommandGroup {
 //            addSequential(new DriveStraightDistance(0.4, RobotMap.getDistance(AutoDistances.toGearMiddle)*0.35, Units.inches, false, true));
 
         	addSequential(new GearGateDeploySequence());
+        	addSequential(new DriveStraightDistance(0.4, 24, 2.0, Units.inches, true, true));
         	addSequential(new LogMessage("Autonomous: Gear deployed.", true));
             break;
         case baselineOnly:
@@ -133,9 +123,6 @@ public class AutoDriveAndGear extends CommandGroup {
         	break;
         }
         
-        // Wait for human player to raise the gear/peg
-        addSequential(new DeployIntakeAndHopper());
-    	addSequential(new LogMessage("Autonomous: Hopper deployed.", true));
 
         //addSequential(new ShooterSetRPM(Robot.shootHighSpeed));
     }
